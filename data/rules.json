@@ -1,0 +1,54 @@
+{
+  "rules": [
+    {
+      "name": "sort",
+      "policy": "unstable",
+      "description": "Sorting creates duplicate content with different orderings. Noindex but allow following."
+    },
+    {
+      "name": "color",
+      "policy": "stable",
+      "description": "Color is a meaningful facet that can be indexed or mapped to clean paths."
+    },
+    {
+      "name": "size",
+      "policy": "stable",
+      "description": "Size is a meaningful attribute that can be indexed."
+    },
+    {
+      "name": "utm_source",
+      "policy": "blocked",
+      "description": "Tracking parameter that should be stripped from canonical URLs and blocked in robots."
+    },
+    {
+      "name": "utm_medium",
+      "policy": "blocked",
+      "description": "Tracking parameter that should be stripped from canonical URLs and blocked in robots."
+    },
+    {
+      "name": "utm_campaign",
+      "policy": "blocked",
+      "description": "Tracking parameter that should be stripped from canonical URLs and blocked in robots."
+    },
+    {
+      "name": "gclid",
+      "policy": "blocked",
+      "description": "Google Click ID tracking parameter."
+    },
+    {
+      "name": "fbclid",
+      "policy": "blocked",
+      "description": "Facebook Click ID tracking parameter."
+    }
+  ],
+  "pagination": {
+    "param": "page",
+    "pageOneIndexable": true,
+    "pageTwoPlus": "noindex,follow",
+    "canonicalStrategy": "self"
+  },
+  "demos": {
+    "blockPaginationInRobots": false,
+    "noindexSearch": true
+  }
+}

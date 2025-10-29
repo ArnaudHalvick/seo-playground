@@ -1,0 +1,29 @@
+Add after line 1 (after export const dynamic):
+import { Breadcrumbs } from '@/components/Breadcrumbs';
+
+Replace the "Back to Catalog" section (lines ~49-56) with:
+      <Breadcrumbs 
+        items={[
+          { label: 'Catalog', href: '/catalog' },
+          { label: category.name, href: `/catalog/${params.category}` }
+        ]} 
+      />
+
+Add before the product grid (~line 73), a demo links section:
+        <div className="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+          <h3 className="font-semibold mb-3 text-sm">Try These Parameter Combinations:</h3>
+          <div className="flex flex-wrap gap-2">
+            <Link href={`/catalog/${params.category}?sort=price_asc`}>
+              <Button variant="outline" size="sm">Sort Only</Button>
+            </Link>
+            <Link href={`/catalog/${params.category}?color=black`}>
+              <Button variant="outline" size="sm">Color Only</Button>
+            </Link>
+            <Link href={`/catalog/${params.category}?sort=price_desc&color=black`}>
+              <Button variant="destructive" size="sm">Sort + Color (Blocked!)</Button>
+            </Link>
+            <Link href={`/catalog/${params.category}?page=2`}>
+              <Button variant="outline" size="sm">Page 2</Button>
+            </Link>
+          </div>
+        </div>
