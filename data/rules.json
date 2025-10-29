@@ -8,10 +8,7 @@
     {
       "name": "color",
       "policy": "stable",
-      "description": "Color is a meaningful facet that can be indexed or mapped to clean paths.",
-      "synonyms": {
-        "nero": "black"
-      }
+      "description": "Color is a meaningful facet that can be indexed or mapped to clean paths."
     },
     {
       "name": "size",

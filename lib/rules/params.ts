@@ -6,7 +6,6 @@ export interface ParamRule {
   name: string;
   policy: ParamPolicy;
   description: string;
-  synonyms?: Record<string, string>;
   mapToPath?: (ctx: { pathname: string; params: URLSearchParams }) => string | null;
   comboOverrides?: Array<{
     when: (ctx: { pathname: string; params: URLSearchParams }) => boolean;
@@ -116,25 +115,16 @@ export interface EvaluatedParams {
   notes: string[];
 }
 
-export function normalizeParamValue(value: string, rule?: ParamRule): string {
+export function normalizeParamValue(value: string): string {
   if (!value) return value;
 
-  let normalized = value;
-
-  if (rule?.synonyms) {
-    const lowerValue = value.toLowerCase();
-    if (rule.synonyms[lowerValue]) {
-      normalized = rule.synonyms[lowerValue];
-    }
-  }
-
-  if (normalized.includes(',')) {
-    const parts = normalized.split(',').map(p => p.trim()).filter(Boolean);
+  if (value.includes(',')) {
+    const parts = value.split(',').map(p => p.trim()).filter(Boolean);
     parts.sort();
-    normalized = parts.join(',');
+    return parts.join(',');
   }
 
-  return normalized;
+  return value;
 }
 
 export function evaluateParams(
@@ -172,10 +162,10 @@ export function evaluateParams(
       continue;
     }
 
-    const normalizedValue = normalizeParamValue(value, rule);
+    const normalizedValue = normalizeParamValue(value);
 
-    if (normalizedValue !== value) {
-      notes.push(`Param "${key}": normalized "${value}" → "${normalizedValue}"`);
+    if (normalizedValue !== value && normalizedValue.includes(',')) {
+      notes.push(`Param "${key}": multi-select normalized "${value}" → "${normalizedValue}"`);
     }
 
     notes.push(`Param "${key}": ${rule.policy} - ${rule.description}`);
