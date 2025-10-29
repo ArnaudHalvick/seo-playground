@@ -158,7 +158,7 @@ export function SeoReceipt() {
                     {isNoindexFollow && <AlertTriangle className="h-5 w-5 text-amber-600" />}
                     {isNoindexNofollow && <XCircle className="h-5 w-5 text-red-600" />}
                   </div>
-                  <div className="flex gap-2">
+                  <div className="flex flex-wrap gap-2">
                     <Badge
                       variant={isIndexable ? 'default' : isNoindexFollow ? 'secondary' : 'destructive'}
                       className="text-xs"
@@ -167,10 +167,19 @@ export function SeoReceipt() {
                     </Badge>
                     {result.blockInRobots && (
                       <Badge variant="destructive" className="text-xs">
-                        Blocked in robots.txt
+                        Blocked by robots.txt
                       </Badge>
                     )}
                   </div>
+                  {result.robotsMatchedRules && result.robotsMatchedRules.length > 0 && (
+                    <div className="mt-2 text-xs text-slate-600 space-y-1">
+                      {result.robotsMatchedRules.map((rule, idx) => (
+                        <div key={idx} className="bg-red-50 border border-red-200 p-2 rounded">
+                          {rule}
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
 
                 <div className="border-t pt-4">
@@ -341,7 +350,7 @@ export function SeoReceipt() {
                   {isNoindexFollow && <AlertTriangle className="h-5 w-5 text-amber-600" />}
                   {isNoindexNofollow && <XCircle className="h-5 w-5 text-red-600" />}
                 </div>
-                <div className="flex gap-2">
+                <div className="flex flex-wrap gap-2">
                   <Badge
                     variant={isIndexable ? 'default' : isNoindexFollow ? 'secondary' : 'destructive'}
                     className="text-xs"
@@ -350,10 +359,19 @@ export function SeoReceipt() {
                   </Badge>
                   {result.blockInRobots && (
                     <Badge variant="destructive" className="text-xs">
-                      Blocked in robots.txt
+                      Blocked by robots.txt
                     </Badge>
                   )}
                 </div>
+                {result.robotsMatchedRules && result.robotsMatchedRules.length > 0 && (
+                  <div className="mt-2 text-xs text-slate-600 space-y-1">
+                    {result.robotsMatchedRules.map((rule, idx) => (
+                      <div key={idx} className="bg-red-50 border border-red-200 p-2 rounded">
+                        {rule}
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
 
               <div className="border-t pt-3">

@@ -1,4 +1,4 @@
-export type ParamPolicy = 'stable' | 'unstable' | 'blocked';
+export type ParamPolicy = 'stable' | 'unstable' | 'blocked' | 'pagination' | 'search';
 
 export type RobotsDirective = 'index,follow' | 'noindex,follow' | 'noindex,nofollow';
 
@@ -6,6 +6,7 @@ export interface ParamRule {
   name: string;
   policy: ParamPolicy;
   description: string;
+  synonyms?: Record<string, string>;
   mapToPath?: (ctx: { pathname: string; params: URLSearchParams }) => string | null;
   comboOverrides?: Array<{
     when: (ctx: { pathname: string; params: URLSearchParams }) => boolean;
@@ -22,9 +23,17 @@ export interface PaginationPolicy {
   canonicalStrategy: 'self' | 'base';
 }
 
+export interface RobotsToggle {
+  enabled: boolean;
+  label: string;
+  description: string;
+  rules: string[];
+}
+
 export interface ParamConfig {
   rules: ParamRule[];
   pagination: PaginationPolicy;
+  robotsToggles?: Record<string, RobotsToggle>;
   demos: {
     blockPaginationInRobots: boolean;
     noindexSearch: boolean;
@@ -99,11 +108,33 @@ export interface EvaluatedParams {
   stableParams: Map<string, string>;
   unstableParams: Map<string, string>;
   blockedParams: Map<string, string>;
+  searchParams: Map<string, string>;
   pagination: {
     isPaginated: boolean;
     pageNumber: number;
   };
   notes: string[];
+}
+
+export function normalizeParamValue(value: string, rule?: ParamRule): string {
+  if (!value) return value;
+
+  let normalized = value;
+
+  if (rule?.synonyms) {
+    const lowerValue = value.toLowerCase();
+    if (rule.synonyms[lowerValue]) {
+      normalized = rule.synonyms[lowerValue];
+    }
+  }
+
+  if (normalized.includes(',')) {
+    const parts = normalized.split(',').map(p => p.trim()).filter(Boolean);
+    parts.sort();
+    normalized = parts.join(',');
+  }
+
+  return normalized;
 }
 
 export function evaluateParams(
@@ -114,6 +145,7 @@ export function evaluateParams(
   const stableParams = new Map<string, string>();
   const unstableParams = new Map<string, string>();
   const blockedParams = new Map<string, string>();
+  const searchParamsMap = new Map<string, string>();
   const notes: string[] = [];
 
   const pageParam = searchParams.get(config.pagination.param);
@@ -140,17 +172,28 @@ export function evaluateParams(
       continue;
     }
 
+    const normalizedValue = normalizeParamValue(value, rule);
+
+    if (normalizedValue !== value) {
+      notes.push(`Param "${key}": normalized "${value}" → "${normalizedValue}"`);
+    }
+
     notes.push(`Param "${key}": ${rule.policy} - ${rule.description}`);
 
     switch (rule.policy) {
       case 'stable':
-        stableParams.set(key, value);
+        stableParams.set(key, normalizedValue);
         break;
       case 'unstable':
-        unstableParams.set(key, value);
+        unstableParams.set(key, normalizedValue);
         break;
       case 'blocked':
-        blockedParams.set(key, value);
+        blockedParams.set(key, normalizedValue);
+        break;
+      case 'search':
+        searchParamsMap.set(key, normalizedValue);
+        break;
+      case 'pagination':
         break;
     }
   }
@@ -163,10 +206,15 @@ export function evaluateParams(
     notes.push(`Blocked params detected: ${Array.from(blockedParams.keys()).join(', ')} - will be stripped from canonical`);
   }
 
+  if (searchParamsMap.size > 0) {
+    notes.push(`Search params detected: ${Array.from(searchParamsMap.keys()).join(', ')} - page will be noindex,follow`);
+  }
+
   return {
     stableParams,
     unstableParams,
     blockedParams,
+    searchParams: searchParamsMap,
     pagination: { isPaginated, pageNumber },
     notes,
   };

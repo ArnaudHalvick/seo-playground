@@ -109,7 +109,7 @@ export default function SearchPage({ searchParams }: PageProps) {
           <Card>
             <CardContent className="pt-6 text-center">
               <p className="text-slate-600 mb-4">Enter a search query to see results.</p>
-              <div className="flex gap-2 justify-center flex-wrap">
+              <div className="flex gap-2 justify-center flex-wrap mb-6">
                 <Link href="/search?q=shoes">
                   <Button variant="outline">Search: shoes</Button>
                 </Link>
@@ -119,6 +119,14 @@ export default function SearchPage({ searchParams }: PageProps) {
                 <Link href="/search?q=shirt">
                   <Button variant="outline">Search: shirt</Button>
                 </Link>
+              </div>
+              <div className="text-sm text-slate-600 space-y-2">
+                <p className="font-semibold">Try search with parameters:</p>
+                <div className="flex gap-2 flex-wrap justify-center">
+                  <Link href="/search?q=black+t-shirt&sort=price_desc">
+                    <Button variant="outline" size="sm" className="text-xs">+ Search + Sort (noindex)</Button>
+                  </Link>
+                </div>
               </div>
             </CardContent>
           </Card>

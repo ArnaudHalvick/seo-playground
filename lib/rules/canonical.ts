@@ -1,10 +1,12 @@
 import type { ParamConfig, RobotsDirective } from './params';
 import { evaluateParams, getParamRule } from './params';
+import { checkRobotsBlocking } from './robots';
 
 export interface CanonicalResult {
   canonical: string;
   robots: RobotsDirective;
   blockInRobots: boolean;
+  robotsMatchedRules: string[];
   warnings: string[];
   trace: string[];
 }
@@ -42,6 +44,15 @@ export function computeCanonical(
   if (evaluated.unstableParams.size > 0) {
     robots = 'noindex,follow';
     trace.push(`Unstable params present → setting robots to noindex,follow`);
+    trace.push(`  → Unstable params dropped from canonical: ${Array.from(evaluated.unstableParams.keys()).join(', ')}`);
+  }
+
+  if (evaluated.searchParams.size > 0) {
+    robots = 'noindex,follow';
+    trace.push(`Search params present → setting robots to noindex,follow`);
+    for (const [key, value] of evaluated.searchParams.entries()) {
+      canonicalParams.set(key, value);
+    }
   }
 
   for (const [key, value] of evaluated.stableParams.entries()) {
@@ -50,7 +61,7 @@ export function computeCanonical(
       const mapped = rule.mapToPath({ pathname: normalizedPath, params: searchParams });
       if (mapped && !mapped.includes(finalPath)) {
         finalPath = mapped;
-        trace.push(`Mapped "${key}" to clean path: ${finalPath}`);
+        trace.push(`Mapped stable param "${key}=${value}" to clean path: ${finalPath}`);
       } else {
         canonicalParams.set(key, value);
       }
@@ -61,7 +72,8 @@ export function computeCanonical(
 
   if (evaluated.blockedParams.size > 0) {
     blockInRobots = true;
-    trace.push(`Blocked params present → will generate robots.txt disallow patterns`);
+    trace.push(`Blocked/tracking params present → will generate robots.txt disallow patterns`);
+    trace.push(`  → Blocked params stripped: ${Array.from(evaluated.blockedParams.keys()).join(', ')}`);
   }
 
   if (evaluated.pagination.isPaginated) {
@@ -94,6 +106,16 @@ export function computeCanonical(
   const queryString = canonicalParams.toString();
   const fullCanonical = baseUrl + finalPath + (queryString ? '?' + queryString : '');
 
+  const robotsCheck = checkRobotsBlocking(pathname, searchParams, config);
+  if (robotsCheck.isBlocked) {
+    blockInRobots = true;
+    trace.push(`🚫 BLOCKED BY ROBOTS.TXT`);
+    for (const rule of robotsCheck.matchedRules) {
+      trace.push(`  → Matched rule: ${rule}`);
+    }
+    warnings.push(...robotsCheck.warnings);
+  }
+
   trace.push(`Final canonical URL: ${fullCanonical}`);
   trace.push(`Final robots directive: ${robots}`);
 
@@ -102,10 +124,15 @@ export function computeCanonical(
     trace.push(`💡 noindex,follow consolidates signals to canonical while allowing link equity to flow`);
   }
 
+  if (blockInRobots) {
+    trace.push(`🤖 robots.txt blocks crawling of this URL`);
+  }
+
   return {
     canonical: fullCanonical,
     robots,
     blockInRobots,
+    robotsMatchedRules: robotsCheck.matchedRules,
     warnings,
     trace,
   };

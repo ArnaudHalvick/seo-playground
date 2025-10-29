@@ -6,6 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { ArrowLeft } from 'lucide-react';
 import { getCategory, getProductsByCategory, getCategories, sortProducts, filterProducts, paginateProducts } from '@/lib/catalog/data';
 import { Breadcrumbs } from'@/components/Breadcrumbs';
+import { DemoChips } from '@/components/DemoChips';
 import { notFound } from 'next/navigation';
 
 interface PageProps {
@@ -69,23 +70,7 @@ export default function CategoryPage({ params, searchParams }: PageProps) {
             </div>
           )}
         </div>
-        <div className="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
-          <h3 className="font-semibold mb-3 text-sm">Try Parameter Combinations:</h3>
-          <div className="flex flex-wrap gap-2">
-            <Link href={`/catalog/${params.category}?sort=price_asc`}>
-              <Button variant="outline" size="sm">Sort Only</Button>
-            </Link>
-            <Link href={`/catalog/${params.category}?color=black`}>
-              <Button variant="outline" size="sm">Color Only</Button>
-            </Link>
-            <Link href={`/catalog/${params.category}?sort=price_desc&color=black`}>
-              <Button variant="destructive" size="sm">Sort + Color (Blocked!)</Button>
-            </Link>
-            <Link href={`/catalog/${params.category}?page=2`}>
-              <Button variant="outline" size="sm">Page 2</Button>
-            </Link>
-          </div>
-        </div>
+        <DemoChips basePath={`/catalog/${params.category}`} />
 
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">

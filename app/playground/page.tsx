@@ -56,7 +56,7 @@ export default function PlaygroundPage() {
           </TabsContent>
 
           <TabsContent value="robots">
-            <RobotsPreview config={config} />
+            <RobotsPreview config={config} onUpdate={updateConfig} />
           </TabsContent>
 
           <TabsContent value="sitemap">
