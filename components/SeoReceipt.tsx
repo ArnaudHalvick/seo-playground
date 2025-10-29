@@ -2,17 +2,18 @@
 
 import React, { useState } from 'react';
 import { usePathname, useSearchParams } from 'next/navigation';
-import { ChevronDown, ChevronUp, Info, CheckCircle2, XCircle, AlertTriangle } from 'lucide-react';
+import { Info, CheckCircle2, XCircle, AlertTriangle, Copy, Check, X } from 'lucide-react';
 import { Button } from './ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Badge } from './ui/badge';
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from './ui/collapsible';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs';
 import { useConfig } from '@/lib/config/provider';
 import { computeCanonical } from '@/lib/rules/canonical';
 import { generateSitemapEntries } from '@/lib/rules/sitemap';
+import { diffUrls } from '@/lib/utils/url-diff';
 
 export function SeoReceipt() {
   const [isOpen, setIsOpen] = useState(true);
+  const [copiedField, setCopiedField] = useState<string | null>(null);
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const { config } = useConfig();
@@ -22,111 +23,411 @@ export function SeoReceipt() {
   const sitemapEntries = generateSitemapEntries(config);
   const inSitemap = sitemapEntries.some((e) => e.included && e.loc === result.canonical);
 
+  const inputUrl = pathname + (searchParams.toString() ? `?${searchParams.toString()}` : '');
+  const { segments } = diffUrls(inputUrl, result.canonical);
+
   const isIndexable = result.robots === 'index,follow';
   const isNoindexFollow = result.robots === 'noindex,follow';
   const isNoindexNofollow = result.robots === 'noindex,nofollow';
 
+  const copyToClipboard = async (text: string, field: string) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopiedField(field);
+      setTimeout(() => setCopiedField(null), 2000);
+    } catch (err) {
+      console.error('Failed to copy:', err);
+    }
+  };
+
+  const copyTrace = async () => {
+    const traceText = result.trace.join('\n');
+    await copyToClipboard(traceText, 'trace');
+  };
+
+  if (!isOpen) {
+    return (
+      <div className="fixed top-20 right-4 z-40">
+        <Button
+          onClick={() => setIsOpen(true)}
+          variant="default"
+          size="sm"
+          className="shadow-lg"
+        >
+          <Info className="h-4 w-4 mr-2" />
+          Show SEO Receipt
+        </Button>
+      </div>
+    );
+  }
+
   return (
-    <div className="fixed bottom-4 right-4 z-50 w-96 max-w-[calc(100vw-2rem)]">
-      <Card className="shadow-lg border-2">
-        <CardHeader className="pb-3">
-          <div className="flex items-center justify-between">
-            <CardTitle className="text-lg flex items-center gap-2">
-              <Info className="h-5 w-5" />
-              SEO Receipt
-            </CardTitle>
+    <>
+      <div className="hidden lg:block fixed top-16 right-0 h-[calc(100vh-4rem)] w-96 border-l bg-white shadow-xl z-40">
+        <div className="flex flex-col h-full">
+          <div className="flex items-center justify-between p-4 border-b bg-slate-50">
+            <div className="flex items-center gap-2">
+              <Info className="h-5 w-5 text-blue-600" />
+              <h2 className="font-semibold text-lg">SEO Receipt</h2>
+            </div>
             <Button
               variant="ghost"
               size="sm"
-              onClick={() => setIsOpen(!isOpen)}
+              onClick={() => setIsOpen(false)}
               className="h-8 w-8 p-0"
             >
-              {isOpen ? <ChevronDown className="h-4 w-4" /> : <ChevronUp className="h-4 w-4" />}
+              <X className="h-4 w-4" />
             </Button>
           </div>
-        </CardHeader>
-        {isOpen && (
-          <CardContent className="space-y-3 text-sm">
-            <div>
-              <div className="font-semibold mb-1 flex items-center justify-between">
-                <span>Indexability</span>
-                {isIndexable && <CheckCircle2 className="h-4 w-4 text-green-600" />}
-                {isNoindexFollow && <AlertTriangle className="h-4 w-4 text-amber-600" />}
-                {isNoindexNofollow && <XCircle className="h-4 w-4 text-red-600" />}
-              </div>
-              <Badge
-                variant={isIndexable ? 'default' : isNoindexFollow ? 'secondary' : 'destructive'}
-                className="text-xs"
-              >
-                {result.robots}
-              </Badge>
-              {result.blockInRobots && (
-                <Badge variant="destructive" className="ml-2 text-xs">
-                  Blocked in robots.txt
-                </Badge>
-              )}
-            </div>
 
-            <div>
-              <div className="font-semibold mb-1">Canonical URL</div>
-              <div className="text-xs break-all bg-muted p-2 rounded">{result.canonical}</div>
-            </div>
+          <div className="flex-1 overflow-y-auto">
+            <Tabs defaultValue="summary" className="w-full">
+              <TabsList className="w-full rounded-none border-b">
+                <TabsTrigger value="summary" className="flex-1">Summary</TabsTrigger>
+                <TabsTrigger value="trace" className="flex-1">Rule Trace</TabsTrigger>
+              </TabsList>
 
-            <div>
-              <div className="font-semibold mb-1 flex items-center justify-between">
-                <span>Sitemap Inclusion</span>
-                {inSitemap ? (
-                  <CheckCircle2 className="h-4 w-4 text-green-600" />
-                ) : (
-                  <XCircle className="h-4 w-4 text-gray-400" />
-                )}
-              </div>
-              <Badge variant={inSitemap ? 'default' : 'outline'} className="text-xs">
-                {inSitemap ? 'Included' : 'Excluded'}
-              </Badge>
-            </div>
-
-            {result.warnings.length > 0 && (
-              <div>
-                <div className="font-semibold mb-1 text-amber-700 flex items-center gap-1">
-                  <AlertTriangle className="h-4 w-4" />
-                  Warnings
-                </div>
-                <ul className="text-xs space-y-1">
-                  {result.warnings.map((warning, idx) => (
-                    <li key={idx} className="text-amber-700">
-                      {warning}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-
-            <Collapsible>
-              <CollapsibleTrigger asChild>
-                <Button variant="outline" size="sm" className="w-full text-xs">
-                  View Rule Trace
-                </Button>
-              </CollapsibleTrigger>
-              <CollapsibleContent className="mt-2">
-                <div className="bg-muted p-3 rounded text-xs space-y-1 max-h-48 overflow-y-auto">
-                  {result.trace.map((line, idx) => (
-                    <div key={idx} className="font-mono">
-                      {line}
+              <TabsContent value="summary" className="p-4 space-y-4 m-0">
+                <div>
+                  <div className="font-semibold mb-2 text-sm text-slate-700">URL Comparison</div>
+                  <div className="space-y-2">
+                    <div>
+                      <div className="text-xs text-slate-500 mb-1">Input URL</div>
+                      <div className="relative group">
+                        <div className="text-xs break-all bg-slate-100 p-2 rounded font-mono pr-8">
+                          {inputUrl}
+                        </div>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => copyToClipboard(inputUrl, 'input')}
+                          className="absolute top-1 right-1 h-6 w-6 p-0 opacity-0 group-hover:opacity-100 transition-opacity"
+                        >
+                          {copiedField === 'input' ? (
+                            <Check className="h-3 w-3 text-green-600" />
+                          ) : (
+                            <Copy className="h-3 w-3" />
+                          )}
+                        </Button>
+                      </div>
                     </div>
+
+                    <div>
+                      <div className="text-xs text-slate-500 mb-1">Canonical URL</div>
+                      <div className="relative group">
+                        <div className="text-xs break-all bg-blue-50 border border-blue-200 p-2 rounded font-mono pr-8">
+                          {segments.map((seg, idx) => {
+                            if (seg.type === 'removed') {
+                              return (
+                                <span key={idx} className="bg-red-200 line-through">
+                                  {seg.text}
+                                </span>
+                              );
+                            }
+                            if (seg.type === 'added') {
+                              return (
+                                <span key={idx} className="bg-green-200 font-semibold">
+                                  {seg.text}
+                                </span>
+                              );
+                            }
+                            return <span key={idx}>{seg.text}</span>;
+                          })}
+                        </div>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => copyToClipboard(result.canonical, 'canonical')}
+                          className="absolute top-1 right-1 h-6 w-6 p-0 opacity-0 group-hover:opacity-100 transition-opacity"
+                        >
+                          {copiedField === 'canonical' ? (
+                            <Check className="h-3 w-3 text-green-600" />
+                          ) : (
+                            <Copy className="h-3 w-3" />
+                          )}
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="border-t pt-4">
+                  <div className="font-semibold mb-2 text-sm text-slate-700 flex items-center justify-between">
+                    <span>Indexability</span>
+                    {isIndexable && <CheckCircle2 className="h-5 w-5 text-green-600" />}
+                    {isNoindexFollow && <AlertTriangle className="h-5 w-5 text-amber-600" />}
+                    {isNoindexNofollow && <XCircle className="h-5 w-5 text-red-600" />}
+                  </div>
+                  <div className="flex gap-2">
+                    <Badge
+                      variant={isIndexable ? 'default' : isNoindexFollow ? 'secondary' : 'destructive'}
+                      className="text-xs"
+                    >
+                      {result.robots}
+                    </Badge>
+                    {result.blockInRobots && (
+                      <Badge variant="destructive" className="text-xs">
+                        Blocked in robots.txt
+                      </Badge>
+                    )}
+                  </div>
+                </div>
+
+                <div className="border-t pt-4">
+                  <div className="font-semibold mb-2 text-sm text-slate-700 flex items-center justify-between">
+                    <span>Sitemap Inclusion</span>
+                    {inSitemap ? (
+                      <CheckCircle2 className="h-5 w-5 text-green-600" />
+                    ) : (
+                      <XCircle className="h-5 w-5 text-slate-400" />
+                    )}
+                  </div>
+                  <Badge variant={inSitemap ? 'default' : 'outline'} className="text-xs">
+                    {inSitemap ? 'Included in Sitemap' : 'Excluded from Sitemap'}
+                  </Badge>
+                </div>
+
+                {result.warnings.length > 0 && (
+                  <div className="border-t pt-4">
+                    <div className="font-semibold mb-2 text-sm text-amber-700 flex items-center gap-2">
+                      <AlertTriangle className="h-4 w-4" />
+                      Warnings
+                    </div>
+                    <ul className="space-y-1">
+                      {result.warnings.map((warning, idx) => (
+                        <li key={idx} className="text-xs text-amber-700 bg-amber-50 p-2 rounded">
+                          {warning}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
+                <div className="border-t pt-4">
+                  <div className="text-xs text-slate-600">
+                    <a href="/how-it-works" className="hover:underline text-blue-600">
+                      How does this work?
+                    </a>
+                  </div>
+                </div>
+              </TabsContent>
+
+              <TabsContent value="trace" className="p-4 m-0">
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="font-semibold text-sm text-slate-700">Decision Log</div>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={copyTrace}
+                      className="h-7 text-xs"
+                    >
+                      {copiedField === 'trace' ? (
+                        <>
+                          <Check className="h-3 w-3 mr-1 text-green-600" />
+                          Copied
+                        </>
+                      ) : (
+                        <>
+                          <Copy className="h-3 w-3 mr-1" />
+                          Copy All
+                        </>
+                      )}
+                    </Button>
+                  </div>
+                  <div className="bg-slate-900 text-green-400 p-3 rounded text-xs font-mono space-y-1 max-h-[calc(100vh-20rem)] overflow-y-auto">
+                    {result.trace.map((line, idx) => (
+                      <div key={idx}>{line}</div>
+                    ))}
+                  </div>
+                </div>
+              </TabsContent>
+            </Tabs>
+          </div>
+        </div>
+      </div>
+
+      <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t shadow-2xl z-40 max-h-[70vh] flex flex-col">
+        <div className="flex items-center justify-between p-3 border-b bg-slate-50">
+          <div className="flex items-center gap-2">
+            <Info className="h-5 w-5 text-blue-600" />
+            <h2 className="font-semibold">SEO Receipt</h2>
+          </div>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => setIsOpen(false)}
+            className="h-8 w-8 p-0"
+          >
+            <X className="h-4 w-4" />
+          </Button>
+        </div>
+
+        <div className="flex-1 overflow-y-auto">
+          <Tabs defaultValue="summary" className="w-full">
+            <TabsList className="w-full rounded-none border-b">
+              <TabsTrigger value="summary" className="flex-1">Summary</TabsTrigger>
+              <TabsTrigger value="trace" className="flex-1">Rule Trace</TabsTrigger>
+            </TabsList>
+
+            <TabsContent value="summary" className="p-3 space-y-3 m-0">
+              <div>
+                <div className="font-semibold mb-2 text-sm text-slate-700">URL Comparison</div>
+                <div className="space-y-2">
+                  <div>
+                    <div className="text-xs text-slate-500 mb-1">Input URL</div>
+                    <div className="relative group">
+                      <div className="text-xs break-all bg-slate-100 p-2 rounded font-mono pr-8">
+                        {inputUrl}
+                      </div>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => copyToClipboard(inputUrl, 'input')}
+                        className="absolute top-1 right-1 h-6 w-6 p-0"
+                      >
+                        {copiedField === 'input' ? (
+                          <Check className="h-3 w-3 text-green-600" />
+                        ) : (
+                          <Copy className="h-3 w-3" />
+                        )}
+                      </Button>
+                    </div>
+                  </div>
+
+                  <div>
+                    <div className="text-xs text-slate-500 mb-1">Canonical URL</div>
+                    <div className="relative group">
+                      <div className="text-xs break-all bg-blue-50 border border-blue-200 p-2 rounded font-mono pr-8">
+                        {segments.map((seg, idx) => {
+                          if (seg.type === 'removed') {
+                            return (
+                              <span key={idx} className="bg-red-200 line-through">
+                                {seg.text}
+                              </span>
+                            );
+                          }
+                          if (seg.type === 'added') {
+                            return (
+                              <span key={idx} className="bg-green-200 font-semibold">
+                                {seg.text}
+                              </span>
+                            );
+                          }
+                          return <span key={idx}>{seg.text}</span>;
+                        })}
+                      </div>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => copyToClipboard(result.canonical, 'canonical')}
+                        className="absolute top-1 right-1 h-6 w-6 p-0"
+                      >
+                        {copiedField === 'canonical' ? (
+                          <Check className="h-3 w-3 text-green-600" />
+                        ) : (
+                          <Copy className="h-3 w-3" />
+                        )}
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="border-t pt-3">
+                <div className="font-semibold mb-2 text-sm text-slate-700 flex items-center justify-between">
+                  <span>Indexability</span>
+                  {isIndexable && <CheckCircle2 className="h-5 w-5 text-green-600" />}
+                  {isNoindexFollow && <AlertTriangle className="h-5 w-5 text-amber-600" />}
+                  {isNoindexNofollow && <XCircle className="h-5 w-5 text-red-600" />}
+                </div>
+                <div className="flex gap-2">
+                  <Badge
+                    variant={isIndexable ? 'default' : isNoindexFollow ? 'secondary' : 'destructive'}
+                    className="text-xs"
+                  >
+                    {result.robots}
+                  </Badge>
+                  {result.blockInRobots && (
+                    <Badge variant="destructive" className="text-xs">
+                      Blocked in robots.txt
+                    </Badge>
+                  )}
+                </div>
+              </div>
+
+              <div className="border-t pt-3">
+                <div className="font-semibold mb-2 text-sm text-slate-700 flex items-center justify-between">
+                  <span>Sitemap Inclusion</span>
+                  {inSitemap ? (
+                    <CheckCircle2 className="h-5 w-5 text-green-600" />
+                  ) : (
+                    <XCircle className="h-5 w-5 text-slate-400" />
+                  )}
+                </div>
+                <Badge variant={inSitemap ? 'default' : 'outline'} className="text-xs">
+                  {inSitemap ? 'Included in Sitemap' : 'Excluded from Sitemap'}
+                </Badge>
+              </div>
+
+              {result.warnings.length > 0 && (
+                <div className="border-t pt-3">
+                  <div className="font-semibold mb-2 text-sm text-amber-700 flex items-center gap-2">
+                    <AlertTriangle className="h-4 w-4" />
+                    Warnings
+                  </div>
+                  <ul className="space-y-1">
+                    {result.warnings.map((warning, idx) => (
+                      <li key={idx} className="text-xs text-amber-700 bg-amber-50 p-2 rounded">
+                        {warning}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              <div className="border-t pt-3">
+                <div className="text-xs text-slate-600">
+                  <a href="/how-it-works" className="hover:underline text-blue-600">
+                    How does this work?
+                  </a>
+                </div>
+              </div>
+            </TabsContent>
+
+            <TabsContent value="trace" className="p-3 m-0">
+              <div className="space-y-2">
+                <div className="flex items-center justify-between mb-2">
+                  <div className="font-semibold text-sm text-slate-700">Decision Log</div>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={copyTrace}
+                    className="h-7 text-xs"
+                  >
+                    {copiedField === 'trace' ? (
+                      <>
+                        <Check className="h-3 w-3 mr-1 text-green-600" />
+                        Copied
+                      </>
+                    ) : (
+                      <>
+                        <Copy className="h-3 w-3 mr-1" />
+                        Copy All
+                      </>
+                    )}
+                  </Button>
+                </div>
+                <div className="bg-slate-900 text-green-400 p-3 rounded text-xs font-mono space-y-1 max-h-[50vh] overflow-y-auto">
+                  {result.trace.map((line, idx) => (
+                    <div key={idx}>{line}</div>
                   ))}
                 </div>
-              </CollapsibleContent>
-            </Collapsible>
-
-            <div className="pt-2 border-t text-xs text-muted-foreground">
-              <a href="/how-it-works" className="hover:underline">
-                How does this work?
-              </a>
-            </div>
-          </CardContent>
-        )}
-      </Card>
-    </div>
+              </div>
+            </TabsContent>
+          </Tabs>
+        </div>
+      </div>
+    </>
   );
 }
