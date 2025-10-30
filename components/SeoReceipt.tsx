@@ -8,7 +8,6 @@ import { Badge } from './ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs';
 import { useConfig } from '@/lib/config/provider';
 import { computeCanonical } from '@/lib/rules/canonical';
-import { generateSitemapEntries } from '@/lib/rules/sitemap';
 import { diffUrls } from '@/lib/utils/url-diff';
 
 export function SeoReceipt() {
@@ -19,8 +18,7 @@ export function SeoReceipt() {
 
   const urlSearchParams = new URLSearchParams(searchParams.toString());
   const result = computeCanonical(pathname, urlSearchParams, config);
-  const sitemapEntries = generateSitemapEntries(config);
-  const inSitemap = sitemapEntries.some((e) => e.included && e.loc === result.canonical);
+  const inSitemap = result.sitemapIncluded;
 
   const inputUrl = pathname + (searchParams.toString() ? `?${searchParams.toString()}` : '');
   const { segments } = diffUrls(inputUrl, result.canonical);

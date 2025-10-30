@@ -9,6 +9,7 @@ export interface CanonicalResult {
   robotsMatchedRules: string[];
   warnings: string[];
   trace: string[];
+  sitemapIncluded: boolean;
 }
 
 function normalizePath(path: string): string {
@@ -28,32 +29,90 @@ export function computeCanonical(
   const trace: string[] = [];
   const warnings: string[] = [];
 
+  trace.push(`═══ SEO DECISION FLOW ═══`);
   trace.push(`Input URL: ${pathname}${searchParams.toString() ? '?' + searchParams.toString() : ''}`);
+  trace.push('');
 
   let normalizedPath = normalizePath(pathname);
-  trace.push(`Normalized path: ${normalizedPath}`);
+  trace.push(`Step 1: Normalize path → ${normalizedPath}`);
 
-  const evaluated = evaluateParams(normalizedPath, searchParams, config);
-  trace.push(...evaluated.notes);
-
-  let finalPath = normalizedPath;
-  const canonicalParams = new URLSearchParams();
   let robots: RobotsDirective = 'index,follow';
   let blockInRobots = false;
+  let sitemapIncluded = true;
 
+  const evaluated = evaluateParams(normalizedPath, searchParams, config);
+  trace.push(`Step 2: Classify parameters`);
+  trace.push(`  Stable: ${Array.from(evaluated.stableParams.keys()).join(', ') || 'none'}`);
+  trace.push(`  Unstable: ${Array.from(evaluated.unstableParams.keys()).join(', ') || 'none'}`);
+  trace.push(`  Blocked: ${Array.from(evaluated.blockedParams.keys()).join(', ') || 'none'}`);
+  trace.push(`  Search: ${Array.from(evaluated.searchParams.keys()).join(', ') || 'none'}`);
+  trace.push(`  Pagination: ${evaluated.pagination.isPaginated ? `page ${evaluated.pagination.pageNumber}` : 'no'}`);
+  trace.push('');
+
+  trace.push(`Step 3: Detect pagination`);
+  if (evaluated.pagination.isPaginated && evaluated.pagination.pageNumber >= 2) {
+    robots = config.pagination.pageTwoPlus;
+    sitemapIncluded = false;
+    trace.push(`  ✓ Page ${evaluated.pagination.pageNumber} detected → ${robots}`);
+    trace.push(`  ✓ Page 2+ excluded from sitemap`);
+  } else {
+    trace.push(`  Page 1 or no pagination`);
+  }
+  trace.push('');
+
+  trace.push(`Step 4: Check protected routes`);
+  if (pathname.startsWith('/account/')) {
+    robots = 'noindex,nofollow';
+    blockInRobots = true;
+    sitemapIncluded = false;
+    trace.push(`  ✓ Protected route detected → noindex,nofollow + robots block`);
+  } else if (pathname.startsWith('/search')) {
+    if (config.demos.noindexSearch) {
+      robots = 'noindex,follow';
+      sitemapIncluded = false;
+      trace.push(`  ✓ Search page → noindex,follow`);
+    }
+  } else {
+    trace.push(`  Not a protected/special route`);
+  }
+  trace.push('');
+
+  trace.push(`Step 5: Apply parameter policies`);
   if (evaluated.unstableParams.size > 0) {
     robots = 'noindex,follow';
-    trace.push(`Unstable params present → setting robots to noindex,follow`);
-    trace.push(`  → Unstable params dropped from canonical: ${Array.from(evaluated.unstableParams.keys()).join(', ')}`);
-  }
-
-  if (evaluated.searchParams.size > 0) {
+    sitemapIncluded = false;
+    trace.push(`  ✓ Unstable params present → noindex,follow`);
+    trace.push(`  ✓ Excluded from sitemap`);
+  } else if (evaluated.searchParams.size > 0) {
     robots = 'noindex,follow';
-    trace.push(`Search params present → setting robots to noindex,follow`);
-    for (const [key, value] of evaluated.searchParams.entries()) {
-      canonicalParams.set(key, value);
-    }
+    sitemapIncluded = false;
+    trace.push(`  ✓ Search params present → noindex,follow`);
+    trace.push(`  ✓ Excluded from sitemap`);
+  } else {
+    trace.push(`  No unstable/search params`);
   }
+  trace.push('');
+
+  trace.push(`Step 6: Check robots.txt blocking`);
+  const robotsCheck = checkRobotsBlocking(pathname, searchParams, config);
+  if (robotsCheck.isBlocked) {
+    blockInRobots = true;
+    sitemapIncluded = false;
+    trace.push(`  ✓ Blocked by robots.txt`);
+    for (const rule of robotsCheck.matchedRules) {
+      trace.push(`    → ${rule}`);
+    }
+    if (robotsCheck.warnings.length > 0) {
+      warnings.push(...robotsCheck.warnings);
+    }
+  } else {
+    trace.push(`  Not blocked by robots.txt`);
+  }
+  trace.push('');
+
+  trace.push(`Step 7: Build canonical URL`);
+  let finalPath = normalizedPath;
+  const canonicalParams = new URLSearchParams();
 
   for (const [key, value] of evaluated.stableParams.entries()) {
     const rule = getParamRule(key, config);
@@ -61,71 +120,72 @@ export function computeCanonical(
       const mapped = rule.mapToPath({ pathname: normalizedPath, params: searchParams });
       if (mapped && !mapped.includes(finalPath)) {
         finalPath = mapped;
-        trace.push(`Mapped stable param "${key}=${value}" to clean path: ${finalPath}`);
+        trace.push(`  Mapped "${key}=${value}" → ${finalPath}`);
       } else {
         canonicalParams.set(key, value);
+        trace.push(`  Kept stable param: ${key}=${value}`);
       }
     } else {
       canonicalParams.set(key, value);
+      trace.push(`  Kept stable param: ${key}=${value}`);
     }
+  }
+
+  if (evaluated.unstableParams.size > 0) {
+    trace.push(`  Dropped unstable params: ${Array.from(evaluated.unstableParams.keys()).join(', ')}`);
   }
 
   if (evaluated.blockedParams.size > 0) {
-    blockInRobots = true;
-    trace.push(`Blocked/tracking params present → will generate robots.txt disallow patterns`);
-    trace.push(`  → Blocked params stripped: ${Array.from(evaluated.blockedParams.keys()).join(', ')}`);
+    trace.push(`  Dropped blocked params: ${Array.from(evaluated.blockedParams.keys()).join(', ')}`);
+  }
+
+  if (evaluated.searchParams.size > 0) {
+    for (const [key, value] of evaluated.searchParams.entries()) {
+      canonicalParams.set(key, value);
+      trace.push(`  Kept search param: ${key}=${value}`);
+    }
   }
 
   if (evaluated.pagination.isPaginated) {
-    const pageNumber = evaluated.pagination.pageNumber;
-
     if (config.pagination.canonicalStrategy === 'self') {
+      const pageNumber = evaluated.pagination.pageNumber;
       canonicalParams.set(config.pagination.param, pageNumber.toString());
-      trace.push(`Pagination: self-canonical strategy → keeping ?${config.pagination.param}=${pageNumber} in canonical`);
+      trace.push(`  Kept pagination (self-canonical): ${config.pagination.param}=${pageNumber}`);
     } else {
-      trace.push(`Pagination: base-canonical strategy → removing ?${config.pagination.param}=${pageNumber} from canonical`);
+      trace.push(`  Dropped pagination (base-canonical strategy)`);
     }
-
-    robots = config.pagination.pageTwoPlus;
-    trace.push(`Page ${pageNumber} (page 2+) → applying robots: ${robots}`);
-  }
-
-  if (pathname.startsWith('/search')) {
-    if (config.demos.noindexSearch) {
-      robots = 'noindex,follow';
-      trace.push(`Search page → applying noindex,follow policy`);
-    }
-  }
-
-  if (pathname.startsWith('/account/')) {
-    robots = 'noindex,nofollow';
-    blockInRobots = true;
-    trace.push(`Protected route (/account/) → noindex,nofollow + robots disallow`);
   }
 
   const queryString = canonicalParams.toString();
   const fullCanonical = baseUrl + finalPath + (queryString ? '?' + queryString : '');
+  trace.push(`  Final canonical: ${fullCanonical}`);
+  trace.push('');
 
-  const robotsCheck = checkRobotsBlocking(pathname, searchParams, config);
-  if (robotsCheck.isBlocked) {
-    blockInRobots = true;
-    trace.push(`🚫 BLOCKED BY ROBOTS.TXT`);
-    for (const rule of robotsCheck.matchedRules) {
-      trace.push(`  → Matched rule: ${rule}`);
-    }
-    warnings.push(...robotsCheck.warnings);
+  trace.push(`Step 8: Determine sitemap inclusion`);
+  if (sitemapIncluded) {
+    trace.push(`  ✓ Included in sitemap (indexable + not blocked)`);
+  } else {
+    const reasons = [];
+    if (robots.includes('noindex')) reasons.push('noindex');
+    if (blockInRobots) reasons.push('robots blocked');
+    trace.push(`  ✗ Excluded from sitemap (${reasons.join(', ')})`);
   }
+  trace.push('');
 
-  trace.push(`Final canonical URL: ${fullCanonical}`);
-  trace.push(`Final robots directive: ${robots}`);
+  trace.push(`═══ FINAL RESULTS ═══`);
+  trace.push(`Canonical URL: ${fullCanonical}`);
+  trace.push(`Robots: ${robots}`);
+  trace.push(`Blocked by robots.txt: ${blockInRobots ? 'YES' : 'NO'}`);
+  trace.push(`Sitemap inclusion: ${sitemapIncluded ? 'INCLUDED' : 'EXCLUDED'}`);
 
   if (robots.includes('noindex')) {
-    trace.push(`⚠️ This page is NOINDEX - it won't appear in search results`);
-    trace.push(`💡 noindex,follow consolidates signals to canonical while allowing link equity to flow`);
+    trace.push('');
+    trace.push(`ℹ️  This page uses noindex to consolidate signals to the canonical`);
+    trace.push(`   while allowing crawlers to discover and follow links.`);
   }
 
-  if (blockInRobots) {
-    trace.push(`🤖 robots.txt blocks crawling of this URL`);
+  if (blockInRobots && robots.includes('noindex')) {
+    warnings.push('This URL is both noindex and blocked by robots.txt. Relying on robots.txt alone for canonical consolidation is risky - noindex provides the primary signal.');
   }
 
   return {
@@ -135,6 +195,7 @@ export function computeCanonical(
     robotsMatchedRules: robotsCheck.matchedRules,
     warnings,
     trace,
+    sitemapIncluded,
   };
 }
 

@@ -20,7 +20,6 @@ export function generateSitemapEntries(config: ParamConfig, baseUrl: string = 'h
     { path: '/playground/', priority: 0.9 },
     { path: '/catalog/', priority: 0.9 },
     { path: '/catalog/t-shirts/', priority: 0.8 },
-    { path: '/catalog/shoes/', priority: 0.8 },
   ];
 
   for (const page of staticPages) {
@@ -32,7 +31,27 @@ export function generateSitemapEntries(config: ParamConfig, baseUrl: string = 'h
       lastmod: new Date().toISOString().split('T')[0],
       priority: page.priority,
       included: isIndexable,
-      reason: isIndexable ? 'Indexable page (index,follow)' : `Excluded: ${result.robots}`,
+      reason: isIndexable ? 'Indexable page (index,follow)' : `Excluded: ${result.robots}${result.blockInRobots ? ' + robots blocked' : ''}`,
+    });
+  }
+
+  const stableFacetPages = [
+    { params: 'color=black', label: 'Color facet' },
+    { params: 'size=m', label: 'Size facet' },
+    { params: 'color=black&size=m', label: 'Multiple stable facets' },
+  ];
+
+  for (const facet of stableFacetPages) {
+    const params = new URLSearchParams(facet.params);
+    const result = computeCanonical('/catalog/t-shirts/', params, config, baseUrl);
+    const isIndexable = result.robots === 'index,follow' && !result.blockInRobots;
+
+    entries.push({
+      loc: result.canonical,
+      lastmod: new Date().toISOString().split('T')[0],
+      priority: 0.7,
+      included: isIndexable,
+      reason: isIndexable ? `${facet.label} - indexable` : `Excluded: ${result.robots}${result.blockInRobots ? ' + robots blocked' : ''}`,
     });
   }
 
@@ -49,7 +68,7 @@ export function generateSitemapEntries(config: ParamConfig, baseUrl: string = 'h
     entries.push({
       loc: result.canonical,
       included: false,
-      reason: `Protected route excluded: ${result.robots}`,
+      reason: `Protected route excluded: ${result.robots}${result.blockInRobots ? ' + robots blocked' : ''}`,
     });
   }
 
@@ -59,7 +78,7 @@ export function generateSitemapEntries(config: ParamConfig, baseUrl: string = 'h
   entries.push({
     loc: page2Result.canonical,
     included: false,
-    reason: `Page 2+ excluded: ${page2Result.robots}`,
+    reason: `Page 2+ excluded: ${page2Result.robots} (noindex)`,
   });
 
   const sortParams = new URLSearchParams();
@@ -68,20 +87,20 @@ export function generateSitemapEntries(config: ParamConfig, baseUrl: string = 'h
   entries.push({
     loc: sortResult.canonical,
     included: false,
-    reason: `Unstable param page excluded: ${sortResult.robots}; canonical target may be included if indexable`,
+    reason: `Unstable param page excluded: ${sortResult.robots} (noindex)`,
   });
 
   const stackedParams = new URLSearchParams();
   stackedParams.set('sort', 'price_desc');
   stackedParams.set('color', 'black');
   const stackedResult = computeCanonical('/catalog/t-shirts/', stackedParams, config, baseUrl);
-  const stackedIsIndexable = stackedResult.robots === 'index,follow';
+  const stackedIsIndexable = stackedResult.robots === 'index,follow' && !stackedResult.blockInRobots;
   entries.push({
     loc: stackedResult.canonical,
     included: stackedIsIndexable,
     reason: stackedIsIndexable
-      ? 'Canonical of stacked params (stable retained, unstable dropped) - indexable'
-      : `Stacked param page excluded: ${stackedResult.robots}; canonical is ${stackedResult.canonical}`,
+      ? 'Canonical resolves to stable facet page (indexable)'
+      : `Stacked param page excluded: ${stackedResult.robots} (noindex)`,
   });
 
   return entries;
