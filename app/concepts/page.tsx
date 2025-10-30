@@ -6,7 +6,7 @@ import { Breadcrumbs } from '@/components/Breadcrumbs';
 export default function ConceptsPage() {
   return (
     <div className="min-h-screen bg-slate-50">
-      <Breadcrumbs items={[{ label: 'Docs', href: '/concepts' }, { label: 'SEO Concepts', href: '/concepts' }]} />
+      <Breadcrumbs items={[{ label: 'Docs', href: '/docs' }, { label: 'SEO Concepts', href: '/concepts' }]} />
 
       <div className="container mx-auto px-4 py-12 max-w-4xl">
         <h1 className="text-4xl font-bold mb-6">SEO Concepts</h1>
@@ -156,14 +156,6 @@ export default function ConceptsPage() {
           </AccordionItem>
         </Accordion>
 
-        <div className="flex gap-4 pt-8">
-          <Link href="/playground">
-            <Button>Try It in the Playground</Button>
-          </Link>
-          <Link href="/how-it-works">
-            <Button variant="outline">How It Works</Button>
-          </Link>
-        </div>
       </div>
     </div>
   );

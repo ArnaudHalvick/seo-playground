@@ -7,7 +7,7 @@ import { Breadcrumbs } from '@/components/Breadcrumbs';
 export default function AboutPage() {
   return (
     <div className="min-h-screen bg-slate-50">
-      <Breadcrumbs items={[{ label: 'Docs', href: '/concepts' }, { label: 'About This Project', href: '/about' }]} />
+      <Breadcrumbs items={[{ label: 'Docs', href: '/docs' }, { label: 'About This Project', href: '/about' }]} />
 
       <div className="container mx-auto px-4 py-12 max-w-4xl">
         <h1 className="text-4xl font-bold mb-6">About This Project</h1>
@@ -78,14 +78,6 @@ export default function AboutPage() {
             </CardContent>
           </Card>
 
-          <div className="flex gap-4 pt-6">
-            <Link href="/how-it-works">
-              <Button>How It Works</Button>
-            </Link>
-            <Link href="/concepts">
-              <Button variant="outline">SEO Concepts</Button>
-            </Link>
-          </div>
         </div>
       </div>
     </div>
