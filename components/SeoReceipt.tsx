@@ -46,7 +46,7 @@ export function SeoReceipt() {
 
   return (
     <>
-      <div className="hidden lg:block fixed top-0 right-0 h-screen w-96 border-l bg-white shadow-xl z-30">
+      <div className="hidden lg:block fixed top-16 right-0 h-[calc(100vh-4rem)] w-96 border-l bg-white shadow-xl z-30">
         <div className="flex flex-col h-full">
           <div className="flex items-center gap-2 p-4 border-b bg-slate-50">
             <Info className="h-5 w-5 text-blue-600" />

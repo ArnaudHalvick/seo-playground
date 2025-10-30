@@ -1,21 +1,13 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { ArrowLeft, CheckCircle2, XCircle } from 'lucide-react';
+import { CheckCircle2, XCircle } from 'lucide-react';
+import { Breadcrumbs } from '@/components/Breadcrumbs';
 
 export default function AboutPage() {
   return (
     <div className="min-h-screen bg-slate-50">
-      <div className="border-b bg-white">
-        <div className="container mx-auto px-4 py-4">
-          <Link href="/">
-            <Button variant="ghost" size="sm">
-              <ArrowLeft className="h-4 w-4 mr-2" />
-              Home
-            </Button>
-          </Link>
-        </div>
-      </div>
+      <Breadcrumbs items={[{ label: 'Docs', href: '/concepts' }, { label: 'About This Project', href: '/about' }]} />
 
       <div className="container mx-auto px-4 py-12 max-w-4xl">
         <h1 className="text-4xl font-bold mb-6">About This Project</h1>

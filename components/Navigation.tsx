@@ -3,12 +3,20 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Button } from './ui/button';
-import { Settings, ShoppingBag, Search, Home, BookOpen } from 'lucide-react';
+import { Settings, ShoppingBag, Search, Home, BookOpen, ChevronDown } from 'lucide-react';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from './ui/dropdown-menu';
 
 export function Navigation() {
   const pathname = usePathname();
 
   const isActive = (path: string) => pathname === path || pathname.startsWith(path + '/');
+
+  const isDocsActive = isActive('/concepts') || isActive('/about') || isActive('/how-it-works');
 
   return (
     <nav className="border-b bg-white sticky top-0 z-40 shadow-sm">
@@ -48,12 +56,32 @@ export function Navigation() {
               </Button>
             </Link>
 
-            <Link href="/concepts">
-              <Button variant={isActive('/concepts') || isActive('/about') || isActive('/how-it-works') ? 'default' : 'ghost'} size="sm">
-                <BookOpen className="h-4 w-4 mr-2" />
-                <span className="hidden sm:inline">Docs</span>
-              </Button>
-            </Link>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant={isDocsActive ? 'default' : 'ghost'} size="sm">
+                  <BookOpen className="h-4 w-4 mr-2" />
+                  <span className="hidden sm:inline">Docs</span>
+                  <ChevronDown className="h-4 w-4 ml-1" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem asChild>
+                  <Link href="/about" className="w-full cursor-pointer">
+                    About This Project
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/how-it-works" className="w-full cursor-pointer">
+                    How It Works
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/concepts" className="w-full cursor-pointer">
+                    SEO Concepts
+                  </Link>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         </div>
       </div>

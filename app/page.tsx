@@ -149,17 +149,6 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="text-center space-x-4">
-          <Link href="/about">
-            <Button variant="outline" size="lg">About This Project</Button>
-          </Link>
-          <Link href="/how-it-works">
-            <Button variant="outline" size="lg">How It Works</Button>
-          </Link>
-          <Link href="/concepts">
-            <Button variant="outline" size="lg">SEO Concepts</Button>
-          </Link>
-        </div>
       </div>
     </div>
   );
