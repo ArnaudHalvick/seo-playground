@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { usePathname, useSearchParams } from 'next/navigation';
-import { Info, CheckCircle2, XCircle, AlertTriangle, Copy, Check, X } from 'lucide-react';
+import { Info, CheckCircle2, XCircle, AlertTriangle, Copy, Check } from 'lucide-react';
 import { Button } from './ui/button';
 import { Badge } from './ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs';
@@ -12,7 +12,6 @@ import { generateSitemapEntries } from '@/lib/rules/sitemap';
 import { diffUrls } from '@/lib/utils/url-diff';
 
 export function SeoReceipt() {
-  const [isOpen, setIsOpen] = useState(true);
   const [copiedField, setCopiedField] = useState<string | null>(null);
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -45,39 +44,13 @@ export function SeoReceipt() {
     await copyToClipboard(traceText, 'trace');
   };
 
-  if (!isOpen) {
-    return (
-      <div className="fixed top-20 right-4 z-40">
-        <Button
-          onClick={() => setIsOpen(true)}
-          variant="default"
-          size="sm"
-          className="shadow-lg"
-        >
-          <Info className="h-4 w-4 mr-2" />
-          Show SEO Receipt
-        </Button>
-      </div>
-    );
-  }
-
   return (
     <>
-      <div className="hidden lg:block fixed top-16 right-0 h-[calc(100vh-4rem)] w-96 border-l bg-white shadow-xl z-40">
+      <div className="hidden lg:block fixed top-0 right-0 h-screen w-96 border-l bg-white shadow-xl z-30">
         <div className="flex flex-col h-full">
-          <div className="flex items-center justify-between p-4 border-b bg-slate-50">
-            <div className="flex items-center gap-2">
-              <Info className="h-5 w-5 text-blue-600" />
-              <h2 className="font-semibold text-lg">SEO Receipt</h2>
-            </div>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setIsOpen(false)}
-              className="h-8 w-8 p-0"
-            >
-              <X className="h-4 w-4" />
-            </Button>
+          <div className="flex items-center gap-2 p-4 border-b bg-slate-50">
+            <Info className="h-5 w-5 text-blue-600" />
+            <h2 className="font-semibold text-lg">SEO Receipt</h2>
           </div>
 
           <div className="flex-1 overflow-y-auto">
@@ -244,7 +217,7 @@ export function SeoReceipt() {
                       )}
                     </Button>
                   </div>
-                  <div className="bg-slate-900 text-green-400 p-3 rounded text-xs font-mono space-y-1 max-h-[calc(100vh-20rem)] overflow-y-auto">
+                  <div className="bg-slate-900 text-green-400 p-3 rounded text-xs font-mono space-y-1 max-h-[calc(100vh-16rem)] overflow-y-auto">
                     {result.trace.map((line, idx) => (
                       <div key={idx}>{line}</div>
                     ))}
@@ -256,20 +229,10 @@ export function SeoReceipt() {
         </div>
       </div>
 
-      <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t shadow-2xl z-40 max-h-[70vh] flex flex-col">
-        <div className="flex items-center justify-between p-3 border-b bg-slate-50">
-          <div className="flex items-center gap-2">
-            <Info className="h-5 w-5 text-blue-600" />
-            <h2 className="font-semibold">SEO Receipt</h2>
-          </div>
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => setIsOpen(false)}
-            className="h-8 w-8 p-0"
-          >
-            <X className="h-4 w-4" />
-          </Button>
+      <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t shadow-2xl z-30 max-h-[70vh] flex flex-col">
+        <div className="flex items-center gap-2 p-3 border-b bg-slate-50">
+          <Info className="h-5 w-5 text-blue-600" />
+          <h2 className="font-semibold">SEO Receipt</h2>
         </div>
 
         <div className="flex-1 overflow-y-auto">
