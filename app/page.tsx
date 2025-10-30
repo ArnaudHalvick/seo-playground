@@ -9,10 +9,10 @@ export default function Home() {
       <div className="container mx-auto px-4 py-12 max-w-6xl">
         <div className="text-center mb-12">
           <h1 className="text-5xl font-bold mb-4 bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent">
-            SEO Robots & Parameters Playground
+            SEO Best Practices Showcase
           </h1>
           <p className="text-xl text-slate-600 max-w-3xl mx-auto">
-            Learn technical SEO by doing. Configure crawl rules, parameter policies, and canonical strategies—then see the effects instantly on demo pages.
+            A demonstration of production-ready SEO implementations. Explore parameter handling, canonical strategies, robots.txt patterns, and more with real working examples.
           </p>
         </div>
 
@@ -20,14 +20,14 @@ export default function Home() {
           <Card className="hover:shadow-lg transition-shadow border-2">
             <CardHeader>
               <Settings className="h-8 w-8 mb-2 text-blue-600" />
-              <CardTitle>SEO Configuration</CardTitle>
+              <CardTitle>SEO Best Practices</CardTitle>
               <CardDescription>
-                Configure parameter policies, robots.txt rules, and canonical strategies
+                Learn production-ready parameter policies, robots.txt rules, and canonical strategies
               </CardDescription>
             </CardHeader>
             <CardContent>
               <Link href="/playground">
-                <Button className="w-full">Configure Settings</Button>
+                <Button className="w-full">View Best Practices</Button>
               </Link>
             </CardContent>
           </Card>
