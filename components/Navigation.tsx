@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Button } from './ui/button';
-import { ShoppingBag, Search, Home, BookOpen, ChevronDown } from 'lucide-react';
+import { Settings, ShoppingBag, Search, Home, BookOpen, ChevronDown } from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -24,7 +24,7 @@ export function Navigation() {
         <div className="flex items-center justify-between h-16">
           <Link href="/" className="flex items-center gap-2 font-bold text-lg hover:text-blue-600 transition-colors">
             <Home className="h-5 w-5" />
-            <span className="hidden sm:inline">SEO Best Practices</span>
+            <span className="hidden sm:inline">SEO Playground</span>
           </Link>
 
           <div className="flex items-center gap-1">
@@ -46,6 +46,13 @@ export function Navigation() {
               <Button variant={isActive('/search') ? 'default' : 'ghost'} size="sm">
                 <Search className="h-4 w-4 mr-2" />
                 Search
+              </Button>
+            </Link>
+
+            <Link href="/playground">
+              <Button variant={isActive('/playground') ? 'default' : 'ghost'} size="sm">
+                <Settings className="h-4 w-4 mr-2" />
+                Settings
               </Button>
             </Link>
 

@@ -1,14 +1,15 @@
 import './globals.css';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
+import { ConfigProvider } from '@/lib/config/provider';
 import { SeoReceipt } from '@/components/SeoReceipt';
 import { Navigation } from '@/components/Navigation';
 
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'SEO Best Practices Demo',
-  description: 'A demonstration of technical SEO best practices including robots.txt, meta robots, canonical URLs, and parameter handling',
+  title: 'SEO Robots & Parameters Playground',
+  description: 'Learn technical SEO through interactive demonstrations of robots.txt, meta robots, canonical URLs, and parameter handling',
 };
 
 export default function RootLayout({
@@ -19,11 +20,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Navigation />
-        <div className="page-content">
-          {children}
-        </div>
-        <SeoReceipt />
+        <ConfigProvider>
+          <Navigation />
+          <div className="page-content">
+            {children}
+          </div>
+          <SeoReceipt />
+        </ConfigProvider>
       </body>
     </html>
   );

@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { ShoppingBag, Search, Lock, Globe, Copy, FileText, CheckCircle2 } from 'lucide-react';
+import { Settings, ShoppingBag, Search, Lock, Globe, Copy, FileText } from 'lucide-react';
 
 export default function Home() {
   return (
@@ -9,28 +9,28 @@ export default function Home() {
       <div className="container mx-auto px-4 py-12 max-w-6xl">
         <div className="text-center mb-12">
           <h1 className="text-5xl font-bold mb-4 bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent">
-            Technical SEO Best Practices Demo
+            SEO Robots & Parameters Playground
           </h1>
           <p className="text-xl text-slate-600 max-w-3xl mx-auto">
-            A demonstration of production-ready technical SEO implementation. Explore real-world examples with detailed explanations of every decision through the SEO Receipt panel.
+            Learn technical SEO by doing. Configure crawl rules, parameter policies, and canonical strategies—then see the effects instantly on demo pages.
           </p>
         </div>
 
-        <div className="bg-blue-50 border-2 border-blue-200 rounded-lg p-6 mb-12">
-          <div className="flex items-start gap-3">
-            <CheckCircle2 className="h-6 w-6 text-blue-600 flex-shrink-0 mt-1" />
-            <div>
-              <h2 className="font-bold text-lg mb-2 text-blue-900">Best Practices Implemented</h2>
-              <p className="text-blue-800">
-                All SEO rules in this demo represent industry best practices based on years of experience.
-                Use the <strong>SEO Receipt panel</strong> (right side or bottom on mobile) to see exactly WHY each decision was made.
-                No configuration needed - everything is optimized for production use.
-              </p>
-            </div>
-          </div>
-        </div>
-
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+          <Card className="hover:shadow-lg transition-shadow border-2">
+            <CardHeader>
+              <Settings className="h-8 w-8 mb-2 text-blue-600" />
+              <CardTitle>SEO Configuration</CardTitle>
+              <CardDescription>
+                Configure parameter policies, robots.txt rules, and canonical strategies
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Link href="/playground">
+                <Button className="w-full">Configure Settings</Button>
+              </Link>
+            </CardContent>
+          </Card>
 
           <Card className="hover:shadow-lg transition-shadow border-2">
             <CardHeader>
@@ -111,39 +111,39 @@ export default function Home() {
         <div className="bg-white rounded-lg shadow-md p-8 mb-12 border">
           <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
             <FileText className="h-6 w-6" />
-            Best Practices Demonstrated
+            What This Teaches
           </h2>
           <div className="grid md:grid-cols-2 gap-6">
             <div>
               <h3 className="font-semibold text-lg mb-2">Crawl Control</h3>
               <ul className="space-y-1 text-slate-700">
-                <li>✓ Strategic robots.txt rules that prevent crawl waste</li>
-                <li>✓ Meta robots for content-specific directives</li>
-                <li>✓ Defense-in-depth for protected content (robots.txt + meta robots)</li>
+                <li>• robots.txt patterns and policies</li>
+                <li>• Meta robots vs X-Robots-Tag</li>
+                <li>• Defense-in-depth for protected content</li>
               </ul>
             </div>
             <div>
               <h3 className="font-semibold text-lg mb-2">URL Management</h3>
               <ul className="space-y-1 text-slate-700">
-                <li>✓ Self-canonical pagination for large catalogs</li>
-                <li>✓ Stable vs unstable vs blocked parameter strategy</li>
-                <li>✓ Automatic UTM stripping to prevent duplicate content</li>
+                <li>• Canonical URL strategies</li>
+                <li>• Parameter handling (stable/unstable/blocked)</li>
+                <li>• UTM stripping and tracking params</li>
               </ul>
             </div>
             <div>
-              <h3 className="font-semibold text-lg mb-2">Duplicate Content Prevention</h3>
+              <h3 className="font-semibold text-lg mb-2">Duplicate Content</h3>
               <ul className="space-y-1 text-slate-700">
-                <li>✓ Page 2+ handled with noindex,follow</li>
-                <li>✓ Search results excluded from index</li>
-                <li>✓ Faceted navigation with canonical consolidation</li>
+                <li>• Pagination best practices</li>
+                <li>• Search vs category overlap</li>
+                <li>• Faceted navigation canonicalization</li>
               </ul>
             </div>
             <div>
               <h3 className="font-semibold text-lg mb-2">International SEO</h3>
               <ul className="space-y-1 text-slate-700">
-                <li>✓ Hreflang implementation with x-default</li>
-                <li>✓ Proper language alternate markup</li>
-                <li>✓ Reciprocal hreflang validation</li>
+                <li>• Hreflang link generation</li>
+                <li>• x-default implementation</li>
+                <li>• Reciprocity validation</li>
               </ul>
             </div>
           </div>

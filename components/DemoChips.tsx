@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { Button } from './ui/button';
-import { SEO_BEST_PRACTICES_CONFIG } from '@/lib/rules/params';
+import { useConfig } from '@/lib/config/provider';
 import { checkRobotsBlocking } from '@/lib/rules/robots';
 
 interface DemoChip {
@@ -16,7 +16,7 @@ interface DemoChipsProps {
 }
 
 export function DemoChips({ basePath }: DemoChipsProps) {
-  const config = SEO_BEST_PRACTICES_CONFIG;
+  const { config } = useConfig();
 
   const demos: DemoChip[] = [
     { label: '+ Sort (unstable)', params: 'sort=price_desc', description: 'Unstable param alone → noindex,follow' },
