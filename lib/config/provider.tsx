@@ -21,7 +21,15 @@ export function ConfigProvider({ children }: { children: React.ReactNode }) {
     if (stored) {
       try {
         const parsed = JSON.parse(stored);
-        setConfig(parsed);
+        const merged = {
+          ...DEFAULT_PARAM_CONFIG,
+          ...parsed,
+          robotsToggles: {
+            ...DEFAULT_PARAM_CONFIG.robotsToggles,
+            ...parsed.robotsToggles,
+          },
+        };
+        setConfig(merged);
       } catch (e) {
         console.error('Failed to parse stored config', e);
       }

@@ -21,12 +21,15 @@ export function RobotsPreview({ config, onUpdate }: RobotsPreviewProps) {
   const handleToggleChange = (toggleKey: string, enabled: boolean) => {
     if (!onUpdate) return;
 
+    const currentToggle = toggles[toggleKey];
+    if (!currentToggle) return;
+
     const updated = {
       ...config,
       robotsToggles: {
         ...toggles,
         [toggleKey]: {
-          ...toggles[toggleKey],
+          ...currentToggle,
           enabled,
         },
       },
@@ -35,13 +38,62 @@ export function RobotsPreview({ config, onUpdate }: RobotsPreviewProps) {
   };
 
   const toggleConfigs = [
-    { key: 'protectedPaths', ...toggles.protectedPaths, warning: false },
-    { key: 'trackingParams', ...toggles.trackingParams, warning: false },
-    { key: 'searchPages', ...toggles.searchPages, warning: false },
-    { key: 'uiPrefs', ...toggles.uiPrefs, warning: false },
-    { key: 'calendarPattern', ...toggles.calendarPattern, warning: false },
-    { key: 'sortBlocking', ...toggles.sortBlocking, warning: true },
-    { key: 'stackedUnstableStable', ...toggles.stackedUnstableStable, warning: true },
+    {
+      key: 'protectedPaths',
+      enabled: toggles.protectedPaths?.enabled ?? false,
+      label: toggles.protectedPaths?.label ?? 'Protected Paths',
+      description: toggles.protectedPaths?.description ?? '',
+      rules: toggles.protectedPaths?.rules ?? [],
+      warning: false
+    },
+    {
+      key: 'trackingParams',
+      enabled: toggles.trackingParams?.enabled ?? false,
+      label: toggles.trackingParams?.label ?? 'Tracking Parameters',
+      description: toggles.trackingParams?.description ?? '',
+      rules: toggles.trackingParams?.rules ?? [],
+      warning: false
+    },
+    {
+      key: 'searchPages',
+      enabled: toggles.searchPages?.enabled ?? false,
+      label: toggles.searchPages?.label ?? 'Search Pages',
+      description: toggles.searchPages?.description ?? '',
+      rules: toggles.searchPages?.rules ?? [],
+      warning: false
+    },
+    {
+      key: 'uiPrefs',
+      enabled: toggles.uiPrefs?.enabled ?? false,
+      label: toggles.uiPrefs?.label ?? 'UI Preferences',
+      description: toggles.uiPrefs?.description ?? '',
+      rules: toggles.uiPrefs?.rules ?? [],
+      warning: false
+    },
+    {
+      key: 'calendarPattern',
+      enabled: toggles.calendarPattern?.enabled ?? false,
+      label: toggles.calendarPattern?.label ?? 'Calendar Pattern',
+      description: toggles.calendarPattern?.description ?? '',
+      rules: toggles.calendarPattern?.rules ?? [],
+      warning: false
+    },
+    {
+      key: 'sortBlocking',
+      enabled: toggles.sortBlocking?.enabled ?? false,
+      label: toggles.sortBlocking?.label ?? 'Sort Blocking',
+      description: toggles.sortBlocking?.description ?? '',
+      rules: toggles.sortBlocking?.rules ?? [],
+      warning: true
+    },
+    {
+      key: 'stackedUnstableStable',
+      enabled: toggles.stackedUnstableStable?.enabled ?? false,
+      label: toggles.stackedUnstableStable?.label ?? 'Stacked Unstable+Stable',
+      description: toggles.stackedUnstableStable?.description ?? '',
+      rules: toggles.stackedUnstableStable?.rules ?? [],
+      warning: true
+    },
   ];
 
   return (
