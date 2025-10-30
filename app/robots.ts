@@ -1,9 +1,9 @@
 import { MetadataRoute } from 'next';
-import { getServerConfig } from '@/lib/config/server';
+import { SEO_BEST_PRACTICES_CONFIG } from '@/lib/rules/params';
 import { generateRobotsTxt } from '@/lib/rules/robots';
 
 export default function robots(): MetadataRoute.Robots {
-  const config = getServerConfig();
+  const config = SEO_BEST_PRACTICES_CONFIG;
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://example.com';
   const robotsTxt = generateRobotsTxt(config, baseUrl);
 

@@ -6,7 +6,7 @@ import { Info, CheckCircle2, XCircle, AlertTriangle, Copy, Check } from 'lucide-
 import { Button } from './ui/button';
 import { Badge } from './ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs';
-import { useConfig } from '@/lib/config/provider';
+import { SEO_BEST_PRACTICES_CONFIG } from '@/lib/rules/params';
 import { computeCanonical } from '@/lib/rules/canonical';
 import { generateSitemapEntries } from '@/lib/rules/sitemap';
 import { diffUrls } from '@/lib/utils/url-diff';
@@ -15,11 +15,10 @@ export function SeoReceipt() {
   const [copiedField, setCopiedField] = useState<string | null>(null);
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const { config } = useConfig();
 
   const urlSearchParams = new URLSearchParams(searchParams.toString());
-  const result = computeCanonical(pathname, urlSearchParams, config);
-  const sitemapEntries = generateSitemapEntries(config);
+  const result = computeCanonical(pathname, urlSearchParams, SEO_BEST_PRACTICES_CONFIG);
+  const sitemapEntries = generateSitemapEntries(SEO_BEST_PRACTICES_CONFIG);
   const inSitemap = sitemapEntries.some((e) => e.included && e.loc === result.canonical);
 
   const inputUrl = pathname + (searchParams.toString() ? `?${searchParams.toString()}` : '');

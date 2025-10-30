@@ -1,9 +1,9 @@
 import { NextResponse } from 'next/server';
 import { generateSitemapEntries, generateSitemapXml } from '@/lib/rules/sitemap';
-import { getServerConfig } from '@/lib/config/server';
+import { SEO_BEST_PRACTICES_CONFIG } from '@/lib/rules/params';
 
 export async function GET() {
-  const config = getServerConfig();
+  const config = SEO_BEST_PRACTICES_CONFIG;
   const entries = generateSitemapEntries(config);
   const sitemapXml = generateSitemapXml(entries);
 
