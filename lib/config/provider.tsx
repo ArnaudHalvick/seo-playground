@@ -30,6 +30,8 @@ export function ConfigProvider({ children }: { children: React.ReactNode }) {
           },
         };
         setConfig(merged);
+
+        document.cookie = `seo-playground-config=${encodeURIComponent(stored)}; path=/; max-age=31536000; SameSite=Lax`;
       } catch (e) {
         console.error('Failed to parse stored config', e);
       }
@@ -40,11 +42,15 @@ export function ConfigProvider({ children }: { children: React.ReactNode }) {
   const updateConfig = (newConfig: ParamConfig) => {
     setConfig(newConfig);
     localStorage.setItem('seo-playground-config', JSON.stringify(newConfig));
+
+    document.cookie = `seo-playground-config=${encodeURIComponent(JSON.stringify(newConfig))}; path=/; max-age=31536000; SameSite=Lax`;
   };
 
   const resetConfig = () => {
     setConfig(DEFAULT_PARAM_CONFIG);
     localStorage.removeItem('seo-playground-config');
+
+    document.cookie = 'seo-playground-config=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT';
   };
 
   if (!isLoaded) {

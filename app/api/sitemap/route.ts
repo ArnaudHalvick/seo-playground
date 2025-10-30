@@ -1,9 +1,10 @@
 import { NextResponse } from 'next/server';
 import { generateSitemapEntries, generateSitemapXml } from '@/lib/rules/sitemap';
-import { DEFAULT_PARAM_CONFIG } from '@/lib/rules/params';
+import { getServerConfig } from '@/lib/config/server';
 
 export async function GET() {
-  const entries = generateSitemapEntries(DEFAULT_PARAM_CONFIG);
+  const config = getServerConfig();
+  const entries = generateSitemapEntries(config);
   const sitemapXml = generateSitemapXml(entries);
 
   return new NextResponse(sitemapXml, {

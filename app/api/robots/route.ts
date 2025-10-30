@@ -1,9 +1,11 @@
 import { NextResponse } from 'next/server';
 import { generateRobotsTxt } from '@/lib/rules/robots';
-import { DEFAULT_PARAM_CONFIG } from '@/lib/rules/params';
+import { getServerConfig } from '@/lib/config/server';
 
 export async function GET() {
-  const robotsTxt = generateRobotsTxt(DEFAULT_PARAM_CONFIG);
+  const config = getServerConfig();
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://example.com';
+  const robotsTxt = generateRobotsTxt(config, baseUrl);
 
   return new NextResponse(robotsTxt, {
     headers: {
