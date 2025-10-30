@@ -52,7 +52,7 @@ export function Navigation() {
             <Link href="/playground">
               <Button variant={isActive('/playground') ? 'default' : 'ghost'} size="sm">
                 <Settings className="h-4 w-4 mr-2" />
-                Playground
+                Settings
               </Button>
             </Link>
 

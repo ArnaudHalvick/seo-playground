@@ -20,14 +20,14 @@ export default function Home() {
           <Card className="hover:shadow-lg transition-shadow border-2">
             <CardHeader>
               <Settings className="h-8 w-8 mb-2 text-blue-600" />
-              <CardTitle>Rule Playground</CardTitle>
+              <CardTitle>SEO Configuration</CardTitle>
               <CardDescription>
                 Configure parameter policies, robots.txt rules, and canonical strategies
               </CardDescription>
             </CardHeader>
             <CardContent>
               <Link href="/playground">
-                <Button className="w-full">Open Playground</Button>
+                <Button className="w-full">Configure Settings</Button>
               </Link>
             </CardContent>
           </Card>

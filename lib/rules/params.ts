@@ -97,6 +97,62 @@ export const DEFAULT_PARAM_CONFIG: ParamConfig = {
     pageTwoPlus: 'noindex,follow',
     canonicalStrategy: 'self',
   },
+  robotsToggles: {
+    protectedPaths: {
+      enabled: true,
+      label: 'Protected & System Paths',
+      description: 'Block account pages and internal APIs while allowing robots/sitemap endpoints',
+      rules: [
+        'Disallow: /account/',
+        'Disallow: /api/',
+        'Allow: /api/robots',
+        'Allow: /api/sitemap',
+      ],
+    },
+    trackingParams: {
+      enabled: true,
+      label: 'Tracking & Session Parameters',
+      description: 'Block URLs with tracking parameters to prevent crawl waste',
+      rules: [
+        'Disallow: /*?*utm_source=*',
+        'Disallow: /*?*utm_medium=*',
+        'Disallow: /*?*utm_campaign=*',
+        'Disallow: /*?*gclid=*',
+        'Disallow: /*?*fbclid=*',
+        'Disallow: /*?*sid=*',
+      ],
+    },
+    searchPages: {
+      enabled: false,
+      label: 'Internal Search Pages',
+      description: 'Block search pages entirely (alternative: use noindex,follow in meta robots instead)',
+      rules: ['Disallow: /search'],
+    },
+    uiPrefs: {
+      enabled: true,
+      label: 'UI Preference Parameters',
+      description: 'Block view modes and pagination size to prevent explosive crawl',
+      rules: ['Disallow: /*?*view=*', 'Disallow: /*?*per_page=*'],
+    },
+    calendarPattern: {
+      enabled: true,
+      label: 'Calendar Date Explosion',
+      description: 'Example: prevent crawling infinite date combinations',
+      rules: ['Disallow: /calendar/*?date=*'],
+    },
+    sortBlocking: {
+      enabled: false,
+      label: 'Sort Parameter Blocking (Risky)',
+      description: 'WARNING: Blocking sort can prevent discovery of deeper paginated content. Use noindex,follow instead.',
+      rules: ['Disallow: /*?*sort=*'],
+    },
+    stackedUnstableStable: {
+      enabled: false,
+      label: 'Stacked Unstable+Stable Blocking',
+      description: 'Block combinations like ?sort=price&color=black. May prevent discovery of stable facet pages.',
+      rules: ['Disallow: /*?*sort=*&*color=*', 'Disallow: /*?*sort=*&*size=*'],
+    },
+  },
   demos: {
     blockPaginationInRobots: false,
     noindexSearch: true,

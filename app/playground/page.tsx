@@ -25,7 +25,7 @@ export default function PlaygroundPage() {
                 Home
               </Button>
             </Link>
-            <h1 className="text-2xl font-bold">Rule Playground</h1>
+            <h1 className="text-2xl font-bold">SEO Configuration</h1>
           </div>
           <Button variant="outline" size="sm" onClick={resetConfig}>
             <RotateCcw className="h-4 w-4 mr-2" />

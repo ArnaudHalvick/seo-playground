@@ -19,49 +19,49 @@ export function generateRobotsTxt(config: ParamConfig, baseUrl: string = 'https:
 
   const toggles = config.robotsToggles || {};
 
-  if (toggles.protectedPaths?.enabled) {
+  if (toggles.protectedPaths?.enabled && Array.isArray(toggles.protectedPaths.rules)) {
     lines.push(`# ${toggles.protectedPaths.label}`);
     lines.push(`# ${toggles.protectedPaths.description}`);
     lines.push(...toggles.protectedPaths.rules);
     lines.push('');
   }
 
-  if (toggles.trackingParams?.enabled) {
+  if (toggles.trackingParams?.enabled && Array.isArray(toggles.trackingParams.rules)) {
     lines.push(`# ${toggles.trackingParams.label}`);
     lines.push(`# ${toggles.trackingParams.description}`);
     lines.push(...toggles.trackingParams.rules);
     lines.push('');
   }
 
-  if (toggles.searchPages?.enabled) {
+  if (toggles.searchPages?.enabled && Array.isArray(toggles.searchPages.rules)) {
     lines.push(`# ${toggles.searchPages.label}`);
     lines.push(`# ${toggles.searchPages.description}`);
     lines.push(...toggles.searchPages.rules);
     lines.push('');
   }
 
-  if (toggles.uiPrefs?.enabled) {
+  if (toggles.uiPrefs?.enabled && Array.isArray(toggles.uiPrefs.rules)) {
     lines.push(`# ${toggles.uiPrefs.label}`);
     lines.push(`# ${toggles.uiPrefs.description}`);
     lines.push(...toggles.uiPrefs.rules);
     lines.push('');
   }
 
-  if (toggles.calendarPattern?.enabled) {
+  if (toggles.calendarPattern?.enabled && Array.isArray(toggles.calendarPattern.rules)) {
     lines.push(`# ${toggles.calendarPattern.label}`);
     lines.push(`# ${toggles.calendarPattern.description}`);
     lines.push(...toggles.calendarPattern.rules);
     lines.push('');
   }
 
-  if (toggles.sortBlocking?.enabled) {
+  if (toggles.sortBlocking?.enabled && Array.isArray(toggles.sortBlocking.rules)) {
     lines.push(`# ${toggles.sortBlocking.label}`);
     lines.push(`# ${toggles.sortBlocking.description}`);
     lines.push(...toggles.sortBlocking.rules);
     lines.push('');
   }
 
-  if (toggles.stackedUnstableStable?.enabled) {
+  if (toggles.stackedUnstableStable?.enabled && Array.isArray(toggles.stackedUnstableStable.rules)) {
     lines.push(`# ${toggles.stackedUnstableStable.label}`);
     lines.push(`# ${toggles.stackedUnstableStable.description}`);
     lines.push(...toggles.stackedUnstableStable.rules);
