@@ -124,6 +124,132 @@ function getCleanPathRecommendation(
   };
 }
 
+interface CrawlTrapRisk {
+  level: "high" | "medium" | "low" | "none";
+  icon: string;
+  message: string;
+  explanation: string;
+  robotsTxtSuggestion?: string;
+}
+
+function getCrawlTrapRisk(
+  pathname: string,
+  searchParams: URLSearchParams,
+  config: ParamConfig
+): CrawlTrapRisk | null {
+  const evaluated = evaluateParams(pathname, searchParams, config);
+
+  const hasStable = evaluated.stableParams.size > 0;
+  const hasUnstable = evaluated.unstableParams.size > 0;
+  const hasBlocked = evaluated.blockedParams.size > 0;
+  const hasSearch = evaluated.searchParams.size > 0;
+  const hasPagination = evaluated.pagination.isPaginated;
+
+  // No parameters - no risk to display
+  if (!hasStable && !hasUnstable && !hasBlocked && !hasSearch && !hasPagination) {
+    return null;
+  }
+
+  // Detect high-risk patterns
+  const allParams = Array.from(searchParams.entries());
+  const paramNames = Array.from(searchParams.keys());
+
+  // 1. Check for numeric range parameters
+  const numericRangeParams = paramNames.filter(
+    (name) =>
+      name.endsWith("_min") ||
+      name.endsWith("_max") ||
+      name.endsWith("_from") ||
+      name.endsWith("_to") ||
+      name.includes("lat") ||
+      name.includes("lng") ||
+      name.includes("radius") ||
+      name.includes("price_") ||
+      name.includes("distance")
+  );
+
+  if (numericRangeParams.length > 0) {
+    const paramPattern = numericRangeParams[0].replace(/_min|_max|_from|_to/, "_");
+    return {
+      level: "high",
+      icon: "🔴",
+      message:
+        "⚠️ High crawl trap risk — range or combinational filters can create thousands of similar URLs. Block them in robots.txt to protect crawl budget.",
+      explanation: "Numeric filters can produce infinite URL combinations.",
+      robotsTxtSuggestion: `Disallow: /*?*${paramPattern}*`,
+    };
+  }
+
+  // 2. Check for multi-select parameters (comma-separated values)
+  const multiSelectParams = allParams.filter(([name, value]) => value.includes(","));
+
+  if (multiSelectParams.length > 0) {
+    const [paramName] = multiSelectParams[0];
+    return {
+      level: "high",
+      icon: "🔴",
+      message:
+        "⚠️ High crawl trap risk — range or combinational filters can create thousands of similar URLs. Block them in robots.txt to protect crawl budget.",
+      explanation: "Each new combination generates near-duplicate pages.",
+      robotsTxtSuggestion: `Disallow: /*?*${paramName}=*,*`,
+    };
+  }
+
+  // 3. Check for parameter stacking (3+ params with unstable present)
+  const nonPaginationParams = paramNames.filter((name) => name !== config.pagination.param);
+
+  if (nonPaginationParams.length >= 3 && hasUnstable) {
+    return {
+      level: "high",
+      icon: "🔴",
+      message:
+        "⚠️ High crawl trap risk — range or combinational filters can create thousands of similar URLs. Block them in robots.txt to protect crawl budget.",
+      explanation: "Multiple parameter combinations multiply crawl space exponentially.",
+      robotsTxtSuggestion: "Disallow: /*?*&*&*",
+    };
+  }
+
+  // 4. Medium risk: single unstable or 2 params with unstable
+  if (hasUnstable) {
+    const unstableParamNames = Array.from(evaluated.unstableParams.keys());
+    const firstUnstable = unstableParamNames[0];
+
+    return {
+      level: "medium",
+      icon: "🟡",
+      message:
+        "⚠️ Moderate crawl risk — sorting or UI parameters don't add content value. Use noindex, follow or disallow them if they multiply URLs.",
+      explanation: "These parameters change layout but not content.",
+      robotsTxtSuggestion: `Disallow: /*?*${firstUnstable}=*`,
+    };
+  }
+
+  // 5. Low risk: only stable parameters
+  if (hasStable && !hasUnstable) {
+    return {
+      level: "low",
+      icon: "🟢",
+      message:
+        "✅ Low crawl risk — this filter represents a real user intent. No robots.txt blocking needed.",
+      explanation: "This filter represents a real intent and has limited options.",
+    };
+  }
+
+  // 6. Search or blocked params only
+  if (hasSearch || hasBlocked) {
+    return {
+      level: "medium",
+      icon: "🟡",
+      message:
+        "⚠️ Moderate crawl risk — sorting or UI parameters don't add content value. Use noindex, follow or disallow them if they multiply URLs.",
+      explanation: "These parameters change layout but not content.",
+    };
+  }
+
+  // Default: no significant risk
+  return null;
+}
+
 export function SeoReceipt() {
   const [copiedField, setCopiedField] = useState<string | null>(null);
   const pathname = usePathname();
@@ -144,6 +270,7 @@ export function SeoReceipt() {
   // Generate educational content
   const shortExplanation = getShortExplanation(result);
   const cleanPathRec = getCleanPathRecommendation(pathname, urlSearchParams, config);
+  const crawlTrapRisk = getCrawlTrapRisk(pathname, urlSearchParams, config);
 
   const copyToClipboard = async (text: string, field: string) => {
     try {
@@ -323,6 +450,44 @@ export function SeoReceipt() {
                     </div>
                     <div className="text-xs text-slate-600 bg-slate-50 border border-slate-200 p-3 rounded leading-relaxed">
                       {cleanPathRec.message}
+                    </div>
+                  </div>
+                )}
+
+                {crawlTrapRisk && (
+                  <div className="border-t pt-4">
+                    <div className="font-semibold mb-2 text-sm text-slate-700">Crawl Trap Risk</div>
+                    <div
+                      className={`p-3 rounded border ${
+                        crawlTrapRisk.level === "high"
+                          ? "bg-red-50 border-red-200"
+                          : crawlTrapRisk.level === "medium"
+                          ? "bg-amber-50 border-amber-200"
+                          : "bg-green-50 border-green-200"
+                      }`}
+                    >
+                      <div className="flex items-start gap-2">
+                        <span className="text-base flex-shrink-0">{crawlTrapRisk.icon}</span>
+                        <div className="flex-1">
+                          <p
+                            className={`text-xs font-medium ${
+                              crawlTrapRisk.level === "high"
+                                ? "text-red-700"
+                                : crawlTrapRisk.level === "medium"
+                                ? "text-amber-700"
+                                : "text-green-700"
+                            }`}
+                          >
+                            {crawlTrapRisk.message}
+                          </p>
+                          <p className="text-xs text-slate-600 mt-1">{crawlTrapRisk.explanation}</p>
+                          {crawlTrapRisk.robotsTxtSuggestion && (
+                            <code className="text-xs bg-slate-800 text-green-400 p-1.5 rounded mt-2 block font-mono">
+                              {crawlTrapRisk.robotsTxtSuggestion}
+                            </code>
+                          )}
+                        </div>
+                      </div>
                     </div>
                   </div>
                 )}
@@ -526,6 +691,44 @@ export function SeoReceipt() {
                   </div>
                   <div className="text-xs text-slate-600 bg-slate-50 border border-slate-200 p-3 rounded leading-relaxed">
                     {cleanPathRec.message}
+                  </div>
+                </div>
+              )}
+
+              {crawlTrapRisk && (
+                <div className="border-t pt-3">
+                  <div className="font-semibold mb-2 text-sm text-slate-700">Crawl Trap Risk</div>
+                  <div
+                    className={`p-3 rounded border ${
+                      crawlTrapRisk.level === "high"
+                        ? "bg-red-50 border-red-200"
+                        : crawlTrapRisk.level === "medium"
+                        ? "bg-amber-50 border-amber-200"
+                        : "bg-green-50 border-green-200"
+                    }`}
+                  >
+                    <div className="flex items-start gap-2">
+                      <span className="text-base flex-shrink-0">{crawlTrapRisk.icon}</span>
+                      <div className="flex-1">
+                        <p
+                          className={`text-xs font-medium ${
+                            crawlTrapRisk.level === "high"
+                              ? "text-red-700"
+                              : crawlTrapRisk.level === "medium"
+                              ? "text-amber-700"
+                              : "text-green-700"
+                          }`}
+                        >
+                          {crawlTrapRisk.message}
+                        </p>
+                        <p className="text-xs text-slate-600 mt-1">{crawlTrapRisk.explanation}</p>
+                        {crawlTrapRisk.robotsTxtSuggestion && (
+                          <code className="text-xs bg-slate-800 text-green-400 p-1.5 rounded mt-2 block font-mono">
+                            {crawlTrapRisk.robotsTxtSuggestion}
+                          </code>
+                        )}
+                      </div>
+                    </div>
                   </div>
                 </div>
               )}
