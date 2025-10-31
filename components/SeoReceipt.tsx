@@ -1,14 +1,128 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import { usePathname, useSearchParams } from 'next/navigation';
-import { Info, CheckCircle2, XCircle, AlertTriangle, Copy, Check } from 'lucide-react';
-import { Button } from './ui/button';
-import { Badge } from './ui/badge';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs';
-import { useConfig } from '@/lib/config/provider';
-import { computeCanonical } from '@/lib/rules/canonical';
-import { diffUrls } from '@/lib/utils/url-diff';
+import React, { useState } from "react";
+import { usePathname, useSearchParams } from "next/navigation";
+import { Info, CheckCircle2, XCircle, AlertTriangle, Copy, Check } from "lucide-react";
+import { Button } from "./ui/button";
+import { Badge } from "./ui/badge";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
+import { useConfig } from "@/lib/config/provider";
+import { computeCanonical, type CanonicalResult } from "@/lib/rules/canonical";
+import { diffUrls } from "@/lib/utils/url-diff";
+import { evaluateParams } from "@/lib/rules/params";
+import type { ParamConfig } from "@/lib/rules/params";
+
+function getShortExplanation(result: CanonicalResult): string {
+  const { robots, blockInRobots, sitemapIncluded } = result;
+
+  let explanation = "";
+
+  // Primary explanation based on robots directive
+  if (robots === "noindex,nofollow" && blockInRobots) {
+    explanation =
+      "Crawlers are blocked from accessing this page to prevent wasted crawl budget or duplicate discovery.";
+  } else if (robots === "noindex,follow") {
+    explanation =
+      "This page isn't indexed to avoid duplicate content, but links on it are still followed so Google can discover deeper pages.";
+  } else if (robots === "index,follow") {
+    explanation = "This page has unique value and can appear in search results.";
+  } else if (robots === "noindex,nofollow") {
+    explanation = "This page is not indexed and links are not followed to prevent crawl waste.";
+  }
+
+  // Add sitemap context if excluded
+  if (!sitemapIncluded && explanation) {
+    explanation +=
+      " Only canonical or indexable URLs are included in the sitemap to keep it clean and efficient.";
+  }
+
+  return explanation;
+}
+
+function getCleanPathRecommendation(
+  pathname: string,
+  searchParams: URLSearchParams,
+  config: ParamConfig
+): { message: string } | null {
+  const evaluated = evaluateParams(pathname, searchParams, config);
+
+  const hasStable = evaluated.stableParams.size > 0;
+  const hasUnstable = evaluated.unstableParams.size > 0;
+  const hasBlocked = evaluated.blockedParams.size > 0;
+  const hasSearch = evaluated.searchParams.size > 0;
+  const hasPagination = evaluated.pagination.isPaginated;
+
+  // No parameters at all
+  if (!hasStable && !hasUnstable && !hasBlocked && !hasSearch && !hasPagination) {
+    return {
+      message:
+        "ℹ️ No clean path suggestion — this URL doesn't represent a filter or variant worth exposing.",
+    };
+  }
+
+  // Pagination only
+  if (hasPagination && !hasStable && !hasUnstable && !hasBlocked && !hasSearch) {
+    return {
+      message:
+        "📄 Pagination parameter — should stay as ?page= with noindex, follow and self-canonical. Not suitable for a clean path.",
+    };
+  }
+
+  // Search parameters
+  if (hasSearch) {
+    return {
+      message:
+        "🔍 Search parameter — keep as query with noindex, follow; not suitable for clean paths.",
+    };
+  }
+
+  // Blocked/tracking parameters only
+  if (hasBlocked && !hasStable && !hasUnstable && !hasPagination && !hasSearch) {
+    return {
+      message:
+        "🚫 Tracking or UI parameter — purely functional; block via robots.txt or ignore during crawling.",
+    };
+  }
+
+  // Mixed: stable + unstable (unstable cancels clean path benefit)
+  if (hasStable && hasUnstable) {
+    return {
+      message:
+        "⚠️ Mixed parameters detected — unstable sorting cancels the need for clean path; canonicalize to base version.",
+    };
+  }
+
+  // Stable parameters only (good candidate for clean paths)
+  if (hasStable && !hasUnstable) {
+    const stableKeys = Array.from(evaluated.stableParams.keys());
+    const exampleParam = stableKeys[0];
+    const exampleValue = evaluated.stableParams.get(exampleParam);
+
+    // Generate example path based on current pathname
+    let examplePath = pathname.replace(/\/$/, "");
+    if (examplePath.match(/^\/catalog\/[^/]+$/)) {
+      examplePath = `${examplePath}/${exampleValue}/`;
+    }
+
+    return {
+      message: `✅ Stable parameter detected — you could turn it into a clean path like ${examplePath} if it represents real user intent.`,
+    };
+  }
+
+  // Unstable parameters only
+  if (hasUnstable && !hasStable) {
+    return {
+      message:
+        "⚠️ Unstable parameter — keep it as a query with noindex, follow; it changes sorting or layout but not meaning.",
+    };
+  }
+
+  // Default fallback
+  return {
+    message:
+      "ℹ️ No clean path suggestion — this URL doesn't represent a filter or variant worth exposing.",
+  };
+}
 
 export function SeoReceipt() {
   const [copiedField, setCopiedField] = useState<string | null>(null);
@@ -20,12 +134,16 @@ export function SeoReceipt() {
   const result = computeCanonical(pathname, urlSearchParams, config);
   const inSitemap = result.sitemapIncluded;
 
-  const inputUrl = pathname + (searchParams.toString() ? `?${searchParams.toString()}` : '');
+  const inputUrl = pathname + (searchParams.toString() ? `?${searchParams.toString()}` : "");
   const { segments } = diffUrls(inputUrl, result.canonical);
 
-  const isIndexable = result.robots === 'index,follow';
-  const isNoindexFollow = result.robots === 'noindex,follow';
-  const isNoindexNofollow = result.robots === 'noindex,nofollow';
+  const isIndexable = result.robots === "index,follow";
+  const isNoindexFollow = result.robots === "noindex,follow";
+  const isNoindexNofollow = result.robots === "noindex,nofollow";
+
+  // Generate educational content
+  const shortExplanation = getShortExplanation(result);
+  const cleanPathRec = getCleanPathRecommendation(pathname, urlSearchParams, config);
 
   const copyToClipboard = async (text: string, field: string) => {
     try {
@@ -33,13 +151,13 @@ export function SeoReceipt() {
       setCopiedField(field);
       setTimeout(() => setCopiedField(null), 2000);
     } catch (err) {
-      console.error('Failed to copy:', err);
+      console.error("Failed to copy:", err);
     }
   };
 
   const copyTrace = async () => {
-    const traceText = result.trace.join('\n');
-    await copyToClipboard(traceText, 'trace');
+    const traceText = result.trace.join("\n");
+    await copyToClipboard(traceText, "trace");
   };
 
   return (
@@ -54,8 +172,12 @@ export function SeoReceipt() {
           <div className="flex-1 overflow-y-auto">
             <Tabs defaultValue="summary" className="w-full">
               <TabsList className="w-full rounded-none border-b">
-                <TabsTrigger value="summary" className="flex-1">Summary</TabsTrigger>
-                <TabsTrigger value="trace" className="flex-1">Rule Trace</TabsTrigger>
+                <TabsTrigger value="summary" className="flex-1">
+                  Summary
+                </TabsTrigger>
+                <TabsTrigger value="trace" className="flex-1">
+                  Rule Trace
+                </TabsTrigger>
               </TabsList>
 
               <TabsContent value="summary" className="p-4 space-y-4 m-0">
@@ -71,10 +193,10 @@ export function SeoReceipt() {
                         <Button
                           variant="ghost"
                           size="sm"
-                          onClick={() => copyToClipboard(inputUrl, 'input')}
+                          onClick={() => copyToClipboard(inputUrl, "input")}
                           className="absolute top-1 right-1 h-6 w-6 p-0 opacity-0 group-hover:opacity-100 transition-opacity"
                         >
-                          {copiedField === 'input' ? (
+                          {copiedField === "input" ? (
                             <Check className="h-3 w-3 text-green-600" />
                           ) : (
                             <Copy className="h-3 w-3" />
@@ -88,14 +210,14 @@ export function SeoReceipt() {
                       <div className="relative group">
                         <div className="text-xs break-all bg-blue-50 border border-blue-200 p-2 rounded font-mono pr-8">
                           {segments.map((seg, idx) => {
-                            if (seg.type === 'removed') {
+                            if (seg.type === "removed") {
                               return (
                                 <span key={idx} className="bg-red-200 line-through">
                                   {seg.text}
                                 </span>
                               );
                             }
-                            if (seg.type === 'added') {
+                            if (seg.type === "added") {
                               return (
                                 <span key={idx} className="bg-green-200 font-semibold">
                                   {seg.text}
@@ -108,10 +230,10 @@ export function SeoReceipt() {
                         <Button
                           variant="ghost"
                           size="sm"
-                          onClick={() => copyToClipboard(result.canonical, 'canonical')}
+                          onClick={() => copyToClipboard(result.canonical, "canonical")}
                           className="absolute top-1 right-1 h-6 w-6 p-0 opacity-0 group-hover:opacity-100 transition-opacity"
                         >
-                          {copiedField === 'canonical' ? (
+                          {copiedField === "canonical" ? (
                             <Check className="h-3 w-3 text-green-600" />
                           ) : (
                             <Copy className="h-3 w-3" />
@@ -131,7 +253,9 @@ export function SeoReceipt() {
                   </div>
                   <div className="flex flex-wrap gap-2">
                     <Badge
-                      variant={isIndexable ? 'default' : isNoindexFollow ? 'secondary' : 'destructive'}
+                      variant={
+                        isIndexable ? "default" : isNoindexFollow ? "secondary" : "destructive"
+                      }
                       className="text-xs"
                     >
                       {result.robots}
@@ -162,10 +286,19 @@ export function SeoReceipt() {
                       <XCircle className="h-5 w-5 text-slate-400" />
                     )}
                   </div>
-                  <Badge variant={inSitemap ? 'default' : 'outline'} className="text-xs">
-                    {inSitemap ? 'Included in Sitemap' : 'Excluded from Sitemap'}
+                  <Badge variant={inSitemap ? "default" : "outline"} className="text-xs">
+                    {inSitemap ? "Included in Sitemap" : "Excluded from Sitemap"}
                   </Badge>
                 </div>
+
+                {shortExplanation && (
+                  <div className="mt-3">
+                    <div className="flex items-start gap-2 text-xs text-slate-600 bg-blue-50 border border-blue-100 p-3 rounded">
+                      <Info className="h-4 w-4 text-blue-600 flex-shrink-0 mt-0.5" />
+                      <p className="leading-relaxed">{shortExplanation}</p>
+                    </div>
+                  </div>
+                )}
 
                 {result.warnings.length > 0 && (
                   <div className="border-t pt-4">
@@ -183,6 +316,17 @@ export function SeoReceipt() {
                   </div>
                 )}
 
+                {cleanPathRec && (
+                  <div className="border-t pt-4">
+                    <div className="font-semibold mb-2 text-sm text-slate-700">
+                      Clean Path Recommendation
+                    </div>
+                    <div className="text-xs text-slate-600 bg-slate-50 border border-slate-200 p-3 rounded leading-relaxed">
+                      {cleanPathRec.message}
+                    </div>
+                  </div>
+                )}
+
                 <div className="border-t pt-4">
                   <div className="text-xs text-slate-600">
                     <a href="/how-it-works" className="hover:underline text-blue-600">
@@ -196,13 +340,8 @@ export function SeoReceipt() {
                 <div className="space-y-2">
                   <div className="flex items-center justify-between mb-2">
                     <div className="font-semibold text-sm text-slate-700">Decision Log</div>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={copyTrace}
-                      className="h-7 text-xs"
-                    >
-                      {copiedField === 'trace' ? (
+                    <Button variant="outline" size="sm" onClick={copyTrace} className="h-7 text-xs">
+                      {copiedField === "trace" ? (
                         <>
                           <Check className="h-3 w-3 mr-1 text-green-600" />
                           Copied
@@ -236,8 +375,12 @@ export function SeoReceipt() {
         <div className="flex-1 overflow-y-auto">
           <Tabs defaultValue="summary" className="w-full">
             <TabsList className="w-full rounded-none border-b">
-              <TabsTrigger value="summary" className="flex-1">Summary</TabsTrigger>
-              <TabsTrigger value="trace" className="flex-1">Rule Trace</TabsTrigger>
+              <TabsTrigger value="summary" className="flex-1">
+                Summary
+              </TabsTrigger>
+              <TabsTrigger value="trace" className="flex-1">
+                Rule Trace
+              </TabsTrigger>
             </TabsList>
 
             <TabsContent value="summary" className="p-3 space-y-3 m-0">
@@ -253,10 +396,10 @@ export function SeoReceipt() {
                       <Button
                         variant="ghost"
                         size="sm"
-                        onClick={() => copyToClipboard(inputUrl, 'input')}
+                        onClick={() => copyToClipboard(inputUrl, "input")}
                         className="absolute top-1 right-1 h-6 w-6 p-0"
                       >
-                        {copiedField === 'input' ? (
+                        {copiedField === "input" ? (
                           <Check className="h-3 w-3 text-green-600" />
                         ) : (
                           <Copy className="h-3 w-3" />
@@ -270,14 +413,14 @@ export function SeoReceipt() {
                     <div className="relative group">
                       <div className="text-xs break-all bg-blue-50 border border-blue-200 p-2 rounded font-mono pr-8">
                         {segments.map((seg, idx) => {
-                          if (seg.type === 'removed') {
+                          if (seg.type === "removed") {
                             return (
                               <span key={idx} className="bg-red-200 line-through">
                                 {seg.text}
                               </span>
                             );
                           }
-                          if (seg.type === 'added') {
+                          if (seg.type === "added") {
                             return (
                               <span key={idx} className="bg-green-200 font-semibold">
                                 {seg.text}
@@ -290,10 +433,10 @@ export function SeoReceipt() {
                       <Button
                         variant="ghost"
                         size="sm"
-                        onClick={() => copyToClipboard(result.canonical, 'canonical')}
+                        onClick={() => copyToClipboard(result.canonical, "canonical")}
                         className="absolute top-1 right-1 h-6 w-6 p-0"
                       >
-                        {copiedField === 'canonical' ? (
+                        {copiedField === "canonical" ? (
                           <Check className="h-3 w-3 text-green-600" />
                         ) : (
                           <Copy className="h-3 w-3" />
@@ -313,7 +456,9 @@ export function SeoReceipt() {
                 </div>
                 <div className="flex flex-wrap gap-2">
                   <Badge
-                    variant={isIndexable ? 'default' : isNoindexFollow ? 'secondary' : 'destructive'}
+                    variant={
+                      isIndexable ? "default" : isNoindexFollow ? "secondary" : "destructive"
+                    }
                     className="text-xs"
                   >
                     {result.robots}
@@ -344,10 +489,19 @@ export function SeoReceipt() {
                     <XCircle className="h-5 w-5 text-slate-400" />
                   )}
                 </div>
-                <Badge variant={inSitemap ? 'default' : 'outline'} className="text-xs">
-                  {inSitemap ? 'Included in Sitemap' : 'Excluded from Sitemap'}
+                <Badge variant={inSitemap ? "default" : "outline"} className="text-xs">
+                  {inSitemap ? "Included in Sitemap" : "Excluded from Sitemap"}
                 </Badge>
               </div>
+
+              {shortExplanation && (
+                <div className="mt-3">
+                  <div className="flex items-start gap-2 text-xs text-slate-600 bg-blue-50 border border-blue-100 p-3 rounded">
+                    <Info className="h-4 w-4 text-blue-600 flex-shrink-0 mt-0.5" />
+                    <p className="leading-relaxed">{shortExplanation}</p>
+                  </div>
+                </div>
+              )}
 
               {result.warnings.length > 0 && (
                 <div className="border-t pt-3">
@@ -365,6 +519,17 @@ export function SeoReceipt() {
                 </div>
               )}
 
+              {cleanPathRec && (
+                <div className="border-t pt-3">
+                  <div className="font-semibold mb-2 text-sm text-slate-700">
+                    Clean Path Recommendation
+                  </div>
+                  <div className="text-xs text-slate-600 bg-slate-50 border border-slate-200 p-3 rounded leading-relaxed">
+                    {cleanPathRec.message}
+                  </div>
+                </div>
+              )}
+
               <div className="border-t pt-3">
                 <div className="text-xs text-slate-600">
                   <a href="/how-it-works" className="hover:underline text-blue-600">
@@ -378,13 +543,8 @@ export function SeoReceipt() {
               <div className="space-y-2">
                 <div className="flex items-center justify-between mb-2">
                   <div className="font-semibold text-sm text-slate-700">Decision Log</div>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={copyTrace}
-                    className="h-7 text-xs"
-                  >
-                    {copiedField === 'trace' ? (
+                  <Button variant="outline" size="sm" onClick={copyTrace} className="h-7 text-xs">
+                    {copiedField === "trace" ? (
                       <>
                         <Check className="h-3 w-3 mr-1 text-green-600" />
                         Copied
