@@ -49,10 +49,10 @@ export function Navigation() {
               </Button>
             </Link>
 
-            <Link href="/playground">
-              <Button variant={isActive('/playground') ? 'default' : 'ghost'} size="sm">
+            <Link href="/best-practices">
+              <Button variant={isActive('/best-practices') ? 'default' : 'ghost'} size="sm">
                 <Settings className="h-4 w-4 mr-2" />
-                Settings
+                Best Practices
               </Button>
             </Link>
 

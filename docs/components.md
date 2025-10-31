@@ -19,7 +19,7 @@ Pages (app/**/page.tsx)
 │   ├── DemoChips
 │   └── Product Grid
 ├── Product Page (app/catalog/[category]/[product]/page.tsx)
-└── Playground (app/playground/page.tsx)
+└── Best Practices (app/best-practices/page.tsx)
     ├── ParamPolicyEditor
     ├── PaginationSettings
     ├── RobotsPreview

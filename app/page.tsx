@@ -26,7 +26,7 @@ export default function Home() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <Link href="/playground">
+              <Link href="/best-practices">
                 <Button className="w-full">View Best Practices</Button>
               </Link>
             </CardContent>

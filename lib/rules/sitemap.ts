@@ -17,7 +17,7 @@ export function generateSitemapEntries(config: ParamConfig, baseUrl: string = 'h
     { path: '/about/', priority: 0.8 },
     { path: '/how-it-works/', priority: 0.8 },
     { path: '/concepts/', priority: 0.8 },
-    { path: '/playground/', priority: 0.9 },
+    { path: '/best-practices/', priority: 0.9 },
     { path: '/catalog/', priority: 0.9 },
     { path: '/catalog/t-shirts/', priority: 0.8 },
   ];

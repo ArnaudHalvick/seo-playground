@@ -112,7 +112,7 @@ project/
 │   │       ├── page.tsx        # Category page with products
 │   │       └── [product]/      # Dynamic product routes
 │   │           └── page.tsx    # Individual product page
-│   ├── playground/             # SEO configuration showcase
+│   ├── best-practices/         # SEO configuration showcase
 │   │   └── page.tsx            # Best practices documentation
 │   └── api/                    # API routes
 │       ├── robots/             # robots.txt endpoint
@@ -125,7 +125,7 @@ project/
 │   ├── DemoChips.tsx           # Parameter demo buttons
 │   ├── Navigation.tsx          # Site navigation
 │   ├── Breadcrumbs.tsx         # Breadcrumb navigation
-│   ├── playground/             # Playground-specific components
+│   ├── playground/             # Best Practices-specific components
 │   │   ├── ParamPolicyEditor.tsx
 │   │   ├── PaginationSettings.tsx
 │   │   ├── RobotsPreview.tsx
@@ -411,7 +411,7 @@ First build is slow (generates all classes):
 - [ ] Test on mobile viewport
 - [ ] Verify robots.txt at /api/robots
 - [ ] Verify sitemap at /api/sitemap
-- [ ] Test playground tabs
+- [ ] Test best practices sections
 - [ ] Run `npm run build` successfully
 
 ### Browser Testing

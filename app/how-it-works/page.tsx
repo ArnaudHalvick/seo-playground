@@ -22,7 +22,7 @@ export default function HowItWorksPage() {
             </CardHeader>
             <CardContent className="space-y-4">
               <p className="text-slate-700">
-                All SEO rules are defined in a centralized configuration stored in localStorage. When you change a parameter policy in the Playground, it updates this configuration immediately.
+                All SEO rules are defined in a centralized configuration stored in localStorage. When you change a parameter policy in Best Practices, it updates this configuration immediately.
               </p>
               <div className="bg-slate-900 text-green-400 p-4 rounded-lg text-sm font-mono">
                 <div>lib/rules/params.ts</div>

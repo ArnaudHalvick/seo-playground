@@ -132,7 +132,7 @@ export default function DupClinicPage() {
         </Card>
 
         <div className="text-center mt-8">
-          <Link href="/playground">
+          <Link href="/best-practices">
             <Button size="lg">Configure Duplicate Handling</Button>
           </Link>
         </div>

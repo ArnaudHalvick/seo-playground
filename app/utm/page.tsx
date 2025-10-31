@@ -70,7 +70,7 @@ export default function UtmPage({ searchParams }: PageProps) {
               </div>
               <div className="mt-4 p-4 bg-amber-50 border border-amber-200 rounded-lg">
                 <p className="text-sm text-slate-700">
-                  <strong>SEO Impact:</strong> These parameters are configured as "blocked" in the playground. The canonical URL strips them out, and they're disallowed in robots.txt.
+                  <strong>SEO Impact:</strong> These parameters are configured as "blocked" in best practices. The canonical URL strips them out, and they're disallowed in robots.txt.
                 </p>
               </div>
             </CardContent>

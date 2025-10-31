@@ -214,10 +214,10 @@ For each demo:
 Render chips with "(Blocked)" suffix if matched
 ```
 
-### Playground Page
+### Best Practices Page
 
 ```
-PlaygroundPage (Client Component)
+BestPracticesPage (Client Component)
     ↓
 useConfig() → gets configuration
     ↓

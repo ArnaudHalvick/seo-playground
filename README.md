@@ -133,7 +133,7 @@ The SEO Receipt is a real-time panel that shows:
 - **`/`** - Homepage with links to all demo sections
 - **`/catalog`** - Main catalog landing page
 - **`/catalog/t-shirts`** - Demo category with parameter chips
-- **`/playground`** - SEO best practices documentation
+- **`/best-practices`** - SEO best practices documentation
 - **`/api/robots`** - Dynamic robots.txt generation
 - **`/api/sitemap`** - Dynamic XML sitemap
 
