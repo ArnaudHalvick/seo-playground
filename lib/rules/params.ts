@@ -22,21 +22,9 @@ export interface PaginationPolicy {
   canonicalStrategy: 'self' | 'base';
 }
 
-export interface RobotsToggle {
-  enabled: boolean;
-  label: string;
-  description: string;
-  rules: string[];
-}
-
 export interface ParamConfig {
   rules: ParamRule[];
   pagination: PaginationPolicy;
-  robotsToggles?: Record<string, RobotsToggle>;
-  demos: {
-    blockPaginationInRobots: boolean;
-    noindexSearch: boolean;
-  };
 }
 
 export const DEFAULT_PARAM_CONFIG: ParamConfig = {
@@ -90,72 +78,42 @@ export const DEFAULT_PARAM_CONFIG: ParamConfig = {
       policy: 'blocked',
       description: 'Facebook Click ID tracking parameter.',
     },
+    {
+      name: 'sid',
+      policy: 'blocked',
+      description: 'Session ID tracking parameter.',
+    },
+    {
+      name: 'view',
+      policy: 'blocked',
+      description: 'UI preference parameter. Creates noise, should be blocked via robots.txt.',
+    },
+    {
+      name: 'per_page',
+      policy: 'blocked',
+      description: 'Items-per-page UI preference. Creates explosive crawl space, block via robots.txt.',
+    },
+    {
+      name: 'price_min',
+      policy: 'blocked',
+      description: 'Numeric range filter. Creates infinite combinations, block via robots.txt.',
+    },
+    {
+      name: 'price_max',
+      policy: 'blocked',
+      description: 'Numeric range filter. Creates infinite combinations, block via robots.txt.',
+    },
+    {
+      name: 'q',
+      policy: 'search',
+      description: 'Search query parameter. Search pages default to noindex,follow to avoid thin content.',
+    },
   ],
   pagination: {
     param: 'page',
     pageOneIndexable: true,
     pageTwoPlus: 'noindex,follow',
     canonicalStrategy: 'self',
-  },
-  robotsToggles: {
-    protectedPaths: {
-      enabled: true,
-      label: 'Protected & System Paths',
-      description: 'Block account pages and internal APIs while allowing robots/sitemap endpoints',
-      rules: [
-        'Disallow: /account/',
-        'Disallow: /api/',
-        'Allow: /api/robots',
-        'Allow: /api/sitemap',
-      ],
-    },
-    trackingParams: {
-      enabled: true,
-      label: 'Tracking & Session Parameters',
-      description: 'Block URLs with tracking parameters to prevent crawl waste',
-      rules: [
-        'Disallow: /*?*utm_source=*',
-        'Disallow: /*?*utm_medium=*',
-        'Disallow: /*?*utm_campaign=*',
-        'Disallow: /*?*gclid=*',
-        'Disallow: /*?*fbclid=*',
-        'Disallow: /*?*sid=*',
-      ],
-    },
-    searchPages: {
-      enabled: false,
-      label: 'Internal Search Pages',
-      description: 'Block search pages entirely (alternative: use noindex,follow in meta robots instead)',
-      rules: ['Disallow: /search'],
-    },
-    uiPrefs: {
-      enabled: true,
-      label: 'UI Preference Parameters',
-      description: 'Block view modes and pagination size to prevent explosive crawl',
-      rules: ['Disallow: /*?*view=*', 'Disallow: /*?*per_page=*'],
-    },
-    calendarPattern: {
-      enabled: true,
-      label: 'Calendar Date Explosion',
-      description: 'Example: prevent crawling infinite date combinations',
-      rules: ['Disallow: /calendar/*?date=*'],
-    },
-    sortBlocking: {
-      enabled: false,
-      label: 'Sort Parameter Blocking (Risky)',
-      description: 'WARNING: Blocking sort can prevent discovery of deeper paginated content. Use noindex,follow instead.',
-      rules: ['Disallow: /*?*sort=*'],
-    },
-    stackedUnstableStable: {
-      enabled: false,
-      label: 'Stacked Unstable+Stable Blocking',
-      description: 'Block combinations like ?sort=price&color=black. May prevent discovery of stable facet pages.',
-      rules: ['Disallow: /*?*sort=*&*color=*', 'Disallow: /*?*sort=*&*size=*'],
-    },
-  },
-  demos: {
-    blockPaginationInRobots: false,
-    noindexSearch: true,
   },
 };
 

@@ -34,6 +34,11 @@ Disallow: /*?*sid=*
 Disallow: /*?*view=*
 Disallow: /*?*per_page=*
 
+# Block numeric range filters
+# These create infinite URL combinations
+Disallow: /*?*price_min=*
+Disallow: /*?*price_max=*
+
 # Block calendar date patterns
 # Prevents infinite date combinations
 Disallow: /calendar/*?date=*
@@ -80,6 +85,17 @@ Sitemap: https://example.com/api/sitemap`;
         'Disallow: /*?*per_page=*',
       ],
       explanation: 'Parameters like view=grid/list or per_page=20/50/100 create unnecessary URL variants that waste crawl budget without adding unique content.'
+    },
+    {
+      title: 'Numeric Range Filters',
+      icon: <CheckCircle2 className="h-5 w-5 text-green-600" />,
+      type: 'good',
+      description: 'Block price ranges and numeric filters that create infinite URL combinations.',
+      rules: [
+        'Disallow: /*?*price_min=*',
+        'Disallow: /*?*price_max=*',
+      ],
+      explanation: 'Numeric filters can produce infinite URL combinations (price_min=1&price_max=2, price_min=1.5&price_max=2.5, etc.). These create massive crawl traps with no unique content value.'
     },
     {
       title: 'Calendar Date Patterns',

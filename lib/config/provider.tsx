@@ -24,10 +24,6 @@ export function ConfigProvider({ children }: { children: React.ReactNode }) {
         const merged = {
           ...DEFAULT_PARAM_CONFIG,
           ...parsed,
-          robotsToggles: {
-            ...DEFAULT_PARAM_CONFIG.robotsToggles,
-            ...parsed.robotsToggles,
-          },
         };
         setConfig(merged);
       } catch (e) {

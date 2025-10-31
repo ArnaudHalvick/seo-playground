@@ -105,30 +105,37 @@ export interface ParamRule {
 
 ## Adding New Robots.txt Patterns
 
-### Step 1: Add Pattern to Configuration
+The app follows a **static best-practice model** where parameter policies determine robots.txt behavior automatically.
 
-Edit `data/rules.json` → `robotsToggles`:
+### Option 1: Parameter-Based Blocking
+
+For URL parameters, add them to `data/rules.json` with `policy: "blocked"`:
 
 ```json
 {
-  "robotsToggles": {
-    "blogFilters": {
-      "enabled": true,
-      "label": "Blog Filter Parameters",
-      "description": "Block dynamic blog filters like author, tag, date",
-      "rules": [
-        "Disallow: /blog/*?*author=*",
-        "Disallow: /blog/*?*tag=*",
-        "Disallow: /blog/*?*date=*"
-      ]
+  "rules": [
+    {
+      "name": "author",
+      "policy": "blocked",
+      "description": "Blog author filter. Creates duplicate content, block via robots.txt."
+    },
+    {
+      "name": "tag",
+      "policy": "blocked",
+      "description": "Tag filter parameter. Block to prevent crawl waste."
     }
-  }
+  ]
 }
 ```
 
-### Step 2: Add Matching Logic
+The system will automatically:
+- Generate `Disallow: /*?*author=*` rules in robots.txt
+- Block these URLs from crawling
+- Show appropriate messages in the SEO Receipt
 
-Edit `lib/rules/robots.ts` → `checkRobotsBlocking()`:
+### Option 2: Path-Based Blocking
+
+For path-specific patterns, add logic to `lib/rules/robots.ts` → `checkRobotsBlocking()`:
 
 ```typescript
 export function checkRobotsBlocking(
@@ -138,17 +145,10 @@ export function checkRobotsBlocking(
 ): RobotsMatchResult {
   // ... existing code ...
 
-  // Add your new pattern check
-  if (toggles.blogFilters?.enabled) {
-    if (pathname.startsWith('/blog/')) {
-      const blockParams = ['author', 'tag', 'date'];
-      for (const param of blockParams) {
-        if (searchParams.has(param)) {
-          matchedRules.push(`Blog Filter Parameters: Disallow /blog/*?*${param}=*`);
-          isBlocked = true;
-        }
-      }
-    }
+  // Add custom path-based blocking
+  if (pathname.startsWith('/blog/archive/') && searchParams.has('date')) {
+    matchedRules.push('Blog Archive: Disallow /blog/archive/*?*date=*');
+    isBlocked = true;
   }
 
   return { isBlocked, matchedRules, warnings };

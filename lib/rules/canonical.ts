@@ -68,65 +68,58 @@ export function computeCanonical(
     sitemapIncluded = false;
     trace.push(`  ✓ Protected route detected → noindex,nofollow + robots block`);
   } else if (pathname.startsWith('/search')) {
-    if (config.demos.noindexSearch) {
-      robots = 'noindex,follow';
-      sitemapIncluded = false;
-      trace.push(`  ✓ Search page → noindex,follow`);
-    }
+    robots = 'noindex,follow';
+    sitemapIncluded = false;
+    trace.push(`  ✓ Search page → noindex,follow (best practice)`);
   } else {
     trace.push(`  Not a protected/special route`);
   }
   trace.push('');
 
-  trace.push(`Step 5: Apply parameter policies`);
+  trace.push(`Step 5: Check robots.txt blocking & apply parameter policies`);
   
-  // Check for multi-select parameters (high crawl trap risk)
-  const multiSelectDetected = Array.from(searchParams.entries()).some(([key, value]) => 
-    value.includes(',') && key !== config.pagination.param
-  );
-  
-  // Check for blocked parameters (robots.txt-only strategy)
-  if (evaluated.blockedParams.size > 0 && !multiSelectDetected) {
-    // Blocked params rely on robots.txt ONLY
-    // We don't set a robots meta tag because crawlers won't see the page
-    sitemapIncluded = false;
-    trace.push(`  ✓ Blocked params detected → robots.txt-only strategy`);
-    trace.push(`  ℹ️  No meta robots tag needed (crawlers blocked at robots.txt level)`);
-    trace.push(`  ✓ Excluded from sitemap`);
-  } else if (multiSelectDetected) {
-    robots = 'noindex,follow';
-    sitemapIncluded = false;
-    trace.push(`  ✓ Multi-select parameter detected (crawl trap risk) → noindex,follow`);
-    trace.push(`  ✓ Excluded from sitemap`);
-  } else if (evaluated.unstableParams.size > 0) {
-    robots = 'noindex,follow';
-    sitemapIncluded = false;
-    trace.push(`  ✓ Unstable params present → noindex,follow`);
-    trace.push(`  ✓ Excluded from sitemap`);
-  } else if (evaluated.searchParams.size > 0) {
-    robots = 'noindex,follow';
-    sitemapIncluded = false;
-    trace.push(`  ✓ Search params present → noindex,follow`);
-    trace.push(`  ✓ Excluded from sitemap`);
-  } else {
-    trace.push(`  No unstable/search params`);
-  }
-  trace.push('');
-
-  trace.push(`Step 6: Check robots.txt blocking`);
+  // First, check if URL is blocked by robots.txt (static best practice rules)
   const robotsCheck = checkRobotsBlocking(pathname, searchParams, config);
-  if (robotsCheck.isBlocked) {
+  const isBlockedByRobots = robotsCheck.isBlocked;
+  
+  if (isBlockedByRobots) {
     blockInRobots = true;
     sitemapIncluded = false;
-    trace.push(`  ✓ Blocked by robots.txt`);
+    trace.push(`  ✓ Blocked by robots.txt → no meta robots tag needed`);
     for (const rule of robotsCheck.matchedRules) {
       trace.push(`    → ${rule}`);
     }
+    trace.push(`  ℹ️  Crawlers never access this page, meta tags are irrelevant`);
+    trace.push(`  ✓ Excluded from sitemap`);
     if (robotsCheck.warnings.length > 0) {
       warnings.push(...robotsCheck.warnings);
     }
   } else {
-    trace.push(`  Not blocked by robots.txt`);
+    trace.push(`  Not blocked by robots.txt → apply parameter policies`);
+    
+    // Check for multi-select parameters (high crawl trap risk)
+    const multiSelectDetected = Array.from(searchParams.entries()).some(([key, value]) => 
+      value.includes(',') && key !== config.pagination.param
+    );
+    
+    if (multiSelectDetected) {
+      robots = 'noindex,follow';
+      sitemapIncluded = false;
+      trace.push(`  ✓ Multi-select parameter detected (crawl trap) → noindex,follow`);
+      trace.push(`  ✓ Excluded from sitemap`);
+    } else if (evaluated.unstableParams.size > 0) {
+      robots = 'noindex,follow';
+      sitemapIncluded = false;
+      trace.push(`  ✓ Unstable params present → noindex,follow`);
+      trace.push(`  ✓ Excluded from sitemap`);
+    } else if (evaluated.searchParams.size > 0) {
+      robots = 'noindex,follow';
+      sitemapIncluded = false;
+      trace.push(`  ✓ Search params present → noindex,follow`);
+      trace.push(`  ✓ Excluded from sitemap`);
+    } else {
+      trace.push(`  No unstable/search params`);
+    }
   }
   trace.push('');
 
@@ -212,7 +205,7 @@ export function computeCanonical(
     warnings,
     trace,
     sitemapIncluded,
-    hasBlockedParams: evaluated.blockedParams.size > 0,
+    hasBlockedParams: blockInRobots,
   };
 }
 

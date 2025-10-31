@@ -356,9 +356,11 @@ Next.js automatically code-splits:
 
 ### Adding New Robots.txt Patterns
 
-1. Add toggle to `data/rules.json` → `robotsToggles`
-2. Add matching logic in `lib/rules/robots.ts` → `checkRobotsBlocking()`
-3. Pattern will appear in UI automatically
+The app uses a static best-practice model. To add new robots.txt patterns:
+
+1. Add parameter to `data/rules.json` with `policy: "blocked"` for parameters that should be blocked
+2. Or add custom logic in `lib/rules/robots.ts` → `checkRobotsBlocking()` for path-based patterns
+3. Pattern will appear in robots.txt and SEO Receipt automatically
 
 ### Adding New Pages
 
