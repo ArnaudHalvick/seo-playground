@@ -184,10 +184,6 @@ export function computeCanonical(
     trace.push(`   while allowing crawlers to discover and follow links.`);
   }
 
-  if (blockInRobots && robots.includes('noindex')) {
-    warnings.push('This URL is both noindex and blocked by robots.txt. Relying on robots.txt alone for canonical consolidation is risky - noindex provides the primary signal.');
-  }
-
   return {
     canonical: fullCanonical,
     robots,

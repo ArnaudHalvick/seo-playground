@@ -250,6 +250,50 @@ function getCrawlTrapRisk(
   return null;
 }
 
+function getBestPracticeConfirmation(
+  result: CanonicalResult,
+  crawlTrapRisk: CrawlTrapRisk | null
+): { message: string; type: "success" | "info" } | null {
+  const { robots, blockInRobots } = result;
+
+  // High risk blocked in robots.txt
+  if (blockInRobots && crawlTrapRisk?.level === "high") {
+    return {
+      message:
+        "✅ Correctly blocked via robots.txt — this parameter type is safely excluded to prevent crawl waste.",
+      type: "success",
+    };
+  }
+
+  // Medium/unstable handled with noindex,follow
+  if (robots === "noindex,follow" && !blockInRobots) {
+    return {
+      message:
+        "✅ Managed with noindex, follow — prevents duplicate content while preserving discovery.",
+      type: "success",
+    };
+  }
+
+  // Low risk / indexable
+  if (robots === "index,follow" && crawlTrapRisk?.level === "low") {
+    return {
+      message:
+        "✅ Indexable and crawl-safe — this represents meaningful content variation.",
+      type: "info",
+    };
+  }
+
+  // Protected routes (noindex,nofollow)
+  if (robots === "noindex,nofollow" && blockInRobots) {
+    return {
+      message: "✅ Protected route — correctly excluded from both indexing and crawling.",
+      type: "info",
+    };
+  }
+
+  return null;
+}
+
 export function SeoReceipt() {
   const [copiedField, setCopiedField] = useState<string | null>(null);
   const pathname = usePathname();
@@ -271,6 +315,7 @@ export function SeoReceipt() {
   const shortExplanation = getShortExplanation(result);
   const cleanPathRec = getCleanPathRecommendation(pathname, urlSearchParams, config);
   const crawlTrapRisk = getCrawlTrapRisk(pathname, urlSearchParams, config);
+  const bestPracticeConfirmation = getBestPracticeConfirmation(result, crawlTrapRisk);
 
   const copyToClipboard = async (text: string, field: string) => {
     try {
@@ -427,11 +472,32 @@ export function SeoReceipt() {
                   </div>
                 )}
 
+                {bestPracticeConfirmation && (
+                  <div className="mt-3">
+                    <div
+                      className={`flex items-start gap-2 text-xs p-3 rounded border ${
+                        bestPracticeConfirmation.type === "success"
+                          ? "text-green-700 bg-green-50 border-green-200"
+                          : "text-slate-700 bg-slate-50 border-slate-200"
+                      }`}
+                    >
+                      <Info
+                        className={`h-4 w-4 flex-shrink-0 mt-0.5 ${
+                          bestPracticeConfirmation.type === "success"
+                            ? "text-green-600"
+                            : "text-slate-600"
+                        }`}
+                      />
+                      <p className="leading-relaxed">{bestPracticeConfirmation.message}</p>
+                    </div>
+                  </div>
+                )}
+
                 {result.warnings.length > 0 && (
                   <div className="border-t pt-4">
                     <div className="font-semibold mb-2 text-sm text-amber-700 flex items-center gap-2">
                       <AlertTriangle className="h-4 w-4" />
-                      Warnings
+                      Configuration Issue
                     </div>
                     <ul className="space-y-1">
                       {result.warnings.map((warning, idx) => (
@@ -668,11 +734,32 @@ export function SeoReceipt() {
                 </div>
               )}
 
+              {bestPracticeConfirmation && (
+                <div className="mt-3">
+                  <div
+                    className={`flex items-start gap-2 text-xs p-3 rounded border ${
+                      bestPracticeConfirmation.type === "success"
+                        ? "text-green-700 bg-green-50 border-green-200"
+                        : "text-slate-700 bg-slate-50 border-slate-200"
+                    }`}
+                  >
+                    <Info
+                      className={`h-4 w-4 flex-shrink-0 mt-0.5 ${
+                        bestPracticeConfirmation.type === "success"
+                          ? "text-green-600"
+                          : "text-slate-600"
+                      }`}
+                    />
+                    <p className="leading-relaxed">{bestPracticeConfirmation.message}</p>
+                  </div>
+                </div>
+              )}
+
               {result.warnings.length > 0 && (
                 <div className="border-t pt-3">
                   <div className="font-semibold mb-2 text-sm text-amber-700 flex items-center gap-2">
                     <AlertTriangle className="h-4 w-4" />
-                    Warnings
+                    Configuration Issue
                   </div>
                   <ul className="space-y-1">
                     {result.warnings.map((warning, idx) => (
