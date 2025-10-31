@@ -13,12 +13,17 @@ import { evaluateParams } from "@/lib/rules/params";
 import type { ParamConfig } from "@/lib/rules/params";
 
 function getShortExplanation(result: CanonicalResult): string {
-  const { robots, blockInRobots, sitemapIncluded } = result;
+  const { robots, blockInRobots, sitemapIncluded, hasBlockedParams } = result;
 
   let explanation = "";
 
+  // robots.txt-only strategy (blocked params)
+  if (hasBlockedParams && blockInRobots) {
+    explanation =
+      "Crawlers are blocked via robots.txt from accessing this page. No meta robots tags are needed since the page is never crawled.";
+  }
   // Primary explanation based on robots directive
-  if (robots === "noindex,nofollow" && blockInRobots) {
+  else if (robots === "noindex,nofollow" && blockInRobots) {
     explanation =
       "Crawlers are blocked from accessing this page to prevent wasted crawl budget or duplicate discovery.";
   } else if (robots === "noindex,follow") {
@@ -30,8 +35,8 @@ function getShortExplanation(result: CanonicalResult): string {
     explanation = "This page is not indexed and links are not followed to prevent crawl waste.";
   }
 
-  // Add sitemap context if excluded
-  if (!sitemapIncluded && explanation) {
+  // Add sitemap context if excluded (but not for robots.txt-only)
+  if (!sitemapIncluded && explanation && !hasBlockedParams) {
     explanation +=
       " Only canonical or indexable URLs are included in the sitemap to keep it clean and efficient.";
   }
@@ -262,7 +267,23 @@ function getCrawlTrapRisk(
     };
   }
 
-  // 4. Medium risk: single unstable or 2 params with unstable
+  // 4. Check for blocked params (robots.txt-only strategy)
+  if (hasBlocked && !hasStable && !hasUnstable) {
+    const blockedParamNames = Array.from(evaluated.blockedParams.keys());
+    const firstBlocked = blockedParamNames[0];
+
+    return {
+      level: "high",
+      icon: "🔴",
+      message:
+        "⚠️ High crawl trap risk — tracking/session parameters create noise. Block them in robots.txt to prevent crawl waste.",
+      explanation:
+        "These parameters don't add content value and should be blocked at the robots.txt level to prevent crawlers from wasting time on duplicate URLs.",
+      robotsTxtSuggestion: `Disallow: /*?*${firstBlocked}=*`,
+    };
+  }
+
+  // 5. Medium risk: single unstable or 2 params with unstable
   if (hasUnstable) {
     const unstableParamNames = Array.from(evaluated.unstableParams.keys());
     const firstUnstable = unstableParamNames[0];
@@ -277,7 +298,7 @@ function getCrawlTrapRisk(
     };
   }
 
-  // 5. Low risk: only stable parameters
+  // 6. Low risk: only stable parameters
   if (hasStable && !hasUnstable) {
     return {
       level: "low",
@@ -288,14 +309,14 @@ function getCrawlTrapRisk(
     };
   }
 
-  // 6. Search or blocked params only
-  if (hasSearch || hasBlocked) {
+  // 7. Search params only
+  if (hasSearch) {
     return {
       level: "medium",
       icon: "🟡",
       message:
-        "⚠️ Moderate crawl risk — sorting or UI parameters don't add content value. Use noindex, follow or disallow them if they multiply URLs.",
-      explanation: "These parameters change layout but not content.",
+        "⚠️ Moderate crawl risk — search parameters don't add content value. Use noindex, follow.",
+      explanation: "These parameters change results but not core content.",
     };
   }
 
@@ -306,15 +327,17 @@ function getCrawlTrapRisk(
 function getBestPracticeConfirmation(
   result: CanonicalResult,
   crawlTrapRisk: CrawlTrapRisk | null
-): { message: string; type: "success" | "info" } | null {
-  const { robots, blockInRobots } = result;
+): { message: string; type: "success" | "info"; note?: string } | null {
+  const { robots, blockInRobots, hasBlockedParams } = result;
 
-  // High risk blocked in robots.txt
-  if (blockInRobots && crawlTrapRisk?.level === "high") {
+  // robots.txt-only strategy (tracking params)
+  if (hasBlockedParams && blockInRobots) {
     return {
       message:
-        "✅ Correctly blocked via robots.txt — this parameter type is safely excluded to prevent crawl waste.",
-      type: "success",
+        "✅ Blocked via robots.txt only — crawlers never access this page, so meta robots tags are not needed.",
+      type: "info",
+      note:
+        "⚠️ If these URLs are already indexed: First add noindex,nofollow meta tags, wait 2-4 weeks for deindexing, then rely on robots.txt blocking only.",
     };
   }
 
@@ -472,22 +495,34 @@ export function SeoReceipt() {
                 <div className="border-t pt-4">
                   <div className="font-semibold mb-2 text-sm text-slate-700 flex items-center justify-between">
                     <span>Indexability</span>
-                    {isIndexable && <CheckCircle2 className="h-5 w-5 text-green-600" />}
-                    {isNoindexFollow && <AlertTriangle className="h-5 w-5 text-amber-600" />}
-                    {isNoindexNofollow && <XCircle className="h-5 w-5 text-red-600" />}
+                    {result.hasBlockedParams ? (
+                      <XCircle className="h-5 w-5 text-red-600" />
+                    ) : isIndexable ? (
+                      <CheckCircle2 className="h-5 w-5 text-green-600" />
+                    ) : isNoindexFollow ? (
+                      <AlertTriangle className="h-5 w-5 text-amber-600" />
+                    ) : (
+                      <XCircle className="h-5 w-5 text-red-600" />
+                    )}
                   </div>
                   <div className="flex flex-wrap gap-2">
-                    <Badge
-                      variant={
-                        isIndexable ? "default" : isNoindexFollow ? "secondary" : "destructive"
-                      }
-                      className="text-xs"
-                    >
-                      {result.robots}
-                    </Badge>
-                    {result.blockInRobots && (
+                    {result.hasBlockedParams ? (
                       <Badge variant="destructive" className="text-xs">
                         Blocked by robots.txt
+                      </Badge>
+                    ) : (
+                      <Badge
+                        variant={
+                          isIndexable ? "default" : isNoindexFollow ? "secondary" : "destructive"
+                        }
+                        className="text-xs"
+                      >
+                        {result.robots}
+                      </Badge>
+                    )}
+                    {result.blockInRobots && !result.hasBlockedParams && (
+                      <Badge variant="destructive" className="text-xs">
+                        Also blocked by robots.txt
                       </Badge>
                     )}
                   </div>
@@ -541,7 +576,16 @@ export function SeoReceipt() {
                             : "text-slate-600"
                         }`}
                       />
-                      <p className="leading-relaxed">{bestPracticeConfirmation.message}</p>
+                      <div>
+                        <p className="leading-relaxed">{bestPracticeConfirmation.message}</p>
+                        {bestPracticeConfirmation.note && (
+                          <div className="mt-2 pt-2 border-t border-current/20">
+                            <p className="leading-relaxed text-[11px]">
+                              {bestPracticeConfirmation.note}
+                            </p>
+                          </div>
+                        )}
+                      </div>
                     </div>
                   </div>
                 )}
@@ -783,22 +827,34 @@ export function SeoReceipt() {
               <div className="border-t pt-3">
                 <div className="font-semibold mb-2 text-sm text-slate-700 flex items-center justify-between">
                   <span>Indexability</span>
-                  {isIndexable && <CheckCircle2 className="h-5 w-5 text-green-600" />}
-                  {isNoindexFollow && <AlertTriangle className="h-5 w-5 text-amber-600" />}
-                  {isNoindexNofollow && <XCircle className="h-5 w-5 text-red-600" />}
+                  {result.hasBlockedParams ? (
+                    <XCircle className="h-5 w-5 text-red-600" />
+                  ) : isIndexable ? (
+                    <CheckCircle2 className="h-5 w-5 text-green-600" />
+                  ) : isNoindexFollow ? (
+                    <AlertTriangle className="h-5 w-5 text-amber-600" />
+                  ) : (
+                    <XCircle className="h-5 w-5 text-red-600" />
+                  )}
                 </div>
                 <div className="flex flex-wrap gap-2">
-                  <Badge
-                    variant={
-                      isIndexable ? "default" : isNoindexFollow ? "secondary" : "destructive"
-                    }
-                    className="text-xs"
-                  >
-                    {result.robots}
-                  </Badge>
-                  {result.blockInRobots && (
+                  {result.hasBlockedParams ? (
                     <Badge variant="destructive" className="text-xs">
                       Blocked by robots.txt
+                    </Badge>
+                  ) : (
+                    <Badge
+                      variant={
+                        isIndexable ? "default" : isNoindexFollow ? "secondary" : "destructive"
+                      }
+                      className="text-xs"
+                    >
+                      {result.robots}
+                    </Badge>
+                  )}
+                  {result.blockInRobots && !result.hasBlockedParams && (
+                    <Badge variant="destructive" className="text-xs">
+                      Also blocked by robots.txt
                     </Badge>
                   )}
                 </div>
@@ -852,7 +908,16 @@ export function SeoReceipt() {
                           : "text-slate-600"
                       }`}
                     />
-                    <p className="leading-relaxed">{bestPracticeConfirmation.message}</p>
+                    <div>
+                      <p className="leading-relaxed">{bestPracticeConfirmation.message}</p>
+                      {bestPracticeConfirmation.note && (
+                        <div className="mt-2 pt-2 border-t border-current/20">
+                          <p className="leading-relaxed text-[11px]">
+                            {bestPracticeConfirmation.note}
+                          </p>
+                        </div>
+                      )}
+                    </div>
                   </div>
                 </div>
               )}

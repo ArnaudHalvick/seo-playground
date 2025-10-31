@@ -10,6 +10,7 @@ export interface CanonicalResult {
   warnings: string[];
   trace: string[];
   sitemapIncluded: boolean;
+  hasBlockedParams: boolean;
 }
 
 function normalizePath(path: string): string {
@@ -84,7 +85,15 @@ export function computeCanonical(
     value.includes(',') && key !== config.pagination.param
   );
   
-  if (multiSelectDetected) {
+  // Check for blocked parameters (robots.txt-only strategy)
+  if (evaluated.blockedParams.size > 0 && !multiSelectDetected) {
+    // Blocked params rely on robots.txt ONLY
+    // We don't set a robots meta tag because crawlers won't see the page
+    sitemapIncluded = false;
+    trace.push(`  ✓ Blocked params detected → robots.txt-only strategy`);
+    trace.push(`  ℹ️  No meta robots tag needed (crawlers blocked at robots.txt level)`);
+    trace.push(`  ✓ Excluded from sitemap`);
+  } else if (multiSelectDetected) {
     robots = 'noindex,follow';
     sitemapIncluded = false;
     trace.push(`  ✓ Multi-select parameter detected (crawl trap risk) → noindex,follow`);
@@ -203,6 +212,7 @@ export function computeCanonical(
     warnings,
     trace,
     sitemapIncluded,
+    hasBlockedParams: evaluated.blockedParams.size > 0,
   };
 }
 
