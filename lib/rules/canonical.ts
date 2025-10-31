@@ -78,7 +78,18 @@ export function computeCanonical(
   trace.push('');
 
   trace.push(`Step 5: Apply parameter policies`);
-  if (evaluated.unstableParams.size > 0) {
+  
+  // Check for multi-select parameters (high crawl trap risk)
+  const multiSelectDetected = Array.from(searchParams.entries()).some(([key, value]) => 
+    value.includes(',') && key !== config.pagination.param
+  );
+  
+  if (multiSelectDetected) {
+    robots = 'noindex,follow';
+    sitemapIncluded = false;
+    trace.push(`  ✓ Multi-select parameter detected (crawl trap risk) → noindex,follow`);
+    trace.push(`  ✓ Excluded from sitemap`);
+  } else if (evaluated.unstableParams.size > 0) {
     robots = 'noindex,follow';
     sitemapIncluded = false;
     trace.push(`  ✓ Unstable params present → noindex,follow`);

@@ -39,11 +39,19 @@ function getShortExplanation(result: CanonicalResult): string {
   return explanation;
 }
 
+interface CleanPathRecommendation {
+  message: string;
+  example?: string;
+  relatedSuggestions?: string[];
+  educationalNote?: string;
+  showExamples: boolean;
+}
+
 function getCleanPathRecommendation(
   pathname: string,
   searchParams: URLSearchParams,
   config: ParamConfig
-): { message: string } | null {
+): CleanPathRecommendation | null {
   const evaluated = evaluateParams(pathname, searchParams, config);
 
   const hasStable = evaluated.stableParams.size > 0;
@@ -52,11 +60,25 @@ function getCleanPathRecommendation(
   const hasSearch = evaluated.searchParams.size > 0;
   const hasPagination = evaluated.pagination.isPaginated;
 
+  // Check for multi-select parameters (crawl trap risk)
+  const allParams = Array.from(searchParams.entries());
+  const hasMultiSelect = allParams.some(([key, value]) => value.includes(","));
+
+  // Multi-select parameters should not get clean path recommendations
+  if (hasMultiSelect) {
+    return {
+      message:
+        "🔴 Multi-select parameter detected — this creates explosive URL combinations. Use noindex, follow and avoid clean paths.",
+      showExamples: false,
+    };
+  }
+
   // No parameters at all
   if (!hasStable && !hasUnstable && !hasBlocked && !hasSearch && !hasPagination) {
     return {
       message:
         "ℹ️ No clean path suggestion — this URL doesn't represent a filter or variant worth exposing.",
+      showExamples: false,
     };
   }
 
@@ -65,6 +87,7 @@ function getCleanPathRecommendation(
     return {
       message:
         "📄 Pagination parameter — should stay as ?page= with noindex, follow and self-canonical. Not suitable for a clean path.",
+      showExamples: false,
     };
   }
 
@@ -73,6 +96,7 @@ function getCleanPathRecommendation(
     return {
       message:
         "🔍 Search parameter — keep as query with noindex, follow; not suitable for clean paths.",
+      showExamples: false,
     };
   }
 
@@ -81,6 +105,7 @@ function getCleanPathRecommendation(
     return {
       message:
         "🚫 Tracking or UI parameter — purely functional; block via robots.txt or ignore during crawling.",
+      showExamples: false,
     };
   }
 
@@ -89,6 +114,7 @@ function getCleanPathRecommendation(
     return {
       message:
         "⚠️ Mixed parameters detected — unstable sorting cancels the need for clean path; canonicalize to base version.",
+      showExamples: false,
     };
   }
 
@@ -100,13 +126,38 @@ function getCleanPathRecommendation(
 
     // Generate example path based on current pathname
     let examplePath = pathname.replace(/\/$/, "");
+    const basePath = examplePath; // Store original for category variations
+
     if (examplePath.match(/^\/catalog\/[^/]+$/)) {
       examplePath = `${examplePath}/${exampleValue}/`;
     }
 
-    return {
-      message: `✅ Stable parameter detected — you could turn it into a clean path like ${examplePath} if it represents real user intent.`,
-    };
+    // Check if this is a high-value parameter like color
+    const showFullExamples = exampleParam === "color";
+
+    if (showFullExamples) {
+      // Generate category variations for color
+      const categoryPrefixes = ["men", "women", "girls", "boys"];
+      const relatedSuggestions = categoryPrefixes.map(
+        (cat) => `/${cat}${basePath.replace("/catalog", "")}/${exampleValue}/`
+      );
+
+      return {
+        message: `✅ Stable parameter detected — you could turn it into a clean path like ${examplePath} if it represents real user intent.`,
+        example: examplePath,
+        relatedSuggestions,
+        educationalNote:
+          "Clean paths are ideal for limited, meaningful filters that match user search intent. They should not be used for infinite or numeric combinations.",
+        showExamples: true,
+      };
+    } else {
+      // For other stable params (like size), show basic example only
+      return {
+        message: `✅ Stable parameter detected — you could turn it into a clean path like ${examplePath} if it represents real user intent.`,
+        example: examplePath,
+        showExamples: false,
+      };
+    }
   }
 
   // Unstable parameters only
@@ -114,6 +165,7 @@ function getCleanPathRecommendation(
     return {
       message:
         "⚠️ Unstable parameter — keep it as a query with noindex, follow; it changes sorting or layout but not meaning.",
+      showExamples: false,
     };
   }
 
@@ -121,6 +173,7 @@ function getCleanPathRecommendation(
   return {
     message:
       "ℹ️ No clean path suggestion — this URL doesn't represent a filter or variant worth exposing.",
+    showExamples: false,
   };
 }
 
@@ -514,8 +567,57 @@ export function SeoReceipt() {
                     <div className="font-semibold mb-2 text-sm text-slate-700">
                       Clean Path Recommendation
                     </div>
-                    <div className="text-xs text-slate-600 bg-slate-50 border border-slate-200 p-3 rounded leading-relaxed">
-                      {cleanPathRec.message}
+                    <div className="space-y-3">
+                      <div className="text-xs text-slate-600 bg-slate-50 border border-slate-200 p-3 rounded leading-relaxed">
+                        {cleanPathRec.message}
+                      </div>
+
+                      {cleanPathRec.showExamples && cleanPathRec.example && (
+                        <div className="text-xs bg-green-50 border border-green-200 p-3 rounded">
+                          <div className="font-medium text-green-800 mb-2 flex items-center gap-1.5">
+                            <span>🟢</span>
+                            <span>Clean Path Example</span>
+                          </div>
+                          <code className="block bg-white px-2 py-1.5 rounded text-slate-800 border border-green-300 font-mono">
+                            {cleanPathRec.example}
+                          </code>
+                          <p className="mt-2 text-slate-700 leading-relaxed">
+                            Stable filters like color can safely move from query parameters to
+                            descriptive path segments to improve crawl clarity and keyword
+                            targeting.
+                          </p>
+                        </div>
+                      )}
+
+                      {cleanPathRec.relatedSuggestions &&
+                        cleanPathRec.relatedSuggestions.length > 0 && (
+                          <div className="text-xs bg-slate-50 border border-slate-300 p-3 rounded">
+                            <div className="font-medium text-slate-700 mb-2 flex items-center gap-1.5">
+                              <span>👕</span>
+                              <span>Related Clean Path Ideas</span>
+                            </div>
+                            <div className="space-y-1.5">
+                              {cleanPathRec.relatedSuggestions.map((suggestion, idx) => (
+                                <code
+                                  key={idx}
+                                  className="block bg-white px-2 py-1 rounded text-slate-700 border border-slate-200 font-mono text-[11px]"
+                                >
+                                  {suggestion}
+                                </code>
+                              ))}
+                            </div>
+                            <p className="mt-2 text-slate-600 leading-relaxed">
+                              These reinforce a logical, user-driven site architecture.
+                            </p>
+                          </div>
+                        )}
+
+                      {cleanPathRec.educationalNote && (
+                        <div className="text-xs text-slate-600 bg-blue-50 border border-blue-200 p-2.5 rounded leading-relaxed">
+                          <span className="font-medium">💡 </span>
+                          {cleanPathRec.educationalNote}
+                        </div>
+                      )}
                     </div>
                   </div>
                 )}
@@ -776,8 +878,56 @@ export function SeoReceipt() {
                   <div className="font-semibold mb-2 text-sm text-slate-700">
                     Clean Path Recommendation
                   </div>
-                  <div className="text-xs text-slate-600 bg-slate-50 border border-slate-200 p-3 rounded leading-relaxed">
-                    {cleanPathRec.message}
+                  <div className="space-y-3">
+                    <div className="text-xs text-slate-600 bg-slate-50 border border-slate-200 p-3 rounded leading-relaxed">
+                      {cleanPathRec.message}
+                    </div>
+
+                    {cleanPathRec.showExamples && cleanPathRec.example && (
+                      <div className="text-xs bg-green-50 border border-green-200 p-3 rounded">
+                        <div className="font-medium text-green-800 mb-2 flex items-center gap-1.5">
+                          <span>🟢</span>
+                          <span>Clean Path Example</span>
+                        </div>
+                        <code className="block bg-white px-2 py-1.5 rounded text-slate-800 border border-green-300 font-mono">
+                          {cleanPathRec.example}
+                        </code>
+                        <p className="mt-2 text-slate-700 leading-relaxed">
+                          Stable filters like color can safely move from query parameters to
+                          descriptive path segments to improve crawl clarity and keyword targeting.
+                        </p>
+                      </div>
+                    )}
+
+                    {cleanPathRec.relatedSuggestions &&
+                      cleanPathRec.relatedSuggestions.length > 0 && (
+                        <div className="text-xs bg-slate-50 border border-slate-300 p-3 rounded">
+                          <div className="font-medium text-slate-700 mb-2 flex items-center gap-1.5">
+                            <span>👕</span>
+                            <span>Related Clean Path Ideas</span>
+                          </div>
+                          <div className="space-y-1.5">
+                            {cleanPathRec.relatedSuggestions.map((suggestion, idx) => (
+                              <code
+                                key={idx}
+                                className="block bg-white px-2 py-1 rounded text-slate-700 border border-slate-200 font-mono text-[11px]"
+                              >
+                                {suggestion}
+                              </code>
+                            ))}
+                          </div>
+                          <p className="mt-2 text-slate-600 leading-relaxed">
+                            These reinforce a logical, user-driven site architecture.
+                          </p>
+                        </div>
+                      )}
+
+                    {cleanPathRec.educationalNote && (
+                      <div className="text-xs text-slate-600 bg-blue-50 border border-blue-200 p-2.5 rounded leading-relaxed">
+                        <span className="font-medium">💡 </span>
+                        {cleanPathRec.educationalNote}
+                      </div>
+                    )}
                   </div>
                 </div>
               )}
