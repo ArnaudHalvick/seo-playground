@@ -473,6 +473,11 @@ export function SeoReceipt() {
   const cleanPathRec = getCleanPathRecommendation(pathname, urlSearchParams, config);
   const crawlTrapRisk = getCrawlTrapRisk(pathname, urlSearchParams, config);
   const bestPracticeConfirmation = getBestPracticeConfirmation(result, crawlTrapRisk);
+  
+  // Check for price parameters
+  const hasPriceMin = urlSearchParams.has('price_min');
+  const hasPriceMax = urlSearchParams.has('price_max');
+  const hasPriceParams = hasPriceMin || hasPriceMax;
 
   const copyToClipboard = async (text: string, field: string) => {
     try {
@@ -797,13 +802,25 @@ export function SeoReceipt() {
                   </div>
                 )}
 
-                <div className="border-t pt-4">
-                  <div className="text-xs text-slate-600">
-                    <a href="/how-it-works" className="hover:underline text-blue-600">
-                      How does this work?
-                    </a>
+                {hasPriceParams && result.blockInRobots && (
+                  <div className="border-t pt-4">
+                    <div className="p-3 rounded border bg-blue-50 border-blue-200">
+                      <div className="flex items-start gap-2">
+                        <span className="text-base flex-shrink-0">🔢</span>
+                        <div className="flex-1">
+                          <p className="text-xs font-medium text-blue-700 mb-1">
+                            Price Range Filters Blocked
+                          </p>
+                          <p className="text-xs text-slate-600 leading-relaxed">
+                            Price range filters create thousands of low-value URL variations (e.g., ?price_min=5&price_max=200). 
+                            They don't represent distinct user intent and can rapidly multiply. 
+                            Blocking them prevents crawl traps and preserves crawl budget.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                </div>
+                )}
               </TabsContent>
 
               <TabsContent value="trace" className="p-4 m-0">
@@ -1140,13 +1157,25 @@ export function SeoReceipt() {
                 </div>
               )}
 
-              <div className="border-t pt-3">
-                <div className="text-xs text-slate-600">
-                  <a href="/how-it-works" className="hover:underline text-blue-600">
-                    How does this work?
-                  </a>
+              {hasPriceParams && result.blockInRobots && (
+                <div className="border-t pt-3">
+                  <div className="p-3 rounded border bg-blue-50 border-blue-200">
+                    <div className="flex items-start gap-2">
+                      <span className="text-base flex-shrink-0">🔢</span>
+                      <div className="flex-1">
+                        <p className="text-xs font-medium text-blue-700 mb-1">
+                          Price Range Filters Blocked
+                        </p>
+                        <p className="text-xs text-slate-600 leading-relaxed">
+                          Price range filters create thousands of low-value URL variations (e.g., ?price_min=5&price_max=200). 
+                          They don't represent distinct user intent and can rapidly multiply. 
+                          Blocking them prevents crawl traps and preserves crawl budget.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-              </div>
+              )}
             </TabsContent>
 
             <TabsContent value="trace" className="p-3 m-0">
