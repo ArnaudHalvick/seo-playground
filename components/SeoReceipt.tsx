@@ -150,42 +150,135 @@ function getCleanPathRecommendation(
     let examplePath = pathname.replace(/\/$/, "");
     const basePath = examplePath; // Store original for category variations
 
-    // Handle color parameter
-    if (exampleParam === "color" && examplePath.match(/^\/shop\/[^/]+$/)) {
-      examplePath = `${basePath}/color/${exampleValue}/`;
-      
-      // Show other colors as related examples
-      const allColors = ['black', 'blue', 'white', 'red', 'green', 'gray', 'brown', 'tan'];
-      const otherColors = allColors.filter(c => c !== exampleValue).slice(0, 3);
-      const colorSuggestions = otherColors.map(color => `${basePath}/color/${color}/`);
+    // Detect if we're already on a filtered page (context detection)
+    const isOnGenderPage = examplePath.match(/^\/shop\/[^/]+\/for\/[^/]+$/);
+    const isOnColorPage = examplePath.match(/^\/shop\/[^/]+\/color\/[^/]+$/);
+    const isOnSizePage = examplePath.match(/^\/shop\/[^/]+\/size\/[^/]+$/);
 
-      return {
-        message: `✅ Single stable parameter detected — you could turn it into a clean path like ${examplePath} if it represents real user intent.`,
-        example: examplePath,
-        relatedSuggestions: colorSuggestions,
-        educationalNote:
-          "This site implements clean paths for color at /color/. Stable filters can safely move from query parameters to descriptive path segments to improve crawl clarity and keyword targeting.",
-        showExamples: true,
-      };
+    // Extract current context for nested suggestions
+    let currentContext = '';
+    if (isOnGenderPage) {
+      currentContext = examplePath; // e.g., /shop/t-shirts/for/women
+    } else if (isOnColorPage) {
+      currentContext = examplePath; // e.g., /shop/t-shirts/color/black
+    } else if (isOnSizePage) {
+      currentContext = examplePath; // e.g., /shop/t-shirts/size/M
+    }
+
+    // Handle color parameter
+    if (exampleParam === "color") {
+      // If on gender page, suggest nested
+      if (isOnGenderPage) {
+        examplePath = `${currentContext}/color/${exampleValue}/`;
+        
+        const allColors = ['black', 'blue', 'white', 'red', 'green', 'gray', 'brown', 'tan'];
+        const otherColors = allColors.filter(c => c !== exampleValue).slice(0, 3);
+        const colorSuggestions = otherColors.map(color => `${currentContext}/color/${color}/`);
+        
+        return {
+          message: `✅ You could nest this color filter: ${examplePath}`,
+          example: examplePath,
+          relatedSuggestions: colorSuggestions,
+          educationalNote:
+            "Nested clean paths combine filters for more specific landing pages (e.g., 'Women's Black T-Shirts'). Consider: Is this specific enough to match user search intent? Will it have enough content? Most sites limit clean paths to 1-2 filter levels maximum.",
+          showExamples: true,
+        };
+      }
+      
+      // If on size page, suggest nested
+      if (isOnSizePage) {
+        examplePath = `${currentContext}/color/${exampleValue}/`;
+        
+        const allColors = ['black', 'blue', 'white', 'red', 'green', 'gray', 'brown', 'tan'];
+        const otherColors = allColors.filter(c => c !== exampleValue).slice(0, 3);
+        const colorSuggestions = otherColors.map(color => `${currentContext}/color/${color}/`);
+        
+        return {
+          message: `✅ You could nest this color filter: ${examplePath}`,
+          example: examplePath,
+          relatedSuggestions: colorSuggestions,
+          educationalNote:
+            "Combining size + color creates very specific pages (e.g., 'Size M Black T-Shirts'). This may be too granular for most sites — typically better as noindex,follow. Evaluate: Does this match real search queries? Will there be 10+ products?",
+          showExamples: true,
+        };
+      }
+      
+      // Otherwise, suggest from base category
+      if (examplePath.match(/^\/shop\/[^/]+$/)) {
+        examplePath = `${basePath}/color/${exampleValue}/`;
+        
+        // Show other colors as related examples
+        const allColors = ['black', 'blue', 'white', 'red', 'green', 'gray', 'brown', 'tan'];
+        const otherColors = allColors.filter(c => c !== exampleValue).slice(0, 3);
+        const colorSuggestions = otherColors.map(color => `${basePath}/color/${color}/`);
+
+        return {
+          message: `✅ Single stable parameter detected — you could turn it into a clean path like ${examplePath} if it represents real user intent.`,
+          example: examplePath,
+          relatedSuggestions: colorSuggestions,
+          educationalNote:
+            "This site implements clean paths for color at /color/. Stable filters can safely move from query parameters to descriptive path segments to improve crawl clarity and keyword targeting.",
+          showExamples: true,
+        };
+      }
     }
 
     // Handle size parameter
-    if (exampleParam === "size" && examplePath.match(/^\/shop\/[^/]+$/)) {
-      examplePath = `${basePath}/size/${exampleValue}/`;
+    if (exampleParam === "size") {
+      // If on gender page, suggest nested
+      if (isOnGenderPage) {
+        examplePath = `${currentContext}/size/${exampleValue}/`;
+        
+        const allSizes = ['S', 'M', 'L', 'XL', '6', '8', '9', '10', '11', '12'];
+        const otherSizes = allSizes.filter(s => s !== exampleValue).slice(0, 3);
+        const sizeSuggestions = otherSizes.map(size => `${currentContext}/size/${size}/`);
+        
+        return {
+          message: `✅ You could nest this size filter: ${examplePath}`,
+          example: examplePath,
+          relatedSuggestions: sizeSuggestions,
+          educationalNote:
+            "Nested paths like /women/size/M/ are more specific than /size/M/ alone. Evaluate trade-offs: better targeting vs. thinner content and deeper URL structure. Will each page have 10+ products and unique value?",
+          showExamples: true,
+        };
+      }
       
-      // Show other sizes as related examples
-      const allSizes = ['S', 'M', 'L', 'XL', '6', '8', '9', '10', '11', '12'];
-      const otherSizes = allSizes.filter(s => s !== exampleValue).slice(0, 3);
-      const sizeSuggestions = otherSizes.map(size => `${basePath}/size/${size}/`);
+      // If on color page, suggest nested
+      if (isOnColorPage) {
+        examplePath = `${currentContext}/size/${exampleValue}/`;
+        
+        const allSizes = ['S', 'M', 'L', 'XL', '6', '8', '9', '10', '11', '12'];
+        const otherSizes = allSizes.filter(s => s !== exampleValue).slice(0, 3);
+        const sizeSuggestions = otherSizes.map(size => `${currentContext}/size/${size}/`);
+        
+        return {
+          message: `✅ You could nest this size filter: ${examplePath}`,
+          example: examplePath,
+          relatedSuggestions: sizeSuggestions,
+          educationalNote:
+            "Combining color + size creates very specific pages (e.g., 'Black T-Shirts Size M'). This may be too granular for most sites — typically better as noindex,follow. Consider if this matches real user search patterns.",
+          showExamples: true,
+        };
+      }
+      
+      // Base category suggestion
+      if (examplePath.match(/^\/shop\/[^/]+$/)) {
+        examplePath = `${basePath}/size/${exampleValue}/`;
+        
+        // Show other sizes as related examples
+        const allSizes = ['S', 'M', 'L', 'XL', '6', '8', '9', '10', '11', '12'];
+        const otherSizes = allSizes.filter(s => s !== exampleValue).slice(0, 3);
+        const sizeSuggestions = otherSizes.map(size => `${basePath}/size/${size}/`);
 
-      return {
-        message: `✅ Single stable parameter detected — you could turn it into a clean path like ${examplePath} if it represents real user intent.`,
-        example: examplePath,
-        relatedSuggestions: sizeSuggestions,
-        educationalNote:
-          "This site implements clean paths for size at /size/. Size filters create meaningful landing pages when they represent common user search patterns.",
-        showExamples: true,
-      };
+        return {
+          message: `✅ Single stable parameter detected — you could turn it into a clean path like ${examplePath} if it represents real user intent.`,
+          example: examplePath,
+          relatedSuggestions: sizeSuggestions,
+          educationalNote:
+            "This site implements clean paths for size at /size/. Size filters create meaningful landing pages when they represent common user search patterns.",
+          showExamples: true,
+        };
+      }
     }
 
     // Handle gender parameter
