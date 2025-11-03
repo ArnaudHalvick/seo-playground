@@ -37,6 +37,13 @@ export function generateRobotsTxt(config: ParamConfig, baseUrl: string = 'https:
     lines.push('');
   }
   
+  // Multi-select parameters (exponential crawl trap)
+  lines.push('# Multi-Select Parameters (Exponential Crawl Trap)');
+  lines.push('# Block comma-separated values to prevent 2^N combinations');
+  lines.push('Disallow: /*?*color=*,*');
+  lines.push('Disallow: /*?*size=*,*');
+  lines.push('');
+  
   // Additional pattern blocking (best practice)
   lines.push('# Calendar Date Patterns');
   lines.push('# Prevent infinite date combinations');
@@ -85,6 +92,14 @@ export function checkRobotsBlocking(
   for (const param of blockedParams) {
     if (searchParams.has(param)) {
       matchedRules.push(`Blocked Parameter: Disallow /*?*${param}=*`);
+      isBlocked = true;
+    }
+  }
+  
+  // Check for multi-select patterns (exponential crawl trap)
+  for (const [param, value] of searchParams.entries()) {
+    if (value.includes(',')) {
+      matchedRules.push(`Multi-Select Pattern: Disallow /*?*${param}=*,* (prevents 2^N combinations)`);
       isBlocked = true;
     }
   }

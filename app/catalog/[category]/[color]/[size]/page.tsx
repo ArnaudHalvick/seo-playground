@@ -3,7 +3,6 @@ import Link from 'next/link';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { ArrowLeft } from 'lucide-react';
 import { 
   getCategory, 
   getProductsByCategory, 
@@ -17,19 +16,20 @@ import {
   type FilterOptions
 } from '@/lib/catalog/data';
 import { Breadcrumbs } from'@/components/Breadcrumbs';
-import { DemoChips } from '@/components/DemoChips';
 import { FilterSidebar } from '@/components/catalog/FilterSidebar';
 import { ActiveFilters } from '@/components/catalog/ActiveFilters';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { AlertTriangle } from 'lucide-react';
 import { notFound } from 'next/navigation';
 
 interface PageProps {
   params: {
     category: string;
+    color: string;
+    size: string;
   };
   searchParams: {
     sort?: string;
-    color?: string;
-    size?: string;
     price_min?: string;
     price_max?: string;
     page?: string;
@@ -38,22 +38,34 @@ interface PageProps {
 
 export function generateStaticParams() {
   const categories = getCategories();
-  return categories.map((category) => ({
-    category: category.slug,
-  }));
+  const colors = ['black', 'blue', 'white', 'red', 'green', 'gray'];
+  const sizes = ['S', 'M', 'L', 'XL'];
+  
+  return categories.flatMap(cat => 
+    colors.flatMap(color =>
+      sizes.map(size => ({
+        category: cat.slug,
+        color: color,
+        size: size.toLowerCase()
+      }))
+    )
+  );
 }
 
-export default function CategoryPage({ params, searchParams }: PageProps) {
+export default function ColorSizeFilterPage({ params, searchParams }: PageProps) {
   const category = getCategory(params.category);
 
   if (!category) {
     notFound();
   }
 
-  // Parse filters from search params
+  // Normalize size (URL might be lowercase, but we store uppercase)
+  const normalizedSize = params.size.toUpperCase();
+
+  // Parse filters from search params + path params
   const filters: FilterOptions = {
-    colors: searchParams.color ? searchParams.color.split(',') : undefined,
-    size: searchParams.size,
+    colors: [params.color], // Color comes from URL path
+    size: normalizedSize,    // Size comes from URL path
     priceMin: searchParams.price_min ? parseFloat(searchParams.price_min) : undefined,
     priceMax: searchParams.price_max ? parseFloat(searchParams.price_max) : undefined,
   };
@@ -62,6 +74,11 @@ export default function CategoryPage({ params, searchParams }: PageProps) {
   const availableColors = getAvailableColors(params.category);
   const availableSizes = getAvailableSizes(params.category);
   const filterCounts = getFilterCounts(params.category, filters);
+
+  // Validate that the color and size exist in this category
+  if (!availableColors.includes(params.color.toLowerCase()) || !availableSizes.includes(normalizedSize)) {
+    notFound();
+  }
 
   // Filter and sort products
   let products = getProductsByCategory(params.category);
@@ -73,19 +90,40 @@ export default function CategoryPage({ params, searchParams }: PageProps) {
 
   return (
     <div className="min-h-screen bg-slate-50">
-      <Breadcrumbs items={[{ label: 'Catalog', href: '/catalog' }, { label: category.name, href: `/catalog/${params.category}` }]} />
+      <Breadcrumbs 
+        items={[
+          { label: 'Catalog', href: '/catalog' }, 
+          { label: category.name, href: `/catalog/${params.category}` },
+          { label: params.color, href: `/catalog/${params.category}/${params.color}` },
+          { label: `Size ${normalizedSize}`, href: `/catalog/${params.category}/${params.color}/${params.size}` }
+        ]} 
+      />
 
       <div className="container mx-auto px-4 py-12 max-w-7xl">
+        {/* SEO Warning Banner */}
+        <Alert className="mb-6 border-orange-200 bg-orange-50">
+          <AlertTriangle className="h-4 w-4 text-orange-600" />
+          <AlertDescription className="text-orange-800">
+            <strong>⚠️ Multiple Stable Filters Detected:</strong> This page combines two stable filters 
+            (color + size) in a clean path. While technically valid, this creates N×M URL combinations. 
+            <strong> Best Practice: </strong> Use <strong>noindex,follow</strong> for multi-filter combinations 
+            to prevent index bloat while maintaining discoverability. Single-filter paths (/black/ or /size-m/) 
+            are better for indexing.
+          </AlertDescription>
+        </Alert>
+
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-4xl font-bold mb-3">{category.name}</h1>
-          <p className="text-lg text-slate-600">{category.description}</p>
+          <h1 className="text-4xl font-bold mb-3 capitalize">
+            {params.color} {category.name} - Size {normalizedSize}
+          </h1>
+          <p className="text-lg text-slate-600">
+            {category.description} - {params.color}, size {normalizedSize}
+          </p>
           <p className="text-sm text-slate-500 mt-2">
             Showing {paginatedProducts.length} of {products.length} products
           </p>
         </div>
-
-        <DemoChips basePath={`/catalog/${params.category}`} />
 
         {/* Two-column layout: Sidebar + Main Content */}
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
@@ -149,7 +187,7 @@ export default function CategoryPage({ params, searchParams }: PageProps) {
                     {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
                       <Link
                         key={page}
-                        href={`/catalog/${params.category}?${new URLSearchParams({ ...searchParams, page: page.toString() }).toString()}`}
+                        href={`/catalog/${params.category}/${params.color}/${params.size}?${new URLSearchParams({ ...searchParams, page: page.toString() }).toString()}`}
                       >
                         <Button variant={page === currentPage ? 'default' : 'outline'} size="sm">
                           {page}
@@ -165,11 +203,16 @@ export default function CategoryPage({ params, searchParams }: PageProps) {
                 <div className="text-6xl mb-4">📦</div>
                 <h3 className="text-2xl font-bold mb-2">No products found</h3>
                 <p className="text-slate-600 mb-6">
-                  Try adjusting your filters to see more results
+                  No {params.color} {category.name.toLowerCase()} available in size {normalizedSize}
                 </p>
-                <Link href={`/catalog/${params.category}`}>
-                  <Button variant="outline">Clear All Filters</Button>
-                </Link>
+                <div className="flex gap-4 justify-center">
+                  <Link href={`/catalog/${params.category}/${params.color}`}>
+                    <Button variant="outline">View All {params.color}</Button>
+                  </Link>
+                  <Link href={`/catalog/${params.category}`}>
+                    <Button variant="outline">View All {category.name}</Button>
+                  </Link>
+                </div>
               </div>
             )}
           </div>
@@ -178,3 +221,4 @@ export default function CategoryPage({ params, searchParams }: PageProps) {
     </div>
   );
 }
+

@@ -97,28 +97,45 @@ export function computeCanonical(
   } else {
     trace.push(`  Not blocked by robots.txt → apply parameter policies`);
     
-    // Check for multi-select parameters (high crawl trap risk)
+    // Check for multi-select parameters (high crawl trap risk - exponential combinations)
     const multiSelectDetected = Array.from(searchParams.entries()).some(([key, value]) => 
       value.includes(',') && key !== config.pagination.param
     );
     
     if (multiSelectDetected) {
-      robots = 'noindex,follow';
+      // Multi-select creates 2^N combinations, must block via robots.txt
+      robots = undefined as any; // No meta robots tag needed
+      blockInRobots = true;
       sitemapIncluded = false;
-      trace.push(`  ✓ Multi-select parameter detected (crawl trap) → noindex,follow`);
-      trace.push(`  ✓ Excluded from sitemap`);
-    } else if (evaluated.unstableParams.size > 0) {
-      robots = 'noindex,follow';
-      sitemapIncluded = false;
-      trace.push(`  ✓ Unstable params present → noindex,follow`);
-      trace.push(`  ✓ Excluded from sitemap`);
-    } else if (evaluated.searchParams.size > 0) {
-      robots = 'noindex,follow';
-      sitemapIncluded = false;
-      trace.push(`  ✓ Search params present → noindex,follow`);
+      const multiSelectParam = Array.from(searchParams.entries()).find(([k, v]) => v.includes(','))?.[0];
+      trace.push(`  ✓ Multi-select detected (exponential combinations) → blocked by robots.txt`);
+      trace.push(`    ℹ️  Pattern: Disallow: /*?*${multiSelectParam}=*,*`);
+      trace.push(`    ℹ️  Prevents 2^N URL combinations from wasting crawl budget`);
       trace.push(`  ✓ Excluded from sitemap`);
     } else {
-      trace.push(`  No unstable/search params`);
+      // Check for multiple stable parameters (combinatorial explosion)
+      const stableParamCount = Array.from(evaluated.stableParams).length;
+      
+      if (stableParamCount >= 2) {
+        robots = 'noindex,follow';
+        sitemapIncluded = false;
+        trace.push(`  ✓ Multiple stable filters (${stableParamCount}) → noindex,follow`);
+        trace.push(`    ℹ️  Creates N×M combinations, risk of index bloat`);
+        trace.push(`    Example: 5 colors × 4 sizes = 20 URL variations`);
+        trace.push(`  ✓ Excluded from sitemap`);
+      } else if (evaluated.unstableParams.size > 0) {
+        robots = 'noindex,follow';
+        sitemapIncluded = false;
+        trace.push(`  ✓ Unstable params present → noindex,follow`);
+        trace.push(`  ✓ Excluded from sitemap`);
+      } else if (evaluated.searchParams.size > 0) {
+        robots = 'noindex,follow';
+        sitemapIncluded = false;
+        trace.push(`  ✓ Search params present → noindex,follow`);
+        trace.push(`  ✓ Excluded from sitemap`);
+      } else {
+        trace.push(`  No unstable/search params, single stable filter or no params`);
+      }
     }
   }
   trace.push('');

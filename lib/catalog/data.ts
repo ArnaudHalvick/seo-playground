@@ -58,15 +58,37 @@ export function sortProducts(products: Product[], sortBy: string): Product[] {
   }
 }
 
-export function filterProducts(products: Product[], filters: { color?: string; size?: string }): Product[] {
+export interface FilterOptions {
+  colors?: string[];
+  size?: string;
+  priceMin?: number;
+  priceMax?: number;
+  // Legacy support for single color
+  color?: string;
+}
+
+export function filterProducts(products: Product[], filters: FilterOptions): Product[] {
   let filtered = [...products];
 
-  if (filters.color) {
+  // Multi-select color filtering
+  if (filters.colors && filters.colors.length > 0) {
+    const lowerColors = filters.colors.map(c => c.toLowerCase());
+    filtered = filtered.filter((p) => lowerColors.includes(p.color.toLowerCase()));
+  } else if (filters.color) {
+    // Legacy single-color support
     filtered = filtered.filter((p) => p.color.toLowerCase() === filters.color!.toLowerCase());
   }
 
   if (filters.size) {
     filtered = filtered.filter((p) => p.size === filters.size);
+  }
+
+  if (filters.priceMin !== undefined) {
+    filtered = filtered.filter((p) => p.price >= filters.priceMin!);
+  }
+
+  if (filters.priceMax !== undefined) {
+    filtered = filtered.filter((p) => p.price <= filters.priceMax!);
   }
 
   return filtered;
@@ -81,4 +103,78 @@ export function paginateProducts(products: Product[], page: number, pageSize: nu
     products: products.slice(start, end),
     totalPages,
   };
+}
+
+export interface FilterCounts {
+  colors: Record<string, number>;
+  sizes: Record<string, number>;
+  priceRange: { min: number; max: number };
+  total: number;
+}
+
+/**
+ * Calculate available filter options and their product counts
+ * Takes into account currently applied filters
+ */
+export function getFilterCounts(
+  categorySlug: string,
+  currentFilters: FilterOptions = {}
+): FilterCounts {
+  const allProducts = getProductsByCategory(categorySlug);
+  
+  // Count colors (ignoring current color filter to show all options)
+  const colorCounts: Record<string, number> = {};
+  const filtersWithoutColors = { ...currentFilters, colors: undefined, color: undefined };
+  const productsForColorCount = filterProducts(allProducts, filtersWithoutColors);
+  
+  productsForColorCount.forEach(product => {
+    const color = product.color.toLowerCase();
+    colorCounts[color] = (colorCounts[color] || 0) + 1;
+  });
+  
+  // Count sizes (ignoring current size filter)
+  const sizeCounts: Record<string, number> = {};
+  const filtersWithoutSize = { ...currentFilters, size: undefined };
+  const productsForSizeCount = filterProducts(allProducts, filtersWithoutSize);
+  
+  productsForSizeCount.forEach(product => {
+    sizeCounts[product.size] = (sizeCounts[product.size] || 0) + 1;
+  });
+  
+  // Calculate price range
+  let minPrice = Infinity;
+  let maxPrice = -Infinity;
+  
+  allProducts.forEach(product => {
+    if (product.price < minPrice) minPrice = product.price;
+    if (product.price > maxPrice) maxPrice = product.price;
+  });
+  
+  // Get total count with all filters applied
+  const filteredProducts = filterProducts(allProducts, currentFilters);
+  
+  return {
+    colors: colorCounts,
+    sizes: sizeCounts,
+    priceRange: { min: minPrice, max: maxPrice },
+    total: filteredProducts.length,
+  };
+}
+
+/**
+ * Get all unique colors available in a category
+ */
+export function getAvailableColors(categorySlug: string): string[] {
+  const products = getProductsByCategory(categorySlug);
+  const colors = new Set(products.map(p => p.color.toLowerCase()));
+  return Array.from(colors).sort();
+}
+
+/**
+ * Get all unique sizes available in a category
+ */
+export function getAvailableSizes(categorySlug: string): string[] {
+  const products = getProductsByCategory(categorySlug);
+  const sizes = new Set(products.map(p => p.size));
+  return Array.from(sizes).sort();
 }

@@ -165,11 +165,24 @@ function getCleanPathRecommendation(
     }
   }
 
-  // Unstable parameters only
+  // Unstable parameters only (check for sort specifically)
   if (hasUnstable && !hasStable) {
+    const unstableKeys = Array.from(evaluated.unstableParams.keys());
+    const hasSort = unstableKeys.some(key => key.includes('sort') || key === 'order' || key === 'orderby');
+    
+    if (hasSort) {
+      return {
+        message:
+          "🔄 Sort parameter detected — keep as query with noindex,follow (discoverable but not indexed).",
+        educationalNote:
+          "Alternative Strategy: Create curated clean paths for high-value sorts. Examples: ?sort=price_asc → /cheapest/, ?sort=popularity → /bestsellers/, ?sort=newest → /latest/. Requires manual curation but enables keyword targeting.",
+        showExamples: false,
+      };
+    }
+    
     return {
       message:
-        "⚠️ Unstable parameter — keep it as a query with noindex, follow; it changes sorting or layout but not meaning.",
+        "⚠️ Unstable parameter — keep it as a query with noindex,follow; it changes sorting or layout but not meaning.",
       showExamples: false,
     };
   }
@@ -242,33 +255,36 @@ function getCrawlTrapRisk(
   const multiSelectParams = allParams.filter(([name, value]) => value.includes(","));
 
   if (multiSelectParams.length > 0) {
-    const [paramName] = multiSelectParams[0];
+    const [paramName, paramValue] = multiSelectParams[0];
+    const optionCount = paramValue.split(',').length;
+    const combinationCount = Math.pow(2, optionCount);
     return {
       level: "high",
       icon: "🔴",
       message:
-        "⚠️ High crawl trap risk — range or combinational filters can create thousands of similar URLs. Block them in robots.txt to protect crawl budget.",
-      explanation: "Each new combination generates near-duplicate pages.",
+        "⚠️ High crawl trap risk — multi-select creates exponential URL combinations. Block via robots.txt to protect crawl budget.",
+      explanation: `Multi-select creates 2^N combinations. With ${optionCount} options: 2^${optionCount} = ${combinationCount} possible URLs. Each new option doubles the total URLs.`,
       robotsTxtSuggestion: `Disallow: /*?*${paramName}=*,*`,
     };
   }
 
-  // 3. Check for parameter stacking (3+ params with unstable present)
+  // 3. Check for parameter stacking (3+ params)
   const nonPaginationParams = paramNames.filter((name) => name !== config.pagination.param);
 
-  if (nonPaginationParams.length >= 3 && hasUnstable) {
+  if (nonPaginationParams.length >= 3) {
+    const paramCount = nonPaginationParams.length;
     return {
       level: "high",
       icon: "🔴",
       message:
-        "⚠️ High crawl trap risk — range or combinational filters can create thousands of similar URLs. Block them in robots.txt to protect crawl budget.",
-      explanation: "Multiple parameter combinations multiply crawl space exponentially.",
-      robotsTxtSuggestion: "Disallow: /*?*&*&*",
+        "⚠️ High crawl trap risk — multiple parameters create combinatorial explosion. Consider blocking or noindex strategies.",
+      explanation: `${paramCount} parameters create N×M×P combinations. For example: 5 colors × 4 sizes × 3 sorts = 60 URLs. Each additional parameter multiplies the total.`,
+      robotsTxtSuggestion: "Consider blocking unstable params: Disallow: /*?*sort=*",
     };
   }
 
-  // 4. Check for blocked params (robots.txt-only strategy)
-  if (hasBlocked && !hasStable && !hasUnstable) {
+  // 4. Check for blocked params (robots.txt-only strategy) - Always high risk
+  if (hasBlocked) {
     const blockedParamNames = Array.from(evaluated.blockedParams.keys());
     const firstBlocked = blockedParamNames[0];
 
@@ -276,14 +292,28 @@ function getCrawlTrapRisk(
       level: "high",
       icon: "🔴",
       message:
-        "⚠️ High crawl trap risk — tracking/session parameters create noise. Block them in robots.txt to prevent crawl waste.",
+        "⚠️ High crawl trap risk — tracking/UI/price parameters create noise. Blocked via robots.txt to prevent crawl waste.",
       explanation:
-        "These parameters don't add content value and should be blocked at the robots.txt level to prevent crawlers from wasting time on duplicate URLs.",
+        "These parameters don't add content value and are blocked at the robots.txt level. Examples: utm_, view, price_min, price_max.",
       robotsTxtSuggestion: `Disallow: /*?*${firstBlocked}=*`,
     };
   }
 
-  // 5. Medium risk: single unstable or 2 params with unstable
+  // 5. Check for 2+ stable parameters (combinatorial, but limited)
+  const stableCount = evaluated.stableParams.size;
+  
+  if (stableCount >= 2) {
+    return {
+      level: "medium",
+      icon: "🟡",
+      message:
+        "⚠️ Moderate crawl risk — multiple stable filters create N×M combinations. Consider using noindex,follow.",
+      explanation: `${stableCount} stable filters multiply URL count. Example: 5 colors × 4 sizes = 20 URL variations. While limited, this can still bloat the index.`,
+      robotsTxtSuggestion: undefined,
+    };
+  }
+
+  // 6. Medium risk: single unstable
   if (hasUnstable) {
     const unstableParamNames = Array.from(evaluated.unstableParams.keys());
     const firstUnstable = unstableParamNames[0];
@@ -292,20 +322,20 @@ function getCrawlTrapRisk(
       level: "medium",
       icon: "🟡",
       message:
-        "⚠️ Moderate crawl risk — sorting or UI parameters don't add content value. Use noindex, follow or disallow them if they multiply URLs.",
-      explanation: "These parameters change layout but not content.",
-      robotsTxtSuggestion: `Disallow: /*?*${firstUnstable}=*`,
+        "⚠️ Moderate crawl risk — sorting or UI parameters don't add content value. Use noindex,follow to prevent indexing.",
+      explanation: "These parameters change layout but not content. Best practice: noindex,follow for discovery without indexing.",
+      robotsTxtSuggestion: `Optional: Disallow: /*?*${firstUnstable}=*`,
     };
   }
 
-  // 6. Low risk: only stable parameters
-  if (hasStable && !hasUnstable) {
+  // 7. Low risk: single stable parameter only
+  if (stableCount === 1 && !hasUnstable) {
     return {
       level: "low",
       icon: "🟢",
       message:
-        "✅ Low crawl risk — this filter represents a real user intent. No robots.txt blocking needed.",
-      explanation: "This filter represents a real intent and has limited options.",
+        "✅ Low crawl risk — single stable filter represents clear user intent. Safe to index.",
+      explanation: "This filter represents real intent with limited options (e.g., 5-10 colors). Ideal for clean path conversion.",
     };
   }
 

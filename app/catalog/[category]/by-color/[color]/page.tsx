@@ -3,7 +3,6 @@ import Link from 'next/link';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { ArrowLeft } from 'lucide-react';
 import { 
   getCategory, 
   getProductsByCategory, 
@@ -17,18 +16,19 @@ import {
   type FilterOptions
 } from '@/lib/catalog/data';
 import { Breadcrumbs } from'@/components/Breadcrumbs';
-import { DemoChips } from '@/components/DemoChips';
 import { FilterSidebar } from '@/components/catalog/FilterSidebar';
 import { ActiveFilters } from '@/components/catalog/ActiveFilters';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Info, ArrowRight } from 'lucide-react';
 import { notFound } from 'next/navigation';
 
 interface PageProps {
   params: {
     category: string;
+    color: string;
   };
   searchParams: {
     sort?: string;
-    color?: string;
     size?: string;
     price_min?: string;
     price_max?: string;
@@ -38,21 +38,26 @@ interface PageProps {
 
 export function generateStaticParams() {
   const categories = getCategories();
-  return categories.map((category) => ({
-    category: category.slug,
-  }));
+  const colors = ['black', 'blue', 'white', 'red', 'green', 'gray', 'brown', 'tan'];
+  
+  return categories.flatMap(cat => 
+    colors.map(color => ({
+      category: cat.slug,
+      color: color
+    }))
+  );
 }
 
-export default function CategoryPage({ params, searchParams }: PageProps) {
+export default function ColorFilterPage({ params, searchParams }: PageProps) {
   const category = getCategory(params.category);
 
   if (!category) {
     notFound();
   }
 
-  // Parse filters from search params
+  // Parse filters from search params + path params
   const filters: FilterOptions = {
-    colors: searchParams.color ? searchParams.color.split(',') : undefined,
+    colors: [params.color], // Color comes from URL path
     size: searchParams.size,
     priceMin: searchParams.price_min ? parseFloat(searchParams.price_min) : undefined,
     priceMax: searchParams.price_max ? parseFloat(searchParams.price_max) : undefined,
@@ -63,6 +68,11 @@ export default function CategoryPage({ params, searchParams }: PageProps) {
   const availableSizes = getAvailableSizes(params.category);
   const filterCounts = getFilterCounts(params.category, filters);
 
+  // Validate that the color exists in this category
+  if (!availableColors.includes(params.color.toLowerCase())) {
+    notFound();
+  }
+
   // Filter and sort products
   let products = getProductsByCategory(params.category);
   products = filterProducts(products, filters);
@@ -71,21 +81,55 @@ export default function CategoryPage({ params, searchParams }: PageProps) {
   const currentPage = parseInt(searchParams.page || '1');
   const { products: paginatedProducts, totalPages } = paginateProducts(products, currentPage);
 
+  // Query param equivalent URL for comparison
+  const queryParamUrl = `/catalog/${params.category}?color=${params.color}`;
+
   return (
     <div className="min-h-screen bg-slate-50">
-      <Breadcrumbs items={[{ label: 'Catalog', href: '/catalog' }, { label: category.name, href: `/catalog/${params.category}` }]} />
+      <Breadcrumbs 
+        items={[
+          { label: 'Catalog', href: '/catalog' }, 
+          { label: category.name, href: `/catalog/${params.category}` },
+          { label: `${params.color} ${category.name}`, href: `/catalog/${params.category}/by-color/${params.color}` }
+        ]} 
+      />
 
       <div className="container mx-auto px-4 py-12 max-w-7xl">
+        {/* Clean Path Info Banner */}
+        <Alert className="mb-6 border-green-200 bg-green-50">
+          <Info className="h-4 w-4 text-green-600" />
+          <AlertDescription className="text-green-800">
+            <div className="space-y-2">
+              <div>
+                <strong>✓ Clean Path URL Strategy:</strong> This page uses a semantic, SEO-friendly URL structure 
+                (<code className="bg-green-100 px-1 py-0.5 rounded">/catalog/t-shirts/by-color/black/</code>) 
+                instead of query parameters (<code className="bg-green-100 px-1 py-0.5 rounded">?color=black</code>).
+              </div>
+              <div className="text-sm">
+                <strong>SEO Benefits:</strong> Clean paths are <strong>index,follow</strong>, included in sitemap, 
+                and provide clear keyword signals. Single stable filters like color are ideal for this approach.
+              </div>
+              <Link href={queryParamUrl}>
+                <Button variant="outline" size="sm" className="mt-2 text-green-800 border-green-300 hover:bg-green-100">
+                  Compare with Query Param Version <ArrowRight className="w-3 h-3 ml-1" />
+                </Button>
+              </Link>
+            </div>
+          </AlertDescription>
+        </Alert>
+
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-4xl font-bold mb-3">{category.name}</h1>
-          <p className="text-lg text-slate-600">{category.description}</p>
+          <h1 className="text-4xl font-bold mb-3 capitalize">
+            {params.color} {category.name}
+          </h1>
+          <p className="text-lg text-slate-600">
+            {category.description} - Filtered by {params.color}
+          </p>
           <p className="text-sm text-slate-500 mt-2">
             Showing {paginatedProducts.length} of {products.length} products
           </p>
         </div>
-
-        <DemoChips basePath={`/catalog/${params.category}`} />
 
         {/* Two-column layout: Sidebar + Main Content */}
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
@@ -149,7 +193,7 @@ export default function CategoryPage({ params, searchParams }: PageProps) {
                     {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
                       <Link
                         key={page}
-                        href={`/catalog/${params.category}?${new URLSearchParams({ ...searchParams, page: page.toString() }).toString()}`}
+                        href={`/catalog/${params.category}/by-color/${params.color}?${new URLSearchParams({ ...searchParams, page: page.toString() }).toString()}`}
                       >
                         <Button variant={page === currentPage ? 'default' : 'outline'} size="sm">
                           {page}
@@ -168,7 +212,7 @@ export default function CategoryPage({ params, searchParams }: PageProps) {
                   Try adjusting your filters to see more results
                 </p>
                 <Link href={`/catalog/${params.category}`}>
-                  <Button variant="outline">Clear All Filters</Button>
+                  <Button variant="outline">View All {category.name}</Button>
                 </Link>
               </div>
             )}
@@ -178,3 +222,4 @@ export default function CategoryPage({ params, searchParams }: PageProps) {
     </div>
   );
 }
+
