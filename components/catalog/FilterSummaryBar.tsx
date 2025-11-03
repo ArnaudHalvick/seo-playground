@@ -23,9 +23,51 @@ export function FilterSummaryBar({
   priceRange,
 }: FilterSummaryBarProps) {
   const router = useRouter();
+  const pathname = `/shop/${category}`;
+  const searchParams = new URLSearchParams(
+    typeof window !== 'undefined' ? window.location.search : ''
+  );
   
   const handleClearAll = () => {
-    router.push(`/shop/${category}`);
+    router.push(pathname);
+  };
+
+  const removeFilter = (type: "color" | "size" | "price" | "sort", value?: string) => {
+    const params = new URLSearchParams(
+      typeof window !== 'undefined' ? window.location.search : ''
+    );
+
+    switch (type) {
+      case "color":
+        if (value && filters.colors) {
+          const newColors = filters.colors.filter((c) => c !== value);
+          if (newColors.length > 0) {
+            params.set("color", newColors.join(","));
+          } else {
+            params.delete("color");
+          }
+        }
+        break;
+
+      case "size":
+        params.delete("size");
+        break;
+
+      case "price":
+        params.delete("price_min");
+        params.delete("price_max");
+        break;
+
+      case "sort":
+        params.delete("sort");
+        break;
+    }
+
+    // Reset to page 1
+    params.delete("page");
+
+    const queryString = params.toString();
+    router.push(`${pathname}${queryString ? `?${queryString}` : ""}`);
   };
   // Check if any filters are active
   const hasColorFilters = filters.colors && filters.colors.length > 0;
@@ -64,29 +106,57 @@ export function FilterSummaryBar({
             
             {/* Color filters */}
             {hasColorFilters && filters.colors!.map((color) => (
-              <Badge key={color} variant="secondary" className="capitalize">
+              <Badge key={color} variant="secondary" className="capitalize pl-3 pr-1 py-1 flex items-center gap-1">
                 {color}
+                <button
+                  onClick={() => removeFilter("color", color)}
+                  className="ml-1 p-0.5 hover:bg-gray-300 rounded-full transition-colors"
+                  aria-label={`Remove ${color} filter`}
+                >
+                  <X className="w-3 h-3" />
+                </button>
               </Badge>
             ))}
             
             {/* Size filter */}
             {hasSizeFilter && (
-              <Badge variant="secondary">
+              <Badge variant="secondary" className="pl-3 pr-1 py-1 flex items-center gap-1">
                 Size: {filters.size}
+                <button
+                  onClick={() => removeFilter("size")}
+                  className="ml-1 p-0.5 hover:bg-gray-300 rounded-full transition-colors"
+                  aria-label="Remove size filter"
+                >
+                  <X className="w-3 h-3" />
+                </button>
               </Badge>
             )}
             
             {/* Price range filter */}
             {hasPriceFilter && (
-              <Badge variant="secondary">
+              <Badge variant="secondary" className="pl-3 pr-1 py-1 flex items-center gap-1">
                 ${filters.priceMin ?? priceRange.min} - ${filters.priceMax ?? priceRange.max}
+                <button
+                  onClick={() => removeFilter("price")}
+                  className="ml-1 p-0.5 hover:bg-gray-300 rounded-full transition-colors"
+                  aria-label="Remove price filter"
+                >
+                  <X className="w-3 h-3" />
+                </button>
               </Badge>
             )}
             
             {/* Sort */}
             {hasSort && (
-              <Badge variant="secondary">
+              <Badge variant="secondary" className="pl-3 pr-1 py-1 flex items-center gap-1">
                 {getSortLabel(sort!)}
+                <button
+                  onClick={() => removeFilter("sort")}
+                  className="ml-1 p-0.5 hover:bg-gray-300 rounded-full transition-colors"
+                  aria-label="Remove sort filter"
+                >
+                  <X className="w-3 h-3" />
+                </button>
               </Badge>
             )}
             

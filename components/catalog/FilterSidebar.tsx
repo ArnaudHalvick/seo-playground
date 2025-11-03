@@ -191,9 +191,31 @@ export function FilterSidebar({
     <div className="space-y-6">
       {/* Color Filter */}
       <div>
-        <h3 className="font-semibold mb-3 flex items-center gap-2">
-          <span className="text-lg">🎨</span> Color
-        </h3>
+        <div className="flex items-center justify-between mb-3">
+          <h3 className="font-semibold flex items-center gap-2">
+            <span className="text-lg">🎨</span> Color
+          </h3>
+          {selectedColors.length > 0 && (
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => {
+                setSelectedColors([]);
+                updateUrl({
+                  colors: [],
+                  size: selectedSize,
+                  priceMin: currentFilters.priceMin,
+                  priceMax: currentFilters.priceMax,
+                  sort: sortBy,
+                });
+              }}
+              className="h-7 text-xs"
+            >
+              <X className="w-3 h-3 mr-1" />
+              Clear
+            </Button>
+          )}
+        </div>
         <div className="space-y-2">
           {availableColors.map((color) => {
             const count = filterCounts.colors[color] || 0;
@@ -231,9 +253,31 @@ export function FilterSidebar({
 
       {/* Size Filter */}
       <div>
-        <h3 className="font-semibold mb-3 flex items-center gap-2">
-          <span className="text-lg">📏</span> Size
-        </h3>
+        <div className="flex items-center justify-between mb-3">
+          <h3 className="font-semibold flex items-center gap-2">
+            <span className="text-lg">📏</span> Size
+          </h3>
+          {selectedSize && (
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => {
+                setSelectedSize(undefined);
+                updateUrl({
+                  colors: selectedColors,
+                  size: undefined,
+                  priceMin: currentFilters.priceMin,
+                  priceMax: currentFilters.priceMax,
+                  sort: sortBy,
+                });
+              }}
+              className="h-7 text-xs"
+            >
+              <X className="w-3 h-3 mr-1" />
+              Clear
+            </Button>
+          )}
+        </div>
         <RadioGroup value={selectedSize || ""} onValueChange={handleSizeChange}>
           <div className="grid grid-cols-2 gap-2">
             {availableSizes.map((size) => {
@@ -274,20 +318,68 @@ export function FilterSidebar({
       <Separator />
 
       {/* Price Range Filter */}
-      <PriceRangeFilter
-        initialMin={currentFilters.priceMin}
-        initialMax={currentFilters.priceMax}
-        priceRange={filterCounts.priceRange}
-        onApply={handlePriceApply}
-      />
+      <div>
+        <div className="flex items-center justify-between mb-3">
+          <h3 className="font-semibold flex items-center gap-2">
+            <span className="text-lg">💰</span> Price Range
+          </h3>
+          {hasPriceFilter && (
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => {
+                updateUrl({
+                  colors: selectedColors,
+                  size: selectedSize,
+                  priceMin: undefined,
+                  priceMax: undefined,
+                  sort: sortBy,
+                });
+              }}
+              className="h-7 text-xs"
+            >
+              <X className="w-3 h-3 mr-1" />
+              Clear
+            </Button>
+          )}
+        </div>
+        <PriceRangeFilter
+          initialMin={currentFilters.priceMin}
+          initialMax={currentFilters.priceMax}
+          priceRange={filterCounts.priceRange}
+          onApply={handlePriceApply}
+        />
+      </div>
 
       <Separator />
 
       {/* Sort Filter */}
       <div>
-        <h3 className="font-semibold mb-3 flex items-center gap-2">
-          <span className="text-lg">🔄</span> Sort By
-        </h3>
+        <div className="flex items-center justify-between mb-3">
+          <h3 className="font-semibold flex items-center gap-2">
+            <span className="text-lg">🔄</span> Sort By
+          </h3>
+          {sortBy !== "popularity" && (
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => {
+                setSortBy("popularity");
+                updateUrl({
+                  colors: selectedColors,
+                  size: selectedSize,
+                  priceMin: currentFilters.priceMin,
+                  priceMax: currentFilters.priceMax,
+                  sort: "popularity",
+                });
+              }}
+              className="h-7 text-xs"
+            >
+              <X className="w-3 h-3 mr-1" />
+              Clear
+            </Button>
+          )}
+        </div>
         <Select value={sortBy} onValueChange={handleSortChange}>
           <SelectTrigger>
             <SelectValue placeholder="Sort by..." />
@@ -345,11 +437,6 @@ export function FilterSidebar({
             <CardTitle className="flex items-center gap-2">
               <SlidersHorizontal className="w-5 h-5" />
               Filters
-              {activeFilterCount > 0 && (
-                <Badge variant="secondary" className="ml-auto">
-                  {activeFilterCount}
-                </Badge>
-              )}
             </CardTitle>
           </CardHeader>
           <CardContent>

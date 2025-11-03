@@ -80,9 +80,6 @@ export function PriceRangeFilter({
 
   return (
     <div>
-      <h3 className="font-semibold mb-3 flex items-center gap-2">
-        <span className="text-lg">💰</span> Price Range
-      </h3>
       <div className="space-y-3">
         <div>
           <Label htmlFor="price-min" className="text-sm text-gray-600 mb-1 block">
