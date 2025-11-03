@@ -176,6 +176,395 @@ if (toggles.blogFilters?.enabled) {
 3. Check if robots.txt blocks it
 4. Verify warning shows in Receipt
 
+## Adding New Filter Types
+
+The filter system is designed to be extensible. Here's how to add a new filter type (e.g., "brand"):
+
+### Step 1: Update Product Data Model
+
+**File:** `lib/catalog/data.ts`
+
+```typescript
+export interface Product {
+  // ... existing fields
+  brand?: string;  // Add new field
+}
+
+export interface FilterOptions {
+  // ... existing fields
+  brand?: string;  // Add to filter options
+}
+```
+
+Update sample products in `data/catalog.json`:
+```json
+{
+  "id": "1",
+  "name": "Classic White T-Shirt",
+  "brand": "Nike",
+  ...
+}
+```
+
+### Step 2: Update Filter Function
+
+**File:** `lib/catalog/data.ts`
+
+```typescript
+export function filterProducts(products: Product[], filters: FilterOptions): Product[] {
+  let filtered = products;
+  
+  // ... existing filters (color, size, price)
+  
+  // Add brand filter
+  if (filters.brand) {
+    filtered = filtered.filter(p => p.brand === filters.brand);
+  }
+  
+  return filtered;
+}
+```
+
+### Step 3: Add to FilterCounts
+
+```typescript
+export interface FilterCounts {
+  colors: Record<string, number>;
+  sizes: Record<string, number>;
+  priceRange: { min: number; max: number };
+  brands: Record<string, number>;  // Add this
+}
+
+export function getFilterCounts(
+  categorySlug: string,
+  currentFilters: FilterOptions = {}
+): FilterCounts {
+  // ... existing code ...
+  
+  // Count brands
+  const brandCounts: Record<string, number> = {};
+  const filtersWithoutBrand = { ...currentFilters, brand: undefined };
+  const productsForBrandCount = filterProducts(allProducts, filtersWithoutBrand);
+  
+  productsForBrandCount.forEach(product => {
+    if (product.brand) {
+      const brand = product.brand.toLowerCase();
+      brandCounts[brand] = (brandCounts[brand] || 0) + 1;
+    }
+  });
+  
+  return {
+    colors: colorCounts,
+    sizes: sizeCounts,
+    priceRange,
+    brands: brandCounts,  // Add this
+  };
+}
+
+// Add helper function
+export function getAvailableBrands(categorySlug: string): string[] {
+  const products = getProductsByCategory(categorySlug);
+  const brands = new Set<string>();
+  
+  products.forEach(product => {
+    if (product.brand) {
+      brands.add(product.brand.toLowerCase());
+    }
+  });
+  
+  return Array.from(brands).sort();
+}
+```
+
+### Step 4: Add to FilterSidebar UI
+
+**File:** `components/catalog/FilterSidebar.tsx`
+
+```typescript
+interface FilterSidebarProps {
+  // ... existing props
+  availableBrands: string[];  // Add this
+}
+
+export function FilterSidebar({
+  category,
+  filterCounts,
+  currentFilters,
+  availableColors,
+  availableSizes,
+  availableBrands,  // Add this
+}: FilterSidebarProps) {
+  const [selectedBrand, setSelectedBrand] = useState<string | undefined>(currentFilters.brand);
+  
+  const handleBrandChange = (brand: string) => {
+    const newBrand = brand === selectedBrand ? undefined : brand;
+    setSelectedBrand(newBrand);
+    updateUrl({ 
+      colors: selectedColors, 
+      size: selectedSize, 
+      brand: newBrand,  // Add this
+      priceMin: priceRange[0], 
+      priceMax: priceRange[1], 
+      sort: sortBy 
+    });
+  };
+  
+  return (
+    <div>
+      {/* ... existing filters ... */}
+      
+      {/* Brand Filter */}
+      <div>
+        <h3 className="font-semibold mb-3 flex items-center gap-2">
+          <span className="text-lg">🏷️</span> Brand
+        </h3>
+        <RadioGroup value={selectedBrand || ""} onValueChange={handleBrandChange}>
+          <div className="grid grid-cols-1 gap-2">
+            {availableBrands.map((brand) => {
+              const count = filterCounts.brands[brand] || 0;
+              const isDisabled = count === 0;
+              
+              return (
+                <div
+                  key={brand}
+                  className={`flex items-center space-x-2 p-2 rounded border ${
+                    selectedBrand === brand
+                      ? "bg-primary text-primary-foreground"
+                      : isDisabled
+                      ? "bg-gray-50 text-gray-400"
+                      : "hover:bg-gray-50 cursor-pointer"
+                  }`}
+                  onClick={() => !isDisabled && handleBrandChange(brand)}
+                >
+                  <RadioGroupItem value={brand} id={`brand-${brand}`} disabled={isDisabled} />
+                  <Label htmlFor={`brand-${brand}`} className="flex-1 cursor-pointer capitalize">
+                    {brand} ({count})
+                  </Label>
+                </div>
+              );
+            })}
+          </div>
+        </RadioGroup>
+      </div>
+    </div>
+  );
+}
+```
+
+### Step 5: Update Category Page
+
+**File:** `app/catalog/[category]/page.tsx`
+
+```typescript
+export default function CategoryPage({ params, searchParams }: PageProps) {
+  // ... existing code ...
+  
+  const filters: FilterOptions = {
+    colors: colorsArray,
+    size: searchParams.size,
+    brand: searchParams.brand,  // Add this
+    priceMin: priceMin,
+    priceMax: priceMax,
+  };
+  
+  const availableBrands = getAvailableBrands(params.category);  // Add this
+  
+  return (
+    <div>
+      <FilterSidebar
+        category={params.category}
+        filterCounts={filterCounts}
+        currentFilters={filters}
+        availableColors={availableColors}
+        availableSizes={availableSizes}
+        availableBrands={availableBrands}  // Add this
+      />
+    </div>
+  );
+}
+```
+
+### Step 6: Update SEO Logic (Optional)
+
+**File:** `data/rules.json`
+
+Decide parameter policy:
+```json
+{
+  "rules": [
+    {
+      "name": "brand",
+      "policy": "stable",
+      "description": "Brand filter creates unique product subsets that should be indexed."
+    }
+  ]
+}
+```
+
+Or mark as unstable if you don't want brand combinations indexed:
+```json
+{
+  "name": "brand",
+  "policy": "unstable",
+  "description": "Brand filter creates UI sorting, use noindex,follow."
+}
+```
+
+### Step 7: Test
+
+1. Restart dev server: `npm run dev`
+2. Navigate to `/catalog/t-shirts`
+3. Select a brand from the new filter
+4. Verify URL updates: `?brand=nike`
+5. Check SEO Receipt for correct indexability
+6. Verify product counts update correctly
+
+## Creating Clean Path Routes
+
+To add clean path routes for your new filter type:
+
+### Option 1: Single-Level Clean Path
+
+**File:** `app/catalog/[category]/by-brand/[brand]/page.tsx`
+
+```typescript
+import { notFound } from 'next/navigation';
+import { getCategoryBySlug, filterProducts, getAvailableBrands } from '@/lib/catalog/data';
+
+interface PageProps {
+  params: {
+    category: string;
+    brand: string;
+  };
+}
+
+export async function generateStaticParams({ params }: { params: { category: string } }) {
+  const brands = getAvailableBrands(params.category);
+  
+  return brands.map(brand => ({
+    brand: brand.toLowerCase(),
+  }));
+}
+
+export default function BrandCleanPathPage({ params }: PageProps) {
+  const category = getCategoryBySlug(params.category);
+  const availableBrands = getAvailableBrands(params.category);
+  
+  if (!category || !availableBrands.includes(params.brand)) {
+    notFound();
+  }
+  
+  const products = filterProducts(category.products, { brand: params.brand });
+  
+  return (
+    <div>
+      <h1>{params.brand} {category.name}</h1>
+      {/* Product grid */}
+    </div>
+  );
+}
+```
+
+**Route**: `/catalog/t-shirts/by-brand/nike/`
+
+**Why `by-brand/` prefix?** Prevents routing conflicts with `[product]` routes, just like `by-color/`.
+
+### Option 2: Two-Level Clean Path (Advanced)
+
+**File:** `app/catalog/[category]/by-brand/[brand]/color/[color]/page.tsx`
+
+```typescript
+export async function generateStaticParams({ params }) {
+  const brands = getAvailableBrands(params.category);
+  const colors = getAvailableColors(params.category);
+  
+  const combinations: { brand: string; color: string }[] = [];
+  
+  for (const brand of brands) {
+    for (const color of colors) {
+      const products = filterProducts(
+        getProductsByCategory(params.category),
+        { brand, color }
+      );
+      
+      // Only generate if products exist for this combination
+      if (products.length > 0) {
+        combinations.push({ brand, color });
+      }
+    }
+  }
+  
+  return combinations;
+}
+```
+
+**Route**: `/catalog/t-shirts/by-brand/nike/color/black/`
+
+**SEO Note**: Two-level clean paths should still use `noindex,follow` for the same reasons as query param combinations (N×M bloat).
+
+## Customizing Crawl Trap Detection
+
+The crawl trap risk assessment logic is in `components/SeoReceipt.tsx` → `getCrawlTrapRisk()`.
+
+### Adding Custom Risk Patterns
+
+```typescript
+function getCrawlTrapRisk(
+  inputUrl: string,
+  result: CanonicalResult,
+  evaluated: EvaluatedParams
+): CrawlTrapRisk | null {
+  // ... existing multi-select detection ...
+  
+  // Add custom pattern: Date range detection
+  const hasDateRange = 
+    searchParams.has('start_date') && 
+    searchParams.has('end_date');
+  
+  if (hasDateRange) {
+    return {
+      level: "high",
+      icon: "🔴",
+      message: "⚠️ High crawl trap risk — date ranges create infinite URL combinations",
+      explanation: "Date parameters like ?start_date=2024-01-01&end_date=2024-12-31 can generate millions of URLs. Consider blocking via robots.txt or using a date picker that limits to specific presets.",
+      robotsTxtSuggestion: `Disallow: /*?*start_date=*`
+    };
+  }
+  
+  // ... rest of function ...
+}
+```
+
+### Adding Risk Levels
+
+You can add new risk levels between medium and high:
+
+```typescript
+// Medium-High Risk: Single unstable + pagination
+if (evaluated.unstableParams.size === 1 && evaluated.pagination.isPaginated) {
+  return {
+    level: "medium-high",  // Custom level
+    icon: "🟠",
+    message: "Medium-high crawl trap risk — unstable param with pagination",
+    explanation: "Sorting with pagination creates N×P URLs. Example: 5 sorts × 10 pages = 50 URLs."
+  };
+}
+```
+
+Then update the color coding in the render section:
+
+```tsx
+const getRiskColor = (level: string) => {
+  switch (level) {
+    case "high": return "text-red-600 bg-red-50 border-red-200";
+    case "medium-high": return "text-orange-600 bg-orange-50 border-orange-200";
+    case "medium": return "text-yellow-600 bg-yellow-50 border-yellow-200";
+    case "low": return "text-green-600 bg-green-50 border-green-200";
+    default: return "text-gray-600 bg-gray-50 border-gray-200";
+  }
+};
+```
+
 ## Modifying SEO Logic
 
 The core SEO logic is in `lib/rules/canonical.ts` → `computeCanonical()`.

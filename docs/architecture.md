@@ -33,9 +33,12 @@ The application is built using a **layered architecture** with clear separation 
 - **Pages** (`app/`): Next.js 13 App Router pages
   - Server-side rendering for catalog pages
   - Client-side interactivity for SEO receipt
+  - Clean path routes for SEO-friendly URLs
 - **UI Components** (`components/`): Reusable React components
-  - `SeoReceipt.tsx`: Real-time SEO feedback panel
+  - `SeoReceipt.tsx`: Real-time SEO feedback panel with crawl trap risk
   - `DemoChips.tsx`: Interactive parameter demo buttons
+  - `catalog/FilterSidebar.tsx`: Production-ready e-commerce filter interface
+  - `catalog/FilterSummaryBar.tsx`: Sticky bar showing all active filters
   - `ui/`: shadcn/ui component library
 
 **Technologies**:
@@ -56,9 +59,11 @@ The heart of the application, responsible for all SEO decisions:
 
 - **`canonical.ts`**: Main decision engine
   - Computes canonical URLs
+  - Detects multi-select parameters (exponential combinations)
+  - Handles multi-filter logic (2+ stable parameters)
   - Determines robots directives
   - Decides sitemap inclusion
-  - Returns complete decision trace
+  - Returns complete decision trace with risk assessment
 
 - **`params.ts`**: Parameter classification
   - Classifies parameters as stable/unstable/blocked/search
@@ -66,8 +71,9 @@ The heart of the application, responsible for all SEO decisions:
   - Provides parameter rules and mappings
 
 - **`robots.ts`**: Robots.txt generation
-  - Generates robots.txt content
+  - Generates robots.txt content with best-practice patterns
   - Checks if URLs match blocking patterns
+  - Detects multi-select patterns (comma-separated values)
   - Provides warnings for risky patterns
 
 - **`sitemap.ts`**: Sitemap generation
@@ -81,6 +87,14 @@ The heart of the application, responsible for all SEO decisions:
   - Loads default config from `data/rules.json`
   - Merges with browser localStorage
   - Provides config to all components
+
+#### Catalog Management (`lib/catalog/`)
+
+- **`data.ts`**: Product data and filtering logic
+  - Product filtering by color, size, price range
+  - Multi-select color support with comma-separated values
+  - Filter count calculation for sidebar display
+  - Product sorting and pagination
 
 #### Utilities (`lib/utils/`)
 
@@ -421,6 +435,263 @@ Use the demo chips to verify:
 - Each parameter combination
 - Robots.txt patterns
 - Sitemap inclusion logic
+
+## Filter System Architecture
+
+### Component Hierarchy
+
+```
+FilterSidebar (client component)
+├── Color Checkboxes (multi-select)
+│   ├── Checkbox per color
+│   └── Product count per color
+├── Size Radio Buttons (single-select)
+│   ├── RadioGroupItem per size
+│   └── Product count per size
+├── Price Range Slider (numeric range)
+│   ├── Dual-handle slider
+│   └── Debounced updates (500ms)
+├── Sort Dropdown (single-select)
+│   └── Select component with options
+└── Clear All Button
+    └── Resets to base category URL
+```
+
+### State Management Flow
+
+1. **User interacts** with filter UI (checkbox, slider, dropdown)
+2. **Local state updates** immediately (optimistic UI, instant feedback)
+3. **Debounce timer** starts (for price slider only, 500ms delay)
+4. **URL updates** via `router.push()` with new search params
+5. **Next.js re-renders** page with new searchParams prop
+6. **Server component** fetches filtered products from data layer
+7. **Product grid updates** with new results
+8. **Filter counts recalculate** based on new product set
+
+### URL Synchronization
+
+All filter state lives in the URL as search parameters:
+
+- `?color=black,blue` - Multi-select colors (comma-separated)
+- `?size=M` - Single size selection
+- `?price_min=20&price_max=50` - Numeric range filters
+- `?sort=price_asc` - Sort option
+- `?page=2` - Pagination state
+
+**Benefits**:
+- ✅ Shareable URLs - Users can share filtered views
+- ✅ Browser back/forward works - Navigation history preserved
+- ✅ SEO-analyzable - Crawlers see real URLs
+- ✅ No client state to sync - URL is single source of truth
+- ✅ Deep linking - Direct access to any filtered state
+
+### Filter Count Calculation
+
+`getFilterCounts()` function computes available options dynamically:
+
+```typescript
+// Exclude current color filter to show all color options
+const filtersWithoutColors = { ...currentFilters, colors: undefined };
+const productsForColorCount = filterProducts(allProducts, filtersWithoutColors);
+
+// Count products per color
+productsForColorCount.forEach(product => {
+  colorCounts[product.color] = (colorCounts[product.color] || 0) + 1;
+});
+```
+
+This ensures filter options show accurate product counts based on other active filters.
+
+### Debouncing Strategy
+
+Price slider uses debouncing to avoid excessive URL updates:
+
+```typescript
+const handlePriceChange = (value: number[]) => {
+  setPriceRange([value[0], value[1]]);  // Immediate UI update
+  
+  if (priceDebounceTimer) {
+    clearTimeout(priceDebounceTimer);  // Cancel pending update
+  }
+  
+  const timer = setTimeout(() => {
+    updateUrl({ priceMin: value[0], priceMax: value[1] });  // Update after 500ms
+  }, 500);
+  
+  setPriceDebounceTimer(timer);
+};
+```
+
+**Why**: Sliders trigger many events during dragging. Debouncing prevents excessive re-renders and history entries.
+
+## Clean Path Routing Strategy
+
+### File Structure
+
+```
+app/catalog/[category]/
+├── page.tsx                     # Category page with filters
+├── [product]/page.tsx           # Individual product pages
+└── by-color/[color]/page.tsx    # Clean path color filter
+```
+
+**Important**: The `by-color/` prefix is required to avoid routing conflicts with `[product]`. Without it, Next.js cannot distinguish between `/catalog/t-shirts/black` (product?) and `/catalog/t-shirts/black` (color filter?).
+
+### Static Generation
+
+Clean path pages use `generateStaticParams` for pre-rendering:
+
+```typescript
+export async function generateStaticParams({ params }: { params: { category: string } }) {
+  const category = getCategoryBySlug(params.category);
+  const colors = getAvailableColors(params.category);
+  
+  return colors.map(color => ({
+    color: color.toLowerCase(),
+  }));
+}
+```
+
+**Result**: 16+ pages pre-generated at build time (2 categories × 8 colors).
+
+### Path Parameter Validation
+
+Clean paths validate color parameters against available colors:
+
+```typescript
+const availableColors = getAvailableColors(params.category);
+if (!availableColors.includes(params.color)) {
+  notFound();  // 404 if color doesn't exist
+}
+```
+
+### Query Params vs Clean Paths
+
+| Aspect | Query Params | Clean Paths |
+|--------|-------------|-------------|
+| URL | `/catalog/t-shirts?color=black` | `/catalog/t-shirts/by-color/black/` |
+| SEO | Good (if single stable filter) | Better (more semantic) |
+| UX | Less readable | More readable |
+| Flexibility | High (any combination) | Low (pre-defined only) |
+| Generation | Dynamic | Static (build time) |
+| **Use Case** | Multi-filter, sorting, ranges | Single high-value filters |
+
+## Multi-Select Detection Logic
+
+### Detection Method
+
+Comma-separated values in URL parameters indicate multi-select:
+
+```typescript
+const multiSelectDetected = Array.from(searchParams.entries())
+  .some(([key, value]) => value.includes(','));
+
+// Examples:
+// ?color=black,blue → multiSelectDetected = true
+// ?color=black      → multiSelectDetected = false
+```
+
+### Exponential Combination Math
+
+Multi-select creates 2^N URL combinations:
+
+```
+2 colors: black, blue
+Combinations: [], [black], [blue], [black,blue]
+Total: 2^2 = 4 URLs
+
+3 colors: black, blue, red
+Combinations: [], [black], [blue], [red], [black,blue], [black,red], [blue,red], [black,blue,red]
+Total: 2^3 = 8 URLs
+
+5 colors selected: 2^5 = 32 URLs
+10 colors selected: 2^10 = 1,024 URLs
+```
+
+### SEO Treatment
+
+When multi-select is detected:
+
+```typescript
+robots = undefined;  // No meta robots tag (crawlers blocked anyway)
+blockInRobots = true;  // Block via robots.txt
+sitemapIncluded = false;  // Exclude from sitemap
+
+// robots.txt pattern
+Disallow: /*?*color=*,*  // Blocks any URL with comma in color param
+```
+
+**Rationale**: Exponential combinations waste massive crawl budget. robots.txt blocking is the only scalable solution.
+
+### Integration with canonical.ts
+
+Multi-select detection happens early in the decision flow (Step 6):
+
+```typescript
+// Step 6: Check robots.txt blocking (includes multi-select detection)
+const multiSelectDetected = Array.from(searchParams.entries())
+  .some(([key, value]) => value.includes(','));
+
+if (multiSelectDetected) {
+  robots = undefined;
+  blockInRobots = true;
+  sitemapIncluded = false;
+  trace.push(`✓ Multi-select detected → blocked by robots.txt`);
+  trace.push(`  Pattern: Disallow: /*?*${param}=*,*`);
+}
+```
+
+## Crawl Trap Risk Assessment
+
+### Risk Level Determination
+
+The `getCrawlTrapRisk()` function in `SeoReceipt.tsx` analyzes URL patterns:
+
+**🔴 High Risk**:
+- Multi-select parameters: `2^N` combinations
+- Blocked parameters with examples: `N×M×...` potential combinations
+- Infinite ranges: Calendar dates, arbitrary numbers
+
+**🟡 Medium Risk**:
+- 2+ stable parameters: `N×M` combinations (e.g., 5 colors × 4 sizes = 20 URLs)
+- 3+ parameters (any type): Exponential growth risk
+- Single unstable parameter: Creates duplicate content
+
+**🟢 Low Risk**:
+- Single stable parameter: Linear growth, manageable
+- No parameters: Base page, safe
+
+### Risk Calculation Examples
+
+```typescript
+// High risk: Multi-select with math
+{
+  level: "high",
+  message: "⚠️ High crawl trap risk — multi-select creates exponential combinations",
+  explanation: `Multi-select creates 2^N combinations. With 3 options: 2^3 = 8 URLs.`,
+  robotsTxtSuggestion: `Disallow: /*?*color=*,*`
+}
+
+// Medium risk: Multiple stable filters
+{
+  level: "medium",
+  message: "⚠️ Medium crawl trap risk — multiple filters create N×M combinations",
+  explanation: `5 colors × 4 sizes = 20 URL variations. Risk of index bloat.`
+}
+```
+
+### Integration with SEO Receipt
+
+Risk assessment displays prominently in the receipt:
+
+```
+Crawl Trap Risk
+────────────────
+🔴 High Risk
+⚠️ Multi-select creates exponential combinations
+Explanation: 2^3 = 8 possible URLs
+robots.txt: Disallow: /*?*color=*,*
+```
 
 ## Deployment
 

@@ -8,17 +8,19 @@ All SEO decisions flow through the `computeCanonical()` function in `lib/rules/c
 
 ## The Decision Flow
 
-Every URL goes through exactly 8 steps in order:
+Every URL goes through exactly 10 steps in order:
 
 ```
 1. Normalize Path
 2. Classify Parameters
 3. Detect Pagination
 4. Check Protected Routes
-5. Apply Parameter Policies
-6. Check robots.txt Blocking
-7. Build Canonical URL
-8. Determine Sitemap Inclusion
+5. Check robots.txt Blocking
+6. Detect Multi-Select Parameters
+7. Apply Multi-Filter Logic
+8. Apply Parameter Policies
+9. Build Canonical URL
+10. Determine Sitemap Inclusion
 ```
 
 ### Step 1: Normalize Path
@@ -150,9 +152,9 @@ if (evaluated.unstableParams.size > 0) {
 → Canonical: /catalog/t-shirts/ (view dropped)
 ```
 
-### Step 6: Check robots.txt Blocking
+### Step 5: Check robots.txt Blocking
 
-**Purpose**: Apply robots.txt disallow patterns
+**Purpose**: Apply robots.txt disallow patterns for tracking parameters
 
 **Logic**:
 ```typescript
@@ -166,20 +168,98 @@ if (robotsCheck.isBlocked) {
 
 **Blocking Patterns**:
 1. **Protected paths**: `/account/`, `/api/`
-2. **Tracking params**: `?utm_source=*`, `?gclid=*`, etc.
-3. **UI prefs**: `?view=*`, `?per_page=*`
-4. **Optional patterns** (discouraged):
-   - Sort blocking: `?sort=*` (risky)
-   - Stacked blocking: `?sort=*&color=*` (risky)
+2. **Tracking params**: `?utm_source=*`, `?gclid=*`, `?fbclid=*`
+3. **UI preferences**: `?view=*`, `?per_page=*`
+4. **Price range params**: `?price_min=*`, `?price_max=*` (infinite combinations)
 
-**Warning System**:
-When risky patterns are enabled, warnings are added:
-```
-"Discovery risk: Blocking sort can prevent finding deeper
-paginated content. Use noindex,follow instead."
+### Step 6: Detect Multi-Select Parameters
+
+**Purpose**: Detect exponential URL combinations from comma-separated values
+
+**Logic**:
+```typescript
+const multiSelectDetected = Array.from(searchParams.entries())
+  .some(([key, value]) => value.includes(','));
+
+if (multiSelectDetected) {
+  robots = undefined;  // No meta tag needed (blocked by robots.txt)
+  blockInRobots = true;
+  sitemapIncluded = false;
+  trace.push(`✓ Multi-select detected (exponential combinations) → blocked by robots.txt`);
+  trace.push(`  Pattern: Disallow: /*?*color=*,*`);
+  trace.push(`  Prevents 2^N URL combinations`);
+}
 ```
 
-### Step 7: Build Canonical URL
+**Detection Examples**:
+```
+?color=black,blue → DETECTED (2^2 = 4 combinations)
+?color=black,blue,red → DETECTED (2^3 = 8 combinations)
+?color=black → NOT detected (single value)
+```
+
+**Why Block via robots.txt?**
+- Multi-select creates 2^N exponential growth
+- Example: 10 colors = 2^10 = 1,024 URLs
+- noindex,follow insufficient (crawlers still access all combinations)
+- robots.txt blocking is the ONLY scalable solution
+
+**robots.txt Pattern**:
+```
+Disallow: /*?*color=*,*
+Disallow: /*?*size=*,*
+```
+
+This blocks ANY URL with a comma in the parameter value, preventing exponential crawl waste.
+
+### Step 7: Apply Multi-Filter Logic
+
+**Purpose**: Handle N×M combinations from 2+ stable parameters
+
+**Logic**:
+```typescript
+const stableParamCount = Array.from(evaluated.stableParams).length;
+
+if (stableParamCount >= 2) {
+  robots = 'noindex,follow';
+  sitemapIncluded = false;
+  trace.push(`✓ Multiple stable filters (${stableParamCount}) → noindex,follow`);
+  trace.push(`  Creates N×M combinations, risk of index bloat`);
+  trace.push(`  Example: 5 colors × 4 sizes = 20 URL variations`);
+}
+```
+
+**Examples**:
+```
+?color=black&size=m → 2 stable params → noindex,follow
+5 colors × 4 sizes = 20 URLs → Risk of index bloat
+
+?color=black → 1 stable param → index,follow
+Linear growth, manageable
+```
+
+**Why noindex,follow (not robots block)?**
+- Unlike multi-select, combinations are finite
+- Users may want to access specific combinations
+- noindex prevents index bloat
+- follow allows link discovery
+- Canonical consolidates signals to base URL
+
+### Step 8: Apply Parameter Policies
+
+**Purpose**: Enforce unstable parameter behavior
+
+**Logic**:
+```typescript
+if (evaluated.unstableParams.size > 0 && robots !== 'noindex,follow') {
+  robots = 'noindex,follow';
+  sitemapIncluded = false;
+}
+```
+
+**Note**: This step only applies if multi-filter logic hasn't already set noindex.
+
+### Step 9: Build Canonical URL
 
 **Purpose**: Construct the clean, canonical version
 
@@ -237,7 +317,7 @@ Explanation:
   - Kept: page=2 (self-canonical strategy)
 ```
 
-### Step 8: Determine Sitemap Inclusion
+### Step 10: Determine Sitemap Inclusion
 
 **Purpose**: Decide if URL should be in sitemap
 
@@ -436,6 +516,157 @@ Sitemap: EXCLUDED
 
 Both parameters are problematic and dropped. URL may also be blocked by robots.txt.
 
+## Multi-Select Parameters (Deep Dive)
+
+### What is Multi-Select?
+
+Multi-select occurs when users select multiple values for a single filter type. In URLs, this typically appears as comma-separated values:
+
+```
+?color=black,blue       # 2 colors selected
+?color=black,blue,red   # 3 colors selected
+?size=s,m,l             # 3 sizes selected
+```
+
+### Why is This Problematic?
+
+Multi-select creates **exponential URL combinations** (2^N):
+
+```
+User selects: [black, blue]
+
+Possible URLs:
+1. /catalog/t-shirts                   (neither selected)
+2. /catalog/t-shirts?color=black       (just black)
+3. /catalog/t-shirts?color=blue        (just blue)
+4. /catalog/t-shirts?color=black,blue  (both selected)
+
+Total: 2^2 = 4 URLs
+```
+
+```
+User selects: [black, blue, red]
+
+Possible URLs:
+1. /catalog/t-shirts                         (none)
+2. /catalog/t-shirts?color=black             (just black)
+3. /catalog/t-shirts?color=blue              (just blue)
+4. /catalog/t-shirts?color=red               (just red)
+5. /catalog/t-shirts?color=black,blue        (black+blue)
+6. /catalog/t-shirts?color=black,red         (black+red)
+7. /catalog/t-shirts?color=blue,red          (blue+red)
+8. /catalog/t-shirts?color=black,blue,red    (all three)
+
+Total: 2^3 = 8 URLs
+```
+
+**Real-World Impact**:
+- 5 colors: 2^5 = 32 URLs
+- 10 colors: 2^10 = 1,024 URLs
+- 15 colors: 2^15 = 32,768 URLs
+
+### SEO Strategy for Multi-Select
+
+**Use robots.txt blocking** (NOT noindex,follow):
+
+```
+Disallow: /*?*color=*,*
+Disallow: /*?*size=*,*
+```
+
+**Why robots.txt?**
+- ✅ Prevents crawlers from discovering exponential combinations
+- ✅ Saves massive crawl budget
+- ✅ Scales to any number of options
+- ❌ noindex,follow would still allow crawling (wasteful)
+
+**Implementation**:
+1. Detect comma in parameter value: `value.includes(',')`
+2. Set `blockInRobots = true`
+3. Set `robots = undefined` (no meta tag needed)
+4. Set `sitemapIncluded = false`
+5. Add blocking pattern to robots.txt
+
+### Multi-Select vs Single-Select
+
+| Aspect | Single-Select | Multi-Select |
+|--------|---------------|--------------|
+| URL | `?color=black` | `?color=black,blue` |
+| Combinations | N (linear) | 2^N (exponential) |
+| SEO Strategy | index,follow | robots.txt block |
+| User Value | High | Medium (niche use case) |
+| Crawl Cost | Low | Catastrophic |
+
+## Multiple Stable Parameters (Deep Dive)
+
+### What are Multiple Stable Parameters?
+
+When users apply 2+ stable filters simultaneously:
+
+```
+?color=black&size=m          # 2 stable parameters
+?color=black&size=m&brand=nike  # 3 stable parameters
+```
+
+### Why is This Problematic?
+
+Multiple stable parameters create **N×M combinations**:
+
+```
+5 colors × 4 sizes = 20 URLs
+10 colors × 6 sizes = 60 URLs
+5 colors × 4 sizes × 3 brands = 60 URLs
+```
+
+While not exponential like multi-select, this still creates significant **index bloat**.
+
+### SEO Strategy for Multiple Stable Parameters
+
+**Use noindex,follow** (NOT robots.txt blocking):
+
+```
+URL: /catalog/t-shirts?color=black&size=m
+Robots: noindex,follow
+Canonical: /catalog/t-shirts/ (drops both params)
+Sitemap: EXCLUDED
+```
+
+**Why noindex,follow (not robots block)?**
+- ✅ Combinations are finite and predictable
+- ✅ Users may genuinely want to access specific combinations
+- ✅ Follow allows link discovery
+- ✅ Canonical consolidates signals to base URL
+- ❌ robots.txt would prevent legitimate access
+
+### Single vs Multiple Stable Parameters
+
+| Aspect | Single Stable | Multiple Stable |
+|--------|---------------|-----------------|
+| URL | `?color=black` | `?color=black&size=m` |
+| Combinations | N (5 colors = 5 URLs) | N×M (5×4 = 20 URLs) |
+| SEO Strategy | index,follow | noindex,follow |
+| Index Value | High | Low (thin slicing) |
+| User Value | High | Medium-High |
+
+### Clean Path Alternative
+
+For high-value combinations, consider clean paths:
+
+```
+Query params (noindex):
+?color=black&size=m
+
+Clean path (index):
+/catalog/t-shirts/by-color/black/size-m/
+
+Benefits:
+✅ More semantic URL
+✅ Can be selectively indexed
+✅ Better keyword targeting
+```
+
+**Trade-off**: Requires manual curation of valuable combinations.
+
 ## Canonical vs Robots.txt
 
 ### Canonical URL Strategy
@@ -493,28 +724,70 @@ When multiple rules apply, precedence is:
 2. **Pagination**
    - Page 2+ → noindex,follow
 
-3. **Unstable Parameters**
-   - Any unstable → noindex,follow
+3. **Multi-Select Parameters** (NEW!)
+   - Comma-separated values → robots.txt block (no meta tag)
+   - Takes precedence over everything except protected routes
 
-4. **Search Pages**
+4. **Multi-Filter Logic** (NEW!)
+   - 2+ stable parameters → noindex,follow
+   - Overrides individual parameter policies
+
+5. **Unstable Parameters**
+   - Any unstable → noindex,follow (if not already noindex from multi-filter)
+
+6. **Search Pages**
    - `/search` → noindex,follow
 
-5. **robots.txt Blocking** (lowest)
-   - Applied last, doesn't change robots directive
+7. **robots.txt Blocking for Tracking Params**
+   - Applied to tracking params (utm_, gclid, etc.)
+   - Doesn't change robots directive
 
-**Example**:
+**Example 1: Multi-Select**:
 ```
-URL: /catalog/t-shirts?sort=price_desc (with sort blocking enabled)
+URL: /catalog/t-shirts?color=black,blue
 
 Step 3: Not pagination
 Step 4: Not protected route
-Step 5: Unstable param → noindex,follow ✓
-Step 6: robots.txt blocks sort → blockInRobots = true ✓
+Step 6: Multi-select detected → robots.txt block ✓
 
 Result:
-- Robots: noindex,follow (from Step 5)
-- Blocked: YES (from Step 6)
-- Both states shown in receipt
+- Robots: undefined (no meta tag needed)
+- Blocked: YES (robots.txt)
+- Sitemap: EXCLUDED
+- Short circuit: Other steps skipped
+```
+
+**Example 2: Multiple Stable Filters**:
+```
+URL: /catalog/t-shirts?color=black&size=m
+
+Step 3: Not pagination
+Step 4: Not protected route
+Step 6: No multi-select
+Step 7: 2 stable params → noindex,follow ✓
+
+Result:
+- Robots: noindex,follow
+- Blocked: NO
+- Sitemap: EXCLUDED
+- Canonical: /catalog/t-shirts/ (drops both params)
+```
+
+**Example 3: Single Stable Filter**:
+```
+URL: /catalog/t-shirts?color=black
+
+Step 3: Not pagination
+Step 4: Not protected route
+Step 6: No multi-select
+Step 7: Only 1 stable param → no action
+Step 8: No unstable params
+
+Result:
+- Robots: index,follow
+- Blocked: NO
+- Sitemap: INCLUDED
+- Canonical: /catalog/t-shirts/?color=black (self)
 ```
 
 ## Best Practices Demonstrated

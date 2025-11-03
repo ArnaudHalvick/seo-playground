@@ -94,6 +94,226 @@ export function SeoReceipt() {
 }
 ```
 
+### FilterSidebar
+
+**Location**: `components/catalog/FilterSidebar.tsx`
+
+**Purpose**: Production-ready e-commerce filter interface with multi-select colors, size selection, price ranges, and sorting
+
+**Type**: Client Component (`'use client'`)
+
+**Props**:
+```typescript
+interface FilterSidebarProps {
+  category: string;              // Category slug (e.g., "t-shirts")
+  filterCounts: FilterCounts;    // Product counts per filter option
+  currentFilters: FilterOptions; // Currently active filters
+  availableColors: string[];     // All available colors
+  availableSizes: string[];      // All available sizes
+}
+```
+
+**Key Features**:
+
+1. **Multi-Select Color Filtering**
+   - Checkbox per color with product counts
+   - Comma-separated URL format: `?color=black,blue`
+   - Real-time product count updates
+   - Triggers crawl trap warnings when multiple colors selected
+
+2. **Single-Select Size Filtering**
+   - Radio button group with visual selection
+   - Product counts per size
+   - URL format: `?size=M`
+
+3. **Price Range Slider**
+   - Dual-handle slider component
+   - Debounced updates (500ms delay)
+   - Only adds to URL if different from defaults
+   - URL format: `?price_min=20&price_max=50`
+
+4. **Sort Dropdown**
+   - Select component with 5 options
+   - Most Popular (default)
+   - Price: Low to High / High to Low
+   - Name: A-Z / Z-A
+   - URL format: `?sort=price_asc`
+
+5. **Product Count Badges**
+   - Shows "Black (15)" dynamically
+   - Disables options with 0 products
+   - Recalculates based on other active filters
+
+6. **Mobile Responsive**
+   - Desktop: Fixed sidebar (left column)
+   - Mobile: Sheet drawer (slide-in from left)
+   - Filter button shows active count: "Filters (3)"
+
+7. **URL State Management**
+   - All filter state lives in URL
+   - `router.push()` updates URL on change
+   - `useEffect` syncs local state with URL changes
+   - Clears filters when external navigation resets URL
+
+**State Synchronization**:
+```typescript
+// Local state syncs with URL on external changes (e.g., clear all button)
+useEffect(() => {
+  setSelectedColors(currentFilters.colors || []);
+  setSelectedSize(currentFilters.size);
+  setPriceRange([...]);
+  setSortBy(searchParams.get("sort") || "popularity");
+}, [currentFilters, searchParams]);
+```
+
+**Usage Example**:
+```tsx
+<FilterSidebar
+  category="t-shirts"
+  filterCounts={{
+    colors: { black: 15, blue: 12, white: 8 },
+    sizes: { S: 10, M: 20, L: 15, XL: 5 },
+    priceRange: { min: 19.99, max: 99.99 }
+  }}
+  currentFilters={{ colors: ['black'], size: 'M' }}
+  availableColors={['black', 'blue', 'white', 'red']}
+  availableSizes={['S', 'M', 'L', 'XL']}
+/>
+```
+
+### FilterSummaryBar
+
+**Location**: `components/catalog/FilterSummaryBar.tsx`
+
+**Purpose**: Sticky bar showing all active filters with a single "Clear All" button
+
+**Type**: Client Component (`'use client'`)
+
+**Props**:
+```typescript
+interface FilterSummaryBarProps {
+  category: string;              // For clear all navigation
+  filters: FilterOptions;         // Current filter state
+  sort?: string;                  // Sort parameter
+  page?: number;                  // Current page number
+  priceRange: { min: number; max: number }; // Default price range
+}
+```
+
+**Key Features**:
+
+1. **Always Visible**
+   - Sticky positioning (`position: sticky; top: 0`)
+   - Shows "Active Filters: None" when no filters applied
+   - Z-index ensures it stays above content
+
+2. **Complete Filter Display**
+   - Color badges: "Black", "Blue"
+   - Size badge: "Size: M"
+   - Price badge: "Price: $20-$50"
+   - Sort badge: "Sort: Price ↓"
+   - Pagination badge: "Page 2"
+
+3. **Single Clear Button**
+   - Always visible (disabled when no filters)
+   - Resets to base category URL
+   - Uses `router.push()` directly (no callback props)
+
+4. **Responsive Layout**
+   - Flexbox with flex-wrap for multiple badges
+   - Button aligns to right on desktop
+   - Stacks vertically on mobile if needed
+
+**Usage Example**:
+```tsx
+<FilterSummaryBar
+  category="t-shirts"
+  filters={{ colors: ['black', 'blue'], size: 'M' }}
+  sort="price_asc"
+  page={2}
+  priceRange={{ min: 19.99, max: 99.99 }}
+/>
+```
+
+### ActiveFilters
+
+**Location**: `components/catalog/ActiveFilters.tsx`
+
+**Purpose**: Display active filters as removable badges in the content area
+
+**Type**: Client Component (`'use client'`)
+
+**Props**:
+```typescript
+interface ActiveFiltersProps {
+  filters: FilterOptions;
+  priceRange: { min: number; max: number };
+}
+```
+
+**Key Features**:
+
+1. **Removable Badges**
+   - Each filter shown as a badge with ×
+   - Click × to remove individual filter
+   - Updates URL immediately
+
+2. **Filter Display**
+   - Colors: Individual badge per color
+   - Size: "Size: M" badge
+   - Price: "Price: $20-$50" badge (only if different from defaults)
+
+3. **Conditional Rendering**
+   - Only renders if filters are active
+   - Returns null if no filters applied
+
+**Note**: This component provides redundant filter visibility in the content area, complementing the sticky FilterSummaryBar.
+
+### CleanPathPage (by-color)
+
+**Location**: `app/catalog/[category]/by-color/[color]/page.tsx`
+
+**Purpose**: SEO-friendly clean path route for color filtering
+
+**Type**: Server Component (default)
+
+**Route Pattern**: `/catalog/t-shirts/by-color/black/`
+
+**Key Features**:
+
+1. **Static Generation**
+   - Pre-renders pages at build time
+   - Uses `generateStaticParams()`
+   - 16+ pages generated (2 categories × 8 colors)
+
+2. **Educational Banners**
+   - Green alert explaining clean path benefits
+   - "Try query param version" link for comparison
+   - Shows both URL formats side-by-side
+
+3. **SEO Comparison**
+   - Displays SEO Receipt for clean path URL
+   - Links to equivalent query param URL
+   - Demonstrates URL structure best practices
+
+4. **Parameter Validation**
+   - Validates color against available colors
+   - Returns 404 if color doesn't exist
+   - Type-safe with TypeScript
+
+**Static Params Generation**:
+```typescript
+export async function generateStaticParams({ params }) {
+  const colors = getAvailableColors(params.category);
+  
+  return colors.map(color => ({
+    color: color.toLowerCase(),
+  }));
+}
+```
+
+**Routing Note**: The `by-color/` prefix prevents conflicts with `[product]` routes. Without it, Next.js cannot distinguish between `/catalog/t-shirts/black` (product vs color).
+
 ### DemoChips
 
 **Location**: `components/DemoChips.tsx`
