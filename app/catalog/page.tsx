@@ -23,11 +23,11 @@ export default function CatalogPage() {
         <div className="grid md:grid-cols-2 gap-8">
           {categories.map((cat) => (
             <Card key={cat.id} className="hover:shadow-xl transition-all hover:scale-[1.02]">
-              <CardHeader>
+          <CardHeader>
                 <CardTitle className="text-3xl">{cat.name}</CardTitle>
                 <CardDescription className="text-base">{cat.description}</CardDescription>
-              </CardHeader>
-              <CardContent>
+          </CardHeader>
+          <CardContent>
                 <div className="aspect-video bg-gradient-to-br from-slate-100 to-slate-200 rounded-lg flex items-center justify-center">
                   <span className="text-6xl">
                     {cat.slug === 't-shirts' ? '👕' : '👟'}
@@ -36,13 +36,13 @@ export default function CatalogPage() {
               </CardContent>
               <CardFooter>
                 <Link href={`/catalog/${cat.slug}`} className="w-full">
-                  <Button className="w-full" size="lg">
+              <Button className="w-full" size="lg">
                     Browse {cat.name}
                     <ArrowRight className="h-5 w-5 ml-2" />
-                  </Button>
-                </Link>
+              </Button>
+            </Link>
               </CardFooter>
-            </Card>
+        </Card>
           ))}
         </div>
       </div>

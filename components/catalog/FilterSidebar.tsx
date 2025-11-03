@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
-import { Slider } from "@/components/ui/slider";
+import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
@@ -37,14 +37,13 @@ export function FilterSidebar({
   // Local state for filters
   const [selectedColors, setSelectedColors] = useState<string[]>(currentFilters.colors || []);
   const [selectedSize, setSelectedSize] = useState<string | undefined>(currentFilters.size);
-  const [priceRange, setPriceRange] = useState<[number, number]>([
-    currentFilters.priceMin ?? filterCounts.priceRange.min,
-    currentFilters.priceMax ?? filterCounts.priceRange.max,
-  ]);
+  const [priceMin, setPriceMin] = useState<string>(
+    currentFilters.priceMin?.toString() ?? ""
+  );
+  const [priceMax, setPriceMax] = useState<string>(
+    currentFilters.priceMax?.toString() ?? ""
+  );
   const [sortBy, setSortBy] = useState<string>(searchParams.get("sort") || "popularity");
-
-  // Debounce timer for price slider
-  const [priceDebounceTimer, setPriceDebounceTimer] = useState<NodeJS.Timeout | null>(null);
 
   // Update URL with current filters
   const updateUrl = useCallback(
@@ -72,17 +71,15 @@ export function FilterSidebar({
         params.delete("size");
       }
 
-      // Handle price range
-      const defaultMin = filterCounts.priceRange.min;
-      const defaultMax = filterCounts.priceRange.max;
-
-      if (filters.priceMin !== undefined && filters.priceMin > defaultMin) {
+      // Handle price range - allow ANY user-specified price
+      // Only skip if price is 0 or undefined (meaningless filter)
+      if (filters.priceMin !== undefined && filters.priceMin > 0) {
         params.set("price_min", filters.priceMin.toString());
       } else {
         params.delete("price_min");
       }
 
-      if (filters.priceMax !== undefined && filters.priceMax < defaultMax) {
+      if (filters.priceMax !== undefined) {
         params.set("price_max", filters.priceMax.toString());
       } else {
         params.delete("price_max");
@@ -119,44 +116,77 @@ export function FilterSidebar({
       : [...selectedColors, color];
 
     setSelectedColors(newColors);
-    updateUrl({ colors: newColors, size: selectedSize, priceMin: priceRange[0], priceMax: priceRange[1], sort: sortBy });
+    
+    const minPrice = parsePrice(priceMin);
+    const maxPrice = parsePrice(priceMax);
+    updateUrl({ colors: newColors, size: selectedSize, priceMin: minPrice, priceMax: maxPrice, sort: sortBy });
   };
 
   // Handle size change
   const handleSizeChange = (size: string) => {
     const newSize = size === selectedSize ? undefined : size;
     setSelectedSize(newSize);
-    updateUrl({ colors: selectedColors, size: newSize, priceMin: priceRange[0], priceMax: priceRange[1], sort: sortBy });
+    
+    const minPrice = parsePrice(priceMin);
+    const maxPrice = parsePrice(priceMax);
+    updateUrl({ colors: selectedColors, size: newSize, priceMin: minPrice, priceMax: maxPrice, sort: sortBy });
   };
 
-  // Handle price range change (debounced)
-  const handlePriceChange = (value: number[]) => {
-    setPriceRange([value[0], value[1]]);
+  // Parse price input to number, handling edge cases
+  const parsePrice = (value: string): number | undefined => {
+    if (!value || value.trim() === "") return undefined;
+    
+    // Remove everything except digits and decimal point
+    const cleaned = value.replace(/[^0-9.]/g, '');
+    
+    // If empty after cleaning, return undefined
+    if (!cleaned) return undefined;
+    
+    // Parse to float
+    const parsed = parseFloat(cleaned);
+    
+    // Return undefined if NaN or negative
+    return isNaN(parsed) || parsed < 0 ? undefined : parsed;
+  };
 
-    // Clear existing timer
-    if (priceDebounceTimer) {
-      clearTimeout(priceDebounceTimer);
+  // Handle price input changes (just update local state, no URL update)
+  const handlePriceInputChange = (field: 'min' | 'max', value: string) => {
+    if (field === 'min') {
+      setPriceMin(value);
+    } else {
+      setPriceMax(value);
     }
+  };
 
-    // Set new timer to update URL after 500ms
-    const timer = setTimeout(() => {
-      updateUrl({ colors: selectedColors, size: selectedSize, priceMin: value[0], priceMax: value[1], sort: sortBy });
-    }, 500);
-
-    setPriceDebounceTimer(timer);
+  // Apply price filter when user clicks the button
+  const applyPriceFilter = () => {
+    const minPrice = parsePrice(priceMin);
+    const maxPrice = parsePrice(priceMax);
+    
+    updateUrl({ 
+      colors: selectedColors, 
+      size: selectedSize, 
+      priceMin: minPrice, 
+      priceMax: maxPrice, 
+      sort: sortBy 
+    });
   };
 
   // Handle sort change
   const handleSortChange = (value: string) => {
     setSortBy(value);
-    updateUrl({ colors: selectedColors, size: selectedSize, priceMin: priceRange[0], priceMax: priceRange[1], sort: value });
+    
+    const minPrice = parsePrice(priceMin);
+    const maxPrice = parsePrice(priceMax);
+    updateUrl({ colors: selectedColors, size: selectedSize, priceMin: minPrice, priceMax: maxPrice, sort: value });
   };
 
   // Clear all filters
   const clearAllFilters = () => {
     setSelectedColors([]);
     setSelectedSize(undefined);
-    setPriceRange([filterCounts.priceRange.min, filterCounts.priceRange.max]);
+    setPriceMin("");
+    setPriceMax("");
     setSortBy("popularity");
     router.push(pathname);
   };
@@ -165,18 +195,28 @@ export function FilterSidebar({
   useEffect(() => {
     setSelectedColors(currentFilters.colors || []);
     setSelectedSize(currentFilters.size);
-    setPriceRange([
-      currentFilters.priceMin ?? filterCounts.priceRange.min,
-      currentFilters.priceMax ?? filterCounts.priceRange.max,
-    ]);
     setSortBy(searchParams.get("sort") || "popularity");
-  }, [currentFilters, searchParams, filterCounts.priceRange]);
+  }, [currentFilters, searchParams]);
+
+  // Separate effect for price inputs - only sync when NOT actively being edited
+  useEffect(() => {
+    const urlPriceMin = currentFilters.priceMin?.toString() ?? "";
+    const urlPriceMax = currentFilters.priceMax?.toString() ?? "";
+    
+    // Only update if different AND user is not currently typing in these fields
+    if (document.activeElement?.id !== 'price-min' && 
+        document.activeElement?.id !== 'price-max') {
+      if (urlPriceMin !== priceMin) setPriceMin(urlPriceMin);
+      if (urlPriceMax !== priceMax) setPriceMax(urlPriceMax);
+    }
+  }, [currentFilters.priceMin, currentFilters.priceMax]);
 
   // Count active filters
+  const hasPriceFilter = (priceMin && priceMin.trim() !== "") || (priceMax && priceMax.trim() !== "");
   const activeFilterCount =
     selectedColors.length +
     (selectedSize ? 1 : 0) +
-    (priceRange[0] > filterCounts.priceRange.min || priceRange[1] < filterCounts.priceRange.max ? 1 : 0) +
+    (hasPriceFilter ? 1 : 0) +
     (sortBy !== "popularity" ? 1 : 0);
 
   // Filter content component
@@ -255,19 +295,65 @@ export function FilterSidebar({
         <h3 className="font-semibold mb-3 flex items-center gap-2">
           <span className="text-lg">💰</span> Price Range
         </h3>
-        <div className="space-y-4">
-          <Slider
-            min={filterCounts.priceRange.min}
-            max={filterCounts.priceRange.max}
-            step={1}
-            value={priceRange}
-            onValueChange={handlePriceChange}
-            className="w-full"
-          />
-          <div className="flex justify-between text-sm text-gray-600">
-            <span>${priceRange[0].toFixed(2)}</span>
-            <span>${priceRange[1].toFixed(2)}</span>
+        <div className="space-y-3">
+          <div>
+            <Label htmlFor="price-min" className="text-sm text-gray-600 mb-1 block">
+              Min Price
+            </Label>
+            <div className="relative">
+              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">$</span>
+              <Input
+                id="price-min"
+                type="text"
+                inputMode="decimal"
+                placeholder="Min"
+                value={priceMin}
+                onChange={(e) => handlePriceInputChange('min', e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    applyPriceFilter();
+                  }
+                }}
+                className="pl-7"
+              />
+            </div>
           </div>
+          
+          <div>
+            <Label htmlFor="price-max" className="text-sm text-gray-600 mb-1 block">
+              Max Price
+            </Label>
+            <div className="relative">
+              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">$</span>
+              <Input
+                id="price-max"
+                type="text"
+                inputMode="decimal"
+                placeholder="Max"
+                value={priceMax}
+                onChange={(e) => handlePriceInputChange('max', e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    applyPriceFilter();
+                  }
+                }}
+                className="pl-7"
+              />
+            </div>
+          </div>
+          
+          <Button 
+            onClick={applyPriceFilter} 
+            variant="outline" 
+            className="w-full"
+            size="sm"
+          >
+            Apply Price Filter
+          </Button>
+          
+          <p className="text-xs text-gray-500 text-center">
+            Products range: ${filterCounts.priceRange.min.toFixed(0)} - ${filterCounts.priceRange.max.toFixed(0)}
+          </p>
         </div>
       </div>
 

@@ -112,10 +112,10 @@ export default function CategoryPage({ params, searchParams }: PageProps) {
             {paginatedProducts.length > 0 ? (
               <>
                 <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6 mb-8">
-                  {paginatedProducts.map((product) => (
-                    <Card key={product.id} className="hover:shadow-lg transition-shadow">
-                      <CardContent className="pt-6">
-                        <div className="aspect-square bg-slate-200 rounded-lg mb-4 flex items-center justify-center">
+          {paginatedProducts.map((product) => (
+            <Card key={product.id} className="hover:shadow-lg transition-shadow">
+              <CardContent className="pt-6">
+                <div className="aspect-square bg-slate-200 rounded-lg mb-4 flex items-center justify-center">
                           <span className="text-4xl">
                             {product.color === 'white' ? '⚪' : 
                              product.color === 'black' ? '⚫' : 
@@ -126,41 +126,41 @@ export default function CategoryPage({ params, searchParams }: PageProps) {
                              product.color === 'tan' ? '🟤' :
                              product.color === 'brown' ? '🟤' : '⚫'}
                           </span>
-                        </div>
-                        <h3 className="font-semibold text-lg mb-2">{product.title}</h3>
-                        <p className="text-sm text-slate-600 mb-3">{product.description}</p>
-                        <div className="flex items-center justify-between">
-                          <span className="text-2xl font-bold">${product.price}</span>
-                          <div className="flex gap-1">
-                            <Badge variant="outline" className="text-xs capitalize">{product.color}</Badge>
-                            <Badge variant="outline" className="text-xs">{product.size}</Badge>
-                          </div>
-                        </div>
-                      </CardContent>
-                      <CardFooter>
-                        <Link href={`/catalog/${params.category}/${product.slug}`} className="w-full">
-                          <Button variant="outline" className="w-full">View Details</Button>
-                        </Link>
-                      </CardFooter>
-                    </Card>
-                  ))}
                 </div>
+                <h3 className="font-semibold text-lg mb-2">{product.title}</h3>
+                <p className="text-sm text-slate-600 mb-3">{product.description}</p>
+                <div className="flex items-center justify-between">
+                  <span className="text-2xl font-bold">${product.price}</span>
+                  <div className="flex gap-1">
+                            <Badge variant="outline" className="text-xs capitalize">{product.color}</Badge>
+                    <Badge variant="outline" className="text-xs">{product.size}</Badge>
+                  </div>
+                </div>
+              </CardContent>
+              <CardFooter>
+                <Link href={`/catalog/${params.category}/${product.slug}`} className="w-full">
+                  <Button variant="outline" className="w-full">View Details</Button>
+                </Link>
+              </CardFooter>
+            </Card>
+          ))}
+        </div>
 
                 {/* Pagination */}
-                {totalPages > 1 && (
+        {totalPages > 1 && (
                   <div className="flex justify-center gap-2 flex-wrap">
-                    {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-                      <Link
-                        key={page}
-                        href={`/catalog/${params.category}?${new URLSearchParams({ ...searchParams, page: page.toString() }).toString()}`}
-                      >
-                        <Button variant={page === currentPage ? 'default' : 'outline'} size="sm">
-                          {page}
-                        </Button>
-                      </Link>
-                    ))}
-                  </div>
-                )}
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+              <Link
+                key={page}
+                href={`/catalog/${params.category}?${new URLSearchParams({ ...searchParams, page: page.toString() }).toString()}`}
+              >
+                <Button variant={page === currentPage ? 'default' : 'outline'} size="sm">
+                  {page}
+                </Button>
+              </Link>
+            ))}
+          </div>
+        )}
               </>
             ) : (
               // Empty State

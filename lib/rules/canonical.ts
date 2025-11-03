@@ -68,8 +68,8 @@ export function computeCanonical(
     sitemapIncluded = false;
     trace.push(`  ✓ Protected route detected → noindex,nofollow + robots block`);
   } else if (pathname.startsWith('/search')) {
-    robots = 'noindex,follow';
-    sitemapIncluded = false;
+      robots = 'noindex,follow';
+      sitemapIncluded = false;
     trace.push(`  ✓ Search page → noindex,follow (best practice)`);
   } else {
     trace.push(`  Not a protected/special route`);

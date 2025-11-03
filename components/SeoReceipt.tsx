@@ -485,39 +485,51 @@ export function SeoReceipt() {
 
                     <div>
                       <div className="text-xs text-slate-500 mb-1">Canonical URL</div>
-                      <div className="relative group">
-                        <div className="text-xs break-all bg-blue-50 border border-blue-200 p-2 rounded font-mono pr-8">
-                          {segments.map((seg, idx) => {
-                            if (seg.type === "removed") {
-                              return (
-                                <span key={idx} className="bg-red-200 line-through">
-                                  {seg.text}
-                                </span>
-                              );
-                            }
-                            if (seg.type === "added") {
-                              return (
-                                <span key={idx} className="bg-green-200 font-semibold">
-                                  {seg.text}
-                                </span>
-                              );
-                            }
-                            return <span key={idx}>{seg.text}</span>;
-                          })}
+                      {result.blockInRobots ? (
+                        <div className="p-3 bg-amber-50 border border-amber-200 rounded text-xs">
+                          <p className="text-amber-900 font-medium mb-1">
+                            🚫 No canonical tag needed
+                          </p>
+                          <p className="text-amber-800">
+                            Crawlers are blocked via robots.txt, so meta robots and canonical tags 
+                            are never seen. Block patterns prevent access entirely.
+                          </p>
                         </div>
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => copyToClipboard(result.canonical, "canonical")}
-                          className="absolute top-1 right-1 h-6 w-6 p-0 opacity-0 group-hover:opacity-100 transition-opacity"
-                        >
-                          {copiedField === "canonical" ? (
-                            <Check className="h-3 w-3 text-green-600" />
-                          ) : (
-                            <Copy className="h-3 w-3" />
-                          )}
-                        </Button>
-                      </div>
+                      ) : (
+                        <div className="relative group">
+                          <div className="text-xs break-all bg-blue-50 border border-blue-200 p-2 rounded font-mono pr-8">
+                            {segments.map((seg, idx) => {
+                              if (seg.type === "removed") {
+                                return (
+                                  <span key={idx} className="bg-red-200 line-through">
+                                    {seg.text}
+                                  </span>
+                                );
+                              }
+                              if (seg.type === "added") {
+                                return (
+                                  <span key={idx} className="bg-green-200 font-semibold">
+                                    {seg.text}
+                                  </span>
+                                );
+                              }
+                              return <span key={idx}>{seg.text}</span>;
+                            })}
+                          </div>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => copyToClipboard(result.canonical, "canonical")}
+                            className="absolute top-1 right-1 h-6 w-6 p-0 opacity-0 group-hover:opacity-100 transition-opacity"
+                          >
+                            {copiedField === "canonical" ? (
+                              <Check className="h-3 w-3 text-green-600" />
+                            ) : (
+                              <Copy className="h-3 w-3" />
+                            )}
+                          </Button>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -541,14 +553,14 @@ export function SeoReceipt() {
                         Blocked by robots.txt
                       </Badge>
                     ) : (
-                      <Badge
+                    <Badge
                         variant={
                           isIndexable ? "default" : isNoindexFollow ? "secondary" : "destructive"
                         }
-                        className="text-xs"
-                      >
-                        {result.robots}
-                      </Badge>
+                      className="text-xs"
+                    >
+                      {result.robots}
+                    </Badge>
                     )}
                     {result.blockInRobots && !result.hasBlockedParams && (
                       <Badge variant="destructive" className="text-xs">
@@ -817,39 +829,51 @@ export function SeoReceipt() {
 
                   <div>
                     <div className="text-xs text-slate-500 mb-1">Canonical URL</div>
-                    <div className="relative group">
-                      <div className="text-xs break-all bg-blue-50 border border-blue-200 p-2 rounded font-mono pr-8">
-                        {segments.map((seg, idx) => {
-                          if (seg.type === "removed") {
-                            return (
-                              <span key={idx} className="bg-red-200 line-through">
-                                {seg.text}
-                              </span>
-                            );
-                          }
-                          if (seg.type === "added") {
-                            return (
-                              <span key={idx} className="bg-green-200 font-semibold">
-                                {seg.text}
-                              </span>
-                            );
-                          }
-                          return <span key={idx}>{seg.text}</span>;
-                        })}
+                    {result.blockInRobots ? (
+                      <div className="p-3 bg-amber-50 border border-amber-200 rounded text-xs">
+                        <p className="text-amber-900 font-medium mb-1">
+                          🚫 No canonical tag needed
+                        </p>
+                        <p className="text-amber-800">
+                          Crawlers are blocked via robots.txt, so meta robots and canonical tags 
+                          are never seen. Block patterns prevent access entirely.
+                        </p>
                       </div>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => copyToClipboard(result.canonical, "canonical")}
-                        className="absolute top-1 right-1 h-6 w-6 p-0"
-                      >
-                        {copiedField === "canonical" ? (
-                          <Check className="h-3 w-3 text-green-600" />
-                        ) : (
-                          <Copy className="h-3 w-3" />
-                        )}
-                      </Button>
-                    </div>
+                    ) : (
+                      <div className="relative group">
+                        <div className="text-xs break-all bg-blue-50 border border-blue-200 p-2 rounded font-mono pr-8">
+                          {segments.map((seg, idx) => {
+                            if (seg.type === "removed") {
+                              return (
+                                <span key={idx} className="bg-red-200 line-through">
+                                  {seg.text}
+                                </span>
+                              );
+                            }
+                            if (seg.type === "added") {
+                              return (
+                                <span key={idx} className="bg-green-200 font-semibold">
+                                  {seg.text}
+                                </span>
+                              );
+                            }
+                            return <span key={idx}>{seg.text}</span>;
+                          })}
+                        </div>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => copyToClipboard(result.canonical, "canonical")}
+                          className="absolute top-1 right-1 h-6 w-6 p-0"
+                        >
+                          {copiedField === "canonical" ? (
+                            <Check className="h-3 w-3 text-green-600" />
+                          ) : (
+                            <Copy className="h-3 w-3" />
+                          )}
+                        </Button>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
@@ -873,14 +897,14 @@ export function SeoReceipt() {
                       Blocked by robots.txt
                     </Badge>
                   ) : (
-                    <Badge
+                  <Badge
                       variant={
                         isIndexable ? "default" : isNoindexFollow ? "secondary" : "destructive"
                       }
-                      className="text-xs"
-                    >
-                      {result.robots}
-                    </Badge>
+                    className="text-xs"
+                  >
+                    {result.robots}
+                  </Badge>
                   )}
                   {result.blockInRobots && !result.hasBlockedParams && (
                     <Badge variant="destructive" className="text-xs">
