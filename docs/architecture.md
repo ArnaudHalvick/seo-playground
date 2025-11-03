@@ -91,10 +91,17 @@ The heart of the application, responsible for all SEO decisions:
 #### Catalog Management (`lib/catalog/`)
 
 - **`data.ts`**: Product data and filtering logic
-  - Product filtering by color, size, price range
+  - Product filtering by color, size, gender, price range
   - Multi-select color support with comma-separated values
   - Filter count calculation for sidebar display
   - Product sorting and pagination
+  - Gender-related helper functions:
+    - `getAvailableGenders(categorySlug)` - Get all genders in category
+    - `getGenderCounts(categorySlug)` - Count products per gender
+  - Size configuration functions:
+    - `getAvailableSizes(categorySlug)` - Get sizes with category-specific ordering
+    - `getSizeGroups(categorySlug)` - Get size grouping config (e.g., Kids/Adult)
+    - `getSizeGroupsForGender(categorySlug, gender)` - Filter groups by gender context
 
 #### Utilities (`lib/utils/`)
 
@@ -112,9 +119,15 @@ The heart of the application, responsible for all SEO decisions:
   - Robots.txt patterns
 
 - **`catalog.json`**: Demo product data
-  - Product listings
+  - Product listings with gender field
   - Category information
-  - Facet values
+  - Facet values (colors, sizes, genders)
+  - 160 products across 2 categories
+
+- **`size-config.json`**: Category-specific size configuration
+  - Size ordering per category
+  - Optional size grouping (e.g., Kids vs Adult)
+  - Used by filter components for display
 
 ## Data Flow
 
@@ -240,6 +253,80 @@ Display tabs:
   - PaginationSettings (static display)
   - RobotsPreview (static display)
   - SitemapTable (static display)
+```
+
+### GenderFilter Component
+
+```
+GenderFilter (Client Component)
+    ↓
+Receives props:
+  - category (slug)
+  - currentGender (if on clean path)
+  - genderCounts (products per gender)
+  - totalCount
+    ↓
+Renders navigation buttons:
+  - All → /shop/[category]
+  - Women → /shop/[category]/for/women
+  - Men → /shop/[category]/for/men
+  - Girls → /shop/[category]/for/girls
+  - Boys → /shop/[category]/for/boys
+    ↓
+If currentGender set:
+  Show SEO education banner
+  (clean path vs query param comparison)
+```
+
+### Category Page with Filters
+
+```
+CategoryPage (Server Component)
+    ↓
+Parse URL: category slug + search params
+    ↓
+Fetch data:
+  - getCategory(slug)
+  - getProductsByCategory(slug)
+  - getAvailableColors(slug)
+  - getAvailableSizes(slug)
+  - getSizeGroups(slug)
+  - getGenderCounts(slug)
+    ↓
+Filter products:
+  - filterProducts(products, filters)
+  - sortProducts(products, sort)
+  - paginateProducts(products, page)
+    ↓
+Render:
+  - GenderFilter (navigation)
+  - FilterSummaryBar (sticky, shows active filters)
+  - FilterSidebar (color, size, price, sort)
+  - Product grid
+```
+
+### Gender Clean Path Page
+
+```
+GenderFilterPage (Server Component)
+    ↓
+Parse URL: category slug + gender + search params
+    ↓
+Validate gender exists in category
+    ↓
+Fetch data with gender context:
+  - getSizeGroupsForGender(category, gender)
+    (returns gender-appropriate size groups)
+    ↓
+Filter products including gender:
+  - filters = { gender, colors, size, priceMin, priceMax }
+  - filterProducts(products, filters)
+    ↓
+Render:
+  - GenderFilter (shows SEO banner)
+  - FilterSummaryBar
+  - FilterSidebar (with filtered size groups)
+  - Product grid
 ```
 
 ## API Routes
@@ -436,6 +523,71 @@ Use the demo chips to verify:
 - Robots.txt patterns
 - Sitemap inclusion logic
 
+## Size Configuration System
+
+### Purpose
+
+The size configuration system allows each category to define custom size ordering and optional grouping for better UX.
+
+### Configuration File Structure
+
+**File**: `data/size-config.json`
+
+```json
+{
+  "t-shirts": {
+    "sizeOrder": ["XS", "S", "M", "L", "XL"],
+    "groups": null
+  },
+  "shoes": {
+    "sizeOrder": ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13"],
+    "groups": [
+      {
+        "label": "Kids",
+        "sizes": ["1", "2", "3", "4", "5", "6"]
+      },
+      {
+        "label": "Adult",
+        "sizes": ["7", "8", "9", "10", "11", "12", "13"]
+      }
+    ]
+  }
+}
+```
+
+### Key Concepts
+
+**Size Ordering**:
+- Defines the display order for size filters
+- Overrides default alphabetical sorting
+- Example: `["XS", "S", "M", "L", "XL"]` ensures correct size progression
+
+**Size Grouping** (optional):
+- Groups related sizes together visually
+- Adds separators and labels in UI
+- Example: Kids (1-6) vs Adult (7-13) for shoes
+- Can be `null` if no grouping needed
+
+### Gender-Aware Size Groups
+
+For categories with size groups, the system can filter groups by gender:
+
+```typescript
+getSizeGroupsForGender('shoes', 'girls')  // Returns only Kids group
+getSizeGroupsForGender('shoes', 'women')  // Returns only Adult group
+getSizeGroupsForGender('shoes', undefined) // Returns all groups
+```
+
+**Logic**:
+- Children genders (girls, boys) → Kids sizes only
+- Adult genders (women, men) → Adult sizes only
+- No gender filter → All size groups shown
+
+**Benefits**:
+- Contextually relevant size options
+- Reduces clutter in filter UI
+- Better UX for gender-specific product pages
+
 ## Filter System Architecture
 
 ### Component Hierarchy
@@ -447,10 +599,13 @@ FilterSidebar (client component)
 │   └── Product count per color
 ├── Size Radio Buttons (single-select)
 │   ├── RadioGroupItem per size
-│   └── Product count per size
-├── Price Range Slider (numeric range)
-│   ├── Dual-handle slider
-│   └── Debounced updates (500ms)
+│   ├── Product count per size
+│   ├── Optional: Size group labels
+│   └── Optional: Size group separators
+├── Price Range Filter (manual apply)
+│   ├── PriceRangeFilter component
+│   ├── Min/Max text inputs
+│   └── "Apply" button
 ├── Sort Dropdown (single-select)
 │   └── Select component with options
 └── Clear All Button
@@ -502,48 +657,68 @@ productsForColorCount.forEach(product => {
 
 This ensures filter options show accurate product counts based on other active filters.
 
-### Debouncing Strategy
+### Price Filter Strategy
 
-Price slider uses debouncing to avoid excessive URL updates:
+Price filter uses manual application instead of auto-debouncing:
 
 ```typescript
-const handlePriceChange = (value: number[]) => {
-  setPriceRange([value[0], value[1]]);  // Immediate UI update
-  
-  if (priceDebounceTimer) {
-    clearTimeout(priceDebounceTimer);  // Cancel pending update
-  }
-  
-  const timer = setTimeout(() => {
-    updateUrl({ priceMin: value[0], priceMax: value[1] });  // Update after 500ms
-  }, 500);
-  
-  setPriceDebounceTimer(timer);
+const handlePriceApply = (minPrice?: number, maxPrice?: number) => {
+  updateUrl({
+    colors: selectedColors,
+    size: selectedSize,
+    priceMin: minPrice,
+    priceMax: maxPrice,
+    sort: sortBy,
+  });
 };
 ```
 
-**Why**: Sliders trigger many events during dragging. Debouncing prevents excessive re-renders and history entries.
+**Why Manual Apply**:
+- User controls when filter updates
+- No excessive URL updates while typing
+- Fewer browser history entries (better for SEO)
+- More predictable UX (explicit action required)
+- Can review values before applying
 
 ## Clean Path Routing Strategy
 
 ### File Structure
 
 ```
-app/catalog/[category]/
+app/shop/[category]/
 ├── page.tsx                     # Category page with filters
 ├── [product]/page.tsx           # Individual product pages
-└── by-color/[color]/page.tsx    # Clean path color filter
+├── for/[gender]/page.tsx        # Gender clean path (NEW)
+├── color/[color]/page.tsx       # Color clean path
+└── size/[size]/page.tsx         # Size clean path
 ```
 
-**Important**: The `by-color/` prefix is required to avoid routing conflicts with `[product]`. Without it, Next.js cannot distinguish between `/catalog/t-shirts/black` (product?) and `/catalog/t-shirts/black` (color filter?).
+**Important**: Prefixes (`/for/`, `/color/`, `/size/`) are required to avoid routing conflicts with `[product]`. Without them, Next.js cannot distinguish between `/shop/t-shirts/black` (product vs filter).
 
 ### Static Generation
 
 Clean path pages use `generateStaticParams` for pre-rendering:
 
+#### Gender Pages
 ```typescript
-export async function generateStaticParams({ params }: { params: { category: string } }) {
-  const category = getCategoryBySlug(params.category);
+export async function generateStaticParams() {
+  const categories = getCategories();
+  const genders = ['women', 'men', 'girls', 'boys'];
+  
+  return categories.flatMap(cat => 
+    genders.map(gender => ({
+      category: cat.slug,
+      gender: gender
+    }))
+  );
+}
+```
+
+**Result**: 8 gender pages (2 categories × 4 genders)
+
+#### Color Pages
+```typescript
+export async function generateStaticParams({ params }) {
   const colors = getAvailableColors(params.category);
   
   return colors.map(color => ({
@@ -552,12 +727,36 @@ export async function generateStaticParams({ params }: { params: { category: str
 }
 ```
 
-**Result**: 16+ pages pre-generated at build time (2 categories × 8 colors).
+**Result**: 16+ color pages (2 categories × 8+ colors)
+
+#### Size Pages
+```typescript
+export async function generateStaticParams({ params }) {
+  const sizes = getAvailableSizes(params.category);
+  
+  return sizes.map(size => ({
+    size: size,
+  }));
+}
+```
+
+**Result**: 20+ size pages (2 categories × 10+ sizes)
+
+**Total Static Pages**: 44+ clean path filter pages generated at build time
 
 ### Path Parameter Validation
 
-Clean paths validate color parameters against available colors:
+Clean paths validate parameters against available options:
 
+#### Gender Validation
+```typescript
+const availableGenders = getAvailableGenders(params.category);
+if (!availableGenders.includes(params.gender.toLowerCase())) {
+  notFound();  // 404 if gender doesn't exist in category
+}
+```
+
+#### Color Validation
 ```typescript
 const availableColors = getAvailableColors(params.category);
 if (!availableColors.includes(params.color)) {
@@ -565,16 +764,36 @@ if (!availableColors.includes(params.color)) {
 }
 ```
 
+#### Size Validation
+```typescript
+const availableSizes = getAvailableSizes(params.category);
+if (!availableSizes.includes(params.size)) {
+  notFound();  // 404 if size doesn't exist
+}
+```
+
 ### Query Params vs Clean Paths
 
 | Aspect | Query Params | Clean Paths |
 |--------|-------------|-------------|
-| URL | `/catalog/t-shirts?color=black` | `/catalog/t-shirts/by-color/black/` |
+| URL | `/shop/t-shirts?gender=women` | `/shop/t-shirts/for/women/` |
 | SEO | Good (if single stable filter) | Better (more semantic) |
 | UX | Less readable | More readable |
 | Flexibility | High (any combination) | Low (pre-defined only) |
 | Generation | Dynamic | Static (build time) |
-| **Use Case** | Multi-filter, sorting, ranges | Single high-value filters |
+| Indexing | Requires careful canonicals | index,follow by default |
+| **Use Case** | Multi-filter, sorting, ranges | Single high-value stable filters |
+
+**Examples of Good Clean Path Candidates**:
+- Gender (women, men, girls, boys) - stable, meaningful segments
+- Primary color filters - high search volume
+- Core size categories - clear user intent
+
+**Keep as Query Params**:
+- Multi-select filters (e.g., `?color=black,blue`)
+- Sorting and pagination
+- Price ranges (infinite combinations)
+- Temporary UI state
 
 ## Multi-Select Detection Logic
 

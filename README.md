@@ -10,8 +10,11 @@ This project is an **educational showcase**, not a real e-commerce store. It dem
 
 - **Real-time SEO Receipt**: See instant feedback on how URL parameters affect SEO decisions
 - **Interactive Filter Sidebar**: Production-ready e-commerce filtering with multi-select colors, size selection, price ranges, and sorting
-- **Gender-Based Clean Paths**: Demonstrates clean URL structures for stable filters (`/women/`, `/men/`) vs query parameters
-- **Color Clean Path Routes**: Shows SEO-friendly URL structures (`/by-color/black/`) vs query parameters (`?color=black`)
+- **Gender-Based Clean Paths**: Clean URL structures for gender filtering (`/shop/t-shirts/for/women/`) with SEO education banners
+- **Color & Size Clean Path Routes**: SEO-friendly URL structures (`/shop/t-shirts/color/black/`, `/shop/t-shirts/size/M/`)
+- **Size Configuration System**: Category-specific size ordering and grouping (e.g., Kids vs Adult sizes for shoes)
+- **Gender-Aware Size Groups**: Automatically shows contextually relevant sizes based on gender selection
+- **Manual Price Filter Application**: User-controlled price filter updates with explicit "Apply" button for better UX
 - **Multi-Select Detection**: Identifies and blocks exponential URL combinations (2^N patterns) via robots.txt
 - **Crawl Trap Risk Assessment**: Real-time calculation of URL explosion with color-coded warnings (low/medium/high)
 - **Parameter Classification**: Demonstrates stable, unstable, and blocked parameter policies
@@ -87,9 +90,10 @@ project/
 ├── components/                   # React components
 │   ├── ui/                      # shadcn/ui components
 │   ├── catalog/                 # E-commerce filter components
-│   │   ├── FilterSidebar.tsx   # Multi-select filters
+│   │   ├── FilterSidebar.tsx   # Multi-select filters with size grouping
 │   │   ├── FilterSummaryBar.tsx # Sticky active filter bar
-│   │   ├── GenderFilter.tsx    # Gender filter buttons
+│   │   ├── GenderFilter.tsx    # Gender filter buttons with SEO banners
+│   │   ├── PriceRangeFilter.tsx # Manual price filter with apply button
 │   │   └── ActiveFilters.tsx   # Removable filter badges
 │   ├── DemoChips.tsx            # Parameter demo buttons
 │   ├── SeoReceipt.tsx           # Real-time SEO feedback panel
@@ -101,12 +105,13 @@ project/
 │   │   ├── robots.ts            # robots.txt generation
 │   │   └── sitemap.ts           # Sitemap generation (includes gender paths)
 │   ├── catalog/                 # Product data & filtering
-│   │   └── data.ts             # Filter functions, counts, helpers (gender support)
+│   │   └── data.ts             # Filter functions, gender helpers, size groups
 │   ├── config/                  # Configuration provider
 │   └── utils/                   # Utility functions
 ├── data/                        # Static data files
 │   ├── rules.json              # Default SEO configuration
-│   └── catalog.json            # Demo product catalog (160 products with gender)
+│   ├── catalog.json            # Demo product catalog (160 products with gender)
+│   └── size-config.json        # Category-specific size ordering & grouping
 ├── docs/                        # Documentation
 │   ├── architecture.md         # System architecture
 │   ├── seo-logic.md           # SEO decision flow
@@ -124,7 +129,9 @@ The catalog features a production-ready filter system:
 
 - **Multi-select color filtering** - Select multiple colors simultaneously (with crawl trap warnings)
 - **Size radio buttons** - Single selection with visual feedback and product counts
-- **Price range slider** - Debounced for performance, updates URL after 500ms pause
+- **Size grouping** - Category-specific grouping (e.g., Kids vs Adult sizes for shoes)
+- **Gender-aware sizes** - Contextually relevant size options based on gender selection
+- **Manual price filter** - User-controlled with explicit "Apply" button (no auto-updates)
 - **Sort options** - Price (high/low), name (A-Z/Z-A), popularity
 - **Active filter display** - Removable badges showing all applied filters
 - **Sticky filter summary** - Persistent bar showing all active parameters with single "Clear All" button
@@ -137,13 +144,16 @@ All filter state lives in the URL, making filters shareable, SEO-analyzable, and
 Demonstrates SEO-friendly URL structures as an alternative to query parameters:
 
 - **Gender clean paths**: `/shop/t-shirts/for/women/` instead of `?gender=women`
+  - Large button navigation with active state
+  - SEO education banner on clean path pages
+  - Gender-aware size group filtering
 - **Color clean paths**: `/shop/t-shirts/color/black/` instead of `?color=black`
 - **Size clean paths**: `/shop/t-shirts/size/M/` instead of `?size=M`
 - Side-by-side comparison with educational banners explaining benefits
 - Static generation with `generateStaticParams` for optimal performance
 - 44+ pre-generated clean path pages (8 gender + 16 color + 20 size pages)
 
-Clean paths are ideal for **stable filters** that represent real user intent and create meaningful landing pages.
+Clean paths are ideal for **stable filters** that represent real user intent and create meaningful landing pages. Gender filters are a perfect example: they create distinct product segments worth indexing.
 
 ### Multi-Select & Crawl Trap Detection
 
@@ -195,9 +205,10 @@ The SEO Receipt is a real-time panel that shows:
 ### E-Commerce Demo (Shop)
 
 - **`/shop`** - Shop home / category list
-- **`/shop/t-shirts`** - T-Shirts category with interactive filters
-- **`/shop/shoes`** - Shoes category with interactive filters
-- **`/shop/t-shirts/for/women`** - Gender clean path example (indexable)
+- **`/shop/t-shirts`** - T-Shirts category with interactive filters and gender navigation
+- **`/shop/shoes`** - Shoes category with grouped sizes (Kids vs Adult)
+- **`/shop/t-shirts/for/women`** - Gender clean path (indexable, with SEO banner)
+- **`/shop/shoes/for/girls`** - Gender clean path showing only Kids sizes
 - **`/shop/t-shirts/color/black`** - Color clean path example (indexable)
 - **`/shop/t-shirts/size/M`** - Size clean path example (indexable)
 - **`/shop/t-shirts/[product]`** - Individual product pages

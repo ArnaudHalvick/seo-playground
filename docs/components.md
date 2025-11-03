@@ -13,12 +13,20 @@ App Layout (app/layout.tsx)
 
 Pages (app/**/page.tsx)
 ├── Homepage (app/page.tsx)
-├── Catalog Landing (app/catalog/page.tsx)
-├── Category Page (app/catalog/[category]/page.tsx)
+├── Shop Landing (app/shop/page.tsx)
+├── Category Page (app/shop/[category]/page.tsx)
 │   ├── Breadcrumbs
-│   ├── DemoChips
+│   ├── GenderFilter (gender navigation buttons)
+│   ├── FilterSummaryBar (sticky filter display)
+│   ├── FilterSidebar (color, size, price, sort filters)
 │   └── Product Grid
-├── Product Page (app/catalog/[category]/[product]/page.tsx)
+├── Gender Filter Page (app/shop/[category]/for/[gender]/page.tsx)
+│   ├── Breadcrumbs
+│   ├── GenderFilter (with SEO education banner)
+│   ├── FilterSummaryBar
+│   ├── FilterSidebar (gender-aware size groups)
+│   └── Product Grid
+├── Product Page (app/shop/[category]/[product]/page.tsx)
 └── Best Practices (app/best-practices/page.tsx)
     ├── ParamPolicyEditor
     ├── PaginationSettings
@@ -110,6 +118,12 @@ interface FilterSidebarProps {
   currentFilters: FilterOptions; // Currently active filters
   availableColors: string[];     // All available colors
   availableSizes: string[];      // All available sizes
+  sizeGroups: SizeGroup[] | null; // Optional size grouping configuration
+}
+
+interface SizeGroup {
+  label: string;    // Group label (e.g., "Kids", "Adult")
+  sizes: string[];  // Sizes in this group
 }
 ```
 
@@ -125,11 +139,15 @@ interface FilterSidebarProps {
    - Radio button group with visual selection
    - Product counts per size
    - URL format: `?size=M`
+   - Supports size grouping (e.g., Kids vs Adult sizes for shoes)
+   - Groups display with separators and labels
+   - Category-specific size ordering via `size-config.json`
 
-3. **Price Range Slider**
-   - Dual-handle slider component
-   - Debounced updates (500ms delay)
-   - Only adds to URL if different from defaults
+3. **Price Range Filter**
+   - Integrated `PriceRangeFilter` component
+   - Manual "Apply" button (no auto-updates)
+   - Text inputs with $ prefix
+   - Shows product price range info
    - URL format: `?price_min=20&price_max=50`
 
 4. **Sort Dropdown**
@@ -168,6 +186,7 @@ useEffect(() => {
 
 **Usage Example**:
 ```tsx
+// Simple category (no size grouping)
 <FilterSidebar
   category="t-shirts"
   filterCounts={{
@@ -178,6 +197,24 @@ useEffect(() => {
   currentFilters={{ colors: ['black'], size: 'M' }}
   availableColors={['black', 'blue', 'white', 'red']}
   availableSizes={['S', 'M', 'L', 'XL']}
+  sizeGroups={null}
+/>
+
+// Category with size grouping (e.g., shoes)
+<FilterSidebar
+  category="shoes"
+  filterCounts={{
+    colors: { black: 20, brown: 15 },
+    sizes: { '1': 5, '7': 10, '10': 8 },
+    priceRange: { min: 49.99, max: 199.99 }
+  }}
+  currentFilters={{ size: '7' }}
+  availableColors={['black', 'brown']}
+  availableSizes={['1', '2', '7', '8', '10']}
+  sizeGroups={[
+    { label: 'Kids', sizes: ['1', '2', '3', '4', '5', '6'] },
+    { label: 'Adult', sizes: ['7', '8', '9', '10', '11', '12', '13'] }
+  ]}
 />
 ```
 
@@ -269,27 +306,228 @@ interface ActiveFiltersProps {
 
 **Note**: This component provides redundant filter visibility in the content area, complementing the sticky FilterSummaryBar.
 
-### CleanPathPage (by-color)
+### PriceRangeFilter
 
-**Location**: `app/catalog/[category]/by-color/[color]/page.tsx`
+**Location**: `components/catalog/PriceRangeFilter.tsx`
 
-**Purpose**: SEO-friendly clean path route for color filtering
+**Purpose**: Manual price range filtering with explicit "Apply" button for better UX control
+
+**Type**: Client Component (`'use client'`)
+
+**Props**:
+```typescript
+interface PriceRangeFilterProps {
+  initialMin?: number;                          // Current min price from URL
+  initialMax?: number;                          // Current max price from URL
+  priceRange: { min: number; max: number };     // Available price range from products
+  onApply: (min?: number, max?: number) => void; // Callback when user applies filter
+  onClear?: () => void;                         // Optional clear callback
+}
+```
+
+**Key Features**:
+
+1. **Manual Application**
+   - User types price values
+   - Clicks "Apply Price Filter" button to update URL
+   - No auto-debouncing or immediate updates
+   - Better UX: user controls when filter applies
+
+2. **Text Input Fields**
+   - Numeric inputs with $ prefix
+   - Min and Max price fields
+   - `inputMode="decimal"` for mobile keyboards
+   - Accepts any positive number or empty
+
+3. **Enter Key Support**
+   - Press Enter in either field to apply filter
+   - Same behavior as clicking Apply button
+
+4. **Visual Feedback**
+   - Shows available price range from products
+   - Example: "Products range: $19 - $199"
+   - Helps users understand valid ranges
+
+5. **State Management**
+   - Internal state for input values
+   - Syncs with `initialMin`/`initialMax` props
+   - Only calls `onApply` when user explicitly applies
+
+**Usage Example**:
+```tsx
+<PriceRangeFilter
+  initialMin={20}
+  initialMax={100}
+  priceRange={{ min: 19.99, max: 199.99 }}
+  onApply={(min, max) => {
+    // Update URL with new price range
+    updateUrl({ priceMin: min, priceMax: max });
+  }}
+/>
+```
+
+**Why Manual Apply vs Auto-Update**:
+- Prevents excessive URL updates while typing
+- User can see price inputs before committing
+- Better for SEO (fewer history entries)
+- More predictable UX (explicit action required)
+
+### GenderFilter
+
+**Location**: `components/catalog/GenderFilter.tsx`
+
+**Purpose**: Gender-based navigation with clean path URLs and SEO education
+
+**Type**: Client Component (`'use client'`)
+
+**Props**:
+```typescript
+interface GenderFilterProps {
+  category: string;                      // Category slug (e.g., "t-shirts")
+  currentGender?: string;                // Active gender filter (if on clean path)
+  genderCounts: Record<string, number>;  // Product count per gender
+  totalCount: number;                    // Total products in category
+}
+```
+
+**Key Features**:
+
+1. **Large Button Navigation**
+   - Five buttons: All, Women, Men, Girls, Boys
+   - Active state styling for current selection
+   - Prominent size (`size="lg"`) for easy clicking
+   - Min-width ensures consistent button sizes
+
+2. **Clean Path URLs**
+   - Links to `/shop/[category]/for/[gender]/`
+   - "All" button links to base category page
+   - SEO-friendly URL structure
+   - Statically generated pages
+
+3. **SEO Education Banner**
+   - Shows when `currentGender` is set (on clean path page)
+   - Green alert with Info icon
+   - Explains clean path vs query param approach
+   - Highlights SEO benefits: index,follow, sitemap inclusion
+   - Educational for developers learning SEO
+
+4. **Responsive Layout**
+   - Flexbox with wrapping
+   - Buttons stack on mobile if needed
+   - Consistent spacing via gap-2
+
+**Usage Example**:
+```tsx
+// On base category page (no gender filter)
+<GenderFilter 
+  category="t-shirts"
+  genderCounts={{ women: 40, men: 35, girls: 15, boys: 10 }}
+  totalCount={100}
+/>
+
+// On gender filter page (shows SEO banner)
+<GenderFilter 
+  category="t-shirts"
+  currentGender="women"
+  genderCounts={{ women: 40, men: 35, girls: 15, boys: 10 }}
+  totalCount={100}
+/>
+```
+
+**Educational Banner Content**:
+```
+✓ Clean Path URL: This page uses /shop/t-shirts/for/women/ 
+instead of query parameters (?gender=women).
+
+SEO Benefits: Gender is a stable filter that creates meaningful 
+landing pages. Clean paths are index,follow and included in sitemaps.
+```
+
+### CleanPathPage (Gender Filter)
+
+**Location**: `app/shop/[category]/for/[gender]/page.tsx`
+
+**Purpose**: SEO-friendly clean path route for gender-based filtering
 
 **Type**: Server Component (default)
 
-**Route Pattern**: `/catalog/t-shirts/by-color/black/`
+**Route Pattern**: `/shop/t-shirts/for/women/`
 
 **Key Features**:
 
 1. **Static Generation**
    - Pre-renders pages at build time
    - Uses `generateStaticParams()`
-   - 16+ pages generated (2 categories × 8 colors)
+   - 8 pages generated (2 categories × 4 genders)
+   - Built alongside product pages for optimal performance
+
+2. **Gender-Aware Size Groups**
+   - Automatically filters size groups based on gender
+   - Example: Kids sizes for girls/boys, Adult sizes for women/men
+   - Uses `getSizeGroupsForGender(category, gender)`
+   - Provides contextually relevant size options
+
+3. **Educational Banners**
+   - Green alert explaining clean path benefits
+   - Compares `/for/women/` vs `?gender=women`
+   - Highlights SEO benefits: indexability, sitemap inclusion
+   - Educational component: `GenderFilter` with banner
+
+4. **Complete Filtering Support**
+   - Gender from URL path (stable filter)
+   - Color, size, price from query params
+   - All filters work together
+   - Breadcrumbs show full navigation path
+
+5. **Parameter Validation**
+   - Validates gender against available genders
+   - Returns 404 if gender doesn't exist in category
+   - Type-safe with TypeScript
+
+**Static Params Generation**:
+```typescript
+export async function generateStaticParams() {
+  const categories = getCategories();
+  const genders = ['women', 'men', 'girls', 'boys'];
+  
+  return categories.flatMap(cat => 
+    genders.map(gender => ({
+      category: cat.slug,
+      gender: gender
+    }))
+  );
+}
+```
+
+**Routing Note**: The `/for/` prefix creates semantic URLs and prevents conflicts with product routes. It clearly indicates filtering intent.
+
+### CleanPathPage (Color & Size Filters)
+
+**Location**: 
+- `app/shop/[category]/color/[color]/page.tsx`
+- `app/shop/[category]/size/[size]/page.tsx`
+
+**Purpose**: SEO-friendly clean path routes for color and size filtering
+
+**Type**: Server Component (default)
+
+**Route Patterns**: 
+- `/shop/t-shirts/color/black/`
+- `/shop/t-shirts/size/M/`
+
+**Key Features**:
+
+1. **Static Generation**
+   - Pre-renders pages at build time
+   - Uses `generateStaticParams()`
+   - 16+ color pages (2 categories × 8+ colors)
+   - 20+ size pages (2 categories × 10+ sizes)
 
 2. **Educational Banners**
    - Green alert explaining clean path benefits
-   - "Try query param version" link for comparison
-   - Shows both URL formats side-by-side
+   - Compares clean path vs query param approach
+   - Shows SEO advantages
+   - Links to equivalent query param version
 
 3. **SEO Comparison**
    - Displays SEO Receipt for clean path URL
@@ -297,22 +535,11 @@ interface ActiveFiltersProps {
    - Demonstrates URL structure best practices
 
 4. **Parameter Validation**
-   - Validates color against available colors
-   - Returns 404 if color doesn't exist
+   - Validates color/size against available options
+   - Returns 404 if value doesn't exist
    - Type-safe with TypeScript
 
-**Static Params Generation**:
-```typescript
-export async function generateStaticParams({ params }) {
-  const colors = getAvailableColors(params.category);
-  
-  return colors.map(color => ({
-    color: color.toLowerCase(),
-  }));
-}
-```
-
-**Routing Note**: The `by-color/` prefix prevents conflicts with `[product]` routes. Without it, Next.js cannot distinguish between `/catalog/t-shirts/black` (product vs color).
+**Routing Note**: Prefixes (`/color/`, `/size/`, `/for/`) prevent conflicts with `[product]` routes. Without them, Next.js cannot distinguish between `/shop/t-shirts/black` (product vs filter).
 
 ### DemoChips
 
