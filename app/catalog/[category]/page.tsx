@@ -17,9 +17,8 @@ import {
   type FilterOptions
 } from '@/lib/catalog/data';
 import { Breadcrumbs } from'@/components/Breadcrumbs';
-import { DemoChips } from '@/components/DemoChips';
 import { FilterSidebar } from '@/components/catalog/FilterSidebar';
-import { ActiveFilters } from '@/components/catalog/ActiveFilters';
+import { FilterSummaryBar } from '@/components/catalog/FilterSummaryBar';
 import { notFound } from 'next/navigation';
 
 interface PageProps {
@@ -73,7 +72,7 @@ export default function CategoryPage({ params, searchParams }: PageProps) {
 
   return (
     <div className="min-h-screen bg-slate-50">
-      <Breadcrumbs items={[{ label: 'Catalog', href: '/catalog' }, { label: category.name, href: `/catalog/${params.category}` }]} />
+      <Breadcrumbs items={[{ label: 'Shop', href: '/catalog' }, { label: category.name, href: `/catalog/${params.category}` }]} />
 
       <div className="container mx-auto px-4 py-12 max-w-7xl">
         {/* Header */}
@@ -85,7 +84,14 @@ export default function CategoryPage({ params, searchParams }: PageProps) {
           </p>
         </div>
 
-        <DemoChips basePath={`/catalog/${params.category}`} />
+        {/* Sticky Filter Summary Bar */}
+        <FilterSummaryBar
+          category={params.category}
+          filters={filters}
+          sort={searchParams.sort}
+          page={currentPage}
+          priceRange={filterCounts.priceRange}
+        />
 
         {/* Two-column layout: Sidebar + Main Content */}
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
@@ -102,9 +108,6 @@ export default function CategoryPage({ params, searchParams }: PageProps) {
 
           {/* Main Content */}
           <div className="lg:col-span-3">
-            {/* Active Filters */}
-            <ActiveFilters filters={filters} priceRange={filterCounts.priceRange} />
-
             {/* Product Grid */}
             {paginatedProducts.length > 0 ? (
               <>

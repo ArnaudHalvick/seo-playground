@@ -3,16 +3,18 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Button } from './ui/button';
-import { Settings, ShoppingBag, Search, Home, BookOpen, ChevronDown } from 'lucide-react';
+import { Settings, ShoppingBag, Home, BookOpen, ChevronDown, Beaker } from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from './ui/dropdown-menu';
+import { getCategories } from '@/lib/catalog/data';
 
 export function Navigation() {
   const pathname = usePathname();
+  const categories = getCategories();
 
   const isActive = (path: string) => pathname === path || pathname.startsWith(path + '/');
 
@@ -35,24 +37,43 @@ export function Navigation() {
               </Button>
             </Link>
 
-            <Link href="/catalog">
-              <Button variant={isActive('/catalog') ? 'default' : 'ghost'} size="sm">
-                <ShoppingBag className="h-4 w-4 mr-2" />
-                Catalog
-              </Button>
-            </Link>
+            {/* Shop Dropdown */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant={isActive('/catalog') ? 'default' : 'ghost'} size="sm">
+                  <ShoppingBag className="h-4 w-4 mr-2" />
+                  <span className="hidden sm:inline">Shop</span>
+                  <ChevronDown className="h-4 w-4 ml-1" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="start" className="z-50">
+                <DropdownMenuItem asChild>
+                  <Link href="/catalog" className="w-full cursor-pointer">
+                    All Categories
+                  </Link>
+                </DropdownMenuItem>
+                {categories.map((cat) => (
+                  <DropdownMenuItem key={cat.id} asChild>
+                    <Link href={`/catalog/${cat.slug}`} className="w-full cursor-pointer">
+                      {cat.name}
+                    </Link>
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
 
-            <Link href="/search">
-              <Button variant={isActive('/search') ? 'default' : 'ghost'} size="sm">
-                <Search className="h-4 w-4 mr-2" />
-                Search
+            {/* SEO Lab */}
+            <Link href="/playground">
+              <Button variant={isActive('/playground') ? 'default' : 'ghost'} size="sm">
+                <Beaker className="h-4 w-4 mr-2" />
+                <span className="hidden sm:inline">SEO Lab</span>
               </Button>
             </Link>
 
             <Link href="/best-practices">
               <Button variant={isActive('/best-practices') ? 'default' : 'ghost'} size="sm">
                 <Settings className="h-4 w-4 mr-2" />
-                Best Practices
+                <span className="hidden sm:inline">Best Practices</span>
               </Button>
             </Link>
 

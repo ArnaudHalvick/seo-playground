@@ -59,26 +59,9 @@ export function ActiveFilters({ filters, priceRange }: ActiveFiltersProps) {
     router.push(`${pathname}${queryString ? `?${queryString}` : ""}`);
   };
 
-  const clearAll = () => {
-    const params = new URLSearchParams(searchParams.toString());
-    params.delete("color");
-    params.delete("size");
-    params.delete("price_min");
-    params.delete("price_max");
-    params.delete("page");
-
-    const queryString = params.toString();
-    router.push(`${pathname}${queryString ? `?${queryString}` : ""}`);
-  };
-
   return (
     <div className="mb-6 p-4 bg-gray-50 rounded-lg border border-gray-200">
-      <div className="flex items-center justify-between mb-3">
-        <h3 className="text-sm font-semibold text-gray-700">Active Filters</h3>
-        <Button variant="ghost" size="sm" onClick={clearAll} className="h-auto p-1 text-xs">
-          Clear All
-        </Button>
-      </div>
+      <h3 className="text-sm font-semibold text-gray-700 mb-3">Active Filters</h3>
 
       <div className="flex flex-wrap gap-2">
         {/* Color filters */}

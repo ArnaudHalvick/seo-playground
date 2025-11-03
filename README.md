@@ -9,6 +9,10 @@ This project is an **educational showcase**, not a real e-commerce store. It dem
 ### Key Features
 
 - **Real-time SEO Receipt**: See instant feedback on how URL parameters affect SEO decisions
+- **Interactive Filter Sidebar**: Production-ready e-commerce filtering with multi-select colors, size selection, price ranges, and sorting
+- **Clean Path Routes**: Demonstrates SEO-friendly URL structures (`/by-color/black/`) vs query parameters (`?color=black`)
+- **Multi-Select Detection**: Identifies and blocks exponential URL combinations (2^N patterns) via robots.txt
+- **Crawl Trap Risk Assessment**: Real-time calculation of URL explosion with color-coded warnings (low/medium/high)
 - **Parameter Classification**: Demonstrates stable, unstable, and blocked parameter policies
 - **Pagination Best Practices**: Shows proper handling of page 2+ with noindex,follow
 - **Canonical URL Logic**: Intelligent canonical generation that drops noise while preserving meaningful facets
@@ -19,16 +23,19 @@ This project is an **educational showcase**, not a real e-commerce store. It dem
 ## Tech Stack
 
 ### Core Framework
+
 - **Next.js 13** - React framework with App Router
 - **React 18** - UI library
 - **TypeScript** - Type safety
 
 ### UI Components
+
 - **Tailwind CSS** - Utility-first CSS framework
 - **shadcn/ui** - Re-usable component library built on Radix UI
 - **Lucide React** - Icon library
 
 ### State Management
+
 - **React Context** - For configuration state
 - **LocalStorage** - Persistent configuration (browser-side only for demo purposes)
 
@@ -65,23 +72,32 @@ npm start
 ```
 project/
 ├── app/                          # Next.js App Router pages
-│   ├── catalog/                  # Demo catalog pages
-│   │   └── [category]/          # Dynamic category pages
-│   ├── playground/              # SEO configuration showcase
+│   ├── catalog/                  # E-commerce demo pages
+│   │   ├── [category]/          # Dynamic category pages with filters
+│   │   │   ├── by-color/       # Clean path routes (/black/, /blue/)
+│   │   │   └── [product]/      # Product detail pages
+│   │   └── page.tsx            # Category list / shop home
+│   ├── playground/              # SEO Lab for parameter testing
+│   ├── best-practices/          # SEO best practices docs
 │   ├── api/                     # API routes (robots.txt, sitemap)
 │   └── layout.tsx               # Root layout with providers
 ├── components/                   # React components
 │   ├── ui/                      # shadcn/ui components
+│   ├── catalog/                 # E-commerce filter components
+│   │   ├── FilterSidebar.tsx   # Multi-select filters
+│   │   ├── FilterSummaryBar.tsx # Sticky active filter bar
+│   │   └── ActiveFilters.tsx   # Removable filter badges
 │   ├── DemoChips.tsx            # Parameter demo buttons
 │   ├── SeoReceipt.tsx           # Real-time SEO feedback panel
 │   └── Navigation.tsx           # Site navigation
 ├── lib/                         # Core business logic
 │   ├── rules/                   # SEO rule engines
-│   │   ├── canonical.ts         # Canonical URL computation
+│   │   ├── canonical.ts         # Canonical URL + multi-select detection
 │   │   ├── params.ts            # Parameter classification
 │   │   ├── robots.ts            # robots.txt generation
 │   │   └── sitemap.ts           # Sitemap generation
-│   ├── catalog/                 # Demo product data
+│   ├── catalog/                 # Product data & filtering
+│   │   └── data.ts             # Filter functions, counts, helpers
 │   ├── config/                  # Configuration provider
 │   └── utils/                   # Utility functions
 ├── data/                        # Static data files
@@ -98,30 +114,71 @@ project/
 
 ## Core Concepts
 
+### Interactive E-Commerce Filtering
+
+The catalog features a production-ready filter system:
+
+- **Multi-select color filtering** - Select multiple colors simultaneously (with crawl trap warnings)
+- **Size radio buttons** - Single selection with visual feedback and product counts
+- **Price range slider** - Debounced for performance, updates URL after 500ms pause
+- **Sort options** - Price (high/low), name (A-Z/Z-A), popularity
+- **Active filter display** - Removable badges showing all applied filters
+- **Sticky filter summary** - Persistent bar showing all active parameters with single "Clear All" button
+- **Mobile responsive** - Drawer interface for small screens
+
+All filter state lives in the URL, making filters shareable, SEO-analyzable, and browser-history compatible.
+
+### Clean Path Routes
+
+Demonstrates SEO-friendly URL structures as an alternative to query parameters:
+
+- **Query params**: `/catalog/t-shirts?color=black`
+- **Clean paths**: `/catalog/t-shirts/by-color/black/`
+- Side-by-side comparison with educational banners explaining benefits
+- Static generation with `generateStaticParams` for optimal performance
+- 16+ pre-generated clean path pages (2 categories × 8 colors)
+
+Clean paths are ideal for **single stable filters** that represent real user intent.
+
+### Multi-Select & Crawl Trap Detection
+
+Advanced parameter analysis with real-time risk assessment:
+
+- **Exponential detection** - Identifies comma-separated values creating 2^N combination patterns
+- **Multi-filter logic** - Handles N×M combinations when 2+ stable parameters are present
+- **Real-time math** - Shows URL explosion calculations (e.g., "2^3 = 8 URLs")
+- **Risk assessment** - Color-coded warnings:
+  - 🟢 **Low Risk** - Single stable filter, safe to index
+  - 🟡 **Medium Risk** - Multiple stable filters or sorting, use noindex,follow
+  - 🔴 **High Risk** - Multi-select or infinite ranges, block via robots.txt
+
 ### Parameter Policies
 
 This app classifies URL parameters into three categories:
 
 1. **Stable** - Meaningful facets that should be indexed (e.g., `color=black`, `size=m`)
 2. **Unstable** - Create duplicate content, use noindex,follow (e.g., `sort=price_desc`)
-3. **Blocked** - Tracking params that should be blocked in robots.txt (e.g., `utm_source`)
+3. **Blocked** - Tracking params that should be blocked in robots.txt (e.g., `utm_source`, `price_min`)
 
 ### SEO Decision Flow
 
 Every URL goes through this decision process:
 
 1. **Normalize path** - Lowercase and add trailing slash
-2. **Classify parameters** - Determine stable/unstable/blocked/search
+2. **Classify parameters** - Determine stable/unstable/blocked/search/pagination
 3. **Detect pagination** - Page 2+ gets noindex,follow
 4. **Check protected routes** - /account/ gets noindex,nofollow
-5. **Apply parameter policies** - Unstable params trigger noindex,follow
-6. **Check robots.txt** - Apply blocking rules if configured
-7. **Build canonical** - Keep stable params, drop unstable/blocked
-8. **Determine sitemap** - Include only if indexable AND not blocked
+5. **Check robots.txt blocking** - Priority check for blocked parameters
+6. **Detect multi-select** - Comma-separated values trigger robots.txt blocking (2^N risk)
+7. **Apply parameter policies** - Multi-filter (N×M) or unstable params trigger noindex,follow
+8. **Build canonical** - Keep stable params, drop unstable/blocked
+9. **Determine sitemap** - Include only if indexable AND not blocked
+10. **Calculate crawl trap risk** - Assess low/medium/high risk with math explanations
 
 ### The SEO Receipt
 
 The SEO Receipt is a real-time panel that shows:
+
 - Input URL vs Canonical URL (with diff highlighting)
 - Indexability status (index,follow / noindex,follow / noindex,nofollow)
 - Robots.txt blocking status
@@ -130,10 +187,24 @@ The SEO Receipt is a real-time panel that shows:
 
 ## Key Pages
 
-- **`/`** - Homepage with links to all demo sections
-- **`/catalog`** - Main catalog landing page
-- **`/catalog/t-shirts`** - Demo category with parameter chips
+### E-Commerce Demo (Shop)
+
+- **`/catalog`** - Category list / shop home
+- **`/catalog/t-shirts`** - T-Shirts category with interactive filters
+- **`/catalog/shoes`** - Shoes category with interactive filters
+- **`/catalog/t-shirts/by-color/black`** - Clean path example (indexable)
+- **`/catalog/t-shirts/[product]`** - Individual product pages
+
+### SEO Learning Tool
+
+- **`/playground`** - SEO Lab with parameter combination testing
 - **`/best-practices`** - SEO best practices documentation
+- **`/best-practices/parameters`** - Parameter handling guide
+- **`/best-practices/robots`** - robots.txt best practices
+- **`/best-practices/sitemap`** - Sitemap generation guide
+
+### Technical Endpoints
+
 - **`/api/robots`** - Dynamic robots.txt generation
 - **`/api/sitemap`** - Dynamic XML sitemap
 

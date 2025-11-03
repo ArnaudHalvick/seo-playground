@@ -88,7 +88,7 @@ export default function ColorFilterPage({ params, searchParams }: PageProps) {
     <div className="min-h-screen bg-slate-50">
       <Breadcrumbs 
         items={[
-          { label: 'Catalog', href: '/catalog' }, 
+          { label: 'Shop', href: '/catalog' }, 
           { label: category.name, href: `/catalog/${params.category}` },
           { label: `${params.color} ${category.name}`, href: `/catalog/${params.category}/by-color/${params.color}` }
         ]} 
