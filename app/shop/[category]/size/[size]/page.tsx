@@ -25,11 +25,11 @@ import { notFound } from 'next/navigation';
 interface PageProps {
   params: {
     category: string;
-    color: string;
+    size: string;
   };
   searchParams: {
     sort?: string;
-    size?: string;
+    color?: string;
     price_min?: string;
     price_max?: string;
     page?: string;
@@ -38,17 +38,17 @@ interface PageProps {
 
 export function generateStaticParams() {
   const categories = getCategories();
-  const colors = ['black', 'blue', 'white', 'red', 'green', 'gray', 'brown', 'tan'];
+  const sizes = ['S', 'M', 'L', 'XL', '6', '8', '9', '10', '11', '12'];
   
   return categories.flatMap(cat => 
-    colors.map(color => ({
+    sizes.map(size => ({
       category: cat.slug,
-      color: color
+      size: size
     }))
   );
 }
 
-export default function ColorFilterPage({ params, searchParams }: PageProps) {
+export default function SizeFilterPage({ params, searchParams }: PageProps) {
   const category = getCategory(params.category);
 
   if (!category) {
@@ -57,8 +57,8 @@ export default function ColorFilterPage({ params, searchParams }: PageProps) {
 
   // Parse filters from search params + path params
   const filters: FilterOptions = {
-    colors: [params.color], // Color comes from URL path
-    size: searchParams.size,
+    size: params.size, // Size comes from URL path
+    colors: searchParams.color ? searchParams.color.split(',') : undefined,
     priceMin: searchParams.price_min ? parseFloat(searchParams.price_min) : undefined,
     priceMax: searchParams.price_max ? parseFloat(searchParams.price_max) : undefined,
   };
@@ -68,8 +68,8 @@ export default function ColorFilterPage({ params, searchParams }: PageProps) {
   const availableSizes = getAvailableSizes(params.category);
   const filterCounts = getFilterCounts(params.category, filters);
 
-  // Validate that the color exists in this category
-  if (!availableColors.includes(params.color.toLowerCase())) {
+  // Validate that the size exists in this category
+  if (!availableSizes.includes(params.size)) {
     notFound();
   }
 
@@ -82,7 +82,7 @@ export default function ColorFilterPage({ params, searchParams }: PageProps) {
   const { products: paginatedProducts, totalPages } = paginateProducts(products, currentPage);
 
   // Query param equivalent URL for comparison
-  const queryParamUrl = `/shop/${params.category}?color=${params.color}`;
+  const queryParamUrl = `/shop/${params.category}?size=${params.size}`;
 
   return (
     <div className="min-h-screen bg-slate-50">
@@ -90,7 +90,7 @@ export default function ColorFilterPage({ params, searchParams }: PageProps) {
         items={[
           { label: 'Shop', href: '/shop' }, 
           { label: category.name, href: `/shop/${params.category}` },
-          { label: `${params.color} ${category.name}`, href: `/shop/${params.category}/by-color/${params.color}` }
+          { label: `Size ${params.size} ${category.name}`, href: `/shop/${params.category}/size/${params.size}` }
         ]} 
       />
 
@@ -102,12 +102,12 @@ export default function ColorFilterPage({ params, searchParams }: PageProps) {
             <div className="space-y-2">
               <div>
                 <strong>✓ Clean Path URL Strategy:</strong> This page uses a semantic, SEO-friendly URL structure 
-                (<code className="bg-green-100 px-1 py-0.5 rounded">/shop/t-shirts/by-color/black/</code>) 
-                instead of query parameters (<code className="bg-green-100 px-1 py-0.5 rounded">?color=black</code>).
+                (<code className="bg-green-100 px-1 py-0.5 rounded">/shop/t-shirts/size/M/</code>) 
+                instead of query parameters (<code className="bg-green-100 px-1 py-0.5 rounded">?size=M</code>).
               </div>
               <div className="text-sm">
                 <strong>SEO Benefits:</strong> Clean paths are <strong>index,follow</strong>, included in sitemap, 
-                and provide clear keyword signals. Single stable filters like color are ideal for this approach.
+                and provide clear keyword signals. Single stable filters like size are ideal for this approach.
               </div>
               <Link href={queryParamUrl}>
                 <Button variant="outline" size="sm" className="mt-2 text-green-800 border-green-300 hover:bg-green-100">
@@ -120,11 +120,11 @@ export default function ColorFilterPage({ params, searchParams }: PageProps) {
 
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-4xl font-bold mb-3 capitalize">
-            {params.color} {category.name}
+          <h1 className="text-4xl font-bold mb-3">
+            Size {params.size} {category.name}
           </h1>
           <p className="text-lg text-slate-600">
-            {category.description} - Filtered by {params.color}
+            {category.description} - Filtered by size {params.size}
           </p>
           <p className="text-sm text-slate-500 mt-2">
             Showing {paginatedProducts.length} of {products.length} products
@@ -193,7 +193,7 @@ export default function ColorFilterPage({ params, searchParams }: PageProps) {
                     {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
                       <Link
                         key={page}
-                        href={`/shop/${params.category}/by-color/${params.color}?${new URLSearchParams({ ...searchParams, page: page.toString() }).toString()}`}
+                        href={`/shop/${params.category}/size/${params.size}?${new URLSearchParams({ ...searchParams, page: page.toString() }).toString()}`}
                       >
                         <Button variant={page === currentPage ? 'default' : 'outline'} size="sm">
                           {page}

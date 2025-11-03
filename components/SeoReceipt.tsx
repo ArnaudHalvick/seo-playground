@@ -133,36 +133,70 @@ function getCleanPathRecommendation(
     let examplePath = pathname.replace(/\/$/, "");
     const basePath = examplePath; // Store original for category variations
 
-    if (examplePath.match(/^\/catalog\/[^/]+$/)) {
-      examplePath = `${examplePath}/${exampleValue}/`;
-    }
-
-    // Check if this is a high-value parameter like color
-    const showFullExamples = exampleParam === "color";
-
-    if (showFullExamples) {
-      // Generate category variations for color
-      const categoryPrefixes = ["men", "women", "girls", "boys"];
-      const relatedSuggestions = categoryPrefixes.map(
-        (cat) => `/${cat}${basePath.replace("/catalog", "")}/${exampleValue}/`
-      );
+    // Handle color parameter
+    if (exampleParam === "color" && examplePath.match(/^\/shop\/[^/]+$/)) {
+      examplePath = `${basePath}/color/${exampleValue}/`;
+      
+      // Show other colors as related examples
+      const allColors = ['black', 'blue', 'white', 'red', 'green', 'gray', 'brown', 'tan'];
+      const otherColors = allColors.filter(c => c !== exampleValue).slice(0, 3);
+      const colorSuggestions = otherColors.map(color => `${basePath}/color/${color}/`);
 
       return {
         message: `✅ Stable parameter detected — you could turn it into a clean path like ${examplePath} if it represents real user intent.`,
         example: examplePath,
-        relatedSuggestions,
+        relatedSuggestions: colorSuggestions,
         educationalNote:
-          "Clean paths are ideal for limited, meaningful filters that match user search intent. They should not be used for infinite or numeric combinations.",
+          "This site implements clean paths for color at /color/. Stable filters can safely move from query parameters to descriptive path segments to improve crawl clarity and keyword targeting.",
         showExamples: true,
       };
-    } else {
-      // For other stable params (like size), show basic example only
+    }
+
+    // Handle size parameter
+    if (exampleParam === "size" && examplePath.match(/^\/shop\/[^/]+$/)) {
+      examplePath = `${basePath}/size/${exampleValue}/`;
+      
+      // Show other sizes as related examples
+      const allSizes = ['S', 'M', 'L', 'XL', '6', '8', '9', '10', '11', '12'];
+      const otherSizes = allSizes.filter(s => s !== exampleValue).slice(0, 3);
+      const sizeSuggestions = otherSizes.map(size => `${basePath}/size/${size}/`);
+
       return {
         message: `✅ Stable parameter detected — you could turn it into a clean path like ${examplePath} if it represents real user intent.`,
         example: examplePath,
-        showExamples: false,
+        relatedSuggestions: sizeSuggestions,
+        educationalNote:
+          "This site implements clean paths for size at /size/. Size filters create meaningful landing pages when they represent common user search patterns.",
+        showExamples: true,
       };
     }
+
+    // Handle gender parameter
+    if (exampleParam === "gender" && examplePath.match(/^\/shop\/[^/]+$/)) {
+      examplePath = `${basePath}/for/${exampleValue}/`;
+      
+      const genders = ["women", "men", "girls", "boys"];
+      const otherGenders = genders.filter(g => g !== exampleValue);
+      const genderSuggestions = otherGenders.map(g => `${basePath}/for/${g}/`);
+
+      return {
+        message: `✅ Gender is already implemented as a clean path! Use ${examplePath} instead.`,
+        example: examplePath,
+        relatedSuggestions: genderSuggestions,
+        educationalNote:
+          "This site implements gender as clean paths at /for/[gender]/. This creates meaningful landing pages for each demographic.",
+        showExamples: true,
+      };
+    }
+
+    // Fallback for other stable params
+    return {
+      message: `✅ Stable parameter detected — you could turn it into a clean path like ${examplePath}/${exampleValue}/ if it represents real user intent.`,
+      example: `${examplePath}/${exampleValue}/`,
+      educationalNote:
+        "Clean paths are ideal for limited, meaningful filters that match user search intent. They should not be used for infinite or numeric combinations.",
+      showExamples: false,
+    };
   }
 
   // Unstable parameters only (check for sort specifically)

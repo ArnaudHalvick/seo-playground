@@ -76,7 +76,8 @@ project/
 │   ├── shop/                    # E-commerce demo pages
 │   │   ├── [category]/          # Dynamic category pages with filters
 │   │   │   ├── for/[gender]/   # Gender clean paths (/for/women/, /for/men/, etc.)
-│   │   │   ├── by-color/       # Color clean paths (/black/, /blue/)
+│   │   │   ├── color/[color]/  # Color clean paths (/color/black/, /color/blue/)
+│   │   │   ├── size/[size]/    # Size clean paths (/size/M/, /size/L/)
 │   │   │   └── [product]/      # Product detail pages
 │   │   └── page.tsx            # Shop home / category list
 │   ├── playground/              # SEO Lab for parameter testing
@@ -136,10 +137,11 @@ All filter state lives in the URL, making filters shareable, SEO-analyzable, and
 Demonstrates SEO-friendly URL structures as an alternative to query parameters:
 
 - **Gender clean paths**: `/shop/t-shirts/for/women/` instead of `?gender=women`
-- **Color clean paths**: `/shop/t-shirts/by-color/black/` instead of `?color=black`
+- **Color clean paths**: `/shop/t-shirts/color/black/` instead of `?color=black`
+- **Size clean paths**: `/shop/t-shirts/size/M/` instead of `?size=M`
 - Side-by-side comparison with educational banners explaining benefits
 - Static generation with `generateStaticParams` for optimal performance
-- 24+ pre-generated clean path pages (8 gender pages + 16 color pages)
+- 44+ pre-generated clean path pages (8 gender + 16 color + 20 size pages)
 
 Clean paths are ideal for **stable filters** that represent real user intent and create meaningful landing pages.
 
@@ -196,7 +198,8 @@ The SEO Receipt is a real-time panel that shows:
 - **`/shop/t-shirts`** - T-Shirts category with interactive filters
 - **`/shop/shoes`** - Shoes category with interactive filters
 - **`/shop/t-shirts/for/women`** - Gender clean path example (indexable)
-- **`/shop/t-shirts/by-color/black`** - Color clean path example (indexable)
+- **`/shop/t-shirts/color/black`** - Color clean path example (indexable)
+- **`/shop/t-shirts/size/M`** - Size clean path example (indexable)
 - **`/shop/t-shirts/[product]`** - Individual product pages
 
 ### SEO Learning Tool

@@ -61,6 +61,50 @@ export function generateSitemapEntries(config: ParamConfig, baseUrl: string = 'h
     });
   }
 
+  // Color clean paths (stable, indexable)
+  const colorPages = [
+    { category: 't-shirts', color: 'black' },
+    { category: 't-shirts', color: 'blue' },
+    { category: 't-shirts', color: 'white' },
+    { category: 'shoes', color: 'black' },
+    { category: 'shoes', color: 'white' },
+    { category: 'shoes', color: 'brown' },
+  ];
+
+  for (const colorPage of colorPages) {
+    const result = computeCanonical(`/shop/${colorPage.category}/color/${colorPage.color}/`, new URLSearchParams(), config, baseUrl);
+    const isIndexable = result.robots === 'index,follow' && !result.blockInRobots;
+
+    entries.push({
+      loc: result.canonical,
+      lastmod: new Date().toISOString().split('T')[0],
+      priority: 0.7,
+      included: isIndexable,
+      reason: isIndexable ? `Color clean path - indexable` : `Excluded: ${result.robots}${result.blockInRobots ? ' + robots blocked' : ''}`,
+    });
+  }
+
+  // Size clean paths (stable, indexable) - sampling key sizes
+  const sizePages = [
+    { category: 't-shirts', size: 'M' },
+    { category: 't-shirts', size: 'L' },
+    { category: 'shoes', size: '10' },
+    { category: 'shoes', size: '11' },
+  ];
+
+  for (const sizePage of sizePages) {
+    const result = computeCanonical(`/shop/${sizePage.category}/size/${sizePage.size}/`, new URLSearchParams(), config, baseUrl);
+    const isIndexable = result.robots === 'index,follow' && !result.blockInRobots;
+
+    entries.push({
+      loc: result.canonical,
+      lastmod: new Date().toISOString().split('T')[0],
+      priority: 0.7,
+      included: isIndexable,
+      reason: isIndexable ? `Size clean path - indexable` : `Excluded: ${result.robots}${result.blockInRobots ? ' + robots blocked' : ''}`,
+    });
+  }
+
   const stableFacetPages = [
     { params: 'color=black', label: 'Color facet' },
     { params: 'size=m', label: 'Size facet' },
