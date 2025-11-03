@@ -75,8 +75,8 @@ export function FilterSidebar({
       }
 
       // Handle price range - allow ANY user-specified price
-      // Only skip if price is 0 or undefined (meaningless filter)
-      if (filters.priceMin !== undefined && filters.priceMin > 0) {
+      // Only skip if undefined
+      if (filters.priceMin !== undefined && filters.priceMin >= 0) {
         params.set("price_min", filters.priceMin.toString());
       } else {
         params.delete("price_min");

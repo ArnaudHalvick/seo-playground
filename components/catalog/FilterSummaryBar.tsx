@@ -73,8 +73,8 @@ export function FilterSummaryBar({
   const hasColorFilters = filters.colors && filters.colors.length > 0;
   const hasSizeFilter = !!filters.size;
   const hasPriceFilter = 
-    (filters.priceMin !== undefined && filters.priceMin > priceRange.min) ||
-    (filters.priceMax !== undefined && filters.priceMax < priceRange.max);
+    filters.priceMin !== undefined || 
+    filters.priceMax !== undefined;
   const hasSort = sort && sort !== "popularity";
   const hasPagination = page && page > 1;
 
@@ -135,7 +135,7 @@ export function FilterSummaryBar({
             {/* Price range filter */}
             {hasPriceFilter && (
               <Badge variant="secondary" className="pl-3 pr-1 py-1 flex items-center gap-1">
-                ${filters.priceMin ?? priceRange.min} - ${filters.priceMax ?? priceRange.max}
+                ${filters.priceMin ?? 0} - ${filters.priceMax ?? '∞'}
                 <button
                   onClick={() => removeFilter("price")}
                   className="ml-1 p-0.5 hover:bg-gray-300 rounded-full transition-colors"

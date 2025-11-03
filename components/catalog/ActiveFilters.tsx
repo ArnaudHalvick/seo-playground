@@ -20,8 +20,8 @@ export function ActiveFilters({ filters, priceRange }: ActiveFiltersProps) {
   const hasActiveFilters =
     (filters.colors && filters.colors.length > 0) ||
     filters.size ||
-    (filters.priceMin !== undefined && filters.priceMin > priceRange.min) ||
-    (filters.priceMax !== undefined && filters.priceMax < priceRange.max);
+    filters.priceMin !== undefined ||
+    filters.priceMax !== undefined;
 
   if (!hasActiveFilters) {
     return null;
@@ -94,10 +94,9 @@ export function ActiveFilters({ filters, priceRange }: ActiveFiltersProps) {
         )}
 
         {/* Price range filter */}
-        {((filters.priceMin !== undefined && filters.priceMin > priceRange.min) ||
-          (filters.priceMax !== undefined && filters.priceMax < priceRange.max)) && (
+        {(filters.priceMin !== undefined || filters.priceMax !== undefined) && (
           <Badge variant="secondary" className="pl-3 pr-1 py-1">
-            Price: ${filters.priceMin ?? priceRange.min} - ${filters.priceMax ?? priceRange.max}
+            Price: ${filters.priceMin ?? 0} - ${filters.priceMax ?? '∞'}
             <button
               onClick={() => removeFilter("price")}
               className="ml-2 p-0.5 hover:bg-gray-300 rounded-full transition-colors"
