@@ -47,7 +47,6 @@ export function GenderFilter({ category, currentGender, genderCounts, totalCount
       <div className="flex flex-wrap gap-2">
         {genders.map((gender) => {
           const isActive = (!currentGender && gender.key === 'all') || currentGender === gender.key;
-          const count = gender.key === 'all' ? totalCount : (genderCounts[gender.key] || 0);
           
           return (
             <Link key={gender.key} href={gender.href}>
@@ -57,7 +56,6 @@ export function GenderFilter({ category, currentGender, genderCounts, totalCount
                 className="min-w-[120px]"
               >
                 {gender.label}
-                <span className="ml-2 text-xs opacity-80">({count})</span>
               </Button>
             </Link>
           );

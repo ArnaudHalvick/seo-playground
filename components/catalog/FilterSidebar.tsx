@@ -213,8 +213,14 @@ export function FilterSidebar({
                     isDisabled ? "text-gray-400" : ""
                   }`}
                 >
-                  {color} ({count})
+                  {color}
                 </Label>
+                <Badge 
+                  variant="secondary" 
+                  className={`ml-auto text-xs ${isDisabled ? "opacity-50" : ""}`}
+                >
+                  {count}
+                </Badge>
               </div>
             );
           })}
@@ -248,8 +254,16 @@ export function FilterSidebar({
                 >
                   <RadioGroupItem value={size} id={`size-${size}`} disabled={isDisabled} />
                   <Label htmlFor={`size-${size}`} className="flex-1 cursor-pointer">
-                    {size} ({count})
+                    {size}
                   </Label>
+                  <Badge 
+                    variant={selectedSize === size ? "outline" : "secondary"}
+                    className={`ml-auto text-xs ${isDisabled ? "opacity-50" : ""} ${
+                      selectedSize === size ? "bg-primary-foreground/20" : ""
+                    }`}
+                  >
+                    {count}
+                  </Badge>
                 </div>
               );
             })}
