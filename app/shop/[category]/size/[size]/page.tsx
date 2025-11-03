@@ -13,7 +13,7 @@ import {
   getFilterCounts,
   getAvailableColors,
   getAvailableSizes,
-  getSizeGroups,
+  getSizeGroupsForGender,
   type FilterOptions
 } from '@/lib/catalog/data';
 import { Breadcrumbs } from'@/components/Breadcrumbs';
@@ -34,6 +34,7 @@ interface PageProps {
     price_min?: string;
     price_max?: string;
     page?: string;
+    gender?: string;
   };
 }
 
@@ -67,7 +68,7 @@ export default function SizeFilterPage({ params, searchParams }: PageProps) {
   // Get available options and counts
   const availableColors = getAvailableColors(params.category);
   const availableSizes = getAvailableSizes(params.category);
-  const sizeGroups = getSizeGroups(params.category);
+  const sizeGroups = getSizeGroupsForGender(params.category, searchParams.gender);
   const filterCounts = getFilterCounts(params.category, filters);
 
   // Validate that the size exists in this category

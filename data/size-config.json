@@ -1,6 +1,6 @@
 {
   "t-shirts": {
-    "sizeOrder": ["S", "M", "L", "XL"],
+    "sizeOrder": ["XS", "S", "M", "L", "XL"],
     "groups": null
   },
   "shoes": {
@@ -17,4 +17,3 @@
     ]
   }
 }
-

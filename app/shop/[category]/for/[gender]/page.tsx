@@ -13,7 +13,7 @@ import {
   getFilterCounts,
   getAvailableColors,
   getAvailableSizes,
-  getSizeGroups,
+  getSizeGroupsForGender,
   getAvailableGenders,
   getGenderCounts,
   type FilterOptions
@@ -76,7 +76,7 @@ export default function GenderFilterPage({ params, searchParams }: PageProps) {
   // Get available options and counts
   const availableColors = getAvailableColors(params.category);
   const availableSizes = getAvailableSizes(params.category);
-  const sizeGroups = getSizeGroups(params.category);
+  const sizeGroups = getSizeGroupsForGender(params.category, params.gender);
   const filterCounts = getFilterCounts(params.category, filters);
 
   // Filter and sort products

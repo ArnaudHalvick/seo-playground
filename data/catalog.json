@@ -934,7 +934,7 @@
       "description": "Slim Fit black crew neck for girls",
       "price": 25.32,
       "color": "black",
-      "size": "6",
+      "size": "XS",
       "gender": "girls",
       "popularity": 63
     },
@@ -946,7 +946,7 @@
       "description": "Regular Fit white v-neck for girls",
       "price": 24.31,
       "color": "white",
-      "size": "8",
+      "size": "S",
       "gender": "girls",
       "popularity": 55
     },
@@ -958,7 +958,7 @@
       "description": "Relaxed Fit blue henley for girls",
       "price": 17.93,
       "color": "blue",
-      "size": "10",
+      "size": "M",
       "gender": "girls",
       "popularity": 65
     },
@@ -970,7 +970,7 @@
       "description": "Athletic Fit red polo for girls",
       "price": 18.9,
       "color": "red",
-      "size": "12",
+      "size": "L",
       "gender": "girls",
       "popularity": 67
     },
@@ -982,7 +982,7 @@
       "description": "Slim Fit green tank top for girls",
       "price": 24.89,
       "color": "green",
-      "size": "6",
+      "size": "XS",
       "gender": "girls",
       "popularity": 64
     },
@@ -994,7 +994,7 @@
       "description": "Regular Fit gray crew neck for girls",
       "price": 17.21,
       "color": "gray",
-      "size": "8",
+      "size": "S",
       "gender": "girls",
       "popularity": 76
     },
@@ -1006,7 +1006,7 @@
       "description": "Relaxed Fit brown v-neck for girls",
       "price": 23.73,
       "color": "brown",
-      "size": "10",
+      "size": "M",
       "gender": "girls",
       "popularity": 75
     },
@@ -1018,7 +1018,7 @@
       "description": "Athletic Fit tan henley for girls",
       "price": 19.43,
       "color": "tan",
-      "size": "12",
+      "size": "L",
       "gender": "girls",
       "popularity": 71
     },
@@ -1030,7 +1030,7 @@
       "description": "Slim Fit black polo for girls",
       "price": 20.76,
       "color": "black",
-      "size": "6",
+      "size": "XS",
       "gender": "girls",
       "popularity": 75
     },
@@ -1042,7 +1042,7 @@
       "description": "Regular Fit white tank top for girls",
       "price": 21.72,
       "color": "white",
-      "size": "8",
+      "size": "S",
       "gender": "girls",
       "popularity": 93
     },
@@ -1054,7 +1054,7 @@
       "description": "Relaxed Fit blue crew neck for girls",
       "price": 16.56,
       "color": "blue",
-      "size": "10",
+      "size": "M",
       "gender": "girls",
       "popularity": 58
     },
@@ -1066,7 +1066,7 @@
       "description": "Athletic Fit red v-neck for girls",
       "price": 18.88,
       "color": "red",
-      "size": "12",
+      "size": "L",
       "gender": "girls",
       "popularity": 86
     },
@@ -1078,7 +1078,7 @@
       "description": "Slim Fit green henley for girls",
       "price": 16.71,
       "color": "green",
-      "size": "6",
+      "size": "XS",
       "gender": "girls",
       "popularity": 76
     },
@@ -1090,7 +1090,7 @@
       "description": "Regular Fit gray polo for girls",
       "price": 24.14,
       "color": "gray",
-      "size": "8",
+      "size": "S",
       "gender": "girls",
       "popularity": 74
     },
@@ -1102,7 +1102,7 @@
       "description": "Slim Fit black crew neck for boys",
       "price": 25.4,
       "color": "black",
-      "size": "6",
+      "size": "XS",
       "gender": "boys",
       "popularity": 63
     },
@@ -1114,7 +1114,7 @@
       "description": "Regular Fit white v-neck for boys",
       "price": 18.31,
       "color": "white",
-      "size": "8",
+      "size": "S",
       "gender": "boys",
       "popularity": 72
     },
@@ -1126,7 +1126,7 @@
       "description": "Relaxed Fit blue henley for boys",
       "price": 25.24,
       "color": "blue",
-      "size": "10",
+      "size": "M",
       "gender": "boys",
       "popularity": 83
     },
@@ -1138,7 +1138,7 @@
       "description": "Athletic Fit red polo for boys",
       "price": 18.24,
       "color": "red",
-      "size": "12",
+      "size": "L",
       "gender": "boys",
       "popularity": 90
     },
@@ -1150,7 +1150,7 @@
       "description": "Slim Fit green tank top for boys",
       "price": 18.42,
       "color": "green",
-      "size": "6",
+      "size": "XS",
       "gender": "boys",
       "popularity": 55
     },
@@ -1162,7 +1162,7 @@
       "description": "Regular Fit gray crew neck for boys",
       "price": 18.42,
       "color": "gray",
-      "size": "8",
+      "size": "S",
       "gender": "boys",
       "popularity": 65
     },
@@ -1174,7 +1174,7 @@
       "description": "Relaxed Fit brown v-neck for boys",
       "price": 19.89,
       "color": "brown",
-      "size": "10",
+      "size": "M",
       "gender": "boys",
       "popularity": 88
     },
@@ -1186,7 +1186,7 @@
       "description": "Athletic Fit tan henley for boys",
       "price": 17.86,
       "color": "tan",
-      "size": "12",
+      "size": "L",
       "gender": "boys",
       "popularity": 89
     },
@@ -1198,7 +1198,7 @@
       "description": "Slim Fit black polo for boys",
       "price": 22.59,
       "color": "black",
-      "size": "6",
+      "size": "XS",
       "gender": "boys",
       "popularity": 94
     },
@@ -1210,7 +1210,7 @@
       "description": "Regular Fit white tank top for boys",
       "price": 16.52,
       "color": "white",
-      "size": "8",
+      "size": "S",
       "gender": "boys",
       "popularity": 91
     },
@@ -1222,7 +1222,7 @@
       "description": "Relaxed Fit blue crew neck for boys",
       "price": 17.1,
       "color": "blue",
-      "size": "10",
+      "size": "M",
       "gender": "boys",
       "popularity": 82
     },
@@ -1234,7 +1234,7 @@
       "description": "Athletic Fit red v-neck for boys",
       "price": 22.57,
       "color": "red",
-      "size": "12",
+      "size": "L",
       "gender": "boys",
       "popularity": 85
     },
@@ -1246,7 +1246,7 @@
       "description": "Slim Fit green henley for boys",
       "price": 21.43,
       "color": "green",
-      "size": "6",
+      "size": "XS",
       "gender": "boys",
       "popularity": 65
     },
@@ -1258,7 +1258,7 @@
       "description": "Regular Fit gray polo for boys",
       "price": 24.81,
       "color": "gray",
-      "size": "8",
+      "size": "S",
       "gender": "boys",
       "popularity": 92
     },

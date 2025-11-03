@@ -252,3 +252,36 @@ export function getSizeGroups(categorySlug: string): SizeGroup[] | null {
   const config = sizeConfig[categorySlug as keyof typeof sizeConfig];
   return config?.groups || null;
 }
+
+/**
+ * Get size groups filtered by gender
+ * For shoes: kids sizes for children, adult sizes for adults
+ */
+export function getSizeGroupsForGender(
+  categorySlug: string,
+  gender?: string
+): SizeGroup[] | null {
+  const allGroups = getSizeGroups(categorySlug);
+  
+  // No groups configured or no gender filter
+  if (!allGroups || !gender) {
+    return allGroups;
+  }
+  
+  // For shoes: filter by gender
+  if (categorySlug === 'shoes') {
+    const isChild = gender === 'girls' || gender === 'boys';
+    const isAdult = gender === 'women' || gender === 'men';
+    
+    if (isChild) {
+      // Only show Kids group
+      return allGroups.filter(group => group.label === 'Kids');
+    } else if (isAdult) {
+      // Only show Adult group
+      return allGroups.filter(group => group.label === 'Adult');
+    }
+  }
+  
+  // Default: return all groups
+  return allGroups;
+}
