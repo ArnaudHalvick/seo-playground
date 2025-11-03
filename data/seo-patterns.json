@@ -1,0 +1,511 @@
+{
+  "patterns": [
+    {
+      "id": "multi-select",
+      "name": "Multi-Select Parameters",
+      "icon": "🔴",
+      "category": "filtering",
+      "risk": "high",
+      "description": "Multiple color selections create exponential URL combinations (2^N). These are blocked via robots.txt to prevent crawl waste.",
+      "explanation": "When users select multiple values like color=black,blue, each combination creates a unique URL. With 5 colors selected, you get 2^5 = 32 possible URLs.",
+      "example": {
+        "url": "/shop/t-shirts?color=black,blue,red",
+        "liveLink": "/shop/t-shirts?color=black,blue,red"
+      },
+      "whenToUse": [],
+      "whenToAvoid": [
+        "Never allow for indexable pages",
+        "Always use single-select or separate pages",
+        "Avoid checkbox multi-select without proper blocking"
+      ],
+      "strategy": "Block via robots.txt: Disallow: /*?*color=*,*",
+      "implementation": "Detect comma-separated values and return robots blocked status",
+      "seoImpact": {
+        "indexable": false,
+        "robotsBlocked": true,
+        "sitemapIncluded": false
+      }
+    },
+    {
+      "id": "multi-filter",
+      "name": "Multiple Stable Filters",
+      "icon": "🟡",
+      "category": "filtering",
+      "risk": "medium",
+      "description": "Combining stable filters like color + size creates N×M URLs. Uses noindex,follow to prevent index bloat while maintaining discoverability.",
+      "explanation": "5 colors × 4 sizes = 20 URL variations. Risk of index bloat but manageable with proper robots directives.",
+      "example": {
+        "url": "/shop/t-shirts?color=black&size=M",
+        "liveLink": "/shop/t-shirts?color=black&size=M"
+      },
+      "whenToUse": [
+        "For user filtering with noindex,follow",
+        "When combinations are limited (< 100 URLs)",
+        "To maintain link equity flow"
+      ],
+      "whenToAvoid": [
+        "If combinations exceed 100 URLs",
+        "When crawl budget is limited",
+        "For infinite combination possibilities"
+      ],
+      "strategy": "Apply noindex,follow with canonical to single-filter version",
+      "implementation": "Detect 2+ stable parameters and set robots to noindex,follow",
+      "seoImpact": {
+        "indexable": false,
+        "robotsBlocked": false,
+        "sitemapIncluded": false
+      }
+    },
+    {
+      "id": "single-filter",
+      "name": "Single Stable Filter",
+      "icon": "🟢",
+      "category": "filtering",
+      "risk": "low",
+      "description": "Single filters like color=black represent real user intent with limited variations. These are index,follow and ideal for clean path conversion.",
+      "explanation": "Linear growth (one URL per value). Safe to index as they represent meaningful product segments.",
+      "example": {
+        "url": "/shop/t-shirts?color=black",
+        "liveLink": "/shop/t-shirts?color=black"
+      },
+      "whenToUse": [
+        "For meaningful product segments",
+        "When users search for specific attributes",
+        "As candidates for clean path conversion"
+      ],
+      "whenToAvoid": [
+        "For temporary UI state",
+        "For infinite value ranges",
+        "When values change frequently"
+      ],
+      "strategy": "index,follow OR convert to clean path for better keywords",
+      "implementation": "Single stable parameter gets index,follow by default",
+      "seoImpact": {
+        "indexable": true,
+        "robotsBlocked": false,
+        "sitemapIncluded": true
+      }
+    },
+    {
+      "id": "gender-filter",
+      "name": "Gender Filter",
+      "icon": "🟢",
+      "category": "filtering",
+      "risk": "low",
+      "description": "Gender-based clean paths create stable product segmentation. Ideal for e-commerce with clear gender differentiation.",
+      "explanation": "4 gender options (women, men, girls, boys) create 4 valuable landing pages per category.",
+      "example": {
+        "url": "/shop/t-shirts/for/women/",
+        "liveLink": "/shop/t-shirts/for/women"
+      },
+      "whenToUse": [
+        "Clear product differentiation by gender",
+        "Significant product count per gender (10+ products)",
+        "Users search by gender ('women's shoes')"
+      ],
+      "whenToAvoid": [
+        "Truly unisex products",
+        "Insufficient products per gender segment",
+        "Gender not relevant to product type"
+      ],
+      "strategy": "Clean path with index,follow and static generation",
+      "implementation": "Use generateStaticParams to pre-render gender pages",
+      "seoImpact": {
+        "indexable": true,
+        "robotsBlocked": false,
+        "sitemapIncluded": true
+      }
+    },
+    {
+      "id": "sort-params",
+      "name": "Sort Parameters",
+      "icon": "🔄",
+      "category": "sorting",
+      "risk": "medium",
+      "description": "Sorting changes layout but not content. Use noindex,follow or create curated clean paths for high-value sorts.",
+      "explanation": "Sorted pages create duplicate content. Blocking allows discovery without indexing variations.",
+      "example": {
+        "url": "/shop/t-shirts?sort=price_desc",
+        "liveLink": "/shop/t-shirts?sort=price_desc"
+      },
+      "whenToUse": [
+        "For user convenience only",
+        "To allow crawler discovery of products",
+        "When you need link equity flow"
+      ],
+      "whenToAvoid": [
+        "Never index sorted variations",
+        "Don't create infinite sort combinations",
+        "Avoid when sort doesn't change content significantly"
+      ],
+      "strategy": "noindex,follow or curated clean paths (/cheapest/, /bestsellers/)",
+      "implementation": "Mark sort parameter as unstable to trigger noindex,follow",
+      "seoImpact": {
+        "indexable": false,
+        "robotsBlocked": false,
+        "sitemapIncluded": false
+      }
+    },
+    {
+      "id": "view-preferences",
+      "name": "View Preferences",
+      "icon": "🎨",
+      "category": "sorting",
+      "risk": "medium",
+      "description": "Layout preferences like grid/list view are purely UI state and should be blocked from indexing.",
+      "explanation": "View parameters don't change content, only presentation. Should never be indexed.",
+      "example": {
+        "url": "/shop/t-shirts?view=grid",
+        "liveLink": "/shop/t-shirts?view=grid"
+      },
+      "whenToUse": [
+        "For layout preferences only",
+        "To remember user display settings",
+        "Client-side UI state management"
+      ],
+      "whenToAvoid": [
+        "Never for content differentiation",
+        "Avoid putting in URLs if possible",
+        "Don't use for SEO purposes"
+      ],
+      "strategy": "Block via robots.txt: Disallow: /*?*view=*",
+      "implementation": "Add view parameter to blocked policy in rules.json",
+      "seoImpact": {
+        "indexable": false,
+        "robotsBlocked": true,
+        "sitemapIncluded": false
+      }
+    },
+    {
+      "id": "price-ranges",
+      "name": "Price Ranges",
+      "icon": "💰",
+      "category": "ranges",
+      "risk": "high",
+      "description": "Numeric ranges like price_min/max create infinite URLs. Always blocked via robots.txt to protect crawl budget.",
+      "explanation": "Any combination of min/max values creates a unique URL. Potentially infinite combinations.",
+      "example": {
+        "url": "/shop/t-shirts?price_min=20&price_max=50",
+        "liveLink": "/shop/t-shirts?price_min=20&price_max=50"
+      },
+      "whenToUse": [
+        "For user filtering only",
+        "With proper robots.txt blocking",
+        "When using manual apply button"
+      ],
+      "whenToAvoid": [
+        "Never allow indexing",
+        "Don't use without robots.txt protection",
+        "Avoid auto-updating URLs while typing"
+      ],
+      "strategy": "Always block via robots.txt: Disallow: /*?*price_min=*, Disallow: /*?*price_max=*",
+      "implementation": "Mark price_min and price_max as blocked in parameter rules",
+      "seoImpact": {
+        "indexable": false,
+        "robotsBlocked": true,
+        "sitemapIncluded": false
+      }
+    },
+    {
+      "id": "date-ranges",
+      "name": "Date Ranges",
+      "icon": "📅",
+      "category": "ranges",
+      "risk": "high",
+      "description": "Date range filters create infinite URL combinations and should always be blocked from crawlers.",
+      "explanation": "Similar to price ranges, date parameters create unlimited URL variations.",
+      "example": {
+        "url": "/events?start_date=2024-01-01&end_date=2024-12-31",
+        "liveLink": "/search?q=events"
+      },
+      "whenToUse": [
+        "For event filtering",
+        "For booking date selection",
+        "With robots.txt blocking"
+      ],
+      "whenToAvoid": [
+        "Never for indexable pages",
+        "Don't allow crawling",
+        "Avoid in public URLs if possible"
+      ],
+      "strategy": "Block via robots.txt pattern matching",
+      "implementation": "Add date parameters to blocked policy",
+      "seoImpact": {
+        "indexable": false,
+        "robotsBlocked": true,
+        "sitemapIncluded": false
+      }
+    },
+    {
+      "id": "clean-paths",
+      "name": "Clean Path Routes",
+      "icon": "🛣️",
+      "category": "url-strategies",
+      "risk": "low",
+      "description": "Convert stable parameters to clean paths for better SEO. Example: /for/women/ instead of ?gender=women.",
+      "explanation": "Semantic URLs are better for keywords, user intent, and click-through rates.",
+      "example": {
+        "url": "/shop/t-shirts/for/women/",
+        "liveLink": "/shop/t-shirts/for/women"
+      },
+      "whenToUse": [
+        "Stable filters with high search volume",
+        "When SEO is priority over flexibility",
+        "For primary navigation paths"
+      ],
+      "whenToAvoid": [
+        "Unstable or infinite combinations",
+        "When flexibility is needed",
+        "For user-specific or temporary filters"
+      ],
+      "strategy": "Static generation with generateStaticParams at build time",
+      "implementation": "Create [param] routes with validation and static generation",
+      "seoImpact": {
+        "indexable": true,
+        "robotsBlocked": false,
+        "sitemapIncluded": true
+      }
+    },
+    {
+      "id": "path-parameters",
+      "name": "Path Parameters",
+      "icon": "📄",
+      "category": "url-strategies",
+      "risk": "low",
+      "description": "Dynamic path segments for product pages. Always indexable with proper metadata and content.",
+      "explanation": "Product pages are core content and should always be indexed with unique titles and descriptions.",
+      "example": {
+        "url": "/shop/t-shirts/classic-white-tee/",
+        "liveLink": "/shop/t-shirts"
+      },
+      "whenToUse": [
+        "For individual product pages",
+        "For blog posts and articles",
+        "For any unique content pages"
+      ],
+      "whenToAvoid": [
+        "Never block product pages",
+        "Don't use for filtering",
+        "Avoid duplicate content"
+      ],
+      "strategy": "Always indexable with proper metadata",
+      "implementation": "Use Next.js dynamic routes with unique content",
+      "seoImpact": {
+        "indexable": true,
+        "robotsBlocked": false,
+        "sitemapIncluded": true
+      }
+    },
+    {
+      "id": "query-parameters",
+      "name": "Query Parameters",
+      "icon": "❓",
+      "category": "url-strategies",
+      "risk": "varies",
+      "description": "Traditional query strings with parameter classification. Indexability depends on parameter policy.",
+      "explanation": "Query params are flexible but require careful SEO policy: stable, unstable, or blocked.",
+      "example": {
+        "url": "/shop/t-shirts?size=M",
+        "liveLink": "/shop/t-shirts?size=M"
+      },
+      "whenToUse": [
+        "For flexible filtering",
+        "When clean paths aren't practical",
+        "For unstable or blocked parameters"
+      ],
+      "whenToAvoid": [
+        "For primary navigation",
+        "When clean paths would work better",
+        "Without parameter policy defined"
+      ],
+      "strategy": "Apply parameter policy (stable/unstable/blocked)",
+      "implementation": "Define parameter rules in rules.json",
+      "seoImpact": {
+        "indexable": null,
+        "robotsBlocked": null,
+        "sitemapIncluded": null
+      }
+    },
+    {
+      "id": "pagination",
+      "name": "Pagination",
+      "icon": "📖",
+      "category": "navigation",
+      "risk": "medium",
+      "description": "Page 2+ creates duplicate content. Use noindex,follow to prevent indexing while allowing discovery.",
+      "explanation": "Page 1 is indexable, page 2+ uses noindex,follow to avoid duplicate content issues.",
+      "example": {
+        "url": "/shop/t-shirts?page=2",
+        "liveLink": "/shop/t-shirts?page=2"
+      },
+      "whenToUse": [
+        "For large result sets",
+        "To maintain crawl efficiency",
+        "With self-referencing canonicals"
+      ],
+      "whenToAvoid": [
+        "Never block pagination in robots.txt",
+        "Don't canonical all pages to page 1",
+        "Avoid infinite scroll without fallback"
+      ],
+      "strategy": "Page 1 = index,follow | Page 2+ = noindex,follow",
+      "implementation": "Detect page parameter >= 2 and set noindex,follow",
+      "seoImpact": {
+        "indexable": false,
+        "robotsBlocked": false,
+        "sitemapIncluded": false
+      }
+    },
+    {
+      "id": "breadcrumbs",
+      "name": "Breadcrumb Navigation",
+      "icon": "🍞",
+      "category": "navigation",
+      "risk": "low",
+      "description": "Structured internal linking that helps both users and search engines understand site hierarchy.",
+      "explanation": "Breadcrumbs improve UX and provide valuable internal links and structured data.",
+      "example": {
+        "url": "Home > Shop > T-Shirts > Women's",
+        "liveLink": "/shop/t-shirts/for/women"
+      },
+      "whenToUse": [
+        "On all content pages",
+        "For hierarchical site structures",
+        "With structured data markup"
+      ],
+      "whenToAvoid": [
+        "Never hide from users or search engines",
+        "Don't create fake hierarchies",
+        "Avoid inconsistent trails"
+      ],
+      "strategy": "Always beneficial for SEO and UX",
+      "implementation": "Breadcrumbs component with proper markup",
+      "seoImpact": {
+        "indexable": true,
+        "robotsBlocked": false,
+        "sitemapIncluded": true
+      }
+    },
+    {
+      "id": "faceted-navigation",
+      "name": "Faceted Navigation",
+      "icon": "🎯",
+      "category": "navigation",
+      "risk": "varies",
+      "description": "Multi-dimensional filtering requires careful parameter classification to avoid crawl traps.",
+      "explanation": "Faceted nav creates many URL combinations. Success depends on proper parameter policies.",
+      "example": {
+        "url": "/shop/t-shirts with color, size, price filters",
+        "liveLink": "/shop/t-shirts"
+      },
+      "whenToUse": [
+        "For complex product catalogs",
+        "With proper parameter classification",
+        "When crawl budget allows"
+      ],
+      "whenToAvoid": [
+        "Without parameter policy",
+        "With unlimited combinations",
+        "When simpler navigation works"
+      ],
+      "strategy": "Careful parameter classification and canonical strategy",
+      "implementation": "Define stable, unstable, and blocked parameters",
+      "seoImpact": {
+        "indexable": null,
+        "robotsBlocked": null,
+        "sitemapIncluded": null
+      }
+    },
+    {
+      "id": "protected-routes",
+      "name": "Protected Routes",
+      "icon": "🔒",
+      "category": "access-control",
+      "risk": "none",
+      "description": "User-specific pages like account areas should be noindex,nofollow and blocked via robots.txt.",
+      "explanation": "Private user data should never be indexed or crawled by search engines.",
+      "example": {
+        "url": "/account/orders",
+        "liveLink": "/account/orders"
+      },
+      "whenToUse": [
+        "For user account pages",
+        "For checkout processes",
+        "For any private user data"
+      ],
+      "whenToAvoid": [
+        "Never allow indexing",
+        "Don't forget robots.txt block",
+        "Avoid exposing in sitemaps"
+      ],
+      "strategy": "noindex,nofollow + robots.txt: Disallow: /account/",
+      "implementation": "Path-based detection in canonical logic",
+      "seoImpact": {
+        "indexable": false,
+        "robotsBlocked": true,
+        "sitemapIncluded": false
+      }
+    },
+    {
+      "id": "search-pages",
+      "name": "Search Pages",
+      "icon": "🔍",
+      "category": "access-control",
+      "risk": "medium",
+      "description": "Search result pages are thin content but allow discovery. Use noindex,follow.",
+      "explanation": "Search pages don't add unique value but help crawlers discover content.",
+      "example": {
+        "url": "/search?q=shoes",
+        "liveLink": "/search?q=shoes"
+      },
+      "whenToUse": [
+        "For site search functionality",
+        "To help content discovery",
+        "With noindex,follow directive"
+      ],
+      "whenToAvoid": [
+        "Never index search results",
+        "Don't block in robots.txt",
+        "Avoid infinite query variations"
+      ],
+      "strategy": "noindex,follow for discovery without indexing",
+      "implementation": "Detect /search path and apply noindex,follow",
+      "seoImpact": {
+        "indexable": false,
+        "robotsBlocked": false,
+        "sitemapIncluded": false
+      }
+    },
+    {
+      "id": "api-routes",
+      "name": "API Routes",
+      "icon": "⚙️",
+      "category": "access-control",
+      "risk": "none",
+      "description": "System endpoints should be blocked except for specific routes like /api/robots and /api/sitemap.",
+      "explanation": "APIs aren't meant for search engines, except specific SEO endpoints.",
+      "example": {
+        "url": "/api/robots or /api/sitemap",
+        "liveLink": "/api/robots"
+      },
+      "whenToUse": [
+        "Allow /api/robots",
+        "Allow /api/sitemap",
+        "Block all other /api/* routes"
+      ],
+      "whenToAvoid": [
+        "Never expose API endpoints to crawlers",
+        "Don't forget explicit allows",
+        "Avoid indexing API responses"
+      ],
+      "strategy": "Allow: /api/robots, Allow: /api/sitemap, Disallow: /api/",
+      "implementation": "robots.txt pattern with specific allows",
+      "seoImpact": {
+        "indexable": false,
+        "robotsBlocked": true,
+        "sitemapIncluded": false
+      }
+    }
+  ]
+}
+

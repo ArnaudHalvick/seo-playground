@@ -848,6 +848,197 @@ export function SitemapTable({ config }: SitemapTableProps) {
 }
 ```
 
+### PatternCard
+
+**Location**: `components/playground/PatternCard.tsx`
+
+**Purpose**: Display individual SEO pattern with full details, examples, and SEO impact
+
+**Type**: Client Component
+
+**Props**:
+```typescript
+interface PatternCardProps {
+  pattern: SeoPattern;
+}
+
+interface SeoPattern {
+  id: string;
+  name: string;
+  icon: string;
+  category: string;
+  risk: 'high' | 'medium' | 'low' | 'varies' | 'none';
+  description: string;
+  explanation: string;
+  example: { url: string; liveLink: string };
+  whenToUse: string[];
+  whenToAvoid: string[];
+  strategy: string;
+  implementation: string;
+  seoImpact: {
+    indexable: boolean | null;
+    robotsBlocked: boolean | null;
+    sitemapIncluded: boolean | null;
+  };
+}
+```
+
+**Features**:
+1. **Visual Risk Indicators**
+   - Color-coded card borders based on risk level
+   - Risk badge (High/Medium/Low/Varies/N/A)
+   - Consistent color scheme: red=high, orange=medium, green=low
+
+2. **Pattern Information**
+   - Icon and pattern name
+   - Short description and detailed explanation
+   - Real URL example with syntax highlighting
+   - "Try it Live" button linking to shop
+
+3. **Usage Guidance**
+   - "When to Use" list with green checkmarks
+   - "When to Avoid" list with red X marks
+   - Implementation strategy explanation
+
+4. **SEO Impact Display**
+   - Three-column grid showing:
+     - Indexable (Yes/No/Varies)
+     - Robots (Blocked/Allowed/Varies)
+     - Sitemap (Yes/No/Varies)
+   - Visual indicators with color coding
+
+**Usage Example**:
+```tsx
+<PatternCard
+  pattern={{
+    id: 'multi-select',
+    name: 'Multi-Select Parameters',
+    icon: '🔴',
+    risk: 'high',
+    category: 'filtering',
+    description: 'Multiple selections create exponential combinations',
+    // ... rest of pattern data
+  }}
+/>
+```
+
+### PatternFilter
+
+**Location**: `components/playground/PatternFilter.tsx`
+
+**Purpose**: Filter and search SEO patterns by risk level, category, and keywords
+
+**Type**: Client Component
+
+**Props**:
+```typescript
+interface PatternFilterProps {
+  searchQuery: string;
+  onSearchChange: (value: string) => void;
+  selectedRisk: string | null;
+  onRiskChange: (risk: string | null) => void;
+  selectedCategory: string | null;
+  onCategoryChange: (category: string | null) => void;
+  activeFilterCount: number;
+  onClearAll: () => void;
+}
+```
+
+**Features**:
+1. **Search Bar**
+   - Full-text search across pattern names, descriptions
+   - Search icon with clear button
+   - Real-time filtering
+
+2. **Risk Level Filter**
+   - Buttons for: All, Low, Medium, High, Varies
+   - Color-coded buttons matching pattern cards
+   - Single selection mode
+
+3. **Category Filter**
+   - Buttons for: All, Filtering, Sorting, Ranges, URL Strategies, Navigation, Access Control
+   - Blue highlight for selected category
+   - Single selection mode
+
+4. **Active Filter Summary**
+   - Badge showing number of active filters
+   - "Clear All" button to reset all filters
+   - Only shown when filters are active
+
+**Usage Example**:
+```tsx
+<PatternFilter
+  searchQuery={searchQuery}
+  onSearchChange={setSearchQuery}
+  selectedRisk={selectedRisk}
+  onRiskChange={setSelectedRisk}
+  selectedCategory={selectedCategory}
+  onCategoryChange={setSelectedCategory}
+  activeFilterCount={2}
+  onClearAll={handleClearAll}
+/>
+```
+
+### PatternCategory
+
+**Location**: `components/playground/PatternCategory.tsx`
+
+**Purpose**: Collapsible section grouping patterns by category with visual header
+
+**Type**: Client Component
+
+**Props**:
+```typescript
+interface PatternCategoryProps {
+  title: string;
+  description: string;
+  icon: string;
+  patterns: SeoPattern[];
+  defaultExpanded?: boolean;
+}
+```
+
+**Features**:
+1. **Collapsible Section**
+   - Click to expand/collapse category
+   - Chevron icon indicates state
+   - Smooth animation on expand
+
+2. **Category Header**
+   - Large icon representing category
+   - Title and description
+   - Pattern count badge
+   - Gradient background with hover effect
+
+3. **Pattern Grid**
+   - Responsive grid layout (1/2/3 columns)
+   - Contains PatternCard components
+   - Only renders when expanded
+
+4. **Empty State Handling**
+   - Returns null if no patterns in category
+   - Automatically hides empty categories
+
+**Usage Example**:
+```tsx
+<PatternCategory
+  title="Filtering Patterns"
+  description="Multi-select, single filters, and stable parameter combinations"
+  icon="🎨"
+  patterns={filteringPatterns}
+  defaultExpanded={true}
+/>
+```
+
+**Category Integration**:
+The playground page uses multiple PatternCategory components organized in a specific order:
+1. Filtering Patterns
+2. Sorting & Layout
+3. Range Filters
+4. URL Strategies
+5. Navigation Patterns
+6. Access Control
+
 ## Utility Components
 
 ### Breadcrumbs
