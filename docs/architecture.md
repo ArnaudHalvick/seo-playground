@@ -39,6 +39,9 @@ The application is built using a **layered architecture** with clear separation 
   - `DemoChips.tsx`: Interactive parameter demo buttons
   - `catalog/FilterSidebar.tsx`: Production-ready e-commerce filter interface
   - `catalog/FilterSummaryBar.tsx`: Sticky bar showing all active filters
+  - `playground/PatternCard.tsx`: Individual pattern display with SEO impact
+  - `playground/PatternFilter.tsx`: Pattern filtering and search
+  - `playground/PatternCategory.tsx`: Collapsible category sections
   - `ui/`: shadcn/ui component library
 
 **Technologies**:
@@ -128,6 +131,11 @@ The heart of the application, responsible for all SEO decisions:
   - Size ordering per category
   - Optional size grouping (e.g., Kids vs Adult)
   - Used by filter components for display
+
+- **`seo-patterns.json`**: SEO pattern gallery data
+  - 17 production-ready SEO patterns
+  - Organized by 6 categories (filtering, sorting, ranges, URL strategies, navigation, access control)
+  - Each pattern includes: risk level, examples, usage guidance, SEO impact indicators
 
 ## Data Flow
 

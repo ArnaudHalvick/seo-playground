@@ -83,7 +83,7 @@ project/
 │   │   │   ├── size/[size]/    # Size clean paths (/size/M/, /size/L/)
 │   │   │   └── [product]/      # Product detail pages
 │   │   └── page.tsx            # Shop home / category list
-│   ├── playground/              # SEO Lab for parameter testing
+│   ├── playground/              # SEO Pattern Gallery - comprehensive pattern reference
 │   ├── best-practices/          # SEO best practices docs
 │   ├── api/                     # API routes (robots.txt, sitemap)
 │   └── layout.tsx               # Root layout with providers
@@ -95,6 +95,10 @@ project/
 │   │   ├── GenderFilter.tsx    # Gender filter buttons with SEO banners
 │   │   ├── PriceRangeFilter.tsx # Manual price filter with apply button
 │   │   └── ActiveFilters.tsx   # Removable filter badges
+│   ├── playground/              # Pattern gallery components
+│   │   ├── PatternCard.tsx     # Individual pattern display
+│   │   ├── PatternFilter.tsx   # Pattern filtering and search
+│   │   └── PatternCategory.tsx # Collapsible category sections
 │   ├── DemoChips.tsx            # Parameter demo buttons
 │   ├── SeoReceipt.tsx           # Real-time SEO feedback panel
 │   └── Navigation.tsx           # Site navigation
@@ -111,7 +115,8 @@ project/
 ├── data/                        # Static data files
 │   ├── rules.json              # Default SEO configuration
 │   ├── catalog.json            # Demo product catalog (160 products with gender)
-│   └── size-config.json        # Category-specific size ordering & grouping
+│   ├── size-config.json        # Category-specific size ordering & grouping
+│   └── seo-patterns.json       # Pattern gallery data (17 SEO patterns)
 ├── docs/                        # Documentation
 │   ├── architecture.md         # System architecture
 │   ├── seo-logic.md           # SEO decision flow
@@ -215,8 +220,8 @@ The SEO Receipt is a real-time panel that shows:
 
 ### SEO Learning Tool
 
-- **`/playground`** - SEO Lab with parameter combination testing
-- **`/best-practices`** - SEO best practices documentation
+- **`/playground`** - SEO Pattern Gallery: 17 production-ready patterns organized by category with filtering, search, and live examples
+- **`/best-practices`** - SEO best practices documentation with implementation details
 - **`/best-practices/parameters`** - Parameter handling guide
 - **`/best-practices/robots`** - robots.txt best practices
 - **`/best-practices/sitemap`** - Sitemap generation guide
