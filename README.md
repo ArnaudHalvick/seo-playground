@@ -10,7 +10,8 @@ This project is an **educational showcase**, not a real e-commerce store. It dem
 
 - **Real-time SEO Receipt**: See instant feedback on how URL parameters affect SEO decisions
 - **Interactive Filter Sidebar**: Production-ready e-commerce filtering with multi-select colors, size selection, price ranges, and sorting
-- **Clean Path Routes**: Demonstrates SEO-friendly URL structures (`/by-color/black/`) vs query parameters (`?color=black`)
+- **Gender-Based Clean Paths**: Demonstrates clean URL structures for stable filters (`/women/`, `/men/`) vs query parameters
+- **Color Clean Path Routes**: Shows SEO-friendly URL structures (`/by-color/black/`) vs query parameters (`?color=black`)
 - **Multi-Select Detection**: Identifies and blocks exponential URL combinations (2^N patterns) via robots.txt
 - **Crawl Trap Risk Assessment**: Real-time calculation of URL explosion with color-coded warnings (low/medium/high)
 - **Parameter Classification**: Demonstrates stable, unstable, and blocked parameter policies
@@ -72,11 +73,12 @@ npm start
 ```
 project/
 ├── app/                          # Next.js App Router pages
-│   ├── catalog/                  # E-commerce demo pages
+│   ├── shop/                    # E-commerce demo pages
 │   │   ├── [category]/          # Dynamic category pages with filters
-│   │   │   ├── by-color/       # Clean path routes (/black/, /blue/)
+│   │   │   ├── for/[gender]/   # Gender clean paths (/for/women/, /for/men/, etc.)
+│   │   │   ├── by-color/       # Color clean paths (/black/, /blue/)
 │   │   │   └── [product]/      # Product detail pages
-│   │   └── page.tsx            # Category list / shop home
+│   │   └── page.tsx            # Shop home / category list
 │   ├── playground/              # SEO Lab for parameter testing
 │   ├── best-practices/          # SEO best practices docs
 │   ├── api/                     # API routes (robots.txt, sitemap)
@@ -86,6 +88,7 @@ project/
 │   ├── catalog/                 # E-commerce filter components
 │   │   ├── FilterSidebar.tsx   # Multi-select filters
 │   │   ├── FilterSummaryBar.tsx # Sticky active filter bar
+│   │   ├── GenderFilter.tsx    # Gender filter buttons
 │   │   └── ActiveFilters.tsx   # Removable filter badges
 │   ├── DemoChips.tsx            # Parameter demo buttons
 │   ├── SeoReceipt.tsx           # Real-time SEO feedback panel
@@ -95,14 +98,14 @@ project/
 │   │   ├── canonical.ts         # Canonical URL + multi-select detection
 │   │   ├── params.ts            # Parameter classification
 │   │   ├── robots.ts            # robots.txt generation
-│   │   └── sitemap.ts           # Sitemap generation
+│   │   └── sitemap.ts           # Sitemap generation (includes gender paths)
 │   ├── catalog/                 # Product data & filtering
-│   │   └── data.ts             # Filter functions, counts, helpers
+│   │   └── data.ts             # Filter functions, counts, helpers (gender support)
 │   ├── config/                  # Configuration provider
 │   └── utils/                   # Utility functions
 ├── data/                        # Static data files
 │   ├── rules.json              # Default SEO configuration
-│   └── catalog.json            # Demo product catalog
+│   └── catalog.json            # Demo product catalog (160 products with gender)
 ├── docs/                        # Documentation
 │   ├── architecture.md         # System architecture
 │   ├── seo-logic.md           # SEO decision flow
@@ -132,13 +135,13 @@ All filter state lives in the URL, making filters shareable, SEO-analyzable, and
 
 Demonstrates SEO-friendly URL structures as an alternative to query parameters:
 
-- **Query params**: `/catalog/t-shirts?color=black`
-- **Clean paths**: `/catalog/t-shirts/by-color/black/`
+- **Gender clean paths**: `/shop/t-shirts/for/women/` instead of `?gender=women`
+- **Color clean paths**: `/shop/t-shirts/by-color/black/` instead of `?color=black`
 - Side-by-side comparison with educational banners explaining benefits
 - Static generation with `generateStaticParams` for optimal performance
-- 16+ pre-generated clean path pages (2 categories × 8 colors)
+- 24+ pre-generated clean path pages (8 gender pages + 16 color pages)
 
-Clean paths are ideal for **single stable filters** that represent real user intent.
+Clean paths are ideal for **stable filters** that represent real user intent and create meaningful landing pages.
 
 ### Multi-Select & Crawl Trap Detection
 
@@ -189,11 +192,12 @@ The SEO Receipt is a real-time panel that shows:
 
 ### E-Commerce Demo (Shop)
 
-- **`/catalog`** - Category list / shop home
-- **`/catalog/t-shirts`** - T-Shirts category with interactive filters
-- **`/catalog/shoes`** - Shoes category with interactive filters
-- **`/catalog/t-shirts/by-color/black`** - Clean path example (indexable)
-- **`/catalog/t-shirts/[product]`** - Individual product pages
+- **`/shop`** - Shop home / category list
+- **`/shop/t-shirts`** - T-Shirts category with interactive filters
+- **`/shop/shoes`** - Shoes category with interactive filters
+- **`/shop/t-shirts/for/women`** - Gender clean path example (indexable)
+- **`/shop/t-shirts/by-color/black`** - Color clean path example (indexable)
+- **`/shop/t-shirts/[product]`** - Individual product pages
 
 ### SEO Learning Tool
 

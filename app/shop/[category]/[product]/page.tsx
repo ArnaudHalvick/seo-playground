@@ -33,7 +33,7 @@ export default function ProductPage({ params }: PageProps) {
     <div className="min-h-screen bg-slate-50">
       <div className="border-b bg-white">
         <div className="container mx-auto px-4 py-4">
-          <Link href={`/catalog/${params.category}`}>
+          <Link href={`/shop/${params.category}`}>
             <Button variant="ghost" size="sm">
               <ArrowLeft className="h-4 w-4 mr-2" />
               Back to {category.name}
@@ -52,7 +52,7 @@ export default function ProductPage({ params }: PageProps) {
 
           <div>
             <div className="mb-4">
-              <Link href={`/catalog/${params.category}`}>
+              <Link href={`/shop/${params.category}`}>
                 <Badge variant="outline" className="mb-2">{category.name}</Badge>
               </Link>
             </div>

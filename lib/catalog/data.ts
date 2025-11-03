@@ -9,6 +9,7 @@ export interface Product {
   price: number;
   color: string;
   size: string;
+  gender: string;
   popularity: number;
 }
 
@@ -61,6 +62,7 @@ export function sortProducts(products: Product[], sortBy: string): Product[] {
 export interface FilterOptions {
   colors?: string[];
   size?: string;
+  gender?: string;
   priceMin?: number;
   priceMax?: number;
   // Legacy support for single color
@@ -81,6 +83,10 @@ export function filterProducts(products: Product[], filters: FilterOptions): Pro
 
   if (filters.size) {
     filtered = filtered.filter((p) => p.size === filters.size);
+  }
+
+  if (filters.gender) {
+    filtered = filtered.filter((p) => p.gender.toLowerCase() === filters.gender!.toLowerCase());
   }
 
   if (filters.priceMin !== undefined) {
@@ -177,4 +183,28 @@ export function getAvailableSizes(categorySlug: string): string[] {
   const products = getProductsByCategory(categorySlug);
   const sizes = new Set(products.map(p => p.size));
   return Array.from(sizes).sort();
+}
+
+/**
+ * Get all unique genders available in a category
+ */
+export function getAvailableGenders(categorySlug: string): string[] {
+  const products = getProductsByCategory(categorySlug);
+  const genders = new Set(products.map(p => p.gender.toLowerCase()));
+  return Array.from(genders).sort();
+}
+
+/**
+ * Get product count per gender for a category
+ */
+export function getGenderCounts(categorySlug: string): Record<string, number> {
+  const products = getProductsByCategory(categorySlug);
+  const counts: Record<string, number> = {};
+  
+  products.forEach(product => {
+    const gender = product.gender.toLowerCase();
+    counts[gender] = (counts[gender] || 0) + 1;
+  });
+  
+  return counts;
 }

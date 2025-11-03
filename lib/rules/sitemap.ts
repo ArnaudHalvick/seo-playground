@@ -18,8 +18,9 @@ export function generateSitemapEntries(config: ParamConfig, baseUrl: string = 'h
     { path: '/how-it-works/', priority: 0.8 },
     { path: '/concepts/', priority: 0.8 },
     { path: '/best-practices/', priority: 0.9 },
-    { path: '/catalog/', priority: 0.9 },
-    { path: '/catalog/t-shirts/', priority: 0.8 },
+    { path: '/shop/', priority: 0.9 },
+    { path: '/shop/t-shirts/', priority: 0.8 },
+    { path: '/shop/shoes/', priority: 0.8 },
   ];
 
   for (const page of staticPages) {
@@ -35,6 +36,31 @@ export function generateSitemapEntries(config: ParamConfig, baseUrl: string = 'h
     });
   }
 
+  // Gender clean paths (stable, indexable)
+  const genderPages = [
+    { category: 't-shirts', gender: 'women' },
+    { category: 't-shirts', gender: 'men' },
+    { category: 't-shirts', gender: 'girls' },
+    { category: 't-shirts', gender: 'boys' },
+    { category: 'shoes', gender: 'women' },
+    { category: 'shoes', gender: 'men' },
+    { category: 'shoes', gender: 'girls' },
+    { category: 'shoes', gender: 'boys' },
+  ];
+
+  for (const genderPage of genderPages) {
+    const result = computeCanonical(`/shop/${genderPage.category}/for/${genderPage.gender}/`, new URLSearchParams(), config, baseUrl);
+    const isIndexable = result.robots === 'index,follow' && !result.blockInRobots;
+
+    entries.push({
+      loc: result.canonical,
+      lastmod: new Date().toISOString().split('T')[0],
+      priority: 0.8,
+      included: isIndexable,
+      reason: isIndexable ? `Gender clean path - indexable` : `Excluded: ${result.robots}${result.blockInRobots ? ' + robots blocked' : ''}`,
+    });
+  }
+
   const stableFacetPages = [
     { params: 'color=black', label: 'Color facet' },
     { params: 'size=m', label: 'Size facet' },
@@ -43,7 +69,7 @@ export function generateSitemapEntries(config: ParamConfig, baseUrl: string = 'h
 
   for (const facet of stableFacetPages) {
     const params = new URLSearchParams(facet.params);
-    const result = computeCanonical('/catalog/t-shirts/', params, config, baseUrl);
+    const result = computeCanonical('/shop/t-shirts/', params, config, baseUrl);
     const isIndexable = result.robots === 'index,follow' && !result.blockInRobots;
 
     entries.push({
@@ -74,7 +100,7 @@ export function generateSitemapEntries(config: ParamConfig, baseUrl: string = 'h
 
   const page2Params = new URLSearchParams();
   page2Params.set(config.pagination.param, '2');
-  const page2Result = computeCanonical('/catalog/t-shirts/', page2Params, config, baseUrl);
+  const page2Result = computeCanonical('/shop/t-shirts/', page2Params, config, baseUrl);
   entries.push({
     loc: page2Result.canonical,
     included: false,
@@ -83,7 +109,7 @@ export function generateSitemapEntries(config: ParamConfig, baseUrl: string = 'h
 
   const sortParams = new URLSearchParams();
   sortParams.set('sort', 'price_desc');
-  const sortResult = computeCanonical('/catalog/t-shirts/', sortParams, config, baseUrl);
+  const sortResult = computeCanonical('/shop/t-shirts/', sortParams, config, baseUrl);
   entries.push({
     loc: sortResult.canonical,
     included: false,
@@ -93,7 +119,7 @@ export function generateSitemapEntries(config: ParamConfig, baseUrl: string = 'h
   const stackedParams = new URLSearchParams();
   stackedParams.set('sort', 'price_desc');
   stackedParams.set('color', 'black');
-  const stackedResult = computeCanonical('/catalog/t-shirts/', stackedParams, config, baseUrl);
+  const stackedResult = computeCanonical('/shop/t-shirts/', stackedParams, config, baseUrl);
   const stackedIsIndexable = stackedResult.robots === 'index,follow' && !stackedResult.blockInRobots;
   entries.push({
     loc: stackedResult.canonical,

@@ -41,8 +41,8 @@ export default function Home() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <Link href="/catalog">
-                <Button variant="outline" className="w-full">Browse Catalog</Button>
+              <Link href="/shop">
+                <Button variant="outline" className="w-full">Shop Now</Button>
               </Link>
             </CardContent>
           </Card>

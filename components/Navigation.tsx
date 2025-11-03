@@ -40,7 +40,7 @@ export function Navigation() {
             {/* Shop Dropdown */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-              <Button variant={isActive('/catalog') ? 'default' : 'ghost'} size="sm">
+              <Button variant={isActive('/shop') ? 'default' : 'ghost'} size="sm">
                 <ShoppingBag className="h-4 w-4 mr-2" />
                   <span className="hidden sm:inline">Shop</span>
                   <ChevronDown className="h-4 w-4 ml-1" />
@@ -48,13 +48,13 @@ export function Navigation() {
               </DropdownMenuTrigger>
               <DropdownMenuContent align="start" className="z-50">
                 <DropdownMenuItem asChild>
-                  <Link href="/catalog" className="w-full cursor-pointer">
+                  <Link href="/shop" className="w-full cursor-pointer">
                     All Categories
                   </Link>
                 </DropdownMenuItem>
                 {categories.map((cat) => (
                   <DropdownMenuItem key={cat.id} asChild>
-                    <Link href={`/catalog/${cat.slug}`} className="w-full cursor-pointer">
+                    <Link href={`/shop/${cat.slug}`} className="w-full cursor-pointer">
                       {cat.name}
             </Link>
                   </DropdownMenuItem>

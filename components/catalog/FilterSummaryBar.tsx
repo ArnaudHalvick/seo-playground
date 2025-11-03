@@ -25,7 +25,7 @@ export function FilterSummaryBar({
   const router = useRouter();
   
   const handleClearAll = () => {
-    router.push(`/catalog/${category}`);
+    router.push(`/shop/${category}`);
   };
   // Check if any filters are active
   const hasColorFilters = filters.colors && filters.colors.length > 0;

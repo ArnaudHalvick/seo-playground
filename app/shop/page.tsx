@@ -10,7 +10,7 @@ export default function CatalogPage() {
   
   return (
     <div className="min-h-screen bg-slate-50">
-      <Breadcrumbs items={[{ label: 'Shop', href: '/catalog' }]} />
+      <Breadcrumbs items={[{ label: 'Shop', href: '/shop' }]} />
 
       <div className="container mx-auto px-4 py-12 max-w-5xl">
         <div className="mb-12 text-center">
@@ -35,7 +35,7 @@ export default function CatalogPage() {
                 </div>
               </CardContent>
               <CardFooter>
-                <Link href={`/catalog/${cat.slug}`} className="w-full">
+                <Link href={`/shop/${cat.slug}`} className="w-full">
               <Button className="w-full" size="lg">
                     Browse {cat.name}
                     <ArrowRight className="h-5 w-5 ml-2" />

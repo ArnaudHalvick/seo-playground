@@ -82,15 +82,15 @@ export default function ColorFilterPage({ params, searchParams }: PageProps) {
   const { products: paginatedProducts, totalPages } = paginateProducts(products, currentPage);
 
   // Query param equivalent URL for comparison
-  const queryParamUrl = `/catalog/${params.category}?color=${params.color}`;
+  const queryParamUrl = `/shop/${params.category}?color=${params.color}`;
 
   return (
     <div className="min-h-screen bg-slate-50">
       <Breadcrumbs 
         items={[
-          { label: 'Shop', href: '/catalog' }, 
-          { label: category.name, href: `/catalog/${params.category}` },
-          { label: `${params.color} ${category.name}`, href: `/catalog/${params.category}/by-color/${params.color}` }
+          { label: 'Shop', href: '/shop' }, 
+          { label: category.name, href: `/shop/${params.category}` },
+          { label: `${params.color} ${category.name}`, href: `/shop/${params.category}/by-color/${params.color}` }
         ]} 
       />
 
@@ -102,7 +102,7 @@ export default function ColorFilterPage({ params, searchParams }: PageProps) {
             <div className="space-y-2">
               <div>
                 <strong>✓ Clean Path URL Strategy:</strong> This page uses a semantic, SEO-friendly URL structure 
-                (<code className="bg-green-100 px-1 py-0.5 rounded">/catalog/t-shirts/by-color/black/</code>) 
+                (<code className="bg-green-100 px-1 py-0.5 rounded">/shop/t-shirts/by-color/black/</code>) 
                 instead of query parameters (<code className="bg-green-100 px-1 py-0.5 rounded">?color=black</code>).
               </div>
               <div className="text-sm">
@@ -179,7 +179,7 @@ export default function ColorFilterPage({ params, searchParams }: PageProps) {
                         </div>
                       </CardContent>
                       <CardFooter>
-                        <Link href={`/catalog/${params.category}/${product.slug}`} className="w-full">
+                        <Link href={`/shop/${params.category}/${product.slug}`} className="w-full">
                           <Button variant="outline" className="w-full">View Details</Button>
                         </Link>
                       </CardFooter>
@@ -193,7 +193,7 @@ export default function ColorFilterPage({ params, searchParams }: PageProps) {
                     {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
                       <Link
                         key={page}
-                        href={`/catalog/${params.category}/by-color/${params.color}?${new URLSearchParams({ ...searchParams, page: page.toString() }).toString()}`}
+                        href={`/shop/${params.category}/by-color/${params.color}?${new URLSearchParams({ ...searchParams, page: page.toString() }).toString()}`}
                       >
                         <Button variant={page === currentPage ? 'default' : 'outline'} size="sm">
                           {page}
@@ -211,7 +211,7 @@ export default function ColorFilterPage({ params, searchParams }: PageProps) {
                 <p className="text-slate-600 mb-6">
                   Try adjusting your filters to see more results
                 </p>
-                <Link href={`/catalog/${params.category}`}>
+                <Link href={`/shop/${params.category}`}>
                   <Button variant="outline">View All {category.name}</Button>
                 </Link>
               </div>

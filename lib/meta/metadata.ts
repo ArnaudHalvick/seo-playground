@@ -36,9 +36,9 @@ export function generatePageMetadata(ctx: MetadataContext): Metadata {
 export function getTitleForPath(pathname: string): string {
   if (pathname === '/') return 'SEO Robots & Parameters Playground';
   if (pathname.startsWith('/best-practices')) return 'SEO Best Practices | SEO Playground';
-  if (pathname.startsWith('/catalog') && !pathname.includes('/')) return 'Product Catalog | SEO Playground';
-  if (pathname.startsWith('/catalog/t-shirts')) return 'T-Shirts | Catalog | SEO Playground';
-  if (pathname.startsWith('/catalog/shoes')) return 'Shoes | Catalog | SEO Playground';
+  if (pathname.startsWith('/shop') && !pathname.includes('/')) return 'Shop | SEO Playground';
+  if (pathname.startsWith('/shop/t-shirts')) return 'T-Shirts | Shop | SEO Playground';
+  if (pathname.startsWith('/shop/shoes')) return 'Shoes | Shop | SEO Playground';
   if (pathname.startsWith('/search')) return 'Search Results | SEO Playground';
   if (pathname.startsWith('/account/orders')) return 'My Orders | Account | SEO Playground';
   if (pathname.startsWith('/account/billing')) return 'Billing | Account | SEO Playground';
@@ -54,7 +54,7 @@ export function getTitleForPath(pathname: string): string {
 export function getDescriptionForPath(pathname: string): string {
   if (pathname === '/') return 'Interactive playground for learning technical SEO, URL management, and crawl control';
   if (pathname.startsWith('/best-practices')) return 'Configure parameter policies, robots rules, and canonical strategies';
-  if (pathname.startsWith('/catalog')) return 'Demo product catalog showing SEO best practices for e-commerce sites';
+  if (pathname.startsWith('/shop')) return 'Demo product shop showing SEO best practices for e-commerce sites';
   if (pathname.startsWith('/search')) return 'Search results demonstration with noindex policy';
   if (pathname.startsWith('/account')) return 'Protected account area demonstrating noindex and robots disallow';
 
