@@ -123,9 +123,26 @@ function getCleanPathRecommendation(
     };
   }
 
-  // Stable parameters only (good candidate for clean paths)
+  // Multiple stable parameters (too granular for clean paths)
   if (hasStable && !hasUnstable) {
     const stableKeys = Array.from(evaluated.stableParams.keys());
+    
+    // Check if there are 2+ stable parameters
+    if (stableKeys.length >= 2) {
+      const paramList = stableKeys.map(key => {
+        const value = evaluated.stableParams.get(key);
+        return `${key}=${value}`;
+      }).join(", ");
+      
+      return {
+        message: `⚠️ Multiple stable filters detected (${paramList}) — combining them limits SEO value.`,
+        educationalNote:
+          "Multiple stable filters create N×M combinations that are too granular for SEO paths. Keep these combinations discoverable with noindex,follow, but only convert single stable filters (like color or size) into clean paths. Single-filter clean paths create meaningful landing pages that match user search intent.",
+        showExamples: false,
+      };
+    }
+    
+    // Single stable parameter only (good candidate for clean paths)
     const exampleParam = stableKeys[0];
     const exampleValue = evaluated.stableParams.get(exampleParam);
 
@@ -143,7 +160,7 @@ function getCleanPathRecommendation(
       const colorSuggestions = otherColors.map(color => `${basePath}/color/${color}/`);
 
       return {
-        message: `✅ Stable parameter detected — you could turn it into a clean path like ${examplePath} if it represents real user intent.`,
+        message: `✅ Single stable parameter detected — you could turn it into a clean path like ${examplePath} if it represents real user intent.`,
         example: examplePath,
         relatedSuggestions: colorSuggestions,
         educationalNote:
@@ -162,7 +179,7 @@ function getCleanPathRecommendation(
       const sizeSuggestions = otherSizes.map(size => `${basePath}/size/${size}/`);
 
       return {
-        message: `✅ Stable parameter detected — you could turn it into a clean path like ${examplePath} if it represents real user intent.`,
+        message: `✅ Single stable parameter detected — you could turn it into a clean path like ${examplePath} if it represents real user intent.`,
         example: examplePath,
         relatedSuggestions: sizeSuggestions,
         educationalNote:
@@ -191,7 +208,7 @@ function getCleanPathRecommendation(
 
     // Fallback for other stable params
     return {
-      message: `✅ Stable parameter detected — you could turn it into a clean path like ${examplePath}/${exampleValue}/ if it represents real user intent.`,
+      message: `✅ Single stable parameter detected — you could turn it into a clean path like ${examplePath}/${exampleValue}/ if it represents real user intent.`,
       example: `${examplePath}/${exampleValue}/`,
       educationalNote:
         "Clean paths are ideal for limited, meaningful filters that match user search intent. They should not be used for infinite or numeric combinations.",
