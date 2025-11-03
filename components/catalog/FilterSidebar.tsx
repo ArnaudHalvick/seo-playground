@@ -161,6 +161,17 @@ export function FilterSidebar({
     router.push(pathname);
   };
 
+  // Sync local state with URL changes (when filters are cleared externally)
+  useEffect(() => {
+    setSelectedColors(currentFilters.colors || []);
+    setSelectedSize(currentFilters.size);
+    setPriceRange([
+      currentFilters.priceMin ?? filterCounts.priceRange.min,
+      currentFilters.priceMax ?? filterCounts.priceRange.max,
+    ]);
+    setSortBy(searchParams.get("sort") || "popularity");
+  }, [currentFilters, searchParams, filterCounts.priceRange]);
+
   // Count active filters
   const activeFilterCount =
     selectedColors.length +
@@ -282,15 +293,16 @@ export function FilterSidebar({
       </div>
 
       {/* Clear Filters Button */}
-      {activeFilterCount > 0 && (
-        <>
-          <Separator />
-          <Button variant="outline" onClick={clearAllFilters} className="w-full">
-            <X className="w-4 h-4 mr-2" />
-            Clear All Filters
-          </Button>
-        </>
-      )}
+      <Separator />
+      <Button 
+        variant="outline" 
+        onClick={clearAllFilters} 
+        className="w-full"
+        disabled={activeFilterCount === 0}
+      >
+        <X className="w-4 h-4 mr-2" />
+        Clear All Filters
+      </Button>
     </div>
   );
 

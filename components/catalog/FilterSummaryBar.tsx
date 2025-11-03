@@ -104,6 +104,7 @@ export function FilterSummaryBar({
             variant="outline" 
             size="sm"
             className="whitespace-nowrap"
+            disabled={!hasAnyFilters}
           >
             <X className="w-4 h-4 mr-1" />
             Clear All
