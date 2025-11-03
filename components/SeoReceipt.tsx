@@ -797,7 +797,7 @@ export function SeoReceipt() {
                   </div>
                 )}
 
-                {cleanPathRec && (
+                {cleanPathRec && !result.blockInRobots && (
                   <div className="border-t pt-4">
                     <div className="font-semibold mb-2 text-sm text-slate-700">
                       Clean Path Recommendation
@@ -1153,7 +1153,7 @@ export function SeoReceipt() {
                 </div>
               )}
 
-              {cleanPathRec && (
+              {cleanPathRec && !result.blockInRobots && (
                 <div className="border-t pt-3">
                   <div className="font-semibold mb-2 text-sm text-slate-700">
                     Clean Path Recommendation

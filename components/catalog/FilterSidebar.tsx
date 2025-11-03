@@ -19,7 +19,7 @@ import {
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import type { FilterCounts, FilterOptions } from "@/lib/catalog/data";
+import type { FilterCounts, FilterOptions, SizeGroup } from "@/lib/catalog/data";
 import { PriceRangeFilter } from "./PriceRangeFilter";
 
 interface FilterSidebarProps {
@@ -28,6 +28,7 @@ interface FilterSidebarProps {
   currentFilters: FilterOptions;
   availableColors: string[];
   availableSizes: string[];
+  sizeGroups: SizeGroup[] | null;
 }
 
 export function FilterSidebar({
@@ -36,6 +37,7 @@ export function FilterSidebar({
   currentFilters,
   availableColors,
   availableSizes,
+  sizeGroups,
 }: FilterSidebarProps) {
   const router = useRouter();
   const pathname = usePathname();
@@ -279,39 +281,85 @@ export function FilterSidebar({
           )}
         </div>
         <RadioGroup value={selectedSize || ""} onValueChange={handleSizeChange}>
-          <div className="grid grid-cols-2 gap-2">
-            {availableSizes.map((size) => {
-              const count = filterCounts.sizes[size] || 0;
-              const isDisabled = count === 0;
-
-              return (
-                <div
-                  key={size}
-                  className={`flex items-center space-x-2 p-2 rounded border ${
-                    selectedSize === size
-                      ? "bg-primary text-primary-foreground border-primary"
-                      : isDisabled
-                      ? "bg-gray-50 text-gray-400 border-gray-200"
-                      : "border-gray-200 hover:bg-gray-50 cursor-pointer"
-                  }`}
-                  onClick={() => !isDisabled && handleSizeChange(size)}
-                >
-                  <RadioGroupItem value={size} id={`size-${size}`} disabled={isDisabled} />
-                  <Label htmlFor={`size-${size}`} className="flex-1 cursor-pointer">
-                    {size}
-                  </Label>
-                  <Badge 
-                    variant={selectedSize === size ? "outline" : "secondary"}
-                    className={`ml-auto text-xs ${isDisabled ? "opacity-50" : ""} ${
-                      selectedSize === size ? "bg-primary-foreground/20" : ""
-                    }`}
-                  >
-                    {count}
-                  </Badge>
+          {sizeGroups ? (
+            // Grouped display
+            sizeGroups.map((group, groupIndex) => (
+              <div key={group.label}>
+                {groupIndex > 0 && <Separator className="my-3" />}
+                <div className="mb-2 text-xs font-semibold text-gray-600 uppercase tracking-wide">
+                  {group.label}
                 </div>
-              );
-            })}
-          </div>
+                <div className="grid grid-cols-2 gap-2">
+                  {group.sizes.filter(size => availableSizes.includes(size)).map((size) => {
+                    const count = filterCounts.sizes[size] || 0;
+                    const isDisabled = count === 0;
+                    
+                    return (
+                      <div
+                        key={size}
+                        className={`flex items-center space-x-2 p-2 rounded border ${
+                          selectedSize === size
+                            ? "bg-primary text-primary-foreground border-primary"
+                            : isDisabled
+                            ? "bg-gray-50 text-gray-400 border-gray-200"
+                            : "border-gray-200 hover:bg-gray-50 cursor-pointer"
+                        }`}
+                        onClick={() => !isDisabled && handleSizeChange(size)}
+                      >
+                        <RadioGroupItem value={size} id={`size-${size}`} disabled={isDisabled} />
+                        <Label htmlFor={`size-${size}`} className="flex-1 cursor-pointer">
+                          {size}
+                        </Label>
+                        <Badge 
+                          variant={selectedSize === size ? "outline" : "secondary"}
+                          className={`ml-auto text-xs ${isDisabled ? "opacity-50" : ""} ${
+                            selectedSize === size ? "bg-primary-foreground/20" : ""
+                          }`}
+                        >
+                          {count}
+                        </Badge>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            ))
+          ) : (
+            // No grouping - original display
+            <div className="grid grid-cols-2 gap-2">
+              {availableSizes.map((size) => {
+                const count = filterCounts.sizes[size] || 0;
+                const isDisabled = count === 0;
+                
+                return (
+                  <div
+                    key={size}
+                    className={`flex items-center space-x-2 p-2 rounded border ${
+                      selectedSize === size
+                        ? "bg-primary text-primary-foreground border-primary"
+                        : isDisabled
+                        ? "bg-gray-50 text-gray-400 border-gray-200"
+                        : "border-gray-200 hover:bg-gray-50 cursor-pointer"
+                    }`}
+                    onClick={() => !isDisabled && handleSizeChange(size)}
+                  >
+                    <RadioGroupItem value={size} id={`size-${size}`} disabled={isDisabled} />
+                    <Label htmlFor={`size-${size}`} className="flex-1 cursor-pointer">
+                      {size}
+                    </Label>
+                    <Badge 
+                      variant={selectedSize === size ? "outline" : "secondary"}
+                      className={`ml-auto text-xs ${isDisabled ? "opacity-50" : ""} ${
+                        selectedSize === size ? "bg-primary-foreground/20" : ""
+                      }`}
+                    >
+                      {count}
+                    </Badge>
+                  </div>
+                );
+              })}
+            </div>
+          )}
         </RadioGroup>
       </div>
 

@@ -13,6 +13,7 @@ import {
   getFilterCounts,
   getAvailableColors,
   getAvailableSizes,
+  getSizeGroups,
   type FilterOptions
 } from '@/lib/catalog/data';
 import { Breadcrumbs } from'@/components/Breadcrumbs';
@@ -66,6 +67,7 @@ export default function ColorFilterPage({ params, searchParams }: PageProps) {
   // Get available options and counts
   const availableColors = getAvailableColors(params.category);
   const availableSizes = getAvailableSizes(params.category);
+  const sizeGroups = getSizeGroups(params.category);
   const filterCounts = getFilterCounts(params.category, filters);
 
   // Validate that the color exists in this category
@@ -141,6 +143,7 @@ export default function ColorFilterPage({ params, searchParams }: PageProps) {
               currentFilters={filters}
               availableColors={availableColors}
               availableSizes={availableSizes}
+              sizeGroups={sizeGroups}
             />
           </div>
 

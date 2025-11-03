@@ -1,4 +1,5 @@
 import catalogData from '@/data/catalog.json';
+import sizeConfig from '@/data/size-config.json';
 
 export interface Product {
   id: string;
@@ -18,6 +19,16 @@ export interface Category {
   slug: string;
   name: string;
   description: string;
+}
+
+export interface SizeGroup {
+  label: string;
+  sizes: string[];
+}
+
+export interface CategorySizeConfig {
+  sizeOrder: string[];
+  groups: SizeGroup[] | null;
 }
 
 export function getCategories(): Category[] {
@@ -182,6 +193,31 @@ export function getAvailableColors(categorySlug: string): string[] {
 export function getAvailableSizes(categorySlug: string): string[] {
   const products = getProductsByCategory(categorySlug);
   const sizes = new Set(products.map(p => p.size));
+  
+  // Get category-specific configuration
+  const config = sizeConfig[categorySlug as keyof typeof sizeConfig];
+  
+  if (config && config.sizeOrder) {
+    // Sort based on configured order
+    return Array.from(sizes).sort((a, b) => {
+      const aIndex = config.sizeOrder.indexOf(a);
+      const bIndex = config.sizeOrder.indexOf(b);
+      
+      // If both are in config, use config order
+      if (aIndex !== -1 && bIndex !== -1) {
+        return aIndex - bIndex;
+      }
+      
+      // Fallback: items not in config go to end, sorted alphabetically
+      if (aIndex === -1 && bIndex === -1) {
+        return a.localeCompare(b);
+      }
+      
+      return aIndex === -1 ? 1 : -1;
+    });
+  }
+  
+  // Fallback: alphabetical sort (old behavior)
   return Array.from(sizes).sort();
 }
 
@@ -207,4 +243,12 @@ export function getGenderCounts(categorySlug: string): Record<string, number> {
   });
   
   return counts;
+}
+
+/**
+ * Get size groups configuration for a category
+ */
+export function getSizeGroups(categorySlug: string): SizeGroup[] | null {
+  const config = sizeConfig[categorySlug as keyof typeof sizeConfig];
+  return config?.groups || null;
 }
