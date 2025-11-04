@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Settings, List, FileText, Map, Lock } from 'lucide-react';
+import { Settings, List, FileText, Map, Lock, Globe } from 'lucide-react';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 
 export default function BestPracticesPage() {
@@ -97,6 +97,21 @@ export default function BestPracticesPage() {
             <CardContent>
               <Link href="/best-practices/protected-routes">
                 <Button className="w-full">View Protected Routes</Button>
+              </Link>
+            </CardContent>
+          </Card>
+
+          <Card className="hover:shadow-lg transition-shadow border-2">
+            <CardHeader>
+              <Globe className="h-8 w-8 mb-2 text-indigo-600" />
+              <CardTitle>International SEO</CardTitle>
+              <CardDescription>
+                URL strategies, hreflang implementation, and localization best practices for global audiences
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Link href="/best-practices/international">
+                <Button className="w-full">View International SEO</Button>
               </Link>
             </CardContent>
           </Card>

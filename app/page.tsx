@@ -80,14 +80,14 @@ export default function Home() {
           <Card className="hover:shadow-lg transition-shadow border-2">
             <CardHeader>
               <Globe className="h-8 w-8 mb-2 text-indigo-600" />
-              <CardTitle>International Lab</CardTitle>
+              <CardTitle>International SEO</CardTitle>
               <CardDescription>
-                Hreflang implementation with language alternates
+                URL strategies, hreflang implementation, and localization best practices
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <Link href="/intl-lab/en/catalog/t-shirts">
-                <Button variant="outline" className="w-full">View i18n</Button>
+              <Link href="/best-practices/international">
+                <Button variant="outline" className="w-full">Learn International SEO</Button>
               </Link>
             </CardContent>
           </Card>
