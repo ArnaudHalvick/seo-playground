@@ -417,46 +417,66 @@ export default function ProtectedRoutesPage() {
                     3
                   </div>
                   <div>
-                    <h3 className="font-semibold mb-1">Add robots.txt Blocking</h3>
-                    <p className="text-sm text-slate-700 mb-2">
-                      Add <code className="bg-slate-100 px-1 rounded text-xs">Disallow: /account/</code> to robots.txt to prevent future crawling.
-                    </p>
-                    <p className="text-xs text-slate-600">
-                      This prevents re-crawling and reinforces noindex directive.
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex gap-4">
-                  <div className="bg-amber-100 rounded-full w-8 h-8 flex items-center justify-center font-bold flex-shrink-0">
-                    4
-                  </div>
-                  <div>
-                    <h3 className="font-semibold mb-1">Wait for Natural Drop (2-4 weeks)</h3>
+                    <h3 className="font-semibold mb-1">Wait for Deindexing (2-4 weeks)</h3>
                     <p className="text-sm text-slate-700 mb-2">
                       Google will typically remove noindex pages within 2-4 weeks during normal crawling.
                     </p>
+                    <p className="text-xs text-slate-600 mb-2">
+                      Monitor using <code className="bg-slate-100 px-1 rounded text-xs">site:yourdomain.com /account/</code> search in Google.
+                    </p>
+                    <Alert className="mt-3 border-red-300 bg-red-50">
+                      <AlertDescription className="text-xs">
+                        <strong>Critical:</strong> Do NOT add robots.txt blocking yet! If you block before deindexing, crawlers can't access the pages to see the noindex tag, and they'll remain indexed indefinitely.
+                      </AlertDescription>
+                    </Alert>
+                  </div>
+                </div>
+
+                <div className="flex gap-4">
+                  <div className="bg-green-100 rounded-full w-8 h-8 flex items-center justify-center font-bold flex-shrink-0">
+                    4
+                  </div>
+                  <div>
+                    <h3 className="font-semibold mb-1">Confirm Deindexing in Search Console</h3>
+                    <p className="text-sm text-slate-700 mb-2">
+                      Verify pages are no longer in Google's index using Search Console or <code className="bg-slate-100 px-1 rounded text-xs">site:</code> search.
+                    </p>
                     <p className="text-xs text-slate-600">
-                      Monitor using <code className="bg-slate-100 px-1 rounded text-xs">site:yourdomain.com /account/</code> search.
+                      Once confirmed removed, proceed to the next step.
                     </p>
                   </div>
                 </div>
 
                 <div className="flex gap-4">
-                  <div className="bg-red-100 rounded-full w-8 h-8 flex items-center justify-center font-bold flex-shrink-0">
+                  <div className="bg-blue-100 rounded-full w-8 h-8 flex items-center justify-center font-bold flex-shrink-0">
                     5
                   </div>
                   <div>
-                    <h3 className="font-semibold mb-1">Use URL Removal Tool (If Urgent)</h3>
+                    <h3 className="font-semibold mb-1">Add robots.txt Blocking (After Deindexing)</h3>
                     <p className="text-sm text-slate-700 mb-2">
-                      For urgent/sensitive cases, use Google Search Console's <strong>URL Removal Tool</strong> to temporarily hide pages (6 months).
+                      <strong>Only after confirming deindexing</strong>, add <code className="bg-slate-100 px-1 rounded text-xs">Disallow: /account/</code> to robots.txt.
+                    </p>
+                    <p className="text-xs text-slate-600">
+                      This prevents future crawling and re-indexing. Order matters!
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex gap-4">
+                  <div className="bg-purple-100 rounded-full w-8 h-8 flex items-center justify-center font-bold flex-shrink-0">
+                    6
+                  </div>
+                  <div>
+                    <h3 className="font-semibold mb-1">Optional: Use URL Removal Tool (If Urgent)</h3>
+                    <p className="text-sm text-slate-700 mb-2">
+                      For urgent/sensitive cases, use Google Search Console's <strong>URL Removal Tool</strong> to temporarily hide pages (6 months) while waiting for permanent deindexing.
                     </p>
                     <p className="text-xs text-slate-600">
                       Path: Search Console → Removals → New Request → Temporarily remove URL
                     </p>
-                    <Alert className="mt-3 border-red-300 bg-red-50">
+                    <Alert className="mt-3 border-amber-300 bg-amber-50">
                       <AlertDescription className="text-xs">
-                        <strong>Important:</strong> The removal tool is temporary. You MUST still add noindex tags and robots.txt blocking for permanent removal.
+                        <strong>Note:</strong> The removal tool is temporary (6 months). You still need to complete steps 1-5 for permanent removal.
                       </AlertDescription>
                     </Alert>
                   </div>
