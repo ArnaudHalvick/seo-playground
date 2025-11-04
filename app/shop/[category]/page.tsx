@@ -154,7 +154,7 @@ export default function CategoryPage({ params, searchParams }: PageProps) {
                 </div>
               </CardContent>
               <CardFooter>
-                <Link href={`/shop/${params.category}/${product.slug}`} className="w-full">
+                <Link href={`/shop/${params.category}/for/${product.gender}/${product.slug}`} className="w-full">
                   <Button variant="outline" className="w-full">View Details</Button>
                 </Link>
               </CardFooter>
