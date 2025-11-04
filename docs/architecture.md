@@ -695,13 +695,15 @@ const handlePriceApply = (minPrice?: number, maxPrice?: number) => {
 ```
 app/shop/[category]/
 ├── page.tsx                     # Category page with filters
-├── [product]/page.tsx           # Individual product pages
-├── for/[gender]/page.tsx        # Gender clean path (NEW)
+├── [product]/page.tsx           # Legacy route (redirects to gender path)
+├── for/[gender]/
+│   ├── page.tsx                 # Gender clean path
+│   └── [product]/page.tsx       # Product pages with gender context
 ├── color/[color]/page.tsx       # Color clean path
 └── size/[size]/page.tsx         # Size clean path
 ```
 
-**Important**: Prefixes (`/for/`, `/color/`, `/size/`) are required to avoid routing conflicts with `[product]`. Without them, Next.js cannot distinguish between `/shop/t-shirts/black` (product vs filter).
+**Important**: Prefixes (`/for/`, `/color/`, `/size/`) are required to avoid routing conflicts. Product pages are nested under gender paths (`/shop/t-shirts/for/men/product-slug`) to provide clear hierarchical structure and gender context for SEO.
 
 ### Static Generation
 
@@ -750,7 +752,36 @@ export async function generateStaticParams({ params }) {
 
 **Result**: 20+ size pages (2 categories × 10+ sizes)
 
-**Total Static Pages**: 44+ clean path filter pages generated at build time
+#### Product Pages
+
+Product pages are nested under gender paths for hierarchical structure:
+
+```typescript
+export async function generateStaticParams() {
+  const products = getProducts();
+  return products.map((product) => ({
+    category: product.category,
+    gender: product.gender,
+    product: product.slug,
+  }));
+}
+```
+
+**Result**: 160 product pages (one per product) at `/shop/{category}/for/{gender}/{product-slug}`
+
+**URL Examples**:
+- `/shop/t-shirts/for/men/men-gray-crew-neck-5`
+- `/shop/shoes/for/women/women-black-running-sneakers-0`
+
+**SEO Benefits**:
+- Gender context in URL path provides topical relevance
+- Clear hierarchical structure (Shop > Category > Gender > Product)
+- Breadcrumb navigation matches URL structure
+- Consistent with gender filter pages (`/for/women/`)
+
+**Legacy Redirect**: The old flat route at `/shop/[category]/[product]/` automatically redirects to the new structure for backwards compatibility.
+
+**Total Static Pages**: 200+ pages (44+ filter pages + 160 product pages) generated at build time
 
 ### Path Parameter Validation
 
@@ -779,6 +810,16 @@ if (!availableSizes.includes(params.size)) {
   notFound();  // 404 if size doesn't exist
 }
 ```
+
+#### Product Gender Validation
+```typescript
+const product = getProduct(params.product);
+if (product.gender.toLowerCase() !== params.gender.toLowerCase()) {
+  notFound();  // 404 if gender in URL doesn't match product's gender
+}
+```
+
+This ensures URLs always have the correct gender for the product, preventing duplicate content issues.
 
 ### Query Params vs Clean Paths
 

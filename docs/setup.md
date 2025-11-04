@@ -106,12 +106,18 @@ project/
 │   ├── layout.tsx               # Root layout (ConfigProvider + SeoReceipt)
 │   ├── page.tsx                 # Homepage
 │   ├── globals.css              # Global styles + Tailwind imports
-│   ├── catalog/                 # Catalog pages
-│   │   ├── page.tsx            # Catalog landing
+│   ├── shop/                   # E-commerce demo pages
+│   │   ├── page.tsx            # Shop home / category list
 │   │   └── [category]/         # Dynamic category routes
-│   │       ├── page.tsx        # Category page with products
-│   │       └── [product]/      # Dynamic product routes
-│   │           └── page.tsx    # Individual product page
+│   │       ├── page.tsx        # Category page with filters
+│   │       ├── for/[gender]/   # Gender clean paths
+│   │       │   ├── page.tsx    # Gender-filtered category
+│   │       │   └── [product]/  # Product pages with gender context
+│   │       │       └── page.tsx # Individual product page
+│   │       ├── color/[color]/  # Color clean paths
+│   │       ├── size/[size]/    # Size clean paths
+│   │       └── [product]/      # Legacy route (redirects to gender path)
+│   │           └── page.tsx
 │   ├── best-practices/         # SEO configuration showcase
 │   │   └── page.tsx            # Best practices documentation
 │   └── api/                    # API routes

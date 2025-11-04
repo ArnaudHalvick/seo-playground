@@ -79,9 +79,10 @@ project/
 │   ├── shop/                    # E-commerce demo pages
 │   │   ├── [category]/          # Dynamic category pages with filters
 │   │   │   ├── for/[gender]/   # Gender clean paths (/for/women/, /for/men/, etc.)
+│   │   │   │   └── [product]/  # Product pages with gender context
 │   │   │   ├── color/[color]/  # Color clean paths (/color/black/, /color/blue/)
 │   │   │   ├── size/[size]/    # Size clean paths (/size/M/, /size/L/)
-│   │   │   └── [product]/      # Product detail pages
+│   │   │   └── [product]/      # Legacy product route (redirects to gender path)
 │   │   └── page.tsx            # Shop home / category list
 │   ├── pattern-gallery/         # SEO Pattern Gallery - comprehensive pattern reference
 │   ├── best-practices/          # SEO best practices docs
@@ -216,7 +217,7 @@ The SEO Receipt is a real-time panel that shows:
 - **`/shop/shoes/for/girls`** - Gender clean path showing only Kids sizes
 - **`/shop/t-shirts/color/black`** - Color clean path example (indexable)
 - **`/shop/t-shirts/size/M`** - Size clean path example (indexable)
-- **`/shop/t-shirts/[product]`** - Individual product pages
+- **`/shop/t-shirts/for/men/[product]`** - Individual product pages with gender context
 
 ### SEO Learning Tool
 

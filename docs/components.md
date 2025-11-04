@@ -26,7 +26,9 @@ Pages (app/**/page.tsx)
 │   ├── FilterSummaryBar
 │   ├── FilterSidebar (gender-aware size groups)
 │   └── Product Grid
-├── Product Page (app/shop/[category]/[product]/page.tsx)
+├── Product Page (app/shop/[category]/for/[gender]/[product]/page.tsx)
+│   ├── Breadcrumbs (4-level hierarchy)
+│   └── Product details with gender context
 └── Best Practices (app/best-practices/page.tsx)
     ├── ParamPolicyEditor
     ├── PaginationSettings
@@ -539,7 +541,7 @@ export async function generateStaticParams() {
    - Returns 404 if value doesn't exist
    - Type-safe with TypeScript
 
-**Routing Note**: Prefixes (`/color/`, `/size/`, `/for/`) prevent conflicts with `[product]` routes. Without them, Next.js cannot distinguish between `/shop/t-shirts/black` (product vs filter).
+**Routing Note**: Prefixes (`/color/`, `/size/`, `/for/`) provide semantic URLs and clear hierarchical structure. Product pages are nested under gender paths (`/shop/t-shirts/for/men/product-slug`) to maintain gender context and provide better SEO signals.
 
 ### DemoChips
 
