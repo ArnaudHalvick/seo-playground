@@ -2,7 +2,6 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { ArrowLeft } from 'lucide-react';
 import { getProduct, getCategory, getProducts } from '@/lib/catalog/data';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { notFound } from 'next/navigation';
@@ -50,17 +49,6 @@ export default function ProductPage({ params }: PageProps) {
           { label: product.title, href: `/shop/${params.category}/for/${params.gender}/${params.product}` }
         ]} 
       />
-
-      <div className="border-b bg-white">
-        <div className="container mx-auto px-4 py-4">
-          <Link href={`/shop/${params.category}/for/${params.gender}`}>
-            <Button variant="ghost" size="sm">
-              <ArrowLeft className="h-4 w-4 mr-2" />
-              Back to {genderLabel}'s {category.name}
-            </Button>
-          </Link>
-        </div>
-      </div>
 
       <div className="container mx-auto px-4 py-12 max-w-4xl">
         <div className="grid md:grid-cols-2 gap-8">
