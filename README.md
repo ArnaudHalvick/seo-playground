@@ -231,6 +231,7 @@ The SEO Receipt is a real-time panel that shows:
 - **`/best-practices/sitemap`** - Sitemap generation guide
 - **`/best-practices/protected-routes`** - Protected routes and authentication page SEO strategy
 - **`/best-practices/international`** - International SEO: URL strategies, hreflang, and localization
+- **`/best-practices/site-search`** - Site search SEO: noindex,follow strategy and crawl trap prevention
 
 ### Technical Endpoints
 

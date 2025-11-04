@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Settings, List, FileText, Map, Lock, Globe } from 'lucide-react';
+import { Settings, List, FileText, Map, Lock, Globe, Search } from 'lucide-react';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 
 export default function BestPracticesPage() {
@@ -112,6 +112,21 @@ export default function BestPracticesPage() {
             <CardContent>
               <Link href="/best-practices/international">
                 <Button className="w-full">View International SEO</Button>
+              </Link>
+            </CardContent>
+          </Card>
+
+          <Card className="hover:shadow-lg transition-shadow border-2">
+            <CardHeader>
+              <Search className="h-8 w-8 mb-2 text-amber-600" />
+              <CardTitle>Site Search</CardTitle>
+              <CardDescription>
+                SEO strategy for search result pages: noindex,follow, crawl traps, and common mistakes
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Link href="/best-practices/site-search">
+                <Button className="w-full">View Site Search</Button>
               </Link>
             </CardContent>
           </Card>

@@ -3,21 +3,12 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Button } from "./ui/button";
-import { Settings, ShoppingBag, Home, BookOpen, ChevronDown, Beaker } from "lucide-react";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "./ui/dropdown-menu";
+import { Settings, ShoppingBag, Home, Beaker } from "lucide-react";
 
 export function Navigation() {
   const pathname = usePathname();
 
   const isActive = (path: string) => pathname === path || pathname.startsWith(path + "/");
-
-  const isDocsActive =
-    isActive("/docs") || isActive("/concepts") || isActive("/about") || isActive("/how-it-works");
 
   return (
     <nav className="border-b bg-white sticky top-0 z-40 shadow-sm">
@@ -61,38 +52,6 @@ export function Navigation() {
                 <span className="hidden sm:inline">Best Practices</span>
               </Button>
             </Link>
-
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant={isDocsActive ? "default" : "ghost"} size="sm">
-                  <BookOpen className="h-4 w-4 mr-2" />
-                  <span className="hidden sm:inline">Docs</span>
-                  <ChevronDown className="h-4 w-4 ml-1" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="z-50">
-                <DropdownMenuItem asChild>
-                  <Link href="/docs" className="w-full cursor-pointer">
-                    Documentation Home
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link href="/about" className="w-full cursor-pointer">
-                    About This Project
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link href="/how-it-works" className="w-full cursor-pointer">
-                    How It Works
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link href="/concepts" className="w-full cursor-pointer">
-                    SEO Concepts
-                  </Link>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
           </div>
         </div>
       </div>

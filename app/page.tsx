@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Settings, ShoppingBag, Search, Lock, Globe, Copy, FileText } from 'lucide-react';
+import { Settings, ShoppingBag, Search, Lock, Globe, Copy } from 'lucide-react';
 
 export default function Home() {
   return (
@@ -50,14 +50,29 @@ export default function Home() {
           <Card className="hover:shadow-lg transition-shadow border-2">
             <CardHeader>
               <Search className="h-8 w-8 mb-2 text-amber-600" />
-              <CardTitle>Search Demo</CardTitle>
+              <CardTitle>Site Search SEO</CardTitle>
               <CardDescription>
-                See how search pages are handled with noindex,follow
+                How search pages prevent crawl traps with noindex,follow strategy
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <Link href="/search">
-                <Button variant="outline" className="w-full">View Search</Button>
+              <Link href="/best-practices/site-search">
+                <Button variant="outline" className="w-full">Learn Site Search SEO</Button>
+              </Link>
+            </CardContent>
+          </Card>
+
+          <Card className="hover:shadow-lg transition-shadow border-2">
+            <CardHeader>
+              <Copy className="h-8 w-8 mb-2 text-purple-600" />
+              <CardTitle>Pattern Gallery</CardTitle>
+              <CardDescription>
+                17 production-ready SEO patterns with live examples and filtering
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Link href="/pattern-gallery">
+                <Button variant="outline" className="w-full">Browse Patterns</Button>
               </Link>
             </CardContent>
           </Card>
@@ -92,61 +107,6 @@ export default function Home() {
             </CardContent>
           </Card>
 
-          <Card className="hover:shadow-lg transition-shadow border-2">
-            <CardHeader>
-              <Copy className="h-8 w-8 mb-2 text-purple-600" />
-              <CardTitle>Duplication Clinic</CardTitle>
-              <CardDescription>
-                Identify and resolve duplicate content issues
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Link href="/dup-clinic">
-                <Button variant="outline" className="w-full">Analyze</Button>
-              </Link>
-            </CardContent>
-          </Card>
-        </div>
-
-        <div className="bg-white rounded-lg shadow-md p-8 mb-12 border">
-          <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
-            <FileText className="h-6 w-6" />
-            What This Teaches
-          </h2>
-          <div className="grid md:grid-cols-2 gap-6">
-            <div>
-              <h3 className="font-semibold text-lg mb-2">Crawl Control</h3>
-              <ul className="space-y-1 text-slate-700">
-                <li>• robots.txt patterns and policies</li>
-                <li>• Meta robots vs X-Robots-Tag</li>
-                <li>• Defense-in-depth for protected content</li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="font-semibold text-lg mb-2">URL Management</h3>
-              <ul className="space-y-1 text-slate-700">
-                <li>• Canonical URL strategies</li>
-                <li>• Parameter handling (stable/unstable/blocked)</li>
-                <li>• UTM stripping and tracking params</li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="font-semibold text-lg mb-2">Duplicate Content</h3>
-              <ul className="space-y-1 text-slate-700">
-                <li>• Pagination best practices</li>
-                <li>• Search vs category overlap</li>
-                <li>• Faceted navigation canonicalization</li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="font-semibold text-lg mb-2">International SEO</h3>
-              <ul className="space-y-1 text-slate-700">
-                <li>• Hreflang link generation</li>
-                <li>• x-default implementation</li>
-                <li>• Reciprocity validation</li>
-              </ul>
-            </div>
-          </div>
         </div>
 
       </div>
