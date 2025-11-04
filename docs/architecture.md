@@ -42,6 +42,8 @@ The application is built using a **layered architecture** with clear separation 
   - `playground/PatternCard.tsx`: Individual pattern display with SEO impact (used in Pattern Gallery)
   - `playground/PatternFilter.tsx`: Pattern filtering and search (used in Pattern Gallery)
   - `playground/PatternCategory.tsx`: Collapsible category sections (used in Pattern Gallery)
+  - `playground/RobotsPreview.tsx`: Live-generated robots.txt with section annotations (Best Practices)
+  - `playground/RobotsTester.tsx`: Interactive URL testing for robots.txt patterns (Best Practices)
   - `ui/`: shadcn/ui component library
 
 **Technologies**:
@@ -259,7 +261,8 @@ useConfig() → gets configuration
 Display tabs:
   - ParamPolicyEditor (static display)
   - PaginationSettings (static display)
-  - RobotsPreview (static display)
+  - RobotsPreview (live-generated robots.txt with annotations)
+  - RobotsTester (interactive URL pattern testing)
   - SitemapTable (static display)
 ```
 

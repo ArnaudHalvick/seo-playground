@@ -714,76 +714,149 @@ export function PaginationSettings() {
 
 **Location**: `components/playground/RobotsPreview.tsx`
 
-**Purpose**: Show robots.txt best practices
+**Purpose**: Display live-generated robots.txt with section-by-section annotations
 
 **Type**: Client Component
 
-**Props**: None (static display)
+**Props**: None (uses `generateRobotsTxt()` internally)
 
 **Features**:
-1. **Best Practice Rules**
-   - Protected paths
-   - Tracking parameters
-   - UI preferences
-   - Calendar patterns
-   - Each with explanation
+1. **Live Generation**
+   - Calls `generateRobotsTxt(DEFAULT_PARAM_CONFIG)`
+   - Shows actual `/api/robots` output
+   - Always in sync with robots.ts logic
+   - No hardcoded examples
 
-2. **Anti-Patterns**
-   - Blocking pagination
-   - Blocking sort
-   - Blocking search
-   - Why each is risky
+2. **Automatic Parsing**
+   - Splits output into sections by comment headers
+   - Extracts Clean Path Architecture, Protected Paths, Tracking Parameters, etc.
+   - Maps each section to explanation and icon
 
-3. **Complete Example**
-   - Full robots.txt content
-   - Production-ready
-   - With comments
+3. **Section Annotations**
+   - Each section gets: icon, title, badge, explanation, code block
+   - Badge types: Critical (green), Recommended (light green), Info (blue)
+   - Colored badges indicate importance level
+
+4. **Complete File View**
+   - Shows full robots.txt in terminal-style code block
+   - Note indicating it matches `/api/robots`
+
+5. **Anti-Patterns Section**
+   - Educational warnings about common mistakes
+   - Blocking pagination, sort, search pages
+   - Explains why each is problematic
 
 **Code Structure**:
 ```typescript
 export function RobotsPreview() {
-  const rules = [
-    {
-      title: "Protected & System Paths",
-      rules: ["Allow: /api/robots", "Disallow: /account/", ...],
-      explanation: "..."
-    },
-    ...
-  ];
+  // Generate live output
+  const robotsTxtContent = useMemo(() => {
+    return generateRobotsTxt(DEFAULT_PARAM_CONFIG);
+  }, []);
 
-  const antiPatterns = [
-    {
-      title: "Blocking Pagination Parameters",
-      rule: "Disallow: /*?*page=*",
-      reason: "This prevents crawlers from discovering..."
-    },
-    ...
-  ];
+  // Parse into sections
+  const sections = useMemo(() => {
+    // Parse by comment headers
+    // Map to section info (icon, explanation, type)
+  }, [robotsTxtContent]);
 
   return (
     <div>
+      <Alert>This shows actual robots.txt from /api/robots</Alert>
+      
       <Card>
-        {rules.map(rule => (
-          <div key={rule.title}>
-            <h3>{rule.title}</h3>
-            <Badge>Recommended</Badge>
-            <code>{rule.rules.join('\n')}</code>
-            <p>{rule.explanation}</p>
+        {sections.map(section => (
+          <div>
+            {section.icon}
+            <h3>{section.title}</h3>
+            <Badge>{section.type}</Badge>
+            <p>{section.explanation}</p>
+            <pre>{section.lines}</pre>
           </div>
         ))}
       </Card>
 
-      <Card>
-        <AlertTriangle /> Common Anti-Patterns
-        {antiPatterns.map(pattern => (
-          <div key={pattern.title}>
-            <h3>{pattern.title}</h3>
-            <code className="line-through">{pattern.rule}</code>
-            <p>{pattern.reason}</p>
-          </div>
-        ))}
-      </Card>
+      <Card>Complete robots.txt File</Card>
+
+      <Card>Anti-Patterns to Avoid</Card>
     </div>
+  );
+}
+```
+
+**Key Improvement**: Now dynamically generates content from `robots.ts` instead of hardcoded examples, ensuring documentation never drifts from implementation.
+
+---
+
+### RobotsTester
+
+**Location**: `components/playground/RobotsTester.tsx`
+
+**Purpose**: Interactive URL testing tool to demonstrate robots.txt pattern matching
+
+**Type**: Client Component
+
+**Props**: None (uses `checkRobotsBlocking()` internally)
+
+**Features**:
+1. **URL Input**
+   - Text input for custom URLs
+   - Enter key support for quick testing
+   - Real-time validation
+
+2. **Pattern Matching**
+   - Calls `checkRobotsBlocking()` with pathname and search params
+   - Shows whether URL is blocked or allowed
+   - Lists all matched rules with explanations
+
+3. **Visual Feedback**
+   - Green alert for allowed URLs
+   - Red alert for blocked URLs
+   - Icons (CheckCircle2 / XCircle)
+   - Matched rules displayed in monospace font
+
+4. **Example URLs**
+   - 6 pre-configured examples:
+     * `/shop/t-shirts` (Allowed - clean path)
+     * `/shop/t-shirts?utm_source=google` (Blocked - tracking)
+     * `/account/orders` (Blocked - protected route)
+     * `/shop/t-shirts?color=black,blue` (Blocked - multi-select)
+     * `/shop/t-shirts/for/women/` (Allowed - gender clean path)
+     * `/shop?price_min=10&price_max=50` (Blocked - numeric range)
+   - Click to test instantly
+   - Shows description and expected result
+
+**Code Structure**:
+```typescript
+export function RobotsTester() {
+  const [testUrl, setTestUrl] = useState('');
+  const [result, setResult] = useState<TestResult | null>(null);
+
+  const handleTest = (url: string) => {
+    const urlObj = new URL(url, 'https://example.com');
+    const testResult = checkRobotsBlocking(
+      urlObj.pathname,
+      urlObj.searchParams,
+      DEFAULT_PARAM_CONFIG
+    );
+    setResult(testResult);
+  };
+
+  return (
+    <Card>
+      <Input placeholder="/shop/t-shirts?utm_source=google" />
+      <Button>Test</Button>
+
+      {result && (
+        <Alert className={result.isBlocked ? 'red' : 'green'}>
+          {result.isBlocked ? 'BLOCKED' : 'ALLOWED'}
+          {result.matchedRules.map(rule => <div>{rule}</div>)}
+        </Alert>
+      )}
+
+      <div>Example URLs:</div>
+      {exampleUrls.map(ex => <Button onClick={() => test(ex.url)} />)}
+    </Card>
   );
 }
 ```

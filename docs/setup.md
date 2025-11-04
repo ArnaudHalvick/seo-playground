@@ -137,7 +137,8 @@ project/
 │   │   ├── PatternCategory.tsx # Collapsible category sections
 │   │   ├── ParamPolicyEditor.tsx
 │   │   ├── PaginationSettings.tsx
-│   │   ├── RobotsPreview.tsx
+│   │   ├── RobotsPreview.tsx   # Live robots.txt with annotations
+│   │   ├── RobotsTester.tsx    # Interactive URL testing tool
 │   │   └── SitemapTable.tsx
 │   └── ui/                     # shadcn/ui component library
 │       ├── button.tsx

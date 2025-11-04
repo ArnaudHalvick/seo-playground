@@ -96,10 +96,12 @@ project/
 │   │   ├── GenderFilter.tsx    # Gender filter buttons with SEO banners
 │   │   ├── PriceRangeFilter.tsx # Manual price filter with apply button
 │   │   └── ActiveFilters.tsx   # Removable filter badges
-│   ├── playground/              # Pattern gallery components
+│   ├── playground/              # Pattern gallery & best practices components
 │   │   ├── PatternCard.tsx     # Individual pattern display
 │   │   ├── PatternFilter.tsx   # Pattern filtering and search
-│   │   └── PatternCategory.tsx # Collapsible category sections
+│   │   ├── PatternCategory.tsx # Collapsible category sections
+│   │   ├── RobotsPreview.tsx   # Live robots.txt with annotations
+│   │   └── RobotsTester.tsx    # Interactive URL testing tool
 │   ├── DemoChips.tsx            # Parameter demo buttons
 │   ├── SeoReceipt.tsx           # Real-time SEO feedback panel
 │   └── Navigation.tsx           # Site navigation
