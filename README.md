@@ -40,8 +40,8 @@ This project is an **educational showcase**, not a real e-commerce store. It dem
 
 ### State Management
 
-- **React Context** - For configuration state
-- **LocalStorage** - Persistent configuration (browser-side only for demo purposes)
+- **React Context** - For static configuration distribution
+- **Static Configuration** - SEO rules defined in `data/rules.json`
 
 ## Quick Start
 
@@ -226,8 +226,10 @@ The SEO Receipt is a real-time panel that shows:
 - **`/pattern-gallery`** - SEO Pattern Gallery: 17 production-ready patterns organized by category with filtering, search, and live examples
 - **`/best-practices`** - SEO best practices documentation with implementation details
 - **`/best-practices/parameters`** - Parameter handling guide
+- **`/best-practices/pagination`** - Pagination best practices
 - **`/best-practices/robots`** - robots.txt best practices
 - **`/best-practices/sitemap`** - Sitemap generation guide
+- **`/best-practices/protected-routes`** - Protected routes and authentication page SEO strategy
 
 ### Technical Endpoints
 
@@ -238,12 +240,12 @@ The SEO Receipt is a real-time panel that shows:
 
 The default SEO configuration is in `data/rules.json` and includes:
 
-- Parameter classification rules
-- Pagination policies
-- Robots.txt toggle configurations
-- Demo feature flags
+- Parameter classification rules (stable, unstable, blocked)
+- Pagination policies (noindex for page 2+, self-canonical strategy)
+- Protected route patterns
+- Multi-select detection rules
 
-The configuration is loaded into React Context and can be inspected in the browser's localStorage under the key `seo-playground-config`.
+The configuration is loaded into React Context from the static rules file and distributed to all SEO decision functions throughout the application.
 
 ## Documentation
 

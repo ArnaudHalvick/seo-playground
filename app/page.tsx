@@ -67,12 +67,12 @@ export default function Home() {
               <Lock className="h-8 w-8 mb-2 text-red-600" />
               <CardTitle>Protected Routes</CardTitle>
               <CardDescription>
-                Account pages with noindex + robots.txt disallow
+                SEO strategy for account pages, authentication flows, and sensitive content
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <Link href="/account/orders">
-                <Button variant="outline" className="w-full">View Account</Button>
+              <Link href="/best-practices/protected-routes">
+                <Button variant="outline" className="w-full">Learn About Protected Routes</Button>
               </Link>
             </CardContent>
           </Card>

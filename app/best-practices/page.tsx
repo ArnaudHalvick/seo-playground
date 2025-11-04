@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Settings, List, FileText, Map } from 'lucide-react';
+import { Settings, List, FileText, Map, Lock } from 'lucide-react';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 
 export default function BestPracticesPage() {
@@ -82,6 +82,21 @@ export default function BestPracticesPage() {
             <CardContent>
               <Link href="/best-practices/sitemap">
                 <Button className="w-full">View Sitemap</Button>
+              </Link>
+            </CardContent>
+          </Card>
+
+          <Card className="hover:shadow-lg transition-shadow border-2">
+            <CardHeader>
+              <Lock className="h-8 w-8 mb-2 text-red-600" />
+              <CardTitle>Protected Routes</CardTitle>
+              <CardDescription>
+                SEO strategy for account pages, authentication flows, and sensitive content
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Link href="/best-practices/protected-routes">
+                <Button className="w-full">View Protected Routes</Button>
               </Link>
             </CardContent>
           </Card>
