@@ -125,7 +125,7 @@ project/
 │   ├── DemoChips.tsx           # Parameter demo buttons
 │   ├── Navigation.tsx          # Site navigation
 │   ├── Breadcrumbs.tsx         # Breadcrumb navigation
-│   ├── playground/             # Pattern gallery components
+│   ├── playground/             # Pattern gallery & best practices components
 │   │   ├── PatternCard.tsx     # Individual pattern display
 │   │   ├── PatternFilter.tsx   # Pattern filtering and search
 │   │   ├── PatternCategory.tsx # Collapsible category sections

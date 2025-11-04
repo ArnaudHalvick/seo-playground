@@ -66,9 +66,9 @@ export function Navigation() {
               </DropdownMenuContent>
             </DropdownMenu>
 
-            {/* SEO Lab */}
-            <Link href="/playground">
-              <Button variant={isActive("/playground") ? "default" : "ghost"} size="sm">
+            {/* Pattern Gallery */}
+            <Link href="/pattern-gallery">
+              <Button variant={isActive("/pattern-gallery") ? "default" : "ghost"} size="sm">
                 <Beaker className="h-4 w-4 mr-2" />
                 <span className="hidden sm:inline">Pattern Gallery</span>
               </Button>

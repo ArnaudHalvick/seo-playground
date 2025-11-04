@@ -112,7 +112,7 @@ export default function PlaygroundPage() {
 
   return (
     <div className="min-h-screen bg-slate-50">
-      <Breadcrumbs items={[{ label: "SEO Pattern Gallery", href: "/playground" }]} />
+      <Breadcrumbs items={[{ label: "SEO Pattern Gallery", href: "/pattern-gallery" }]} />
 
       <div className="container mx-auto px-4 py-12 max-w-7xl">
         {/* Hero Section */}

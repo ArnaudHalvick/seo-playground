@@ -39,9 +39,9 @@ The application is built using a **layered architecture** with clear separation 
   - `DemoChips.tsx`: Interactive parameter demo buttons
   - `catalog/FilterSidebar.tsx`: Production-ready e-commerce filter interface
   - `catalog/FilterSummaryBar.tsx`: Sticky bar showing all active filters
-  - `playground/PatternCard.tsx`: Individual pattern display with SEO impact
-  - `playground/PatternFilter.tsx`: Pattern filtering and search
-  - `playground/PatternCategory.tsx`: Collapsible category sections
+  - `playground/PatternCard.tsx`: Individual pattern display with SEO impact (used in Pattern Gallery)
+  - `playground/PatternFilter.tsx`: Pattern filtering and search (used in Pattern Gallery)
+  - `playground/PatternCategory.tsx`: Collapsible category sections (used in Pattern Gallery)
   - `ui/`: shadcn/ui component library
 
 **Technologies**:

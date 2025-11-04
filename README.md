@@ -83,7 +83,7 @@ project/
 │   │   │   ├── size/[size]/    # Size clean paths (/size/M/, /size/L/)
 │   │   │   └── [product]/      # Product detail pages
 │   │   └── page.tsx            # Shop home / category list
-│   ├── playground/              # SEO Pattern Gallery - comprehensive pattern reference
+│   ├── pattern-gallery/         # SEO Pattern Gallery - comprehensive pattern reference
 │   ├── best-practices/          # SEO best practices docs
 │   ├── api/                     # API routes (robots.txt, sitemap)
 │   └── layout.tsx               # Root layout with providers
@@ -220,7 +220,7 @@ The SEO Receipt is a real-time panel that shows:
 
 ### SEO Learning Tool
 
-- **`/playground`** - SEO Pattern Gallery: 17 production-ready patterns organized by category with filtering, search, and live examples
+- **`/pattern-gallery`** - SEO Pattern Gallery: 17 production-ready patterns organized by category with filtering, search, and live examples
 - **`/best-practices`** - SEO best practices documentation with implementation details
 - **`/best-practices/parameters`** - Parameter handling guide
 - **`/best-practices/robots`** - robots.txt best practices
