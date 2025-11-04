@@ -22,7 +22,7 @@ export default function Home() {
               <Settings className="h-8 w-8 mb-2 text-blue-600" />
               <CardTitle>SEO Best Practices</CardTitle>
               <CardDescription>
-                Learn production-ready parameter policies, robots.txt rules, and canonical strategies
+                Explore production-ready parameter policies, robots.txt patterns, and canonical URL strategies with detailed explanations and live examples
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -37,7 +37,7 @@ export default function Home() {
               <ShoppingBag className="h-8 w-8 mb-2 text-green-600" />
               <CardTitle>Product Catalog</CardTitle>
               <CardDescription>
-                Demo e-commerce pages with facets, pagination, and sorting
+                Live demo shop where you can browse products and see real-time SEO analysis for different URL patterns and filters
               </CardDescription>
             </CardHeader>
             <CardContent>

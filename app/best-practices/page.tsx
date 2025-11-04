@@ -87,33 +87,14 @@ export default function BestPracticesPage() {
           </Card>
         </div>
 
-        <div className="p-5 bg-blue-50 border border-blue-200 rounded-lg">
-          <h3 className="font-semibold text-lg mb-2">See It In Action</h3>
-          <p className="text-sm text-slate-700 mb-4">
-            Visit these demo pages to see how these SEO best practices are implemented. The SEO Receipt shows real-time details about canonical URLs, meta robots, and more.
+        <div className="text-center p-8 bg-blue-50 border border-blue-200 rounded-lg">
+          <h3 className="font-semibold text-xl mb-3">Try It Yourself</h3>
+          <p className="text-slate-700 mb-6">
+            Explore the shop to see these SEO best practices in action. The SEO Receipt shows real-time analysis of every page.
           </p>
-          <div className="flex flex-wrap gap-2">
-            <Link href="/catalog/t-shirts?sort=price_desc">
-              <Button variant="outline" size="sm">
-                Catalog with Sort
-              </Button>
-            </Link>
-            <Link href="/catalog/t-shirts?page=2">
-              <Button variant="outline" size="sm">
-                Page 2
-              </Button>
-            </Link>
-            <Link href="/catalog/t-shirts?color=blue">
-              <Button variant="outline" size="sm">
-                Color Filter
-              </Button>
-            </Link>
-            <Link href="/search?q=shoes">
-              <Button variant="outline" size="sm">
-                Search Page
-              </Button>
-            </Link>
-          </div>
+          <Link href="/shop/t-shirts">
+            <Button size="lg">Explore Live Examples</Button>
+          </Link>
         </div>
       </div>
     </div>

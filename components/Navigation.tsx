@@ -10,11 +10,9 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
-import { getCategories } from "@/lib/catalog/data";
 
 export function Navigation() {
   const pathname = usePathname();
-  const categories = getCategories();
 
   const isActive = (path: string) => pathname === path || pathname.startsWith(path + "/");
 
@@ -41,30 +39,13 @@ export function Navigation() {
               </Button>
             </Link>
 
-            {/* Shop Dropdown */}
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant={isActive("/shop") ? "default" : "ghost"} size="sm">
-                  <ShoppingBag className="h-4 w-4 mr-2" />
-                  <span className="hidden sm:inline">Shop</span>
-                  <ChevronDown className="h-4 w-4 ml-1" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="start" className="z-50">
-                <DropdownMenuItem asChild>
-                  <Link href="/shop" className="w-full cursor-pointer">
-                    All Categories
-                  </Link>
-                </DropdownMenuItem>
-                {categories.map((cat) => (
-                  <DropdownMenuItem key={cat.id} asChild>
-                    <Link href={`/shop/${cat.slug}`} className="w-full cursor-pointer">
-                      {cat.name}
-                    </Link>
-                  </DropdownMenuItem>
-                ))}
-              </DropdownMenuContent>
-            </DropdownMenu>
+            {/* Shop Link */}
+            <Link href="/shop">
+              <Button variant={isActive("/shop") ? "default" : "ghost"} size="sm">
+                <ShoppingBag className="h-4 w-4 mr-2" />
+                <span className="hidden sm:inline">Shop</span>
+              </Button>
+            </Link>
 
             {/* Pattern Gallery */}
             <Link href="/pattern-gallery">

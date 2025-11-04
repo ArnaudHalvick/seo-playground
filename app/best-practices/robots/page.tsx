@@ -2,6 +2,7 @@
 
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { RobotsPreview } from '@/components/playground/RobotsPreview';
+import { RobotsTester } from '@/components/playground/RobotsTester';
 
 export default function RobotsPage() {
   return (
@@ -15,13 +16,17 @@ export default function RobotsPage() {
 
       <div className="container mx-auto px-4 py-8 max-w-7xl">
         <div className="mb-6">
-          <h1 className="text-3xl font-bold mb-2">robots.txt</h1>
+          <h1 className="text-3xl font-bold mb-2">robots.txt Best Practices</h1>
           <p className="text-slate-600">
-            Dynamic robots.txt generation with pattern-based rules for crawl control
+            Live-generated robots.txt with pattern explanations and interactive URL testing
           </p>
         </div>
 
-        <RobotsPreview />
+        <div className="space-y-6">
+          <RobotsPreview />
+          
+          <RobotsTester />
+        </div>
       </div>
     </div>
   );
