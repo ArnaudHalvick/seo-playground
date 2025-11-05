@@ -11,8 +11,7 @@ export default function SitemapPage() {
     <div className="min-h-screen bg-slate-50">
       <Breadcrumbs 
         items={[
-          { label: 'Best Practices', href: '/best-practices' },
-          { label: 'Sitemap', href: '/best-practices/sitemap' }
+          { label: 'Sitemap', href: '/sitemap' }
         ]} 
       />
 
@@ -29,4 +28,5 @@ export default function SitemapPage() {
     </div>
   );
 }
+
 

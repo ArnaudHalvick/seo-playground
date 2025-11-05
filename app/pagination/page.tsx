@@ -8,8 +8,7 @@ export default function PaginationPage() {
     <div className="min-h-screen bg-slate-50">
       <Breadcrumbs 
         items={[
-          { label: 'Best Practices', href: '/best-practices' },
-          { label: 'Pagination', href: '/best-practices/pagination' }
+          { label: 'Pagination', href: '/pagination' }
         ]} 
       />
 
@@ -26,4 +25,5 @@ export default function PaginationPage() {
     </div>
   );
 }
+
 

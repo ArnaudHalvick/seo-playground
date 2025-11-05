@@ -11,8 +11,7 @@ export default function ParametersPage() {
     <div className="min-h-screen bg-slate-50">
       <Breadcrumbs 
         items={[
-          { label: 'Best Practices', href: '/best-practices' },
-          { label: 'Parameters', href: '/best-practices/parameters' }
+          { label: 'Parameters', href: '/parameters' }
         ]} 
       />
 
@@ -29,4 +28,5 @@ export default function ParametersPage() {
     </div>
   );
 }
+
 

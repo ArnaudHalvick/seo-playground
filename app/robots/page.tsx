@@ -9,8 +9,7 @@ export default function RobotsPage() {
     <div className="min-h-screen bg-slate-50">
       <Breadcrumbs 
         items={[
-          { label: 'Best Practices', href: '/best-practices' },
-          { label: 'robots.txt', href: '/best-practices/robots' }
+          { label: 'robots.txt', href: '/robots' }
         ]} 
       />
 
@@ -31,4 +30,5 @@ export default function RobotsPage() {
     </div>
   );
 }
+
 

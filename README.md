@@ -85,7 +85,16 @@ project/
 │   │   │   └── [product]/      # Legacy product route (redirects to gender path)
 │   │   └── page.tsx            # Shop home / category list
 │   ├── pattern-gallery/         # SEO Pattern Gallery - comprehensive pattern reference
-│   ├── best-practices/          # SEO best practices docs
+│   ├── robots/                  # robots.txt best practices
+│   ├── sitemap/                 # Sitemap generation guide
+│   ├── parameters/              # URL parameters & canonicals
+│   ├── duplicate-content/       # Duplicate content diagnosis hub
+│   ├── pagination/              # Pagination best practices
+│   ├── site-search/             # Site search SEO guide
+│   ├── site-architecture/       # URL structure & internal linking
+│   ├── protected-routes/        # Protected routes SEO strategy
+│   ├── international/           # International SEO guide
+│   ├── structured-data/         # Schema.org educational overview
 │   ├── api/                     # API routes (robots.txt, sitemap)
 │   └── layout.tsx               # Root layout with providers
 ├── components/                   # React components
@@ -210,6 +219,15 @@ The SEO Receipt is a real-time panel that shows:
 
 ## Key Pages
 
+### Homepage Structure
+
+The homepage is organized into 4 priority sections:
+
+1. **Core Fundamentals** (4 topics) - robots.txt, sitemap, parameters, duplicate content
+2. **Content Patterns** (3 topics) - pagination, site search, site architecture
+3. **Advanced Topics** (2 topics) - protected routes, international SEO
+4. **Tools & Resources** (3 demos) - product catalog, pattern gallery, structured data
+
 ### E-Commerce Demo (Shop)
 
 - **`/shop`** - Shop home / category list
@@ -223,15 +241,24 @@ The SEO Receipt is a real-time panel that shows:
 
 ### SEO Learning Tool
 
-- **`/pattern-gallery`** - SEO Pattern Gallery: 17 production-ready patterns organized by category with filtering, search, and live examples
-- **`/best-practices`** - SEO best practices documentation with implementation details
-- **`/best-practices/parameters`** - Parameter handling guide
-- **`/best-practices/pagination`** - Pagination best practices
-- **`/best-practices/robots`** - robots.txt best practices
-- **`/best-practices/sitemap`** - Sitemap generation guide
-- **`/best-practices/protected-routes`** - Protected routes and authentication page SEO strategy
-- **`/best-practices/international`** - International SEO: URL strategies, hreflang, and localization
-- **`/best-practices/site-search`** - Site search SEO: noindex,follow strategy and crawl trap prevention
+#### Core Fundamentals
+- **`/robots`** - robots.txt best practices with pattern explanations
+- **`/sitemap`** - Sitemap generation guide based on indexability rules
+- **`/parameters`** - URL parameter handling and canonical strategies
+- **`/duplicate-content`** - Duplicate content diagnosis and solutions hub
+
+#### Content Patterns
+- **`/pagination`** - Pagination best practices with proper canonicalization
+- **`/site-search`** - Site search SEO: noindex,follow strategy and crawl trap prevention
+- **`/site-architecture`** - URL structure, hierarchy, and internal linking
+
+#### Advanced Topics
+- **`/protected-routes`** - Protected routes and authentication page SEO strategy
+- **`/international`** - International SEO: URL strategies, hreflang, and localization
+
+#### Tools & Resources
+- **`/pattern-gallery`** - SEO Pattern Gallery: 17 production-ready patterns with filtering
+- **`/structured-data`** - Schema.org educational overview for rich results
 
 ### Technical Endpoints
 

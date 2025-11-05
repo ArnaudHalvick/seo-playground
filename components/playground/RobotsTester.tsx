@@ -1,13 +1,13 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
-import { Input } from '../ui/input';
-import { Button } from '../ui/button';
-import { Alert, AlertDescription } from '../ui/alert';
-import { CheckCircle2, XCircle } from 'lucide-react';
-import { checkRobotsBlocking } from '@/lib/rules/robots';
-import { DEFAULT_PARAM_CONFIG } from '@/lib/rules/params';
+import { useState } from "react";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card";
+import { Input } from "../ui/input";
+import { Button } from "../ui/button";
+import { Alert, AlertDescription } from "../ui/alert";
+import { CheckCircle2, XCircle } from "lucide-react";
+import { checkRobotsBlocking } from "@/lib/rules/robots";
+import { DEFAULT_PARAM_CONFIG } from "@/lib/rules/params";
 
 interface TestResult {
   isBlocked: boolean;
@@ -17,7 +17,7 @@ interface TestResult {
 }
 
 export function RobotsTester() {
-  const [testUrl, setTestUrl] = useState('');
+  const [testUrl, setTestUrl] = useState("");
   const [result, setResult] = useState<TestResult | null>(null);
 
   const handleTest = (url: string) => {
@@ -27,7 +27,7 @@ export function RobotsTester() {
     }
 
     try {
-      const urlObj = new URL(url, 'https://example.com');
+      const urlObj = new URL(url, "https://example.com");
       const testResult = checkRobotsBlocking(
         urlObj.pathname,
         urlObj.searchParams,
@@ -39,18 +39,30 @@ export function RobotsTester() {
         isBlocked: false,
         matchedRules: [],
         warnings: [],
-        error: 'Invalid URL format'
+        error: "Invalid URL format",
       });
     }
   };
 
   const exampleUrls = [
-    { url: '/shop/t-shirts', expected: 'Allowed', description: 'Clean path - no query params' },
-    { url: '/shop/t-shirts?utm_source=google', expected: 'Blocked', description: 'Tracking parameter' },
-    { url: '/account/orders', expected: 'Blocked', description: 'Protected route' },
-    { url: '/shop/t-shirts?color=black,blue', expected: 'Blocked', description: 'Multi-select (comma)' },
-    { url: '/shop/t-shirts/for/women/', expected: 'Allowed', description: 'Gender clean path' },
-    { url: '/shop?price_min=10&price_max=50', expected: 'Blocked', description: 'Numeric range filters' },
+    { url: "/shop/t-shirts", expected: "Allowed", description: "Clean path - no query params" },
+    {
+      url: "/shop/t-shirts?utm_source=google",
+      expected: "Blocked",
+      description: "Tracking parameter",
+    },
+    { url: "/account/orders", expected: "Blocked", description: "Protected route" },
+    {
+      url: "/shop/t-shirts?color=black,blue",
+      expected: "Blocked",
+      description: "Multi-select (comma)",
+    },
+    { url: "/shop/t-shirts/for/women/", expected: "Allowed", description: "Gender clean path" },
+    {
+      url: "/shop?price_min=10&price_max=50",
+      expected: "Blocked",
+      description: "Numeric range filters",
+    },
   ];
 
   return (
@@ -66,11 +78,11 @@ export function RobotsTester() {
           {/* Input */}
           <div className="flex gap-2">
             <Input
-              placeholder="/shop/t-shirts?utm_source=google"
+              placeholder="Try any URL below, or type one in here"
               value={testUrl}
               onChange={(e) => setTestUrl(e.target.value)}
               onKeyDown={(e) => {
-                if (e.key === 'Enter') {
+                if (e.key === "Enter") {
                   handleTest(testUrl);
                 }
               }}
@@ -80,7 +92,11 @@ export function RobotsTester() {
 
           {/* Result Display */}
           {result && !result.error && (
-            <Alert className={result.isBlocked ? 'border-red-300 bg-red-50' : 'border-green-300 bg-green-50'}>
+            <Alert
+              className={
+                result.isBlocked ? "border-red-300 bg-red-50" : "border-green-300 bg-green-50"
+              }
+            >
               <div className="flex items-center gap-2 mb-2">
                 {result.isBlocked ? (
                   <XCircle className="h-5 w-5 text-red-600" />
@@ -88,7 +104,7 @@ export function RobotsTester() {
                   <CheckCircle2 className="h-5 w-5 text-green-600" />
                 )}
                 <span className="font-semibold text-lg">
-                  {result.isBlocked ? 'BLOCKED' : 'ALLOWED'}
+                  {result.isBlocked ? "BLOCKED" : "ALLOWED"}
                 </span>
               </div>
               {result.matchedRules.length > 0 && (
@@ -135,7 +151,11 @@ export function RobotsTester() {
                     <div className="font-mono text-xs">{example.url}</div>
                     <div className="text-xs text-slate-500 mt-1">{example.description}</div>
                   </div>
-                  <div className={`text-xs ml-2 ${example.expected === 'Blocked' ? 'text-red-600' : 'text-green-600'}`}>
+                  <div
+                    className={`text-xs ml-2 ${
+                      example.expected === "Blocked" ? "text-red-600" : "text-green-600"
+                    }`}
+                  >
                     {example.expected}
                   </div>
                 </Button>
@@ -147,4 +167,3 @@ export function RobotsTester() {
     </Card>
   );
 }
-
