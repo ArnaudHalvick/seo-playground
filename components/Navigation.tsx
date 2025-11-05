@@ -81,7 +81,7 @@ export function Navigation() {
   };
 
   return (
-    <nav className="border-b bg-white sticky top-0 z-40 shadow-sm">
+    <nav className="border-b bg-white fixed top-0 left-0 right-0 z-40 shadow-sm">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
@@ -113,7 +113,7 @@ export function Navigation() {
 
             {/* Category Dropdowns */}
             {categories.map((category) => (
-              <DropdownMenu key={category.name}>
+              <DropdownMenu key={category.name} modal={false}>
                 <DropdownMenuTrigger asChild>
                   <Button 
                     variant={isCategoryActive(category) ? "default" : "ghost"} 

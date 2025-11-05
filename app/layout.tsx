@@ -22,7 +22,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <ConfigProvider>
           <Navigation />
-          <div className="page-content">
+          <div className="page-content pt-16">
             {children}
           </div>
           <SeoReceipt />
