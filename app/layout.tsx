@@ -8,8 +8,8 @@ import { Navigation } from '@/components/Navigation';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'SEO Robots & Parameters Playground',
-  description: 'Learn technical SEO through interactive demonstrations of robots.txt, meta robots, canonical URLs, and parameter handling',
+  title: 'SEO Workshop',
+  description: 'Learn technical SEO through interactive demonstrations of robots.txt, canonicals, pagination, international SEO, and more production-ready patterns',
 };
 
 export default function RootLayout({

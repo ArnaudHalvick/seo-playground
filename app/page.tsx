@@ -23,7 +23,7 @@ export default function Home() {
         {/* Hero Section */}
         <div className="text-center mb-12">
           <h1 className="text-5xl font-bold mb-4 bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent">
-            SEO Best Practices Showcase
+            SEO Workshop
           </h1>
           <p className="text-xl text-slate-600 max-w-3xl mx-auto">
             A demonstration of production-ready SEO implementations. Explore parameter handling, canonical strategies, robots.txt patterns, and more with real working examples.
@@ -37,7 +37,7 @@ export default function Home() {
             <p className="text-slate-600">Master these essential building blocks of technical SEO</p>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <Card className="hover:shadow-lg transition-shadow border-2 border-blue-200">
+            <Card className="hover:shadow-lg transition-shadow border-2 border-blue-200 flex flex-col justify-between">
               <CardHeader>
                 <Bot className="h-8 w-8 mb-2 text-orange-600" />
                 <CardTitle>Robots.txt</CardTitle>
@@ -52,7 +52,7 @@ export default function Home() {
               </CardContent>
             </Card>
 
-            <Card className="hover:shadow-lg transition-shadow border-2 border-blue-200">
+            <Card className="hover:shadow-lg transition-shadow border-2 border-blue-200 flex flex-col justify-between">
               <CardHeader>
                 <Map className="h-8 w-8 mb-2 text-purple-600" />
                 <CardTitle>Sitemap</CardTitle>
@@ -67,7 +67,7 @@ export default function Home() {
               </CardContent>
             </Card>
 
-            <Card className="hover:shadow-lg transition-shadow border-2 border-blue-200">
+            <Card className="hover:shadow-lg transition-shadow border-2 border-blue-200 flex flex-col justify-between">
               <CardHeader>
                 <Settings className="h-8 w-8 mb-2 text-blue-600" />
                 <CardTitle>Parameters</CardTitle>
@@ -82,7 +82,7 @@ export default function Home() {
               </CardContent>
             </Card>
 
-            <Card className="hover:shadow-lg transition-shadow border-2 border-blue-200">
+            <Card className="hover:shadow-lg transition-shadow border-2 border-blue-200 flex flex-col justify-between">
               <CardHeader>
                 <Copy className="h-8 w-8 mb-2 text-purple-600" />
                 <CardTitle>Duplicate Content</CardTitle>
@@ -106,7 +106,7 @@ export default function Home() {
             <p className="text-slate-600">Handle common content structures and navigation patterns</p>
           </div>
           <div className="grid md:grid-cols-3 gap-6">
-            <Card className="hover:shadow-lg transition-shadow border-2 border-amber-200">
+            <Card className="hover:shadow-lg transition-shadow border-2 border-amber-200 flex flex-col justify-between">
               <CardHeader>
                 <List className="h-8 w-8 mb-2 text-amber-600" />
                 <CardTitle>Pagination</CardTitle>
@@ -121,7 +121,7 @@ export default function Home() {
               </CardContent>
             </Card>
 
-            <Card className="hover:shadow-lg transition-shadow border-2 border-amber-200">
+            <Card className="hover:shadow-lg transition-shadow border-2 border-amber-200 flex flex-col justify-between">
               <CardHeader>
                 <Search className="h-8 w-8 mb-2 text-amber-600" />
                 <CardTitle>Site Search</CardTitle>
@@ -136,7 +136,7 @@ export default function Home() {
               </CardContent>
             </Card>
 
-            <Card className="hover:shadow-lg transition-shadow border-2 border-amber-200">
+            <Card className="hover:shadow-lg transition-shadow border-2 border-amber-200 flex flex-col justify-between">
               <CardHeader>
                 <Layers className="h-8 w-8 mb-2 text-blue-600" />
                 <CardTitle>Site Architecture</CardTitle>
@@ -160,7 +160,7 @@ export default function Home() {
             <p className="text-slate-600">Specialized SEO strategies for complex scenarios</p>
           </div>
           <div className="grid md:grid-cols-2 gap-6">
-            <Card className="hover:shadow-lg transition-shadow border-2 border-red-200">
+            <Card className="hover:shadow-lg transition-shadow border-2 border-red-200 flex flex-col justify-between">
               <CardHeader>
                 <Lock className="h-8 w-8 mb-2 text-red-600" />
                 <CardTitle>Protected Routes</CardTitle>
@@ -175,7 +175,7 @@ export default function Home() {
               </CardContent>
             </Card>
 
-            <Card className="hover:shadow-lg transition-shadow border-2 border-indigo-200">
+            <Card className="hover:shadow-lg transition-shadow border-2 border-indigo-200 flex flex-col justify-between">
               <CardHeader>
                 <Globe className="h-8 w-8 mb-2 text-indigo-600" />
                 <CardTitle>International SEO</CardTitle>
@@ -199,7 +199,7 @@ export default function Home() {
             <p className="text-slate-600">Interactive demos and reference materials</p>
           </div>
           <div className="grid md:grid-cols-3 gap-6">
-            <Card className="hover:shadow-lg transition-shadow border-2 bg-gradient-to-br from-green-50 to-white">
+            <Card className="hover:shadow-lg transition-shadow border-2 bg-gradient-to-br from-green-50 to-white flex flex-col justify-between">
               <CardHeader>
                 <ShoppingBag className="h-8 w-8 mb-2 text-green-600" />
                 <CardTitle>Product Catalog</CardTitle>
@@ -214,7 +214,7 @@ export default function Home() {
               </CardContent>
             </Card>
 
-            <Card className="hover:shadow-lg transition-shadow border-2 bg-gradient-to-br from-purple-50 to-white">
+            <Card className="hover:shadow-lg transition-shadow border-2 bg-gradient-to-br from-purple-50 to-white flex flex-col justify-between">
               <CardHeader>
                 <FileText className="h-8 w-8 mb-2 text-purple-600" />
                 <CardTitle>Pattern Gallery</CardTitle>
@@ -229,7 +229,7 @@ export default function Home() {
               </CardContent>
             </Card>
 
-            <Card className="hover:shadow-lg transition-shadow border-2 bg-gradient-to-br from-indigo-50 to-white">
+            <Card className="hover:shadow-lg transition-shadow border-2 bg-gradient-to-br from-indigo-50 to-white flex flex-col justify-between">
               <CardHeader>
                 <Code2 className="h-8 w-8 mb-2 text-indigo-600" />
                 <CardTitle>Structured Data</CardTitle>

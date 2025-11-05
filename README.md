@@ -1,10 +1,24 @@
-# SEO Best Practices Showcase
+# SEO Workshop
 
 An educational Next.js application demonstrating production-ready SEO implementations including parameter handling, canonical URLs, robots.txt patterns, pagination strategies, and sitemap generation.
 
 ## Overview
 
 This project is an **educational showcase**, not a real e-commerce store. It demonstrates technical SEO best practices through a working demo catalog where you can see real-time SEO decisions for different URL patterns. Each parameter combination shows how professional sites handle indexability, canonical consolidation, crawl budget optimization, and sitemap inclusion.
+
+### Navigation Structure
+
+The app features an organized category-based navigation system:
+
+**Desktop Navigation:**
+- Category dropdown menus: Core Fundamentals, Content Patterns, Advanced Topics, Tools & Resources
+- Direct access to Shop and all educational pages
+- Active page highlighting
+
+**Mobile Navigation:**
+- Hamburger menu with collapsible category sections
+- All navigation items accessible in slide-out panel
+- SEO Receipt is collapsible on mobile (defaults to collapsed)
 
 ### Key Features
 
