@@ -6,78 +6,87 @@ Welcome to the SEO Best Practices Showcase documentation. This folder contains c
 
 ### 📚 Getting Started
 
-1. **[Main README](../README.md)** - Start here
+1. **[Main README](../../README.md)** - Start here
    - Project overview
    - Quick start guide
    - Tech stack summary
    - Key features
 
-2. **[Setup Guide](./setup.md)** - Development environment
-   - Installation instructions
-   - Development workflow
-   - Common tasks
-   - Troubleshooting
+2. **[Setup Guide](./setup/installation.md)** - Development environment
+   - [Installation](./setup/installation.md) - Prerequisites and installation steps
+   - [Development](./setup/development.md) - Dev workflow and common tasks
+   - [Configuration](./setup/configuration.md) - Project structure and config files
+   - [Troubleshooting](./setup/troubleshooting.md) - Debugging and common issues
 
 ### 🏗️ Architecture & Design
 
-3. **[Architecture](./architecture.md)** - System design
-   - Layered architecture overview
-   - Data flow diagrams
-   - Component interactions
-   - Design patterns used
+3. **[Architecture](./architecture/)** - System design
+   - [Overview](./architecture/overview.md) - System overview and architecture layers
+   - [Data Flow](./architecture/data-flow.md) - Data flow and component interactions
+   - [Design Patterns](./architecture/patterns.md) - Key design patterns and state management
+   - [Routing](./architecture/routing.md) - Clean path routing strategy and multi-select detection
+   - [Filters](./architecture/filters.md) - Filter system architecture and size configuration
+   - [Performance](./architecture/performance.md) - Performance considerations and build/runtime
+   - [Deployment](./architecture/deployment.md) - Deployment, extensibility, and testing
 
-4. **[SEO Logic](./seo-logic.md)** - Decision algorithms
-   - 8-step decision flow
-   - Parameter classification
-   - Canonical URL logic
-   - Sitemap inclusion rules
-   - Best practices explained
+4. **[SEO Logic](./seo-logic/)** - Decision algorithms
+   - [Overview](./seo-logic/overview.md) - Decision flow introduction
+   - [Decision Steps](./seo-logic/decision-steps.md) - Detailed explanation of all 10 steps
+   - [Parameters](./seo-logic/parameters.md) - Parameter policy deep dive and stacked parameters
+   - [Multi-Select](./seo-logic/multi-select.md) - Multi-select parameters deep dive
+   - [Canonical Strategy](./seo-logic/canonical.md) - Canonical vs robots.txt, best practices, debugging
 
 ### 🎨 Implementation Details
 
-5. **[Components](./components.md)** - UI components
-   - Component hierarchy
-   - Core components explained
-   - Props and state management
-   - UI patterns
+5. **[Components](./components/)** - UI components
+   - [Overview](./components/overview.md) - Component hierarchy and introduction
+   - [SEO Receipt](./components/seo-receipt.md) - Real-time SEO feedback component
+   - [Filters](./components/filters.md) - Filter components (FilterSidebar, FilterSummaryBar, etc.)
+   - [Catalog](./components/catalog.md) - Catalog pages and clean path components
+   - [Playground](./components/playground.md) - Pattern gallery and best practices components
+   - [UI Library](./components/ui-library.md) - shadcn/ui components and utilities
+   - [Patterns](./components/patterns.md) - Component patterns, testing, and best practices
 
-6. **[Extending](./extending.md)** - Adding features
-   - Adding parameter rules
-   - Adding robots.txt patterns
-   - Modifying SEO logic
-   - Creating new components
-   - Contributing guidelines
+6. **[Extending](./extending/)** - Adding features
+   - [Overview](./extending/overview.md) - Introduction and table of contents
+   - [Parameters](./extending/parameters.md) - Adding parameter rules and robots.txt patterns
+   - [Filters](./extending/filters.md) - Adding filter types, size groups, and gender filters
+   - [Routing](./extending/routing.md) - Creating clean path routes
+   - [SEO Logic](./extending/seo-logic.md) - Modifying SEO logic and crawl trap detection
+   - [Pages & Components](./extending/pages-components.md) - Adding pages, components, and UI customization
+   - [Advanced](./extending/advanced.md) - Advanced extensions, contributing guidelines, and testing
 
 ## Quick Navigation
 
 ### For Developers
 
 **First time here?**
-1. Read [Main README](../README.md)
-2. Follow [Setup Guide](./setup.md)
-3. Review [Architecture](./architecture.md)
+1. Read [Main README](../../README.md)
+2. Follow [Setup Guide](./setup/installation.md)
+3. Review [Architecture Overview](./architecture/overview.md)
 4. Start coding!
 
 **Adding a feature?**
-1. Check [Extending Guide](./extending.md)
-2. Review [SEO Logic](./seo-logic.md) if modifying rules
-3. Check [Components](./components.md) for UI patterns
+1. Check [Extending Overview](./extending/overview.md)
+2. Review [SEO Logic](./seo-logic/overview.md) if modifying rules
+3. Check [Components](./components/overview.md) for UI patterns
 
 **Debugging SEO decisions?**
-1. Read [SEO Logic](./seo-logic.md)
-2. Use the SEO Receipt's "Rule Trace" tab
-3. Check step-by-step decision flow
+1. Read [SEO Logic Overview](./seo-logic/overview.md)
+2. Check [Decision Steps](./seo-logic/decision-steps.md) for detailed flow
+3. Use the SEO Receipt's "Rule Trace" tab
+4. Review [Canonical Strategy](./seo-logic/canonical.md) for debugging tips
 
 ### For AI/LLMs
 
 **Understanding the codebase:**
-- [Architecture](./architecture.md) - System structure and patterns
-- [SEO Logic](./seo-logic.md) - Core algorithm documentation
-- [Components](./components.md) - UI component details
+- [Architecture Overview](./architecture/overview.md) - System structure and patterns
+- [SEO Logic Overview](./seo-logic/overview.md) - Core algorithm documentation
+- [Components Overview](./components/overview.md) - UI component details
 
 **Making changes:**
-- [Extending](./extending.md) - How to add features
-- [Setup](./setup.md) - Environment and tooling
+- [Extending Overview](./extending/overview.md) - How to add features
+- [Setup](./setup/installation.md) - Environment and tooling
 
 **Key files to understand:**
 - `lib/rules/canonical.ts` - Core SEO decision engine
@@ -110,26 +119,25 @@ When writing documentation:
 - Link to related documentation
 - Test all code examples
 
-## File Sizes
+## File Organization
 
-| File | Size | Content |
-|------|------|---------|
-| README.md (main) | 7.5 KB | Project overview |
-| architecture.md | 9.9 KB | System architecture |
-| seo-logic.md | 15 KB | SEO algorithms |
-| components.md | 14 KB | Component docs |
-| setup.md | 12 KB | Development guide |
-| extending.md | 16 KB | Extension guide |
+Documentation is organized into topic-based subfolders:
 
-**Total: ~74 KB of documentation**
+- **architecture/** - System design and architecture details
+- **components/** - React component documentation
+- **seo-logic/** - SEO decision algorithms
+- **extending/** - Feature extension guides
+- **setup/** - Development setup and configuration
+
+Each subfolder contains focused files (~150-250 lines each) for easier navigation and AI searchability.
 
 ## Questions?
 
-- Check the [Setup Guide](./setup.md) for environment issues
-- Check [Architecture](./architecture.md) for system design questions
-- Check [SEO Logic](./seo-logic.md) for algorithm questions
-- Check [Components](./components.md) for UI questions
-- Check [Extending](./extending.md) for contribution questions
+- Check the [Setup Guide](./setup/troubleshooting.md) for environment issues
+- Check [Architecture](./architecture/overview.md) for system design questions
+- Check [SEO Logic](./seo-logic/overview.md) for algorithm questions
+- Check [Components](./components/overview.md) for UI questions
+- Check [Extending](./extending/overview.md) for contribution questions
 
 ## External Resources
 
@@ -165,4 +173,4 @@ Please contribute updates or open an issue.
 
 ---
 
-**Last Updated**: 2025-10-30
+**Last Updated**: 2025-01-27
