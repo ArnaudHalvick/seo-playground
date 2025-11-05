@@ -100,6 +100,8 @@ Sitemap: EXCLUDED
 **Why keep in canonical?**
 Search results pages are already noindex, so keeping the query doesn't cause duplication issues. It preserves the specific search context.
 
+**Note**: This is demonstrated conceptually in the application. Actual search pages would follow this pattern.
+
 ## Stacked Parameters
 
 ### Stable + Stable

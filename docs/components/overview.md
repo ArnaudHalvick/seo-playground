@@ -29,11 +29,12 @@ Pages (app/**/page.tsx)
 ├── Product Page (app/shop/[category]/for/[gender]/[product]/page.tsx)
 │   ├── Breadcrumbs (4-level hierarchy)
 │   └── Product details with gender context
-└── Best Practices (app/best-practices/page.tsx)
-    ├── ParamPolicyEditor
-    ├── PaginationSettings
-    ├── RobotsPreview
-    └── SitemapTable
+└── Educational Pages (app/*/page.tsx)
+    ├── Pattern Gallery (app/pattern-gallery/page.tsx)
+    ├── Robots (app/robots/page.tsx)
+    ├── Sitemap (app/sitemap/page.tsx)
+    ├── Parameters (app/parameters/page.tsx)
+    └── Other SEO learning pages
 ```
 
 ## Core Components

@@ -59,8 +59,18 @@ useConfig() → gets configuration
     ↓
 computeCanonical(pathname, params, config)
     ↓
+diffUrls(inputUrl, canonicalUrl)
+    ↓
 Displays: Canonical, Robots, Sitemap, Trace
 ```
+
+**URL Diff Utility** (`lib/utils/url-diff.ts`):
+- `parseUrl(urlString)`: Parses URL into base path and parameter map
+- `diffUrls(inputUrl, canonicalUrl)`: Compares two URLs and returns diff segments
+  - Returns `baseChanged`: boolean indicating if pathname changed
+  - Returns `segments`: Array of `UrlDiffSegment` objects with `text` and `type` ('same' | 'removed' | 'added')
+  - Used by `SeoReceipt` to highlight differences between input URL and canonical URL
+  - Visual representation: removed params shown in red, added params in green
 
 ### DemoChips Component
 

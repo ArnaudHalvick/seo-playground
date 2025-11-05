@@ -37,7 +37,7 @@
 - ⚠️ Reduces crawl flexibility
 
 **Use For**:
-- Protected routes (/account/)
+- Protected routes (e.g., `/account/` - demonstrated conceptually)
 - Tracking parameters (utm_*, gclid, etc.)
 - UI preferences (view, per_page)
 - Calendar date explosions
@@ -52,7 +52,7 @@
 When multiple rules apply, precedence is:
 
 1. **Protected Routes** (highest)
-   - `/account/` → noindex,nofollow + robots block
+   - Protected routes (e.g., `/account/`) → noindex,nofollow + robots block
 
 2. **Pagination**
    - Page 2+ → noindex,follow
@@ -69,7 +69,7 @@ When multiple rules apply, precedence is:
    - Any unstable → noindex,follow (if not already noindex from multi-filter)
 
 6. **Search Pages**
-   - `/search` → noindex,follow
+   - Search pages (e.g., `/search`) → noindex,follow
 
 7. **robots.txt Blocking for Tracking Params**
    - Applied to tracking params (utm_, gclid, etc.)
@@ -77,7 +77,7 @@ When multiple rules apply, precedence is:
 
 **Example 1: Multi-Select**:
 ```
-URL: /catalog/t-shirts?color=black,blue
+URL: /shop/t-shirts?color=black,blue
 
 Step 3: Not pagination
 Step 4: Not protected route
@@ -92,7 +92,7 @@ Result:
 
 **Example 2: Multiple Stable Filters**:
 ```
-URL: /catalog/t-shirts?color=black&size=m
+URL: /shop/t-shirts/?color=black&size=m
 
 Step 3: Not pagination
 Step 4: Not protected route
@@ -103,12 +103,12 @@ Result:
 - Robots: noindex,follow
 - Blocked: NO
 - Sitemap: EXCLUDED
-- Canonical: /catalog/t-shirts/ (drops both params)
+- Canonical: /shop/t-shirts/ (drops both params)
 ```
 
 **Example 3: Single Stable Filter**:
 ```
-URL: /catalog/t-shirts?color=black
+URL: /shop/t-shirts?color=black
 
 Step 3: Not pagination
 Step 4: Not protected route
@@ -120,7 +120,7 @@ Result:
 - Robots: index,follow
 - Blocked: NO
 - Sitemap: INCLUDED
-- Canonical: /catalog/t-shirts/?color=black (self)
+- Canonical: /shop/t-shirts/?color=black (self)
 ```
 
 ## Best Practices Demonstrated

@@ -64,3 +64,42 @@ export function SeoReceipt() {
 }
 ```
 
+## SeoReceiptContent Component
+
+**Location**: `components/seo-receipt/SeoReceiptContent.tsx`
+
+**Purpose**: Separated presentation component that renders the actual SEO receipt content
+
+**Type**: Client Component (`'use client'`)
+
+**Relationship**: `SeoReceipt` handles layout and data fetching, while `SeoReceiptContent` handles the presentation layer for better separation of concerns.
+
+**Props**:
+- `inputUrl`: string - The current URL being analyzed
+- `result`: CanonicalResult - The SEO decision result from `computeCanonical()`
+- `segments`: UrlDiffSegment[] - URL diff segments for highlighting changes
+- `isIndexable`: boolean - Whether the page is indexable
+- `isNoindexFollow`: boolean - Whether page uses noindex,follow
+- `isNoindexNofollow`: boolean - Whether page uses noindex,nofollow
+- `inSitemap`: boolean - Whether page is included in sitemap
+- `hasPriceParams`: boolean - Whether URL contains price parameters
+- `copiedField`: string | null - Which field was copied to clipboard
+- `copyToClipboard`: (text: string, field: string) => Promise<void> - Copy handler
+- `copyTrace`: () => Promise<void> - Copy trace handler
+- `shortExplanation`: string - Short explanation text
+- `cleanPathRec`: CleanPathRecommendation | null - Clean path recommendation
+- `crawlTrapRisk`: CrawlTrapRisk | null - Crawl trap risk assessment
+- `bestPracticeConfirmation`: object | null - Best practice confirmation message
+- `compact?`: boolean - Optional compact mode for smaller displays
+
+**Key Features**:
+1. **Tabbed Interface**: Two tabs - "Summary" and "Rule Trace"
+2. **Summary Tab**: Shows URL comparison, indexability status, sitemap inclusion, warnings, and recommendations
+3. **Rule Trace Tab**: Shows complete decision log with copy functionality
+4. **Responsive**: Supports compact mode for smaller displays
+
+**Why Separated?**
+- **Reusability**: Can be used in different layouts (desktop sidebar, mobile drawer, modal, etc.)
+- **Testability**: Easier to test presentation logic separately
+- **Maintainability**: Clear separation between data fetching and presentation
+

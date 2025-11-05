@@ -294,11 +294,13 @@ The configuration is loaded into React Context from the static rules file and di
 
 Detailed documentation is available in the `/docs` folder:
 
-- **[Architecture](./docs/architecture.md)** - System design and component interactions
-- **[SEO Logic](./docs/seo-logic.md)** - Deep dive into SEO decision algorithms
-- **[Components](./docs/components.md)** - UI component documentation
-- **[Setup Guide](./docs/setup.md)** - Development environment setup
-- **[Extension Guide](./docs/extending.md)** - How to add new features
+- **[Architecture](./docs/architecture/overview.md)** - System design and component interactions
+- **[SEO Logic](./docs/seo-logic/overview.md)** - Deep dive into SEO decision algorithms
+- **[Components](./docs/components/overview.md)** - UI component documentation
+- **[Setup Guide](./docs/setup/installation.md)** - Development environment setup
+- **[Extension Guide](./docs/extending/overview.md)** - How to add new features
+
+See [docs/README.md](./docs/README.md) for the complete documentation index.
 
 ## Development
 
@@ -331,7 +333,7 @@ npm run build
 
 This is an educational project. Contributions that improve clarity, add documentation, or demonstrate additional SEO best practices are welcome.
 
-See [docs/extending.md](./docs/extending.md) for guidelines on adding new features.
+See [docs/extending/overview.md](./docs/extending/overview.md) for guidelines on adding new features.
 
 ## License
 

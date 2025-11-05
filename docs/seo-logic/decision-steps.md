@@ -79,7 +79,7 @@ if (evaluated.pagination.isPaginated && evaluated.pagination.pageNumber >= 2) {
 
 ## Step 4: Check Protected Routes
 
-**Purpose**: Handle special paths like /account/ and /search
+**Purpose**: Handle special paths like protected routes and search pages
 
 **Logic**:
 ```typescript
@@ -95,8 +95,10 @@ else if (pathname.startsWith('/search')) {
 ```
 
 **Rules**:
-- `/account/*`: noindex,nofollow + robots block (private data)
-- `/search*`: noindex,follow (thin content, allow discovery)
+- Protected routes (e.g., `/account/*`): noindex,nofollow + robots block (private data)
+- Search pages (e.g., `/search*`): noindex,follow (thin content, allow discovery)
+
+**Note**: The application demonstrates these patterns conceptually. Actual protected routes would follow this strategy.
 
 ## Step 5: Check robots.txt Blocking
 
@@ -113,7 +115,7 @@ if (robotsCheck.isBlocked) {
 ```
 
 **Blocking Patterns**:
-1. **Protected paths**: `/account/`, `/api/`
+1. **Protected paths**: Patterns like `/account/`, `/api/` (demonstrated conceptually)
 2. **Tracking params**: `?utm_source=*`, `?gclid=*`, `?fbclid=*`
 3. **UI preferences**: `?view=*`, `?per_page=*`
 4. **Price range params**: `?price_min=*`, `?price_max=*` (infinite combinations)

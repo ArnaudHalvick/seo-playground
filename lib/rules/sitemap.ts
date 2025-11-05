@@ -14,13 +14,20 @@ export function generateSitemapEntries(config: ParamConfig, baseUrl: string = 'h
 
   const staticPages = [
     { path: '/', priority: 1.0 },
-    { path: '/about/', priority: 0.8 },
-    { path: '/how-it-works/', priority: 0.8 },
-    { path: '/concepts/', priority: 0.8 },
-    { path: '/best-practices/', priority: 0.9 },
     { path: '/shop/', priority: 0.9 },
     { path: '/shop/t-shirts/', priority: 0.8 },
     { path: '/shop/shoes/', priority: 0.8 },
+    { path: '/robots/', priority: 0.8 },
+    { path: '/sitemap/', priority: 0.8 },
+    { path: '/parameters/', priority: 0.8 },
+    { path: '/duplicate-content/', priority: 0.8 },
+    { path: '/pagination/', priority: 0.8 },
+    { path: '/site-search/', priority: 0.8 },
+    { path: '/site-architecture/', priority: 0.8 },
+    { path: '/protected-routes/', priority: 0.8 },
+    { path: '/international/', priority: 0.8 },
+    { path: '/pattern-gallery/', priority: 0.8 },
+    { path: '/structured-data/', priority: 0.8 },
   ];
 
   for (const page of staticPages) {
@@ -125,22 +132,6 @@ export function generateSitemapEntries(config: ParamConfig, baseUrl: string = 'h
     });
   }
 
-  const searchPage = computeCanonical('/search/', new URLSearchParams(), config, baseUrl);
-  entries.push({
-    loc: searchPage.canonical,
-    included: false,
-    reason: `Search page excluded: ${searchPage.robots}`,
-  });
-
-  const accountPages = ['/account/orders/', '/account/billing/'];
-  for (const path of accountPages) {
-    const result = computeCanonical(path, new URLSearchParams(), config, baseUrl);
-    entries.push({
-      loc: result.canonical,
-      included: false,
-      reason: `Protected route excluded: ${result.robots}${result.blockInRobots ? ' + robots blocked' : ''}`,
-    });
-  }
 
   const page2Params = new URLSearchParams();
   page2Params.set(config.pagination.param, '2');

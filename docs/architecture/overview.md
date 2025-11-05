@@ -108,6 +108,30 @@ The heart of the application, responsible for all SEO decisions:
     - `getSizeGroups(categorySlug)` - Get size grouping config (e.g., Kids/Adult)
     - `getSizeGroupsForGender(categorySlug, gender)` - Filter groups by gender context
 
+#### Metadata Utilities (`lib/meta/`)
+
+- **`metadata.ts`**: Next.js metadata generation utilities
+  - `generatePageMetadata(ctx: MetadataContext)`: Generates Next.js Metadata object with robots directives and canonical URL
+  - `getTitleForPath(pathname: string)`: Returns SEO-friendly page title based on pathname
+  - `getDescriptionForPath(pathname: string)`: Returns SEO-friendly page description based on pathname
+  - Integrates with SEO rules engine to ensure metadata matches SEO decisions
+  - Used by Next.js page components to set `<head>` metadata
+
+**Usage Example**:
+```typescript
+import { generatePageMetadata } from '@/lib/meta/metadata';
+
+export async function generateMetadata({ params, searchParams }) {
+  const config = await getConfig();
+  return generatePageMetadata({
+    pathname: params.pathname,
+    searchParams: new URLSearchParams(searchParams),
+    config,
+    baseUrl: 'https://example.com',
+  });
+}
+```
+
 #### Utilities (`lib/utils/`)
 
 - **`url-diff.ts`**: URL comparison and diff highlighting

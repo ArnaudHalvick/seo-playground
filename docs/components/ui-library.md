@@ -50,3 +50,61 @@ Key components used:
 
 All use Tailwind CSS for styling and include proper TypeScript types.
 
+## Hooks
+
+### useToast
+
+**Location**: `hooks/use-toast.ts`
+
+**Purpose**: Toast notification system for user feedback
+
+**Type**: Custom React hook
+
+**Usage**:
+```typescript
+import { useToast, toast } from '@/hooks/use-toast';
+
+function MyComponent() {
+  const { toast: toastFn } = useToast();
+  
+  const handleClick = () => {
+    toastFn({
+      title: "Success",
+      description: "Operation completed successfully",
+    });
+  };
+  
+  // Or use the standalone toast function
+  toast({
+    title: "Error",
+    description: "Something went wrong",
+    variant: "destructive",
+  });
+}
+```
+
+**API**:
+
+#### `useToast()` Hook
+Returns an object with:
+- `toast`: Function to show a toast notification
+- `dismiss`: Function to dismiss a toast by ID
+- `toasts`: Array of current toast notifications
+
+#### `toast()` Function (standalone)
+Direct function to show a toast without using the hook.
+
+**Toast Options**:
+- `title?`: React.ReactNode - Toast title
+- `description?`: React.ReactNode - Toast description
+- `variant?`: "default" | "destructive" - Toast variant
+- `action?`: ToastActionElement - Optional action button
+
+**Features**:
+- Singleton pattern - one toast at a time (TOAST_LIMIT = 1)
+- Auto-dismiss after delay (TOAST_REMOVE_DELAY)
+- React Context-based state management
+- Used by shadcn/ui toast components (`components/ui/toast.tsx`, `components/ui/toaster.tsx`)
+
+**Note**: This hook is inspired by react-hot-toast and provides the underlying state management for the shadcn/ui toast component system.
+
