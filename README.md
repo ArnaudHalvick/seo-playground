@@ -185,6 +185,36 @@ Educational overview of Schema.org markup:
 
 **Note**: This is educational overview only. The app doesn't implement live validation tools.
 
+## Coming Soon
+
+Two major topics are planned for future implementation:
+
+### Core Web Vitals & Performance
+
+Performance is a confirmed ranking factor and critical to user experience. Planned coverage includes:
+
+- Largest Contentful Paint (LCP) optimization strategies
+- Cumulative Layout Shift (CLS) prevention techniques
+- First Input Delay (FID) / Interaction to Next Paint (INP) improvements
+- Image optimization (WebP, lazy loading, responsive images)
+- Code splitting and bundle optimization
+- Server-side rendering vs client-side rendering trade-offs
+- Resource hints (preload, prefetch, preconnect)
+- How Core Web Vitals affect SEO and user engagement
+
+### Product URLs and Database Architecture
+
+Deep dive into product page SEO and data modeling:
+
+- Product URL structure and slug generation
+- Handling product variations (size, color) in URLs
+- Canonical strategies for product variants
+- Out-of-stock product handling (keep indexed? remove? 410 vs 404?)
+- Discontinued products and redirect strategies
+- Product schema implementation (price, availability, reviews)
+- Database design for SEO-friendly product catalogs
+- Handling seasonal products and temporary items
+
 ## What's NOT Covered
 
 This app deliberately excludes basic SEO elements to focus on complex technical implementations:
@@ -193,8 +223,6 @@ This app deliberately excludes basic SEO elements to focus on complex technical 
 - **Keyword research** - A marketing activity, not a programming challenge
 - **Content strategy** - Editorial decisions, not technical implementation
 - **Link building** - Outreach and relationships, not code
-- **Page speed optimization** - A separate technical domain worth its own project
-- **Core Web Vitals** - Performance engineering vs SEO logic
 - **Backlink analysis** - Analytics, not implementation
 
 This project is about solving the technical SEO problems that require sophisticated programming solutions.

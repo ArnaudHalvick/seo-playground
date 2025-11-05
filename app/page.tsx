@@ -54,10 +54,13 @@ export default function Home() {
                 intelligent canonicalization, and making transparent SEO decisions you can trace
                 step-by-step.
               </p>
-              <p className="text-sm text-slate-700">
-                Built to master advanced SEO implementation and showcase what's possible with proper
-                technical architecture.
-              </p>
+              <div className="text-sm text-slate-700">
+                <p className="font-semibold mb-1">Future topics planned</p>
+                <ul className="list-disc list-inside space-y-1">
+                  <li>Core Web Vitals & Performance</li>
+                  <li>Product URLs & Database Architecture</li>
+                </ul>
+              </div>
             </AlertDescription>
           </Alert>
         </div>
@@ -282,6 +285,39 @@ export default function Home() {
                   </Button>
                 </Link>
               </CardContent>
+            </Card>
+          </div>
+        </div>
+
+        {/* Coming Soon Section */}
+        <div className="mb-12">
+          <div className="mb-6">
+            <h2 className="text-2xl font-bold mb-2">Coming Soon</h2>
+            <p className="text-slate-600">Future topics planned for implementation</p>
+          </div>
+          <div className="grid md:grid-cols-2 gap-6">
+            <Card className="border-2 border-dashed border-slate-300 bg-slate-50 opacity-75">
+              <CardHeader>
+                <CardTitle className="text-lg text-slate-700">
+                  Core Web Vitals & Performance
+                </CardTitle>
+                <CardDescription>
+                  LCP, CLS, INP optimization strategies, image optimization, code splitting, and how
+                  performance affects SEO
+                </CardDescription>
+              </CardHeader>
+            </Card>
+
+            <Card className="border-2 border-dashed border-slate-300 bg-slate-50 opacity-75">
+              <CardHeader>
+                <CardTitle className="text-lg text-slate-700">
+                  Product URLs & Database Architecture
+                </CardTitle>
+                <CardDescription>
+                  Product URL structures, handling variants, out-of-stock strategies, discontinued
+                  products, and SEO-friendly data modeling
+                </CardDescription>
+              </CardHeader>
             </Card>
           </div>
         </div>
