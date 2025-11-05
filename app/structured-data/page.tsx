@@ -1,28 +1,25 @@
-import Link from 'next/link';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Breadcrumbs } from '@/components/Breadcrumbs';
-import { 
-  Code2, 
-  CheckCircle2, 
+import Link from "next/link";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
+import {
+  Code2,
+  CheckCircle2,
   Info,
   ExternalLink,
   ShoppingBag,
   Home as HomeIcon,
   Building2,
-  Star
-} from 'lucide-react';
+  Star,
+  AlertTriangle,
+} from "lucide-react";
 
 export default function StructuredDataPage() {
   return (
     <div className="min-h-screen bg-slate-50">
-      <Breadcrumbs 
-        items={[
-          { label: 'Structured Data', href: '/structured-data' }
-        ]} 
-      />
+      <Breadcrumbs items={[{ label: "Structured Data", href: "/structured-data" }]} />
 
       <div className="container mx-auto px-4 py-12 max-w-5xl">
         {/* Hero Section */}
@@ -37,8 +34,9 @@ export default function StructuredDataPage() {
           <Alert className="border-indigo-300 bg-indigo-50">
             <Info className="h-4 w-4" />
             <AlertDescription>
-              <strong>Note:</strong> This is an educational overview only. Interactive validation tools and implementation 
-              testing are out of scope for this app. Use Google's Rich Results Test for validation.
+              <strong>Note:</strong> This is an educational overview only. Interactive validation
+              tools and implementation testing are out of scope for this app. Use Google's Rich
+              Results Test for validation.
             </AlertDescription>
           </Alert>
         </div>
@@ -49,9 +47,10 @@ export default function StructuredDataPage() {
           <Card>
             <CardContent className="pt-6 space-y-4">
               <p className="text-slate-700">
-                <strong>Structured data</strong> (also called schema markup) is code you add to your pages to help search engines 
-                understand your content better. It uses <strong>Schema.org</strong> vocabulary to describe things like products, 
-                articles, businesses, events, and more.
+                <strong>Structured data</strong> (also called schema markup) is code you add to your
+                pages to help search engines understand your content better. It uses{" "}
+                <strong>Schema.org</strong> vocabulary to describe things like products, articles,
+                businesses, events, and more.
               </p>
 
               <div className="grid md:grid-cols-2 gap-4">
@@ -93,24 +92,45 @@ export default function StructuredDataPage() {
           <Card>
             <CardContent className="pt-6 space-y-4">
               <p className="text-sm text-slate-700">
-                Google recommends using <strong>JSON-LD</strong> format because it's easy to implement and maintain. 
-                Add it to the <code className="bg-slate-100 px-1 rounded">{'<head>'}</code> or <code className="bg-slate-100 px-1 rounded">{'<body>'}</code> of your HTML.
+                Google recommends using <strong>JSON-LD</strong> format because it's easy to
+                implement and maintain. Add it to the{" "}
+                <code className="bg-slate-100 px-1 rounded">{"<head>"}</code> or{" "}
+                <code className="bg-slate-100 px-1 rounded">{"<body>"}</code> of your HTML.
               </p>
 
               <div className="bg-slate-900 text-slate-300 p-4 rounded-lg text-xs font-mono overflow-x-auto">
                 <div className="text-green-400">{'<script type="application/ld+json">'}</div>
-                <div className="pl-2">{'{'}</div>
-                <div className="pl-4">  <span className="text-blue-400">"@context"</span>: <span className="text-amber-400">"https://schema.org"</span>,</div>
-                <div className="pl-4">  <span className="text-blue-400">"@type"</span>: <span className="text-amber-400">"Product"</span>,</div>
-                <div className="pl-4">  <span className="text-blue-400">"name"</span>: <span className="text-amber-400">"Nike Air Max"</span>,</div>
-                <div className="pl-4">  <span className="text-blue-400">"description"</span>: <span className="text-amber-400">"Premium running shoes..."</span></div>
-                <div className="pl-2">{'}'}</div>
-                <div className="text-green-400">{'</script>'}</div>
+                <div className="pl-2">{"{"}</div>
+                <div className="pl-4">
+                  {" "}
+                  <span className="text-blue-400">"@context"</span>:{" "}
+                  <span className="text-amber-400">"https://schema.org"</span>,
+                </div>
+                <div className="pl-4">
+                  {" "}
+                  <span className="text-blue-400">"@type"</span>:{" "}
+                  <span className="text-amber-400">"Product"</span>,
+                </div>
+                <div className="pl-4">
+                  {" "}
+                  <span className="text-blue-400">"name"</span>:{" "}
+                  <span className="text-amber-400">"Nike Air Max"</span>,
+                </div>
+                <div className="pl-4">
+                  {" "}
+                  <span className="text-blue-400">"description"</span>:{" "}
+                  <span className="text-amber-400">"Premium running shoes..."</span>
+                </div>
+                <div className="pl-2">{"}"}</div>
+                <div className="text-green-400">{"</script>"}</div>
               </div>
 
               <div className="flex items-center gap-2 text-xs text-slate-600">
                 <Info className="h-3 w-3 flex-shrink-0" />
-                <span>JSON-LD is separate from your HTML, making it easier to add/update without breaking page layout</span>
+                <span>
+                  JSON-LD is separate from your HTML, making it easier to add/update without
+                  breaking page layout
+                </span>
               </div>
             </CardContent>
           </Card>
@@ -119,7 +139,7 @@ export default function StructuredDataPage() {
         {/* Most Important Types for E-commerce */}
         <div className="mb-12">
           <h2 className="text-2xl font-bold mb-6">Most Important Types for E-commerce</h2>
-          
+
           <div className="space-y-6">
             {/* Product Schema */}
             <Card className="border-l-4 border-l-blue-500">
@@ -151,36 +171,110 @@ export default function StructuredDataPage() {
 
                   <div className="bg-slate-900 text-slate-300 p-4 rounded-lg text-xs font-mono overflow-x-auto">
                     <div className="text-green-400">{'<script type="application/ld+json">'}</div>
-                    <div className="pl-2">{'{'}</div>
-                    <div className="pl-4">  <span className="text-blue-400">"@context"</span>: <span className="text-amber-400">"https://schema.org"</span>,</div>
-                    <div className="pl-4">  <span className="text-blue-400">"@type"</span>: <span className="text-amber-400">"Product"</span>,</div>
-                    <div className="pl-4">  <span className="text-blue-400">"name"</span>: <span className="text-amber-400">"Nike Air Max 270"</span>,</div>
-                    <div className="pl-4">  <span className="text-blue-400">"description"</span>: <span className="text-amber-400">"Premium running shoes with air cushioning..."</span>,</div>
-                    <div className="pl-4">  <span className="text-blue-400">"image"</span>: <span className="text-amber-400">"https://example.com/nike-air-max.jpg"</span>,</div>
-                    <div className="pl-4">  <span className="text-blue-400">"brand"</span>: {'{'}</div>
-                    <div className="pl-6">    <span className="text-blue-400">"@type"</span>: <span className="text-amber-400">"Brand"</span>,</div>
-                    <div className="pl-6">    <span className="text-blue-400">"name"</span>: <span className="text-amber-400">"Nike"</span></div>
-                    <div className="pl-4">  {'},'}</div>
-                    <div className="pl-4">  <span className="text-blue-400">"offers"</span>: {'{'}</div>
-                    <div className="pl-6">    <span className="text-blue-400">"@type"</span>: <span className="text-amber-400">"Offer"</span>,</div>
-                    <div className="pl-6">    <span className="text-blue-400">"price"</span>: <span className="text-amber-400">"150.00"</span>,</div>
-                    <div className="pl-6">    <span className="text-blue-400">"priceCurrency"</span>: <span className="text-amber-400">"USD"</span>,</div>
-                    <div className="pl-6">    <span className="text-blue-400">"availability"</span>: <span className="text-amber-400">"https://schema.org/InStock"</span>,</div>
-                    <div className="pl-6">    <span className="text-blue-400">"url"</span>: <span className="text-amber-400">"https://example.com/nike-air-max"</span></div>
-                    <div className="pl-4">  {'},'}</div>
-                    <div className="pl-4">  <span className="text-blue-400">"aggregateRating"</span>: {'{'}</div>
-                    <div className="pl-6">    <span className="text-blue-400">"@type"</span>: <span className="text-amber-400">"AggregateRating"</span>,</div>
-                    <div className="pl-6">    <span className="text-blue-400">"ratingValue"</span>: <span className="text-amber-400">"4.5"</span>,</div>
-                    <div className="pl-6">    <span className="text-blue-400">"reviewCount"</span>: <span className="text-amber-400">"127"</span></div>
-                    <div className="pl-4">  {'}'}</div>
-                    <div className="pl-2">{'}'}</div>
-                    <div className="text-green-400">{'</script>'}</div>
+                    <div className="pl-2">{"{"}</div>
+                    <div className="pl-4">
+                      {" "}
+                      <span className="text-blue-400">"@context"</span>:{" "}
+                      <span className="text-amber-400">"https://schema.org"</span>,
+                    </div>
+                    <div className="pl-4">
+                      {" "}
+                      <span className="text-blue-400">"@type"</span>:{" "}
+                      <span className="text-amber-400">"Product"</span>,
+                    </div>
+                    <div className="pl-4">
+                      {" "}
+                      <span className="text-blue-400">"name"</span>:{" "}
+                      <span className="text-amber-400">"Nike Air Max 270"</span>,
+                    </div>
+                    <div className="pl-4">
+                      {" "}
+                      <span className="text-blue-400">"description"</span>:{" "}
+                      <span className="text-amber-400">
+                        "Premium running shoes with air cushioning..."
+                      </span>
+                      ,
+                    </div>
+                    <div className="pl-4">
+                      {" "}
+                      <span className="text-blue-400">"image"</span>:{" "}
+                      <span className="text-amber-400">"https://example.com/nike-air-max.jpg"</span>
+                      ,
+                    </div>
+                    <div className="pl-4">
+                      {" "}
+                      <span className="text-blue-400">"brand"</span>: {"{"}
+                    </div>
+                    <div className="pl-6">
+                      {" "}
+                      <span className="text-blue-400">"@type"</span>:{" "}
+                      <span className="text-amber-400">"Brand"</span>,
+                    </div>
+                    <div className="pl-6">
+                      {" "}
+                      <span className="text-blue-400">"name"</span>:{" "}
+                      <span className="text-amber-400">"Nike"</span>
+                    </div>
+                    <div className="pl-4"> {"},"}</div>
+                    <div className="pl-4">
+                      {" "}
+                      <span className="text-blue-400">"offers"</span>: {"{"}
+                    </div>
+                    <div className="pl-6">
+                      {" "}
+                      <span className="text-blue-400">"@type"</span>:{" "}
+                      <span className="text-amber-400">"Offer"</span>,
+                    </div>
+                    <div className="pl-6">
+                      {" "}
+                      <span className="text-blue-400">"price"</span>:{" "}
+                      <span className="text-amber-400">"150.00"</span>,
+                    </div>
+                    <div className="pl-6">
+                      {" "}
+                      <span className="text-blue-400">"priceCurrency"</span>:{" "}
+                      <span className="text-amber-400">"USD"</span>,
+                    </div>
+                    <div className="pl-6">
+                      {" "}
+                      <span className="text-blue-400">"availability"</span>:{" "}
+                      <span className="text-amber-400">"https://schema.org/InStock"</span>,
+                    </div>
+                    <div className="pl-6">
+                      {" "}
+                      <span className="text-blue-400">"url"</span>:{" "}
+                      <span className="text-amber-400">"https://example.com/nike-air-max"</span>
+                    </div>
+                    <div className="pl-4"> {"},"}</div>
+                    <div className="pl-4">
+                      {" "}
+                      <span className="text-blue-400">"aggregateRating"</span>: {"{"}
+                    </div>
+                    <div className="pl-6">
+                      {" "}
+                      <span className="text-blue-400">"@type"</span>:{" "}
+                      <span className="text-amber-400">"AggregateRating"</span>,
+                    </div>
+                    <div className="pl-6">
+                      {" "}
+                      <span className="text-blue-400">"ratingValue"</span>:{" "}
+                      <span className="text-amber-400">"4.5"</span>,
+                    </div>
+                    <div className="pl-6">
+                      {" "}
+                      <span className="text-blue-400">"reviewCount"</span>:{" "}
+                      <span className="text-amber-400">"127"</span>
+                    </div>
+                    <div className="pl-4"> {"}"}</div>
+                    <div className="pl-2">{"}"}</div>
+                    <div className="text-green-400">{"</script>"}</div>
                   </div>
 
                   <Alert className="border-blue-300 bg-blue-50">
                     <Info className="h-4 w-4" />
                     <AlertDescription className="text-xs">
-                      <strong>Required fields:</strong> name, image, price (if applicable). Reviews and availability are optional but highly recommended.
+                      <strong>Required fields:</strong> name, image, price (if applicable). Reviews
+                      and availability are optional but highly recommended.
                     </AlertDescription>
                   </Alert>
                 </div>
@@ -200,7 +294,9 @@ export default function StructuredDataPage() {
                       Shows navigation path in search results
                     </CardDescription>
                   </div>
-                  <Badge className="bg-green-100 text-green-800 border-green-300">Recommended</Badge>
+                  <Badge className="bg-green-100 text-green-800 border-green-300">
+                    Recommended
+                  </Badge>
                 </div>
               </CardHeader>
               <CardContent>
@@ -216,30 +312,85 @@ export default function StructuredDataPage() {
 
                   <div className="bg-slate-900 text-slate-300 p-4 rounded-lg text-xs font-mono overflow-x-auto">
                     <div className="text-green-400">{'<script type="application/ld+json">'}</div>
-                    <div className="pl-2">{'{'}</div>
-                    <div className="pl-4">  <span className="text-blue-400">"@context"</span>: <span className="text-amber-400">"https://schema.org"</span>,</div>
-                    <div className="pl-4">  <span className="text-blue-400">"@type"</span>: <span className="text-amber-400">"BreadcrumbList"</span>,</div>
-                    <div className="pl-4">  <span className="text-blue-400">"itemListElement"</span>: [</div>
-                    <div className="pl-6">    {'{'}</div>
-                    <div className="pl-8">      <span className="text-blue-400">"@type"</span>: <span className="text-amber-400">"ListItem"</span>,</div>
-                    <div className="pl-8">      <span className="text-blue-400">"position"</span>: <span className="text-purple-400">1</span>,</div>
-                    <div className="pl-8">      <span className="text-blue-400">"name"</span>: <span className="text-amber-400">"Home"</span>,</div>
-                    <div className="pl-8">      <span className="text-blue-400">"item"</span>: <span className="text-amber-400">"https://example.com/"</span></div>
-                    <div className="pl-6">    {'},'}</div>
-                    <div className="pl-6">    {'{'}</div>
-                    <div className="pl-8">      <span className="text-blue-400">"@type"</span>: <span className="text-amber-400">"ListItem"</span>,</div>
-                    <div className="pl-8">      <span className="text-blue-400">"position"</span>: <span className="text-purple-400">2</span>,</div>
-                    <div className="pl-8">      <span className="text-blue-400">"name"</span>: <span className="text-amber-400">"Shoes"</span>,</div>
-                    <div className="pl-8">      <span className="text-blue-400">"item"</span>: <span className="text-amber-400">"https://example.com/shop/shoes"</span></div>
-                    <div className="pl-6">    {'},'}</div>
-                    <div className="pl-6">    {'{'}</div>
-                    <div className="pl-8">      <span className="text-blue-400">"@type"</span>: <span className="text-amber-400">"ListItem"</span>,</div>
-                    <div className="pl-8">      <span className="text-blue-400">"position"</span>: <span className="text-purple-400">3</span>,</div>
-                    <div className="pl-8">      <span className="text-blue-400">"name"</span>: <span className="text-amber-400">"Nike Air Max"</span></div>
-                    <div className="pl-6">    {'}'}</div>
-                    <div className="pl-4">  ]</div>
-                    <div className="pl-2">{'}'}</div>
-                    <div className="text-green-400">{'</script>'}</div>
+                    <div className="pl-2">{"{"}</div>
+                    <div className="pl-4">
+                      {" "}
+                      <span className="text-blue-400">"@context"</span>:{" "}
+                      <span className="text-amber-400">"https://schema.org"</span>,
+                    </div>
+                    <div className="pl-4">
+                      {" "}
+                      <span className="text-blue-400">"@type"</span>:{" "}
+                      <span className="text-amber-400">"BreadcrumbList"</span>,
+                    </div>
+                    <div className="pl-4">
+                      {" "}
+                      <span className="text-blue-400">"itemListElement"</span>: [
+                    </div>
+                    <div className="pl-6"> {"{"}</div>
+                    <div className="pl-8">
+                      {" "}
+                      <span className="text-blue-400">"@type"</span>:{" "}
+                      <span className="text-amber-400">"ListItem"</span>,
+                    </div>
+                    <div className="pl-8">
+                      {" "}
+                      <span className="text-blue-400">"position"</span>:{" "}
+                      <span className="text-purple-400">1</span>,
+                    </div>
+                    <div className="pl-8">
+                      {" "}
+                      <span className="text-blue-400">"name"</span>:{" "}
+                      <span className="text-amber-400">"Home"</span>,
+                    </div>
+                    <div className="pl-8">
+                      {" "}
+                      <span className="text-blue-400">"item"</span>:{" "}
+                      <span className="text-amber-400">"https://example.com/"</span>
+                    </div>
+                    <div className="pl-6"> {"},"}</div>
+                    <div className="pl-6"> {"{"}</div>
+                    <div className="pl-8">
+                      {" "}
+                      <span className="text-blue-400">"@type"</span>:{" "}
+                      <span className="text-amber-400">"ListItem"</span>,
+                    </div>
+                    <div className="pl-8">
+                      {" "}
+                      <span className="text-blue-400">"position"</span>:{" "}
+                      <span className="text-purple-400">2</span>,
+                    </div>
+                    <div className="pl-8">
+                      {" "}
+                      <span className="text-blue-400">"name"</span>:{" "}
+                      <span className="text-amber-400">"Shoes"</span>,
+                    </div>
+                    <div className="pl-8">
+                      {" "}
+                      <span className="text-blue-400">"item"</span>:{" "}
+                      <span className="text-amber-400">"https://example.com/shop/shoes"</span>
+                    </div>
+                    <div className="pl-6"> {"},"}</div>
+                    <div className="pl-6"> {"{"}</div>
+                    <div className="pl-8">
+                      {" "}
+                      <span className="text-blue-400">"@type"</span>:{" "}
+                      <span className="text-amber-400">"ListItem"</span>,
+                    </div>
+                    <div className="pl-8">
+                      {" "}
+                      <span className="text-blue-400">"position"</span>:{" "}
+                      <span className="text-purple-400">3</span>,
+                    </div>
+                    <div className="pl-8">
+                      {" "}
+                      <span className="text-blue-400">"name"</span>:{" "}
+                      <span className="text-amber-400">"Nike Air Max"</span>
+                    </div>
+                    <div className="pl-6"> {"}"}</div>
+                    <div className="pl-4"> ]</div>
+                    <div className="pl-2">{"}"}</div>
+                    <div className="text-green-400">{"</script>"}</div>
                   </div>
                 </div>
               </CardContent>
@@ -258,7 +409,9 @@ export default function StructuredDataPage() {
                       Tells Google about your business—use once on homepage or about page
                     </CardDescription>
                   </div>
-                  <Badge className="bg-purple-100 text-purple-800 border-purple-300">Homepage</Badge>
+                  <Badge className="bg-purple-100 text-purple-800 border-purple-300">
+                    Homepage
+                  </Badge>
                 </div>
               </CardHeader>
               <CardContent>
@@ -275,19 +428,51 @@ export default function StructuredDataPage() {
 
                   <div className="bg-slate-900 text-slate-300 p-4 rounded-lg text-xs font-mono overflow-x-auto">
                     <div className="text-green-400">{'<script type="application/ld+json">'}</div>
-                    <div className="pl-2">{'{'}</div>
-                    <div className="pl-4">  <span className="text-blue-400">"@context"</span>: <span className="text-amber-400">"https://schema.org"</span>,</div>
-                    <div className="pl-4">  <span className="text-blue-400">"@type"</span>: <span className="text-amber-400">"Organization"</span>,</div>
-                    <div className="pl-4">  <span className="text-blue-400">"name"</span>: <span className="text-amber-400">"Your Company Name"</span>,</div>
-                    <div className="pl-4">  <span className="text-blue-400">"url"</span>: <span className="text-amber-400">"https://example.com"</span>,</div>
-                    <div className="pl-4">  <span className="text-blue-400">"logo"</span>: <span className="text-amber-400">"https://example.com/logo.png"</span>,</div>
-                    <div className="pl-4">  <span className="text-blue-400">"sameAs"</span>: [</div>
-                    <div className="pl-6">    <span className="text-amber-400">"https://facebook.com/yourcompany"</span>,</div>
-                    <div className="pl-6">    <span className="text-amber-400">"https://twitter.com/yourcompany"</span>,</div>
-                    <div className="pl-6">    <span className="text-amber-400">"https://instagram.com/yourcompany"</span></div>
-                    <div className="pl-4">  ]</div>
-                    <div className="pl-2">{'}'}</div>
-                    <div className="text-green-400">{'</script>'}</div>
+                    <div className="pl-2">{"{"}</div>
+                    <div className="pl-4">
+                      {" "}
+                      <span className="text-blue-400">"@context"</span>:{" "}
+                      <span className="text-amber-400">"https://schema.org"</span>,
+                    </div>
+                    <div className="pl-4">
+                      {" "}
+                      <span className="text-blue-400">"@type"</span>:{" "}
+                      <span className="text-amber-400">"Organization"</span>,
+                    </div>
+                    <div className="pl-4">
+                      {" "}
+                      <span className="text-blue-400">"name"</span>:{" "}
+                      <span className="text-amber-400">"Your Company Name"</span>,
+                    </div>
+                    <div className="pl-4">
+                      {" "}
+                      <span className="text-blue-400">"url"</span>:{" "}
+                      <span className="text-amber-400">"https://example.com"</span>,
+                    </div>
+                    <div className="pl-4">
+                      {" "}
+                      <span className="text-blue-400">"logo"</span>:{" "}
+                      <span className="text-amber-400">"https://example.com/logo.png"</span>,
+                    </div>
+                    <div className="pl-4">
+                      {" "}
+                      <span className="text-blue-400">"sameAs"</span>: [
+                    </div>
+                    <div className="pl-6">
+                      {" "}
+                      <span className="text-amber-400">"https://facebook.com/yourcompany"</span>,
+                    </div>
+                    <div className="pl-6">
+                      {" "}
+                      <span className="text-amber-400">"https://twitter.com/yourcompany"</span>,
+                    </div>
+                    <div className="pl-6">
+                      {" "}
+                      <span className="text-amber-400">"https://instagram.com/yourcompany"</span>
+                    </div>
+                    <div className="pl-4"> ]</div>
+                    <div className="pl-2">{"}"}</div>
+                    <div className="text-green-400">{"</script>"}</div>
                   </div>
                 </div>
               </CardContent>
@@ -309,13 +494,15 @@ export default function StructuredDataPage() {
                   <div className="flex items-start justify-between mb-2">
                     <div>
                       <h3 className="font-semibold text-sm">Rich Results Test</h3>
-                      <p className="text-xs text-slate-600">Test if your page is eligible for rich results</p>
+                      <p className="text-xs text-slate-600">
+                        Test if your page is eligible for rich results
+                      </p>
                     </div>
                     <Badge>Primary</Badge>
                   </div>
-                  <a 
-                    href="https://search.google.com/test/rich-results" 
-                    target="_blank" 
+                  <a
+                    href="https://search.google.com/test/rich-results"
+                    target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-2 text-xs text-blue-600 hover:text-blue-800 font-semibold"
                   >
@@ -327,13 +514,17 @@ export default function StructuredDataPage() {
                   <div className="flex items-start justify-between mb-2">
                     <div>
                       <h3 className="font-semibold text-sm">Schema.org Validator</h3>
-                      <p className="text-xs text-slate-600">Validates JSON-LD syntax and structure</p>
+                      <p className="text-xs text-slate-600">
+                        Validates JSON-LD syntax and structure
+                      </p>
                     </div>
-                    <Badge className="bg-slate-100 text-slate-800 border-slate-300">Secondary</Badge>
+                    <Badge className="bg-slate-100 text-slate-800 border-slate-300">
+                      Secondary
+                    </Badge>
                   </div>
-                  <a 
-                    href="https://validator.schema.org/" 
-                    target="_blank" 
+                  <a
+                    href="https://validator.schema.org/"
+                    target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-2 text-xs text-blue-600 hover:text-blue-800 font-semibold"
                   >
@@ -345,7 +536,9 @@ export default function StructuredDataPage() {
                   <div className="flex items-start justify-between mb-2">
                     <div>
                       <h3 className="font-semibold text-sm">Google Search Console</h3>
-                      <p className="text-xs text-slate-600">Monitor rich results performance and errors</p>
+                      <p className="text-xs text-slate-600">
+                        Monitor rich results performance and errors
+                      </p>
                     </div>
                     <Badge className="bg-green-100 text-green-800 border-green-300">Monitor</Badge>
                   </div>
@@ -437,7 +630,9 @@ export default function StructuredDataPage() {
               <ul className="space-y-2">
                 <li className="flex items-start gap-2">
                   <CheckCircle2 className="h-4 w-4 text-green-600 mt-0.5 flex-shrink-0" />
-                  <span>Structured data helps Google understand and display your content better</span>
+                  <span>
+                    Structured data helps Google understand and display your content better
+                  </span>
                 </li>
                 <li className="flex items-start gap-2">
                   <CheckCircle2 className="h-4 w-4 text-green-600 mt-0.5 flex-shrink-0" />
@@ -459,8 +654,9 @@ export default function StructuredDataPage() {
             <Alert className="mt-4 border-indigo-300 bg-indigo-50">
               <Info className="h-4 w-4" />
               <AlertDescription className="text-xs">
-                <strong>Remember:</strong> This app focuses on technical SEO (crawling, indexing, URLs). For structured data 
-                implementation and validation, use external tools like Google's Rich Results Test and schema.org documentation.
+                <strong>Remember:</strong> This app focuses on technical SEO (crawling, indexing,
+                URLs). For structured data implementation and validation, use external tools like
+                Google's Rich Results Test and schema.org documentation.
               </AlertDescription>
             </Alert>
           </CardContent>
@@ -469,5 +665,3 @@ export default function StructuredDataPage() {
     </div>
   );
 }
-
-
