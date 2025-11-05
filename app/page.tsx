@@ -1,20 +1,22 @@
-import Link from 'next/link';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { 
-  Settings, 
-  ShoppingBag, 
-  Search, 
-  Lock, 
-  Globe, 
-  Copy, 
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import {
+  Settings,
+  ShoppingBag,
+  Search,
+  Lock,
+  Globe,
+  Copy,
   FileText,
   Map,
   List,
   Layers,
   Code2,
-  Bot
-} from 'lucide-react';
+  Bot,
+  Info,
+} from "lucide-react";
 
 export default function Home() {
   return (
@@ -26,15 +28,47 @@ export default function Home() {
             SEO Workshop
           </h1>
           <p className="text-xl text-slate-600 max-w-3xl mx-auto">
-            A demonstration of production-ready SEO implementations. Explore parameter handling, canonical strategies, robots.txt patterns, and more with real working examples.
+            A demonstration of production-ready SEO implementations. Explore parameter handling,
+            canonical strategies, robots.txt patterns, and more with real working examples.
           </p>
+        </div>
+
+        {/* Purpose Statement */}
+        <div className="mb-12">
+          <Alert className="max-w-4xl mx-auto border-2 border-blue-300 bg-gradient-to-r from-blue-50 to-slate-50">
+            <Info className="h-5 w-5" />
+            <AlertDescription className="text-base">
+              <p className="mb-3">
+                <strong>About This Project:</strong> This is an educational playground and portfolio
+                demonstration, not a real e-commerce store. It focuses exclusively on the{" "}
+                <strong>programming and technical implementation side of SEO</strong>.
+              </p>
+              <p className="text-sm text-slate-700 mb-3">
+                You won't find lessons on keyword research, content strategy, or basic meta tags
+                here.
+              </p>{" "}
+              <p className="text-sm text-slate-700 mb-3">
+                Instead, every page demonstrates{" "}
+                <strong>production-ready solutions to complex technical SEO challenges</strong>:
+                preventing crawl budget waste, detecting 2^N parameter explosions, implementing
+                intelligent canonicalization, and making transparent SEO decisions you can trace
+                step-by-step.
+              </p>
+              <p className="text-sm text-slate-700">
+                Built to master advanced SEO implementation and showcase what's possible with proper
+                technical architecture.
+              </p>
+            </AlertDescription>
+          </Alert>
         </div>
 
         {/* Section 1: Core Fundamentals */}
         <div className="mb-12">
           <div className="mb-6">
             <h2 className="text-2xl font-bold mb-2">Core Fundamentals</h2>
-            <p className="text-slate-600">Master these essential building blocks of technical SEO</p>
+            <p className="text-slate-600">
+              Master these essential building blocks of technical SEO
+            </p>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             <Card className="hover:shadow-lg transition-shadow border-2 border-blue-200 flex flex-col justify-between">
@@ -71,9 +105,7 @@ export default function Home() {
               <CardHeader>
                 <Settings className="h-8 w-8 mb-2 text-blue-600" />
                 <CardTitle>Parameters</CardTitle>
-                <CardDescription>
-                  URL parameter handling and canonical strategies
-                </CardDescription>
+                <CardDescription>URL parameter handling and canonical strategies</CardDescription>
               </CardHeader>
               <CardContent>
                 <Link href="/parameters">
@@ -103,7 +135,9 @@ export default function Home() {
         <div className="mb-12">
           <div className="mb-6">
             <h2 className="text-2xl font-bold mb-2">Content Patterns</h2>
-            <p className="text-slate-600">Handle common content structures and navigation patterns</p>
+            <p className="text-slate-600">
+              Handle common content structures and navigation patterns
+            </p>
           </div>
           <div className="grid md:grid-cols-3 gap-6">
             <Card className="hover:shadow-lg transition-shadow border-2 border-amber-200 flex flex-col justify-between">
@@ -209,7 +243,9 @@ export default function Home() {
               </CardHeader>
               <CardContent>
                 <Link href="/shop">
-                  <Button variant="outline" className="w-full">Shop Now</Button>
+                  <Button variant="outline" className="w-full">
+                    Shop Now
+                  </Button>
                 </Link>
               </CardContent>
             </Card>
@@ -224,7 +260,9 @@ export default function Home() {
               </CardHeader>
               <CardContent>
                 <Link href="/pattern-gallery">
-                  <Button variant="outline" className="w-full">Browse Patterns</Button>
+                  <Button variant="outline" className="w-full">
+                    Browse Patterns
+                  </Button>
                 </Link>
               </CardContent>
             </Card>
@@ -239,13 +277,14 @@ export default function Home() {
               </CardHeader>
               <CardContent>
                 <Link href="/structured-data">
-                  <Button variant="outline" className="w-full">Learn Schema</Button>
+                  <Button variant="outline" className="w-full">
+                    Learn Schema
+                  </Button>
                 </Link>
               </CardContent>
             </Card>
           </div>
         </div>
-
       </div>
     </div>
   );
