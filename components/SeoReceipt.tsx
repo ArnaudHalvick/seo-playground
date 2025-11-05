@@ -590,15 +590,33 @@ export function SeoReceipt() {
 
   return (
     <>
-      {/* Desktop Version - Always Visible */}
-      <div className="hidden lg:block fixed top-16 right-0 h-[calc(100vh-4rem)] w-96 border-l bg-white shadow-xl z-30">
-        <div className="flex flex-col h-full">
-          <div className="flex items-center gap-2 p-4 border-b bg-slate-50">
+      {/* Unified Responsive Receipt */}
+      <div className={`fixed z-30 bg-white border shadow-xl lg:top-16 lg:right-0 lg:h-[calc(100vh-4rem)] lg:w-96 lg:border-l max-lg:bottom-0 max-lg:left-0 max-lg:right-0 max-lg:border-t`}>
+        {/* Mobile collapse button - only visible on mobile */}
+        <button
+          onClick={() => setMobileCollapsed(!mobileCollapsed)}
+          className="lg:hidden w-full flex items-center justify-between p-4 bg-slate-50 hover:bg-slate-100 transition-colors"
+        >
+          <div className="flex items-center gap-2">
+            <Info className="h-5 w-5 text-blue-600" />
+            <h2 className="font-semibold">SEO Receipt</h2>
+          </div>
+          {mobileCollapsed ? (
+            <ChevronUp className="h-5 w-5" />
+          ) : (
+            <ChevronDown className="h-5 w-5" />
+          )}
+        </button>
+
+        {/* Content wrapper - always visible on desktop, conditional on mobile */}
+        <div className={`lg:flex lg:flex-col lg:h-full ${mobileCollapsed ? 'max-lg:hidden' : 'max-lg:block'}`}>
+          {/* Desktop header - only visible on desktop */}
+          <div className="hidden lg:flex items-center gap-2 p-4 border-b bg-slate-50">
             <Info className="h-5 w-5 text-blue-600" />
             <h2 className="font-semibold text-lg">SEO Receipt</h2>
           </div>
 
-          <div className="flex-1 overflow-y-auto">
+          <div className="lg:flex-1 lg:overflow-y-auto max-lg:max-h-[60vh] max-lg:overflow-y-auto">
             <Tabs defaultValue="summary" className="w-full">
               <TabsList className="w-full rounded-none border-b">
                 <TabsTrigger value="summary" className="flex-1">
@@ -1300,273 +1318,6 @@ export function SeoReceipt() {
             </TabsContent>
           </Tabs>
         </div>
-      </div>
-
-      {/* Mobile Version - Collapsible */}
-      <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t shadow-lg z-30">
-        {/* Collapse/Expand Button */}
-        <button
-          onClick={() => setMobileCollapsed(!mobileCollapsed)}
-          className="w-full flex items-center justify-between p-4 bg-slate-50 hover:bg-slate-100 transition-colors"
-        >
-          <div className="flex items-center gap-2">
-            <Info className="h-5 w-5 text-blue-600" />
-            <h2 className="font-semibold">SEO Receipt</h2>
-          </div>
-          {mobileCollapsed ? (
-            <ChevronUp className="h-5 w-5" />
-          ) : (
-            <ChevronDown className="h-5 w-5" />
-          )}
-        </button>
-
-        {/* Collapsible Content */}
-        {!mobileCollapsed && (
-          <div className="max-h-[60vh] overflow-y-auto border-t">
-            <Tabs defaultValue="summary" className="w-full">
-              <TabsList className="w-full rounded-none border-b">
-                <TabsTrigger value="summary" className="flex-1">
-                  Summary
-                </TabsTrigger>
-                <TabsTrigger value="trace" className="flex-1">
-                  Rule Trace
-                </TabsTrigger>
-              </TabsList>
-
-              <TabsContent value="summary" className="p-4 space-y-4 m-0">
-                <div>
-                  <div className="font-semibold mb-2 text-sm text-slate-700">URL Comparison</div>
-                  <div className="space-y-2">
-                    <div>
-                      <div className="text-xs text-slate-500 mb-1">Input URL</div>
-                      <div className="relative group">
-                        <div className="text-xs break-all bg-slate-100 p-2 rounded font-mono pr-8">
-                          {inputUrl}
-                        </div>
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => copyToClipboard(inputUrl, "input")}
-                          className="absolute top-1 right-1 h-6 w-6 p-0 opacity-0 group-hover:opacity-100 transition-opacity"
-                        >
-                          {copiedField === "input" ? (
-                            <Check className="h-3 w-3 text-green-600" />
-                          ) : (
-                            <Copy className="h-3 w-3" />
-                          )}
-                        </Button>
-                      </div>
-                    </div>
-
-                    {inputUrl !== result.canonical && (
-                      <div>
-                        <div className="text-xs text-slate-500 mb-1">Canonical URL</div>
-                        <div className="relative group">
-                          <div className="text-xs break-all bg-blue-50 border border-blue-200 p-2 rounded font-mono pr-8">
-                            {segments.map((seg, idx) => {
-                              if (seg.type === "removed") {
-                                return (
-                                  <span key={idx} className="bg-red-200 line-through">
-                                    {seg.text}
-                                  </span>
-                                );
-                              }
-                              if (seg.type === "added") {
-                                return (
-                                  <span key={idx} className="bg-green-200 font-semibold">
-                                    {seg.text}
-                                  </span>
-                                );
-                              }
-                              return <span key={idx}>{seg.text}</span>;
-                            })}
-                          </div>
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => copyToClipboard(result.canonical, "canonical")}
-                            className="absolute top-1 right-1 h-6 w-6 p-0 opacity-0 group-hover:opacity-100 transition-opacity"
-                          >
-                            {copiedField === "canonical" ? (
-                              <Check className="h-3 w-3 text-green-600" />
-                            ) : (
-                              <Copy className="h-3 w-3" />
-                            )}
-                          </Button>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                </div>
-
-                <div className="border-t pt-3">
-                  <div className="font-semibold mb-2 text-sm text-slate-700">Indexability</div>
-                  <div className="space-y-2">
-                    <div
-                      className={`flex items-center justify-between p-2.5 rounded border ${
-                        isIndexable
-                          ? "bg-green-50 border-green-200"
-                          : "bg-amber-50 border-amber-200"
-                      }`}
-                    >
-                      <div className="flex items-center gap-2">
-                        {isIndexable ? (
-                          <CheckCircle2 className="h-4 w-4 text-green-600" />
-                        ) : (
-                          <XCircle className="h-4 w-4 text-amber-600" />
-                        )}
-                        <span className="text-xs font-medium">
-                          {isIndexable ? "index,follow" : result.robots}
-                        </span>
-                      </div>
-                      <Badge
-                        className={
-                          isIndexable
-                            ? "bg-green-100 text-green-800 border-green-300"
-                            : "bg-amber-100 text-amber-800 border-amber-300"
-                        }
-                      >
-                        {isIndexable ? "Indexable" : "Not Indexable"}
-                      </Badge>
-                    </div>
-
-                    {shortExplanation && (
-                      <div className="text-xs leading-relaxed text-slate-700 bg-blue-50 border border-blue-200 p-2.5 rounded">
-                        {shortExplanation}
-                      </div>
-                    )}
-                  </div>
-                </div>
-
-                <div className="border-t pt-3">
-                  <div className="font-semibold mb-2 text-sm text-slate-700">Sitemap Inclusion</div>
-                  <div
-                    className={`flex items-center justify-between p-2.5 rounded border ${
-                      inSitemap
-                        ? "bg-green-50 border-green-200"
-                        : "bg-slate-50 border-slate-200"
-                    }`}
-                  >
-                    <div className="flex items-center gap-2">
-                      {inSitemap ? (
-                        <CheckCircle2 className="h-4 w-4 text-green-600" />
-                      ) : (
-                        <XCircle className="h-4 w-4 text-slate-400" />
-                      )}
-                      <span className="text-xs font-medium">
-                      {inSitemap ? "Included in Sitemap" : "Not in Sitemap"}
-                    </span>
-                  </div>
-                </div>
-                </div>
-
-                {bestPracticeConfirmation && (
-                  <div className="border-t pt-3">
-                    <div
-                      className={`p-3 rounded border ${
-                        bestPracticeConfirmation.type === "success"
-                          ? "bg-green-50 border-green-200"
-                          : "bg-blue-50 border-blue-200"
-                      }`}
-                    >
-                      <p
-                        className={`text-xs font-medium ${
-                          bestPracticeConfirmation.type === "success"
-                            ? "text-green-700"
-                            : "text-blue-700"
-                        }`}
-                      >
-                        {bestPracticeConfirmation.message}
-                      </p>
-                      {bestPracticeConfirmation.note && (
-                        <p className="text-xs text-slate-600 mt-1 leading-relaxed">
-                          {bestPracticeConfirmation.note}
-                        </p>
-                      )}
-                    </div>
-                  </div>
-                )}
-
-                {cleanPathRec && (
-                  <div className="border-t pt-3">
-                    <div className="font-semibold mb-2 text-sm text-slate-700">
-                      Clean Path Recommendation
-                    </div>
-                    <div className="p-3 rounded border bg-blue-50 border-blue-200">
-                      <p className="text-xs font-medium text-slate-700 mb-1">
-                        {cleanPathRec.message}
-                      </p>
-                      {cleanPathRec.example && (
-                        <code className="text-xs bg-slate-800 text-green-400 p-1.5 rounded block font-mono mt-1">
-                          {cleanPathRec.example}
-                        </code>
-                      )}
-                    </div>
-                  </div>
-                )}
-
-                {crawlTrapRisk && (
-                  <div className="border-t pt-3">
-                    <div className="font-semibold mb-2 text-sm text-slate-700">Crawl Trap Risk</div>
-                    <div
-                      className={`p-3 rounded border ${
-                        crawlTrapRisk.level === "high"
-                          ? "bg-red-50 border-red-200"
-                          : crawlTrapRisk.level === "medium"
-                          ? "bg-amber-50 border-amber-200"
-                          : "bg-green-50 border-green-200"
-                      }`}
-                    >
-                      <div className="flex items-start gap-2">
-                        <span className="text-base flex-shrink-0">{crawlTrapRisk.icon}</span>
-                        <div className="flex-1">
-                          <p
-                            className={`text-xs font-medium ${
-                              crawlTrapRisk.level === "high"
-                                ? "text-red-700"
-                                : crawlTrapRisk.level === "medium"
-                                ? "text-amber-700"
-                                : "text-green-700"
-                            }`}
-                          >
-                            {crawlTrapRisk.message}
-                          </p>
-                          <p className="text-xs text-slate-600 mt-1">{crawlTrapRisk.explanation}</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                )}
-              </TabsContent>
-
-              <TabsContent value="trace" className="p-3 m-0">
-                <div className="space-y-2">
-                  <div className="flex items-center justify-between mb-2">
-                    <div className="font-semibold text-sm text-slate-700">Decision Log</div>
-                    <Button variant="outline" size="sm" onClick={copyTrace} className="h-7 text-xs">
-                      {copiedField === "trace" ? (
-                        <>
-                          <Check className="h-3 w-3 mr-1 text-green-600" />
-                          Copied
-                        </>
-                      ) : (
-                        <>
-                          <Copy className="h-3 w-3 mr-1" />
-                          Copy All
-                        </>
-                      )}
-                    </Button>
-                  </div>
-                  <div className="bg-slate-900 text-green-400 p-3 rounded text-xs font-mono space-y-1 max-h-[40vh] overflow-y-auto">
-                    {result.trace.map((line, idx) => (
-                      <div key={idx}>{line}</div>
-                    ))}
-                  </div>
-                </div>
-              </TabsContent>
-            </Tabs>
-          </div>
-        )}
       </div>
     </>
   );

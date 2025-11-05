@@ -80,17 +80,3 @@
     @apply bg-background text-foreground;
   }
 }
-
-@layer utilities {
-  @media (min-width: 1024px) {
-    .page-content {
-      padding-right: 24rem;
-    }
-  }
-
-  @media (max-width: 1023px) {
-    .page-content {
-      padding-bottom: 70vh;
-    }
-  }
-}

@@ -14,6 +14,8 @@ import {
   Sheet,
   SheetContent,
   SheetTrigger,
+  SheetHeader,
+  SheetTitle,
 } from "./ui/sheet";
 import { 
   ShoppingBag, 
@@ -148,6 +150,9 @@ export function Navigation() {
                 </Button>
               </SheetTrigger>
               <SheetContent side="right" className="w-[300px] sm:w-[400px] overflow-y-auto">
+                <SheetHeader>
+                  <SheetTitle>Menu</SheetTitle>
+                </SheetHeader>
                 <div className="flex flex-col gap-4 mt-8">
                   {/* Home Link */}
                   <Link 
