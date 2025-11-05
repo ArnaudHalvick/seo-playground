@@ -92,16 +92,16 @@ export function SeoReceipt() {
       <div className="lg:hidden fixed bottom-0 left-0 right-0 z-30 bg-white border-t shadow-xl">
         <button
           onClick={() => setMobileCollapsed(!mobileCollapsed)}
-          className="w-full flex items-center justify-between p-4 bg-slate-50 hover:bg-slate-100 transition-colors"
+          className="w-full flex items-center justify-between p-4 bg-slate-50 hover:bg-slate-100 transition-colors border-t-4 border-blue-600"
         >
           <div className="flex items-center gap-2">
             <Info className="h-5 w-5 text-blue-600" />
             <h2 className="font-semibold">SEO Receipt</h2>
           </div>
           {mobileCollapsed ? (
-            <ChevronUp className="h-5 w-5" />
+            <ChevronUp className="h-6 w-6 text-blue-600" />
           ) : (
-            <ChevronDown className="h-5 w-5" />
+            <ChevronDown className="h-6 w-6 text-blue-600" />
           )}
         </button>
 
