@@ -56,10 +56,9 @@ export default function Home() {
                 step-by-step.
               </p>
               <div className="text-sm text-slate-700">
-                <p className="font-semibold mb-1">Future topics planned</p>
+                <p className="font-semibold mb-1">Future topic planned</p>
                 <ul className="list-disc list-inside space-y-1">
                   <li>Core Web Vitals & Performance</li>
-                  <li>Product URLs & Database Architecture</li>
                 </ul>
               </div>
             </AlertDescription>
