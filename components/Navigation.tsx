@@ -65,10 +65,10 @@ export function Navigation() {
     {
       name: "Advanced Topics",
       items: [
+        { name: "Core Web Vitals", path: "/core-web-vitals", icon: Zap },
         { name: "Protected Routes", path: "/protected-routes", icon: Lock },
         { name: "International SEO", path: "/international", icon: Globe },
         { name: "Product URLs & Database", path: "/product-urls", icon: Package },
-        { name: "Core Web Vitals", path: "/core-web-vitals", icon: Zap },
       ],
     },
     {

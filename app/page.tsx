@@ -17,6 +17,7 @@ import {
   Bot,
   Info,
   Package,
+  Zap,
 } from "lucide-react";
 
 export default function Home() {
@@ -190,7 +191,22 @@ export default function Home() {
             <h2 className="text-2xl font-bold mb-2">Advanced Topics</h2>
             <p className="text-slate-600">Specialized SEO strategies for complex scenarios</p>
           </div>
-          <div className="grid md:grid-cols-3 gap-6">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <Card className="hover:shadow-lg transition-shadow border-2 border-yellow-200 flex flex-col justify-between">
+              <CardHeader>
+                <Zap className="h-8 w-8 mb-2 text-yellow-600" />
+                <CardTitle>Core Web Vitals</CardTitle>
+                <CardDescription>
+                  Boosting SEO by improving website speed, visual stability, and responsiveness
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Link href="/core-web-vitals">
+                  <Button className="w-full">View Core Web Vitals</Button>
+                </Link>
+              </CardContent>
+            </Card>
+
             <Card className="hover:shadow-lg transition-shadow border-2 border-red-200 flex flex-col justify-between">
               <CardHeader>
                 <Lock className="h-8 w-8 mb-2 text-red-600" />
@@ -224,7 +240,7 @@ export default function Home() {
             <Card className="hover:shadow-lg transition-shadow border-2 border-blue-200 flex flex-col justify-between">
               <CardHeader>
                 <Package className="h-8 w-8 mb-2 text-blue-600" />
-                <CardTitle>Product URLs & Database</CardTitle>
+                <CardTitle>Product URLs & DB</CardTitle>
                 <CardDescription>
                   URL structure, product variants, lifecycle management, and database design
                 </CardDescription>
