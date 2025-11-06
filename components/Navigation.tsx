@@ -32,7 +32,8 @@ import {
   Lock,
   Globe,
   Beaker,
-  Code2
+  Code2,
+  Package
 } from "lucide-react";
 
 export function Navigation() {
@@ -65,6 +66,7 @@ export function Navigation() {
       items: [
         { name: "Protected Routes", path: "/protected-routes", icon: Lock },
         { name: "International SEO", path: "/international", icon: Globe },
+        { name: "Product URLs & Database", path: "/product-urls", icon: Package },
       ],
     },
     {

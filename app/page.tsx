@@ -16,6 +16,7 @@ import {
   Code2,
   Bot,
   Info,
+  Package,
 } from "lucide-react";
 
 export default function Home() {
@@ -44,8 +45,8 @@ export default function Home() {
                 <strong>programming and technical implementation side of SEO</strong>.
               </p>
               <p className="text-sm text-slate-700 mb-3">
-                You won't find lessons on keyword research, content strategy, or basic meta tags
-                here.
+                You won&apos;t find lessons on keyword research, content strategy, or basic meta
+                tags here.
               </p>{" "}
               <p className="text-sm text-slate-700 mb-3">
                 Instead, every page demonstrates{" "}
@@ -196,7 +197,7 @@ export default function Home() {
             <h2 className="text-2xl font-bold mb-2">Advanced Topics</h2>
             <p className="text-slate-600">Specialized SEO strategies for complex scenarios</p>
           </div>
-          <div className="grid md:grid-cols-2 gap-6">
+          <div className="grid md:grid-cols-3 gap-6">
             <Card className="hover:shadow-lg transition-shadow border-2 border-red-200 flex flex-col justify-between">
               <CardHeader>
                 <Lock className="h-8 w-8 mb-2 text-red-600" />
@@ -223,6 +224,21 @@ export default function Home() {
               <CardContent>
                 <Link href="/international">
                   <Button className="w-full">View International SEO</Button>
+                </Link>
+              </CardContent>
+            </Card>
+
+            <Card className="hover:shadow-lg transition-shadow border-2 border-blue-200 flex flex-col justify-between">
+              <CardHeader>
+                <Package className="h-8 w-8 mb-2 text-blue-600" />
+                <CardTitle>Product URLs & Database</CardTitle>
+                <CardDescription>
+                  URL structure, product variants, lifecycle management, and database design
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Link href="/product-urls">
+                  <Button className="w-full">View Product URLs</Button>
                 </Link>
               </CardContent>
             </Card>
@@ -295,7 +311,7 @@ export default function Home() {
             <h2 className="text-2xl font-bold mb-2">Coming Soon</h2>
             <p className="text-slate-600">Future topics planned for implementation</p>
           </div>
-          <div className="grid md:grid-cols-2 gap-6">
+          <div className="grid md:grid-cols-1 gap-6 max-w-2xl mx-auto">
             <Card className="border-2 border-dashed border-slate-300 bg-slate-50 opacity-75">
               <CardHeader>
                 <CardTitle className="text-lg text-slate-700">
@@ -304,18 +320,6 @@ export default function Home() {
                 <CardDescription>
                   LCP, CLS, INP optimization strategies, image optimization, code splitting, and how
                   performance affects SEO
-                </CardDescription>
-              </CardHeader>
-            </Card>
-
-            <Card className="border-2 border-dashed border-slate-300 bg-slate-50 opacity-75">
-              <CardHeader>
-                <CardTitle className="text-lg text-slate-700">
-                  Product URLs & Database Architecture
-                </CardTitle>
-                <CardDescription>
-                  Product URL structures, handling variants, out-of-stock strategies, discontinued
-                  products, and SEO-friendly data modeling
                 </CardDescription>
               </CardHeader>
             </Card>

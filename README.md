@@ -146,11 +146,23 @@ Serve the right content to the right audience:
 
 **Key Concept**: International SEO prevents duplicate content across languages while helping searchers find their localized version.
 
+#### 10. **Product URLs & Database Architecture** (`/product-urls`)
+
+Build SEO-friendly product catalogs that scale:
+
+- **URL Structure & Slugs**: Transform product names into clean URLs, handle special characters, avoid keyword stuffing
+- **Product Variants**: When to use separate URLs vs parameters for colors, sizes, and variations (hybrid approach recommended)
+- **Out-of-Stock & Lifecycle**: Keep temporarily unavailable products indexed, handle discontinued products (301 vs 410), seasonal product strategies
+- **Database Design**: Schema for products, slug history, redirects, and canonical URL resolution algorithms
+- **Performance**: Database indexes, caching strategies, denormalization for speed
+
+**Key Concept**: Product pages are the money pages of e-commerce. Proper URL structure, variant handling, and database design determine whether you can scale from hundreds to millions of products while maintaining SEO.
+
 ### Tools & Resources
 
 Interactive demos and reference materials:
 
-#### 10. **Product Catalog** (`/shop`)
+#### 11. **Product Catalog** (`/shop`)
 
 Live demo showing real-time SEO decisions:
 
@@ -162,7 +174,7 @@ Live demo showing real-time SEO decisions:
 
 **Key Concept**: The shop demonstrates every SEO pattern in action. Apply filters and watch the SEO Receipt explain why each decision was made.
 
-#### 11. **Pattern Gallery** (`/pattern-gallery`)
+#### 12. **Pattern Gallery** (`/pattern-gallery`)
 
 Reference library of 17 production-ready SEO patterns:
 
@@ -173,7 +185,7 @@ Reference library of 17 production-ready SEO patterns:
 
 **Key Concept**: A quick reference guide for common parameter patterns you'll encounter in production.
 
-#### 12. **Structured Data** (`/structured-data`)
+#### 13. **Structured Data** (`/structured-data`)
 
 Educational overview of Schema.org markup:
 
@@ -187,7 +199,7 @@ Educational overview of Schema.org markup:
 
 ## Coming Soon
 
-Two major topics are planned for future implementation:
+One major topic is planned for future implementation:
 
 ### Core Web Vitals & Performance
 
@@ -201,19 +213,6 @@ Performance is a confirmed ranking factor and critical to user experience. Plann
 - Server-side rendering vs client-side rendering trade-offs
 - Resource hints (preload, prefetch, preconnect)
 - How Core Web Vitals affect SEO and user engagement
-
-### Product URLs and Database Architecture
-
-Deep dive into product page SEO and data modeling:
-
-- Product URL structure and slug generation
-- Handling product variations (size, color) in URLs
-- Canonical strategies for product variants
-- Out-of-stock product handling (keep indexed? remove? 410 vs 404?)
-- Discontinued products and redirect strategies
-- Product schema implementation (price, availability, reviews)
-- Database design for SEO-friendly product catalogs
-- Handling seasonal products and temporary items
 
 ## What's NOT Covered
 
