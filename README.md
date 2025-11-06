@@ -158,11 +158,23 @@ Build SEO-friendly product catalogs that scale:
 
 **Key Concept**: Product pages are the money pages of e-commerce. Proper URL structure, variant handling, and database design determine whether you can scale from hundreds to millions of products while maintaining SEO.
 
+#### 11. **Core Web Vitals & Performance** (`/core-web-vitals`)
+
+Make your site fast enough to rank and convert:
+
+- **Understanding Metrics**: LCP (loading), CLS (visual stability), INP (responsiveness) with scoring thresholds (good/needs work/poor)
+- **Quick Wins**: Image optimization, font optimization, render-blocking removal, explicit dimensions (high impact, low effort)
+- **Advanced Optimizations**: Code splitting, third-party script optimization, resource hints, SSR vs CSR tradeoffs
+- **Measuring & Monitoring**: Lab vs Field data, essential tools (PageSpeed Insights, Search Console, Lighthouse), testing methodology
+- **Prioritization Focus**: Impact vs effort matrices, mobile-first optimization, diminishing returns warnings, realistic goals
+
+**Key Concept**: Performance is a lightweight ranking factor - focus on content quality first, then optimize to avoid penalties. You don&apos;t need a perfect 100 score; getting from 50→75 matters more than 95→100.
+
 ### Tools & Resources
 
 Interactive demos and reference materials:
 
-#### 11. **Product Catalog** (`/shop`)
+#### 12. **Product Catalog** (`/shop`)
 
 Live demo showing real-time SEO decisions:
 
@@ -174,7 +186,7 @@ Live demo showing real-time SEO decisions:
 
 **Key Concept**: The shop demonstrates every SEO pattern in action. Apply filters and watch the SEO Receipt explain why each decision was made.
 
-#### 12. **Pattern Gallery** (`/pattern-gallery`)
+#### 13. **Pattern Gallery** (`/pattern-gallery`)
 
 Reference library of 17 production-ready SEO patterns:
 
@@ -185,7 +197,7 @@ Reference library of 17 production-ready SEO patterns:
 
 **Key Concept**: A quick reference guide for common parameter patterns you'll encounter in production.
 
-#### 13. **Structured Data** (`/structured-data`)
+#### 14. **Structured Data** (`/structured-data`)
 
 Educational overview of Schema.org markup:
 
@@ -196,23 +208,6 @@ Educational overview of Schema.org markup:
 - Important: Not a ranking factor, doesn't guarantee rich results
 
 **Note**: This is educational overview only. The app doesn't implement live validation tools.
-
-## Coming Soon
-
-One major topic is planned for future implementation:
-
-### Core Web Vitals & Performance
-
-Performance is a confirmed ranking factor and critical to user experience. Planned coverage includes:
-
-- Largest Contentful Paint (LCP) optimization strategies
-- Cumulative Layout Shift (CLS) prevention techniques
-- First Input Delay (FID) / Interaction to Next Paint (INP) improvements
-- Image optimization (WebP, lazy loading, responsive images)
-- Code splitting and bundle optimization
-- Server-side rendering vs client-side rendering trade-offs
-- Resource hints (preload, prefetch, preconnect)
-- How Core Web Vitals affect SEO and user engagement
 
 ## What's NOT Covered
 

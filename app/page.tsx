@@ -48,19 +48,13 @@ export default function Home() {
                 You won&apos;t find lessons on keyword research, content strategy, or basic meta
                 tags here.
               </p>{" "}
-              <p className="text-sm text-slate-700 mb-3">
+              <p className="text-sm text-slate-700">
                 Instead, every page demonstrates{" "}
                 <strong>production-ready solutions to complex technical SEO challenges</strong>:
                 preventing crawl budget waste, detecting 2^N parameter explosions, implementing
                 intelligent canonicalization, and making transparent SEO decisions you can trace
                 step-by-step.
               </p>
-              <div className="text-sm text-slate-700">
-                <p className="font-semibold mb-1">Future topic planned</p>
-                <ul className="list-disc list-inside space-y-1">
-                  <li>Core Web Vitals & Performance</li>
-                </ul>
-              </div>
             </AlertDescription>
           </Alert>
         </div>
@@ -300,27 +294,6 @@ export default function Home() {
                   </Button>
                 </Link>
               </CardContent>
-            </Card>
-          </div>
-        </div>
-
-        {/* Coming Soon Section */}
-        <div className="mb-12">
-          <div className="mb-6">
-            <h2 className="text-2xl font-bold mb-2">Coming Soon</h2>
-            <p className="text-slate-600">Future topics planned for implementation</p>
-          </div>
-          <div className="grid md:grid-cols-1 gap-6 max-w-2xl mx-auto">
-            <Card className="border-2 border-dashed border-slate-300 bg-slate-50 opacity-75">
-              <CardHeader>
-                <CardTitle className="text-lg text-slate-700">
-                  Core Web Vitals & Performance
-                </CardTitle>
-                <CardDescription>
-                  LCP, CLS, INP optimization strategies, image optimization, code splitting, and how
-                  performance affects SEO
-                </CardDescription>
-              </CardHeader>
             </Card>
           </div>
         </div>
