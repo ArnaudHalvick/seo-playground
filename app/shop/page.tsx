@@ -3,7 +3,13 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Button } from '@/components/ui/button';
 import { ArrowRight } from 'lucide-react';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
+import { Metadata } from 'next';
 import { getCategories } from '@/lib/catalog/data';
+
+export const metadata: Metadata = {
+  title: "Interactive Demo - SEO Workshop",
+  description: "Live SEO demonstration with real-time feedback. Apply filters and see canonical URLs, indexability, and crawl trap warnings.",
+};
 
 export default function CatalogPage() {
   const categories = getCategories();

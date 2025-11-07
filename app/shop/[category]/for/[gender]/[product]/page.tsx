@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { Metadata } from 'next';
 import { getProduct, getCategory, getProducts } from '@/lib/catalog/data';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { ProductEducationCards } from '@/components/ProductEducationCards';
@@ -22,6 +23,21 @@ export async function generateStaticParams() {
     gender: product.gender,
     product: product.slug,
   }));
+}
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const resolvedParams = await params;
+  const product = getProduct(resolvedParams.product);
+  const category = getCategory(resolvedParams.category);
+  
+  if (!product || !category) {
+    return { title: 'Product Not Found' };
+  }
+  
+  return {
+    title: `${product.title} - ${category.name} - SEO Workshop`,
+    description: `${product.description} Learn how this product page uses clean URLs, proper slugs, and Schema.org markup for SEO.`,
+  };
 }
 
 export default async function ProductPage({ params }: PageProps) {

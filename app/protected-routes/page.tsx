@@ -2,7 +2,13 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Badge } from '@/components/ui/badge';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
+import { Metadata } from 'next';
 import { Lock, Shield, UserCheck, ShoppingCart, Settings, CheckCircle2, AlertTriangle, Info } from 'lucide-react';
+
+export const metadata: Metadata = {
+  title: "Protected Routes SEO - SEO Workshop",
+  description: "SEO strategy for private content using defense-in-depth: authentication, noindex, and robots.txt blocking.",
+};
 
 export default function ProtectedRoutesPage() {
   return (

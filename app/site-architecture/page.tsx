@@ -4,6 +4,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { Metadata } from "next";
 import {
   Layers,
   CheckCircle2,
@@ -15,6 +16,11 @@ import {
   Home,
   FileText,
 } from "lucide-react";
+
+export const metadata: Metadata = {
+  title: "Site Architecture & URLs - SEO Workshop",
+  description: "Build clean, crawlable URL structures with proper hierarchy depth and descriptive paths instead of IDs.",
+};
 
 export default function SiteArchitecturePage() {
   return (

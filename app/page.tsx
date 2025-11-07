@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Metadata } from "next";
 import {
   Settings,
   ShoppingBag,
@@ -22,6 +23,11 @@ import {
   CheckCircle2,
   Wrench,
 } from "lucide-react";
+
+export const metadata: Metadata = {
+  title: "SEO Workshop - Learn Technical SEO Implementation",
+  description: "Master technical SEO through interactive demos. Learn robots.txt, canonicals, URL parameters, pagination, and production-ready SEO patterns.",
+};
 
 export default function Home() {
   return (

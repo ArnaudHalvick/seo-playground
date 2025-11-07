@@ -5,6 +5,7 @@ import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ArrowLeft } from 'lucide-react';
+import { Metadata } from 'next';
 import { 
   getCategory, 
   getProductsByCategory, 
@@ -44,6 +45,20 @@ export async function generateStaticParams() {
   return categories.map((category) => ({
     category: category.slug,
   }));
+}
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const resolvedParams = await params;
+  const category = getCategory(resolvedParams.category);
+  
+  if (!category) {
+    return { title: 'Category Not Found' };
+  }
+  
+  return {
+    title: `${category.name} - Shop - SEO Workshop`,
+    description: `Browse ${category.name.toLowerCase()} with live SEO feedback. See how URL parameters affect canonicals and indexability.`,
+  };
 }
 
 export default async function CategoryPage({ params, searchParams }: PageProps) {

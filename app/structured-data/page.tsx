@@ -4,6 +4,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { Metadata } from "next";
 import {
   Code2,
   CheckCircle2,
@@ -15,6 +16,11 @@ import {
   Star,
   AlertTriangle,
 } from "lucide-react";
+
+export const metadata: Metadata = {
+  title: "Structured Data (Schema.org) - SEO Workshop",
+  description: "Educational overview of Schema.org markup. Learn Product, BreadcrumbList, and Organization schemas with JSON-LD.",
+};
 
 export default function StructuredDataPage() {
   return (

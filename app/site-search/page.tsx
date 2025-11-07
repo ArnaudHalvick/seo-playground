@@ -2,6 +2,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Badge } from '@/components/ui/badge';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
+import { Metadata } from 'next';
 import { 
   Search, 
   CheckCircle2, 
@@ -14,6 +15,11 @@ import {
   Code2,
   Zap
 } from 'lucide-react';
+
+export const metadata: Metadata = {
+  title: "Site Search SEO - SEO Workshop",
+  description: "Prevent infinite crawl traps from internal search with noindex,follow strategy and robots.txt blocking.",
+};
 
 export default function SiteSearchPage() {
   return (

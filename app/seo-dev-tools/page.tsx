@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
+import { Metadata } from "next";
 import {
   Wrench,
   Search,
@@ -12,6 +13,11 @@ import {
   GitBranch,
   BarChart3,
 } from "lucide-react";
+
+export const metadata: Metadata = {
+  title: "SEO Developer Tools - SEO Workshop",
+  description: "Curated toolkit for technical SEO: crawlers, performance tools, rendering tests, and monitoring solutions.",
+};
 
 export default function SeoDevTools() {
   return (

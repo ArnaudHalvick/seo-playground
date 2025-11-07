@@ -4,6 +4,7 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
+import { Metadata } from 'next';
 import { 
   Copy, 
   CheckCircle2, 
@@ -18,6 +19,11 @@ import {
   Link as LinkIcon,
   FlaskConical
 } from 'lucide-react';
+
+export const metadata: Metadata = {
+  title: "Duplicate Content - SEO Workshop",
+  description: "Diagnose and fix duplicate content issues from faceted navigation, pagination, and parameter combinations.",
+};
 
 export default function DuplicateContentPage() {
   return (

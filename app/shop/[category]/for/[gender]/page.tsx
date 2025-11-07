@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { Metadata } from 'next';
 import { 
   getCategory, 
   getProductsByCategory, 
@@ -49,6 +50,21 @@ export async function generateStaticParams() {
       gender: gender
     }))
   );
+}
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const resolvedParams = await params;
+  const category = getCategory(resolvedParams.category);
+  const genderLabel = resolvedParams.gender.charAt(0).toUpperCase() + resolvedParams.gender.slice(1);
+  
+  if (!category) {
+    return { title: 'Category Not Found' };
+  }
+  
+  return {
+    title: `${genderLabel}'s ${category.name} - Shop - SEO Workshop`,
+    description: `Shop ${genderLabel.toLowerCase()}'s ${category.name.toLowerCase()} with real-time SEO analysis and clean URL structure demonstration.`,
+  };
 }
 
 export default async function GenderFilterPage({ params, searchParams }: PageProps) {
