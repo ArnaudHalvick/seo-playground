@@ -1,5 +1,13 @@
-import catalogData from '@/data/catalog.json';
+import categoriesData from '@/data/categories.json';
+import tshirtProducts from '@/data/products-t-shirts.json';
+import shoeProducts from '@/data/products-shoes.json';
 import sizeConfig from '@/data/size-config.json';
+
+// Combine all products into a single array
+const catalogData = {
+  categories: categoriesData,
+  products: [...tshirtProducts, ...shoeProducts],
+};
 
 export interface Product {
   id: string;

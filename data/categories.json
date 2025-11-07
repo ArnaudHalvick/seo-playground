@@ -1,0 +1,14 @@
+[
+  {
+    "id": "t-shirts",
+    "slug": "t-shirts",
+    "name": "T-Shirts",
+    "description": "Comfortable cotton t-shirts in various colors and sizes"
+  },
+  {
+    "id": "shoes",
+    "slug": "shoes",
+    "name": "Shoes",
+    "description": "Quality footwear for every occasion"
+  }
+]
