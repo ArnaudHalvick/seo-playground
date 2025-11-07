@@ -1,459 +1,222 @@
 # SEO Workshop - Complete SEO Mastery
 
-A Next.js application demonstrating both **technical (programming)** and **strategic (non-programming)** SEO best practices. Built to master the complete SEO skill set and showcase comprehensive expertise to potential clients.
+**A Next.js application showcasing comprehensive SEO expertise through working code and strategic frameworks.**
 
-## Why I Built This
+Built to demonstrate mastery of both technical implementation and strategic planning—the complete skill set modern businesses need to succeed in organic search.
 
-Great SEO requires both strategic thinking and technical implementation. This project exists to:
+🔗 **[View Live Demo](#)** | 📖 **[Technical Documentation](./docs/README.md)**
 
-- **Learn by building** - Master advanced SEO through hands-on development and strategic frameworks
-- **Teach others** - Provide working examples of production-ready SEO patterns and actionable strategies
-- **Demonstrate expertise** - Show potential clients mastery across the entire SEO spectrum
+---
 
-This isn't a real e-commerce store. It's an educational workshop where every aspect demonstrates how to solve real-world SEO challenges—from strategic planning to technical implementation.
+## Why This Exists
+
+I built this project to:
+
+1. **Master advanced SEO** through hands-on implementation
+2. **Show potential clients** what comprehensive SEO expertise looks like in practice
+3. **Bridge strategy and code** - demonstrating both what should be done and how to do it
+
+This isn't a real e-commerce store. It's an educational workshop where every feature solves real-world SEO challenges, from crawl budget optimization to content architecture planning.
+
+---
 
 ## Two-Section Architecture
 
-The workshop is divided into two complementary sections:
+### 🔧 Technical SEO (Programming & Implementation)
 
-### Technical SEO (Programming & Implementation)
+**Visit:** `/technical-seo`
 
-Master production-ready technical SEO through code:
+Production-ready solutions for complex technical challenges:
 
-- How to prevent crawl budget waste from infinite URL combinations
-- When to use canonical tags vs robots.txt vs noindex directives
-- How to detect and block exponential multi-select parameter patterns (2^N crawl traps)
-- Production-ready decision flows for parameter classification and indexability
-- Real-time SEO feedback showing exactly why each decision was made
+- **Crawl budget optimization** - Prevent URL explosions from filters and parameters
+- **Smart canonicalization** - Dynamic canonical strategies based on parameter stability
+- **Multi-select detection** - Identify and block 2^N crawl traps automatically
+- **Clean path routing** - SEO-friendly URL structures with Next.js App Router
+- **Real-time SEO feedback** - Transparent "SEO Receipt" showing every decision
 
-Every page includes working code, interactive demos, and transparent "SEO Receipts" that trace the decision-making process step-by-step.
+**Key Pages:**
 
-### Strategic SEO (Planning & Execution)
+- `/technical-seo/robots` - Pattern-based crawl control
+- `/technical-seo/sitemap` - Intelligent XML sitemap generation
+- `/technical-seo/parameters` - Parameter classification and canonical strategies
+- `/technical-seo/duplicate-content` - Root cause diagnosis hub
+- `/technical-seo/pagination` - noindex,follow strategies for page 2+
+- `/technical-seo/international` - hreflang implementation and URL strategies
+- `/technical-seo/core-web-vitals` - Performance optimization priorities
+- `/technical-seo/product-urls` - Database design for SEO-friendly catalogs
+- `/technical-seo/pattern-gallery` - 17 production-ready SEO patterns
+- `/shop` - **Interactive Demo** with real-time SEO decisions
 
-Master the non-programming side of SEO:
+### 📊 Strategic SEO (Planning & Execution)
 
-- Research & strategy: keyword clustering, SERP analysis, topical authority planning
-- Content architecture: hub & spoke design, E-E-A-T, internal linking frameworks
-- Content production: editorial workflows, governance, localization, quality assurance
-- Measurement & optimization: KPIs, diagnostics, experimentation, continuous improvement
-- Authority building: link acquisition, local SEO, reviews, media optimization
+**Visit:** `/strategic-seo`
 
-Comprehensive frameworks with actionable checklists, workflows, and operational playbooks.
+Comprehensive frameworks for non-programming SEO operations:
 
-## SEO Concepts Covered
+- **Research & Strategy** - Keyword clustering, SERP analysis, topical authority planning
+- **Content Architecture** - Hub & spoke design, E-E-A-T signals, internal linking
+- **Content Production** - Editorial workflows, governance, localization, quality frameworks
+- **Measurement & Optimization** - KPI design, diagnostics, experimentation, continuous improvement
+- **Authority Building** - Link acquisition, local SEO, reviews, digital PR
+- **Tools & Resources** - Curated toolkit for strategic SEO operations
 
-### Core Fundamentals
+**Key Pages:**
 
-Technical SEO starts with these four building blocks:
+- `/strategic-seo/research-strategy` - Convert market signals into intent-led clusters
+- `/strategic-seo/content-architecture` - Translate research into content systems
+- `/strategic-seo/content-production` - Standardize editorial workflows
+- `/strategic-seo/measurement-optimization` - Build closed-loop optimization systems
+- `/strategic-seo/authority-building` - Earn mentions that reinforce E-E-A-T
+- `/strategic-seo/tools` - Essential tools for non-programming SEO
 
-#### 1. **Robots.txt** (`/technical-seo/robots`)
+---
 
-Learn pattern-based crawl control to protect your crawl budget:
+## What This Demonstrates
 
-- Wildcard patterns for blocking parameter combinations
-- Disallow rules for tracking parameters (`utm_*`, `sessionid`, etc.)
-- How to block infinite ranges (`price_min=*`, `?page=*`)
-- Real robots.txt generation with explanatory annotations
-- Interactive URL tester to validate blocking rules
+### Technical Capabilities
 
-**Key Concept**: Robots.txt is your first line of defense against crawl traps. Block wasteful URLs before crawlers ever discover them.
+✅ **Complex problem-solving** - Handle infinite URL combinations, crawl traps, and parameter classification  
+✅ **Production-ready code** - Proper edge case handling, TypeScript, framework-agnostic SEO logic  
+✅ **Scalable architecture** - Decision engines that work for 100 or 10,000,000 URLs  
+✅ **Modern tech stack** - Next.js 15, React, TypeScript, Tailwind CSS, shadcn/ui  
+✅ **Real-time feedback** - Transparent SEO Receipt showing why every decision was made
 
-#### 2. **Sitemap** (`/technical-seo/sitemap`)
+### Strategic Expertise
 
-Generate intelligent XML sitemaps based on indexability rules:
+✅ **Research methodologies** - Keyword clustering, SERP analysis, competitor intelligence  
+✅ **Content frameworks** - Hub & spoke architecture, E-E-A-T implementation  
+✅ **Operational workflows** - Editorial calendars, governance models, quality frameworks  
+✅ **Measurement systems** - KPI design, diagnostics, experimentation frameworks  
+✅ **Authority building** - Link acquisition, local SEO, review management
 
-- Only include URLs that should actually be indexed
-- Exclude parameter variations that have canonicals elsewhere
-- Automatic inclusion/exclusion based on robots directives
-- Dynamic generation tied to your SEO decision engine
+---
 
-**Key Concept**: Your sitemap should be a curated list of indexable pages, not a dump of every URL on your site.
+## Featured: The SEO Receipt
 
-#### 3. **URL Parameters** (`/technical-seo/parameters`)
+Every technical page includes a real-time panel showing URL transformation, indexability decisions, robots.txt status, sitemap inclusion, crawl trap risk analysis, and step-by-step decision traces. This transparency demonstrates exactly how production SEO systems make decisions.
 
-Master the most complex aspect of e-commerce SEO:
+---
 
-- **Parameter classification**: Stable (indexable facets like color, size) vs Unstable (sort, view) vs Blocked (tracking, session IDs)
-- **Canonical URL strategies**: When to drop parameters vs keep them
-- **Multi-select detection**: Identify comma-separated values that create 2^N URL explosions
-- **Stacked parameters**: Handle N×M combinations when multiple filters are applied
-- Interactive policy editor to test different configurations
+## Interactive Demo Highlights
 
-**Key Concept**: Not all parameters are equal. Classify them correctly and your indexation problems solve themselves.
+Visit `/shop` to test these scenarios:
 
-#### 4. **Duplicate Content** (`/technical-seo/duplicate-content`)
+### ✅ Safe to Index
 
-A diagnosis hub that teaches you to find the root cause:
+- **Single stable filter:** `/shop/t-shirts?color=black`  
+  → `index,follow`, canonical keeps parameter
 
-- Faceted navigation creating infinite filter combinations
-- Pagination showing similar content across pages
-- Search results duplicating category pages
-- Multi-language versions without proper hreflang
-- Protocol variations (HTTP/HTTPS, www/non-www)
-- Sort and tracking parameters
+- **Clean path routes:** `/shop/t-shirts/for/women/`  
+  → `index,follow`, semantic URL structure
 
-**Key Concept**: Duplicate content is a symptom, not a disease. Fix the underlying technical issue (parameters, pagination, canonicals) rather than treating the symptom.
+### ⚠️ Noindex, Follow
 
-### Content Patterns
+- **Unstable parameters:** `/shop/t-shirts?color=black&sort=price_desc`  
+  → `noindex,follow`, canonical drops sort parameter
 
-Common patterns that require careful SEO handling:
+- **Pagination:** `/shop/t-shirts?page=2`  
+  → `noindex,follow`, self-canonical (not to page 1)
 
-#### 5. **Pagination** (`/technical-seo/pagination`)
+### 🚫 Blocked in Robots.txt
 
-Implement proper pagination strategies:
+- **Multi-select (2^N crawl trap):** `/shop/t-shirts?color=black,blue,red`  
+  → Blocked via `Disallow: /*?*color=*,*`  
+  → Prevents 2^3 = 8 URL combinations
 
-- Page 1: index,follow with self-canonical
-- Page 2+: noindex,follow with self-canonical (not canonical to page 1)
-- Why Google discourages rel="prev"/rel="next" pagination
-- When to use "View All" pages
-- Interactive settings to see different strategies in action
+The SEO Receipt updates in real-time as you apply filters, showing you the exact reasoning behind each decision.
 
-**Key Concept**: Page 2+ should be noindex,follow so Google can discover products but won't index duplicate paginated listings.
+---
 
-#### 6. **Site Search** (`/technical-seo/site-search`)
+## Key Technical Patterns
 
-Prevent infinite crawl traps from internal search:
+**Parameter Classification:** Stable parameters (color, size, gender) stay in canonical URLs. Unstable parameters (sort, view, page) get dropped and pages get noindex. Blocked parameters (utm\_\*, sessionid) are blocked in robots.txt.
 
-- Why search pages are infinite (every query = new URL)
-- The noindex,follow strategy for search results
-- When search pages duplicate category pages
-- Robots.txt blocking for query parameters
-- How to preserve internal linking value while blocking indexation
+**Multi-Select Detection:** Comma-separated values (`?color=black,blue,red`) create 2^N URLs and are automatically blocked. Single values are safe to index.
 
-**Key Concept**: Search result pages are one of the biggest crawl trap risks. Always use noindex,follow or robots.txt blocking.
+**Canonical Strategy:** Clean URLs → self-canonical. Single stable param → keep it. Multiple stable → keep all. Any unstable → drop and noindex. Multi-select → robots.txt block.
 
-#### 7. **Site Architecture** (`/technical-seo/site-architecture`)
+---
 
-Build clean, crawlable URL structures:
+## Strategic Frameworks Showcase
 
-- Descriptive paths vs cryptic IDs (`/shoes/nike-air-max` vs `/p?id=12345`)
-- Optimal hierarchy depth (3-4 clicks max from homepage)
-- Logical categorization and breadcrumbs
-- Internal linking strategies for PageRank distribution
-- Flat vs deep architecture trade-offs
+**Research & Strategy:** Keyword clustering with intent modeling, SERP analysis for content patterning, topical authority planning with hub ↔ spoke architecture.
 
-**Key Concept**: Clean URLs with clear hierarchy help both users and search engines understand your content structure.
+**Content Architecture:** Hub & spoke design for semantic systems, E-E-A-T signals with author attribution, internal linking strategies with editorial anchor text.
 
-### Advanced Topics
+**Content Production:** Editorial workflows with DRI/RACI handoffs, governance models for style and quality, localization frameworks beyond translation.
 
-Specialized scenarios requiring sophisticated solutions:
+**Measurement & Optimization:** KPI design by cluster and funnel stage, diagnostic frameworks for cannibalization and decay, SEO-safe A/B testing with guardrails.
 
-#### 8. **Protected Routes** (`/technical-seo/protected-routes`)
-
-SEO strategy for private content:
-
-- Account pages, dashboards: noindex,nofollow + robots.txt block (defense-in-depth)
-- Authentication pages (login, signup): Usually noindex,follow
-- Checkout flows: noindex,nofollow
-- API endpoints and admin areas: Block in robots.txt
-- Why you need multiple layers of protection
-
-**Key Concept**: User-specific content should never appear in search results. Use defense-in-depth: authentication + noindex + robots.txt.
-
-#### 9. **International SEO** (`/technical-seo/international`)
-
-Serve the right content to the right audience:
-
-- **URL strategies**: ccTLD (example.de) vs Subdomain (de.example.com) vs Subdirectory (example.com/de/)
-- **hreflang implementation**: Tell Google which language/region each page targets
-- **Canonical vs hreflang**: When to use each (they work together, not in opposition)
-- **Localization considerations**: Currency, date formats, cultural adaptation
-- Trade-offs between SEO authority, geo-targeting, and cost
-
-**Key Concept**: International SEO prevents duplicate content across languages while helping searchers find their localized version.
-
-#### 10. **Product URLs & Database Architecture** (`/technical-seo/product-urls`)
-
-Build SEO-friendly product catalogs that scale:
-
-- **URL Structure & Slugs**: Transform product names into clean URLs, handle special characters, avoid keyword stuffing
-- **Product Variants**: When to use separate URLs vs parameters for colors, sizes, and variations (hybrid approach recommended)
-- **Out-of-Stock & Lifecycle**: Keep temporarily unavailable products indexed, handle discontinued products (301 vs 410), seasonal product strategies
-- **Database Design**: Schema for products, slug history, redirects, and canonical URL resolution algorithms
-- **Performance**: Database indexes, caching strategies, denormalization for speed
-
-**Key Concept**: Product pages are the money pages of e-commerce. Proper URL structure, variant handling, and database design determine whether you can scale from hundreds to millions of products while maintaining SEO.
-
-#### 11. **Core Web Vitals & Performance** (`/technical-seo/core-web-vitals`)
-
-Make your site fast enough to rank and convert:
-
-- **Understanding Metrics**: LCP (loading), CLS (visual stability), INP (responsiveness) with scoring thresholds (good/needs work/poor)
-- **Quick Wins**: Image optimization, font optimization, render-blocking removal, explicit dimensions (high impact, low effort)
-- **Advanced Optimizations**: Code splitting, third-party script optimization, resource hints, SSR vs CSR tradeoffs
-- **Measuring & Monitoring**: Lab vs Field data, essential tools (PageSpeed Insights, Search Console, Lighthouse), testing methodology
-- **Prioritization Focus**: Impact vs effort matrices, mobile-first optimization, diminishing returns warnings, realistic goals
-
-**Key Concept**: Performance is a lightweight ranking factor - focus on content quality first, then optimize to avoid penalties. You don&apos;t need a perfect 100 score; getting from 50→75 matters more than 95→100.
-
-### Tools & Resources (Technical SEO)
-
-Interactive demos and reference materials:
-
-#### 12. **Interactive Demo** (`/shop`)
-
-Live demonstration environment showing real-time SEO decisions:
-
-- Interactive filters (multi-select colors, sizes, price ranges, sorting)
-- **SEO Receipt panel**: See canonical URL, indexability (index,follow vs noindex,follow), robots.txt blocking, and sitemap inclusion for every filter combination
-- **Crawl trap warnings**: Real-time calculations showing URL explosion risk (2^N for multi-select, N×M for stacked filters)
-- **Clean path routes**: Compare `/shop/t-shirts/for/women/` (clean path) vs `/shop/t-shirts?gender=women` (parameter)
-- Gender-aware size filtering and category-specific size configurations
-- **"Test in Demo" button**: Available on all technical pages in the SEO Receipt panel to quickly navigate to the demo
-
-**Key Concept**: The Interactive Demo demonstrates every technical SEO pattern in action. Apply filters and watch the SEO Receipt explain why each decision was made.
-
-#### 13. **Pattern Gallery** (`/technical-seo/pattern-gallery`)
-
-Reference library of 17 production-ready SEO patterns:
-
-- Categorized by type: Filtering, Sorting, Ranges, URL Strategies, Navigation, Access Control
-- Risk levels: Low (safe to index) / Medium (noindex,follow) / High (block in robots.txt)
-- Filterable and searchable
-- Each pattern includes example URLs, explanation, and recommended action
-
-**Key Concept**: A quick reference guide for common parameter patterns you'll encounter in production.
-
-#### 14. **Structured Data** (`/technical-seo/structured-data`)
-
-Educational overview of Schema.org markup:
-
-- What structured data is and why it matters
-- JSON-LD format (Google's recommended approach)
-- Common schema types (Product, Breadcrumb, Organization, Article)
-- Benefits: Rich results, better CTR, voice search answers
-- Important: Not a ranking factor, doesn't guarantee rich results
-
-**Note**: This is educational overview only. The app doesn't implement live validation tools.
-
-#### 15. **SEO Dev Tools** (`/technical-seo/seo-dev-tools`)
-
-Curated toolkit reference for technical SEO developers:
-
-- **Crawl & Analysis**: Screaming Frog, Sitebulb, JetOctopus
-- **Performance & Core Web Vitals**: Lighthouse, WebPageTest, PageSpeed Insights, Search Console CWV report
-- **Rendering & Testing**: Puppeteer/Playwright, Chrome DevTools, Rich Results Test
-- **Deploy & Monitor**: Vercel/Netlify, GitHub Actions, Cloudflare, Sentry/Datadog
-- **Security & Headers**: SecurityHeaders.com, curl/HTTPie
-- **Starter Stack**: Recommended tools for small teams with high impact
-- **Migration Checklist**: Essential steps for safely migrating sites
-
-**Key Concept**: A quick reference guide for the essential tools every technical SEO developer should know, with practical recommendations for getting started.
-
-## Strategic SEO Topics
-
-Non-programming SEO frameworks and operational playbooks:
-
-#### 16. **Research & Strategy** (`/strategic-seo-seo/research-strategy`)
-
-Build evidence-based plans that align business goals with searcher demand:
-
-- Market & audience discovery: ICPs, JTBD, Voice of Customer mining
-- Keyword research & clustering: intent modeling, semantic grouping
-- SERP & intent analysis: feature inventory, content patterning
-- Topical authority planning: hub ↔ spoke architecture
-- Competitor intelligence: SERP-first competitive analysis
-- Prioritization & forecasting: ICE scoring, traffic sizing
-
-**Key Concept**: Convert raw market signals into intent-led clusters with measurable outcomes.
-
-#### 17. **Content Architecture** (`/strategic-seo-seo/content-architecture`)
-
-Translate research into semantic, navigable content systems:
-
-- Semantic cluster architecture: hub & spoke design, scope boundaries
-- Content briefs at scale: repeatable templates with proof & differentiation
-- On-page optimization: titles, metas, intros, scannability, CTAs
-- E-E-A-T signals: authors, sources, transparency, trust pages
-- Internal linking: editorial layer, anchor text strategies
-- Content refresh & pruning: decay detection, intent drift, consolidation
-
-**Key Concept**: Build content that satisfies intent quickly while signaling topical authority.
-
-#### 18. **Content Production & Governance** (`/strategic-seo-seo/content-production`)
-
-Build reliable editorial workflows from brief to publish:
-
-- Editorial planning: cluster calendars, SLA timing, capacity management
-- Governance & workflows: DRI, RACI, handoffs, approvals
-- Style & voice operations: TOV, formatting, sourcing standards
-- Localization: true localization vs translation, cultural fit
-- E-E-A-T operations: author sourcing, review loops
-- Quality frameworks: definition of done, peer review rubrics
-
-**Key Concept**: Standardize how ideas become high-quality pages on time and on brief.
-
-#### 19. **Measurement & Optimization** (`/strategic-seo-seo/measurement-optimization`)
-
-Turn strategy into a closed-loop system:
-
-- KPI design: by cluster, template, funnel stage
-- Data instrumentation: GSC, GA4, tagging hygiene, annotations
-- Diagnostics: cannibalization, decay, intent drift, link flow gaps
-- Experimentation: SEO-safe A/B testing, MDE, guardrails
-- Optimization levers: title/meta tests, intro improvements, internal linking
-- Reporting & storytelling: insight → decision cadence
-
-**Key Concept**: Measure the right signals at cluster level and iterate based on data.
-
-#### 20. **Authority Building** (`/strategic-seo-seo/authority-building`)
-
-Strengthen reputation and trust beyond your own site:
-
-- Link acquisition & digital PR: linkable assets, outreach, partnership playbooks
-- Local SEO operations: GBP optimization, NAP consistency, location pages
-- Reviews & UGC governance: collection systems, response policies, insight mining
-- Image & video SEO: titles, thumbnails, chapters, embed strategies
-- E-E-A-T amplification: visible expertise, third-party proof, consistency
-
-**Key Concept**: Earn high-quality mentions and activate signals that reinforce E-E-A-T.
-
-#### 21. **Tools & Resources** (`/strategic-seo-seo/tools`)
-
-Essential non-programming SEO tools:
-
-- Keyword & clustering: Ahrefs, Semrush, LowFruits, Keyword Planner
-- SERP analysis: Thruuu, SEO Minion, AlsoAsked
-- Analytics & reporting: GSC, GA4, Looker Studio
-- Link & PR: HARO/Connectively, Muck Rack, Hunter
-- Voice of Customer: G2, Reddit, review mining
-- Starter stack: Lean, effective toolkit for small teams
-
-**Key Concept**: Favor a small, interoperable stack over tool sprawl.
-
-## What's NOT Covered (Technical SEO)
-
-This app deliberately excludes basic SEO elements to focus on complex technical implementations:
-
-- **Meta titles and descriptions** - These are important but straightforward. This app teaches the hard stuff.
-- **Keyword research** - A marketing activity, not a programming challenge
-- **Content strategy** - Editorial decisions, not technical implementation
-- **Link building** - Outreach and relationships, not code
-- **Backlink analysis** - Analytics, not implementation
-
-This project is about solving the technical SEO problems that require sophisticated programming solutions.
-
-## The SEO Receipt
-
-Every page includes a real-time "SEO Receipt" panel showing:
-
-1. **Input URL vs Canonical URL** - See which parameters are kept vs dropped, with diff highlighting
-2. **Indexability Status** - index,follow / noindex,follow / noindex,nofollow with explanation
-3. **Robots.txt Blocking** - Whether this URL pattern is blocked from crawling
-4. **Sitemap Inclusion** - Should this URL appear in sitemap.xml?
-5. **Crawl Trap Risk** - Low/Medium/High with mathematical calculations (2^N or N×M)
-6. **"Test in Demo" Button** - Quick link to navigate to the Interactive Demo from any page (hidden when already on the demo)
-
-This transparency makes it a teaching tool. You can see exactly how the SEO engine makes decisions.
-
-### Enhanced User Experience
-
-The app includes several features to improve discoverability and learning:
-
-- **Featured Demo Section**: Prominent call-to-action on the homepage highlighting the Interactive Demo
-- **Contextual Callouts**: Educational pages (Parameters, Duplicate Content, Pagination) include banners linking to the demo where you can test related concepts
-- **Navigation**: Renamed from "Shop" to "Interactive Demo" to clearly communicate its educational purpose
-- **Tools Reference**: New SEO Dev Tools page providing a curated list of essential tools for technical SEO
-
-## Live Demo Highlights
-
-### Try These Examples
-
-Visit the **Interactive Demo** (top navigation) and try these filter combinations to see SEO decisions in action:
-
-- **Single stable filter** → Indexable, clean canonical
-
-  - `/shop/t-shirts?color=black`
-  - SEO Receipt: index,follow, canonical keeps color parameter
-
-- **Multi-select colors** → Blocked via robots.txt (2^N crawl trap)
-
-  - `/shop/t-shirts?color=black,blue,red`
-  - SEO Receipt: Shows "2^3 = 8 possible URLs" warning
-
-- **Stable filter + sort** → noindex,follow (unstable parameter present)
-
-  - `/shop/t-shirts?color=black&sort=price_desc`
-  - SEO Receipt: noindex,follow, canonical drops sort parameter
-
-- **Clean path routes** → Indexable gender pages
-
-  - `/shop/t-shirts/for/women/`
-  - Educational banner explaining benefits of clean paths vs parameters
-
-- **Pagination** → Page 2+ gets noindex,follow
-  - `/shop/t-shirts?page=2`
-  - SEO Receipt: noindex,follow with self-canonical (not canonical to page 1)
-
-## Technical Stack
-
-Built with modern web technologies:
-
-- **Next.js 13.5** with App Router
-- **React 18.2** and TypeScript 5.2
-- **Tailwind CSS 3.3** and shadcn/ui components
-- **Lucide React** for icons
-- Framework-agnostic SEO logic in `/lib/rules/`
-
-The SEO decision engine is intentionally decoupled from the framework, making it portable to any stack.
-
-**Note**: Consider upgrading to Next.js 14+ for improved performance and developer experience.
-
-## Quick Start
-
-Want to run this locally?
-
-```bash
-# Clone and install
-git clone <repository-url>
-cd seo-playground
-npm install
-
-# Run development server
-npm run dev
-```
-
-Visit `http://localhost:3000` to explore.
-
-## Documentation
-
-Detailed technical documentation is available in `/docs`:
-
-- [Architecture](./docs/architecture/overview.md) - System design
-- [SEO Logic](./docs/seo-logic/overview.md) - Decision algorithms
-- [Components](./docs/components/overview.md) - UI implementation
-- [Extending](./docs/extending/overview.md) - How to add features
-
-See [docs/README.md](./docs/README.md) for the complete documentation index.
+---
 
 ## For Potential Clients
 
 This project demonstrates my ability to:
 
-- **Understand complex SEO requirements** (both strategic and technical) and translate them into action
-- **Design scalable SEO systems** that handle thousands of URL variations
-- **Implement production-ready solutions** with proper edge case handling
-- **Build strategic frameworks** with actionable workflows and operational playbooks
-- **Explain decisions clearly** through documentation, UI feedback, and transparent reasoning
-- **Bridge strategy and implementation** - connecting what should be done with how to do it
+✅ **Understand complex SEO requirements** and translate them into scalable solutions  
+✅ **Bridge strategy and implementation** - connect what should be done with how to do it  
+✅ **Design production-ready systems** that handle edge cases and scale to millions of URLs  
+✅ **Build strategic frameworks** with actionable workflows and operational playbooks  
+✅ **Communicate clearly** through code, documentation, and transparent reasoning
 
-If you need comprehensive SEO expertise—from strategic planning and content architecture to technical implementation and crawl budget optimization—this project shows the complete skill set I can deliver.
+Whether you need:
 
-## Navigation
+- **Technical SEO implementation** - Crawl budget optimization, canonicalization, performance
+- **Strategic SEO planning** - Research, content architecture, measurement frameworks
+- **Full-stack SEO expertise** - Both strategy and implementation working together
 
-The app uses a **two-section architecture**:
+This project shows the complete skill set I can deliver.
 
-- **Landing Page** (`/`) - Choose between Technical SEO or Strategic SEO
-- **Technical SEO** (`/technical-seo`) - Programming and implementation hub
-  - All technical pages accessible from top navigation dropdowns
-  - Interactive Demo available in this section
-  - SEO Receipt panel visible on all technical pages
-- **Strategic SEO** (`/strategic-seo`) - Planning and execution hub
-  - Strategic framework pages with comprehensive workflows
-  - No SEO Receipt (not applicable to strategic content)
-- **Section Switcher** - Dropdown in navigation to switch between sections
+---
 
-The navigation automatically adjusts based on which section you're in, showing only relevant content and tools.
+## Project Structure
+
+```
+/
+├── /technical-seo        # Hub for all technical SEO pages
+│   ├── /robots           # Pattern-based crawl control
+│   ├── /sitemap          # Intelligent XML generation
+│   ├── /parameters       # Parameter classification & canonicals
+│   ├── /duplicate-content # Root cause diagnosis
+│   ├── /pagination       # noindex,follow strategies
+│   ├── /site-search      # Prevent crawl traps
+│   ├── /international    # hreflang implementation
+│   ├── /core-web-vitals  # Performance optimization
+│   ├── /product-urls     # Database design for SEO
+│   └── /pattern-gallery  # 17 production patterns
+│
+├── /strategic-seo        # Hub for all strategic SEO pages
+│   ├── /research-strategy        # Keyword clustering & SERP analysis
+│   ├── /content-architecture     # Hub & spoke, E-E-A-T
+│   ├── /content-production       # Editorial workflows
+│   ├── /measurement-optimization # KPIs & experimentation
+│   ├── /authority-building       # Link acquisition & local SEO
+│   └── /tools                    # Non-programming tools
+│
+├── /shop                 # Interactive Demo (kept at root)
+│   ├── /[category]       # Category pages with filters
+│   └── /for/[gender]     # Clean path gender pages
+│
+└── /docs                 # Technical documentation
+    ├── /architecture     # System design
+    ├── /seo-logic        # Decision algorithms
+    ├── /components       # UI implementation
+    └── /extending        # Feature guides
+```
+
+---
+
+## Documentation
+
+**For developers and technical details:**
+
+- 📖 **[Full Documentation](./docs/README.md)** - Complete technical docs
+- 🏗️ **[Architecture](./docs/architecture/overview.md)** - System design
+- 🧠 **[SEO Logic](./docs/seo-logic/overview.md)** - Decision algorithms
+- 🎨 **[Components](./docs/components/overview.md)** - UI implementation
+- 🔧 **[Setup Guide](./docs/setup/installation.md)** - Installation & development
+
+---
 
 ## License
 
@@ -461,4 +224,6 @@ MIT License - Free to use for learning and reference.
 
 ---
 
-**Built to master technical SEO implementation and showcase production-ready solutions.**
+**Built by an SEO professional to master the craft and showcase production-ready solutions.**
+
+_Demonstrating both strategic thinking and technical implementation—the complete SEO skill set._

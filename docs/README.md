@@ -1,6 +1,34 @@
 # Documentation Index
 
-Welcome to the SEO Best Practices Showcase documentation. This folder contains comprehensive guides for understanding, developing, and extending the project.
+Welcome to the SEO Workshop technical documentation. This folder contains comprehensive guides for understanding, developing, and extending the project.
+
+## Quick Start
+
+### Installation
+
+```bash
+# Clone the repository
+git clone <repository-url>
+cd seo-playground
+
+# Install dependencies
+npm install
+
+# Run development server
+npm run dev
+```
+
+Visit `http://localhost:3000` to explore.
+
+### Tech Stack
+
+- **Next.js 15** with App Router
+- **React 18** and TypeScript 5
+- **Tailwind CSS 3** and shadcn/ui components
+- **Lucide React** for icons
+- Framework-agnostic SEO logic in `/lib/rules/`
+
+The SEO decision engine is intentionally decoupled from the framework, making it portable to any stack.
 
 ## Documentation Structure
 
@@ -32,7 +60,7 @@ Welcome to the SEO Best Practices Showcase documentation. This folder contains c
 4. **[SEO Logic](./seo-logic/)** - Decision algorithms
    - [Overview](./seo-logic/overview.md) - Decision flow introduction
    - [Decision Steps](./seo-logic/decision-steps.md) - Detailed explanation of all 10 steps
-   - [Parameters](./seo-logic/technical-seo/parameters.md) - Parameter policy deep dive and stacked parameters
+   - [Parameters](./seo-logic/parameters.md) - Parameter policy deep dive and stacked parameters
    - [Multi-Select](./seo-logic/multi-select.md) - Multi-select parameters deep dive
    - [Canonical Strategy](./seo-logic/canonical.md) - Canonical vs robots.txt, best practices, debugging
 
@@ -49,7 +77,7 @@ Welcome to the SEO Best Practices Showcase documentation. This folder contains c
 
 6. **[Extending](./extending/)** - Adding features
    - [Overview](./extending/overview.md) - Introduction and table of contents
-   - [Parameters](./extending/technical-seo/parameters.md) - Adding parameter rules and robots.txt patterns
+   - [Parameters](./extending/parameters.md) - Adding parameter rules and robots.txt patterns
    - [Filters](./extending/filters.md) - Adding filter types, size groups, and gender filters
    - [Routing](./extending/routing.md) - Creating clean path routes
    - [SEO Logic](./extending/seo-logic.md) - Modifying SEO logic and crawl trap detection
@@ -179,8 +207,13 @@ Please contribute updates or open an issue.
 
 ### November 2025 Updates
 
-- **Interactive Demo**: Renamed from "Shop" to "Interactive Demo" throughout the app and documentation for clarity
-- **SEO Dev Tools Page**: New `/seo-dev-tools` page with curated toolkit for technical SEO developers
-- **Enhanced Navigation**: "Test in Demo" button added to SEO Receipt panel for quick access from any page
-- **Improved Homepage**: Featured demo section, simplified hero text, contextual callouts on educational pages
-- **Better UX**: Clearer educational focus and improved discoverability of key features
+- **URL Structure Refactor**: Moved all pages under section-specific paths
+  - Technical pages: `/technical-seo/*` (previously at root level)
+  - Strategic pages: `/strategic-seo/*` (previously `/strategic/*`)
+  - Shop kept at root `/shop` as flagship demo
+- **Two-Section Architecture**: Clear separation between Technical SEO and Strategic SEO
+- **Next.js 15 Upgrade**: Updated from 13.5 to 15 with stricter JSX parsing
+- **Interactive Demo**: Renamed from "Shop" to "Interactive Demo" for clarity
+- **SEO Dev Tools Page**: New `/technical-seo/seo-dev-tools` page with curated toolkit
+- **Enhanced Navigation**: Section-aware navigation with switcher dropdown
+- **SEO Receipt**: Conditional rendering only on technical pages
