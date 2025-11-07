@@ -70,8 +70,9 @@ function generateBreadcrumbs(pathname: string): BreadcrumbItem[] | null {
     }
   }
   
-  // Shop pages
+  // Shop pages (part of Technical SEO demo)
   else if (pathname.startsWith('/shop')) {
+    breadcrumbs.push({ label: 'Technical SEO', href: '/technical-seo' });
     breadcrumbs.push({ label: 'Shop', href: '/shop' });
     
     if (pathname !== '/shop') {
