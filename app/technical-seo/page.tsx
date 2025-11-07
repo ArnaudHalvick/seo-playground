@@ -31,11 +31,11 @@ export const metadata: Metadata = {
 
 export default function TechnicalSeoPage() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-slate-100">
+    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-slate-50">
       <div className="container mx-auto px-4 py-12 max-w-6xl">
         {/* Hero Section */}
         <div className="text-center mb-12">
-          <h1 className="text-5xl font-bold mb-4 bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent">
+          <h1 className="text-5xl font-bold mb-4 bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">
             Technical SEO
           </h1>
           <p className="text-xl text-slate-600 max-w-3xl mx-auto">
@@ -191,7 +191,7 @@ export default function TechnicalSeoPage() {
             </p>
           </div>
           <div className="grid md:grid-cols-3 gap-6">
-            <Card className="hover:shadow-lg transition-shadow border-2 border-amber-200 flex flex-col justify-between">
+            <Card className="hover:shadow-lg transition-shadow border-2 border-blue-200 flex flex-col justify-between">
               <CardHeader>
                 <List className="h-8 w-8 mb-2 text-amber-600" />
                 <CardTitle>Pagination</CardTitle>
@@ -206,7 +206,7 @@ export default function TechnicalSeoPage() {
               </CardContent>
             </Card>
 
-            <Card className="hover:shadow-lg transition-shadow border-2 border-amber-200 flex flex-col justify-between">
+            <Card className="hover:shadow-lg transition-shadow border-2 border-blue-200 flex flex-col justify-between">
               <CardHeader>
                 <Search className="h-8 w-8 mb-2 text-amber-600" />
                 <CardTitle>Site Search</CardTitle>
@@ -221,7 +221,7 @@ export default function TechnicalSeoPage() {
               </CardContent>
             </Card>
 
-            <Card className="hover:shadow-lg transition-shadow border-2 border-amber-200 flex flex-col justify-between">
+            <Card className="hover:shadow-lg transition-shadow border-2 border-blue-200 flex flex-col justify-between">
               <CardHeader>
                 <Layers className="h-8 w-8 mb-2 text-blue-600" />
                 <CardTitle>Site Architecture</CardTitle>
@@ -245,7 +245,7 @@ export default function TechnicalSeoPage() {
             <p className="text-slate-600">Specialized SEO strategies for complex scenarios</p>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <Card className="hover:shadow-lg transition-shadow border-2 border-yellow-200 flex flex-col justify-between">
+            <Card className="hover:shadow-lg transition-shadow border-2 border-blue-200 flex flex-col justify-between">
               <CardHeader>
                 <Zap className="h-8 w-8 mb-2 text-yellow-600" />
                 <CardTitle>Core Web Vitals</CardTitle>
@@ -260,7 +260,7 @@ export default function TechnicalSeoPage() {
               </CardContent>
             </Card>
 
-            <Card className="hover:shadow-lg transition-shadow border-2 border-red-200 flex flex-col justify-between">
+            <Card className="hover:shadow-lg transition-shadow border-2 border-blue-200 flex flex-col justify-between">
               <CardHeader>
                 <Lock className="h-8 w-8 mb-2 text-red-600" />
                 <CardTitle>Protected Routes</CardTitle>
@@ -275,7 +275,7 @@ export default function TechnicalSeoPage() {
               </CardContent>
             </Card>
 
-            <Card className="hover:shadow-lg transition-shadow border-2 border-indigo-200 flex flex-col justify-between">
+            <Card className="hover:shadow-lg transition-shadow border-2 border-blue-200 flex flex-col justify-between">
               <CardHeader>
                 <Globe className="h-8 w-8 mb-2 text-indigo-600" />
                 <CardTitle>International SEO</CardTitle>

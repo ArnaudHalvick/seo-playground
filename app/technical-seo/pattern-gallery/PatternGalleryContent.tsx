@@ -4,7 +4,6 @@ import { useState, useMemo } from "react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Info, Sparkles } from "lucide-react";
-import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { PatternFilter } from "@/components/playground/PatternFilter";
 import { PatternCategory } from "@/components/playground/PatternCategory";
 import type { SeoPattern } from "@/components/playground/PatternCard";
@@ -112,8 +111,6 @@ export default function PlaygroundPage() {
 
   return (
     <div className="min-h-screen bg-slate-50">
-      <Breadcrumbs items={[{ label: "SEO Pattern Gallery", href: "/pattern-gallery" }]} />
-
       <div className="container mx-auto px-4 py-12 max-w-7xl">
         {/* Hero Section */}
         <div className="mb-12 text-center">

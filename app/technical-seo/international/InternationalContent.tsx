@@ -4,7 +4,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { 
   Globe, 
   CheckCircle2, 
@@ -24,12 +23,6 @@ import {
 export default function InternationalSEOPage() {
   return (
     <div className="min-h-screen bg-slate-50">
-      <Breadcrumbs 
-        items={[
-          { label: 'International SEO', href: '/international' }
-        ]} 
-      />
-
       <div className="container mx-auto px-4 py-12 max-w-6xl">
         {/* Hero Section */}
         <div className="mb-8">

@@ -1,21 +1,12 @@
 "use client";
 
-import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Wrench, Lightbulb, CheckCircle2 } from "lucide-react";
 
 export default function ToolsPage() {
   return (
-    <>
-      <Breadcrumbs
-        items={[
-          { label: "Strategic SEO", href: "/strategic-seo" },
-          { label: "Tools & Resources", href: "/strategic-seo/tools" },
-        ]}
-      />
-
-      <div className="container mx-auto px-4 py-8 max-w-5xl">
+    <div className="container mx-auto px-4 py-8 max-w-5xl">
         <div className="mb-8">
           <div className="flex items-center gap-3 mb-4">
             <Wrench className="h-10 w-10 text-purple-600" />
@@ -348,7 +339,6 @@ export default function ToolsPage() {
           </CardContent>
         </Card>
       </div>
-    </>
   );
 }
 

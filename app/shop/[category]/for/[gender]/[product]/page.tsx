@@ -4,7 +4,6 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Metadata } from 'next';
 import { getProduct, getCategory, getProducts } from '@/lib/catalog/data';
-import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { ProductEducationCards } from '@/components/ProductEducationCards';
 import { notFound } from 'next/navigation';
 
@@ -59,15 +58,6 @@ export default async function ProductPage({ params }: PageProps) {
 
   return (
     <div className="min-h-screen bg-slate-50">
-      <Breadcrumbs 
-        items={[
-          { label: 'Shop', href: '/shop' }, 
-          { label: category.name, href: `/shop/${resolvedParams.category}` },
-          { label: `${genderLabel}'s ${category.name}`, href: `/shop/${resolvedParams.category}/for/${resolvedParams.gender}` },
-          { label: product.title, href: `/shop/${resolvedParams.category}/for/${resolvedParams.gender}/${resolvedParams.product}` }
-        ]} 
-      />
-
       <ProductEducationCards productSlug={product.slug} />
 
       <div className="container mx-auto px-4 py-12 max-w-4xl">

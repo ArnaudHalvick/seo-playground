@@ -1,6 +1,5 @@
 "use client";
 
-import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Alert, AlertDescription } from "@/components/ui/alert";
@@ -8,15 +7,7 @@ import { TrendingUp, Lightbulb, Link2, CheckCircle2 } from "lucide-react";
 
 export default function AuthorityBuildingPage() {
   return (
-    <>
-      <Breadcrumbs
-        items={[
-          { label: "Strategic SEO", href: "/strategic-seo" },
-          { label: "Authority Building", href: "/strategic-seo/authority-building" },
-        ]}
-      />
-
-      <div className="container mx-auto px-4 py-8 max-w-5xl">
+    <div className="container mx-auto px-4 py-8 max-w-5xl">
         <div className="mb-8">
           <div className="flex items-center gap-3 mb-4">
             <TrendingUp className="h-10 w-10 text-purple-600" />
@@ -352,7 +343,6 @@ export default function AuthorityBuildingPage() {
           </CardContent>
         </Card>
       </div>
-    </>
   );
 }
 

@@ -1,7 +1,6 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Badge } from '@/components/ui/badge';
-import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { Metadata } from 'next';
 import { Lock, Shield, UserCheck, ShoppingCart, Settings, CheckCircle2, AlertTriangle, Info } from 'lucide-react';
 
@@ -13,12 +12,6 @@ export const metadata: Metadata = {
 export default function ProtectedRoutesPage() {
   return (
     <div className="min-h-screen bg-slate-50">
-      <Breadcrumbs 
-        items={[
-          { label: 'Protected Routes', href: '/protected-routes' }
-        ]} 
-      />
-
       <div className="container mx-auto px-4 py-12 max-w-5xl">
         {/* Hero Section */}
         <div className="mb-8">

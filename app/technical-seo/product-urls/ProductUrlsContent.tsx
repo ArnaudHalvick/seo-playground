@@ -5,7 +5,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { 
   Package, 
   CheckCircle2, 
@@ -37,12 +36,6 @@ export default function ProductUrlsPage() {
   }, []);
   return (
     <div className="min-h-screen bg-slate-50">
-      <Breadcrumbs 
-        items={[
-          { label: 'Product URLs & Database', href: '/product-urls' }
-        ]} 
-      />
-
       <div className="container mx-auto px-4 py-12 max-w-6xl">
         {/* Hero Section */}
         <div className="mb-8">

@@ -19,7 +19,6 @@ import {
   getGenderCounts,
   type FilterOptions
 } from '@/lib/catalog/data';
-import { Breadcrumbs } from'@/components/Breadcrumbs';
 import { FilterSidebar } from '@/components/catalog/FilterSidebar';
 import { FilterSummaryBar } from '@/components/catalog/FilterSummaryBar';
 import { GenderFilter } from '@/components/catalog/GenderFilter';
@@ -115,14 +114,6 @@ export default async function GenderFilterPage({ params, searchParams }: PagePro
 
   return (
     <div className="min-h-screen bg-slate-50">
-      <Breadcrumbs 
-        items={[
-          { label: 'Shop', href: '/shop' }, 
-          { label: category.name, href: `/shop/${resolvedParams.category}` },
-          { label: `${genderLabel}'s ${category.name}`, href: `/shop/${resolvedParams.category}/for/${resolvedParams.gender}` }
-        ]} 
-      />
-
       <div className="container mx-auto px-4 py-12 max-w-7xl">
         {/* Gender Filter with SEO Banner */}
         <GenderFilter 

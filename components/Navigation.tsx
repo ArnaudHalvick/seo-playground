@@ -134,33 +134,25 @@ export function Navigation() {
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-1">
-            {/* Section Switcher - only show when not on homepage */}
+          <div className="hidden md:flex items-center gap-3 flex-1">
+            {/* Section Switcher Button - only show when not on homepage */}
             {!isHomePage && (
-              <DropdownMenu modal={false}>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="outline" size="sm" className="gap-1 border-purple-300">
-                    <span className="font-semibold">
-                      {isStrategicSection ? "Strategic SEO" : "Technical SEO"}
-                    </span>
-                    <ChevronDown className="h-3 w-3" />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="start" className="w-48">
-                  <DropdownMenuItem asChild>
-                    <Link href="/technical-seo" className="flex items-center gap-2 cursor-pointer">
-                      <Code2 className="h-4 w-4" />
-                      Technical SEO
-                    </Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem asChild>
-                    <Link href="/strategic-seo" className="flex items-center gap-2 cursor-pointer">
-                      <Target className="h-4 w-4" />
-                      Strategic SEO
-                    </Link>
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
+              <>
+                <div className="flex-1"></div>
+                {isStrategicSection ? (
+                  <Link href="/technical-seo">
+                    <Button size="sm" className="bg-blue-600 hover:bg-blue-700 text-white">
+                      Switch to Technical SEO
+                    </Button>
+                  </Link>
+                ) : (
+                  <Link href="/strategic-seo">
+                    <Button size="sm" className="bg-purple-600 hover:bg-purple-700 text-white">
+                      Switch to Strategic SEO
+                    </Button>
+                  </Link>
+                )}
+              </>
             )}
 
             {/* Interactive Demo Button - only show in technical section */}
@@ -220,29 +212,28 @@ export function Navigation() {
                   {!isHomePage && (
                     <div className="border-b pb-4">
                       <h3 className="px-4 text-xs font-semibold text-slate-500 mb-2 uppercase">
-                        Current Section
+                        Switch Section
                       </h3>
-                      <div className="flex flex-col gap-2">
-                        <Link 
-                          href="/technical-seo" 
-                          onClick={() => setMobileMenuOpen(false)}
-                          className={`flex items-center gap-2 px-4 py-2 rounded-md ${
-                            isTechnicalSection ? 'bg-blue-100 font-semibold text-blue-900' : 'hover:bg-slate-100'
-                          }`}
-                        >
-                          <Code2 className="h-5 w-5" />
-                          <span>Technical SEO</span>
-                        </Link>
-                        <Link 
-                          href="/strategic-seo" 
-                          onClick={() => setMobileMenuOpen(false)}
-                          className={`flex items-center gap-2 px-4 py-2 rounded-md ${
-                            isStrategicSection ? 'bg-purple-100 font-semibold text-purple-900' : 'hover:bg-slate-100'
-                          }`}
-                        >
-                          <Target className="h-5 w-5" />
-                          <span>Strategic SEO</span>
-                        </Link>
+                      <div className="px-4">
+                        {isStrategicSection ? (
+                          <Link 
+                            href="/technical-seo" 
+                            onClick={() => setMobileMenuOpen(false)}
+                          >
+                            <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white">
+                              Switch to Technical SEO
+                            </Button>
+                          </Link>
+                        ) : (
+                          <Link 
+                            href="/strategic-seo" 
+                            onClick={() => setMobileMenuOpen(false)}
+                          >
+                            <Button className="w-full bg-purple-600 hover:bg-purple-700 text-white">
+                              Switch to Strategic SEO
+                            </Button>
+                          </Link>
+                        )}
                       </div>
                     </div>
                   )}

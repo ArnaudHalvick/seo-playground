@@ -16,7 +16,6 @@ import {
   getSizeGroupsForGender,
   type FilterOptions
 } from '@/lib/catalog/data';
-import { Breadcrumbs } from'@/components/Breadcrumbs';
 import { FilterSidebar } from '@/components/catalog/FilterSidebar';
 import { ActiveFilters } from '@/components/catalog/ActiveFilters';
 import { Alert, AlertDescription } from '@/components/ui/alert';
@@ -92,14 +91,6 @@ export default async function SizeFilterPage({ params, searchParams }: PageProps
 
   return (
     <div className="min-h-screen bg-slate-50">
-      <Breadcrumbs 
-        items={[
-          { label: 'Shop', href: '/shop' }, 
-          { label: category.name, href: `/shop/${resolvedParams.category}` },
-          { label: `Size ${resolvedParams.size} ${category.name}`, href: `/shop/${resolvedParams.category}/size/${resolvedParams.size}` }
-        ]} 
-      />
-
       <div className="container mx-auto px-4 py-12 max-w-7xl">
         {/* Clean Path Info Banner */}
         <Alert className="mb-6 border-green-200 bg-green-50">

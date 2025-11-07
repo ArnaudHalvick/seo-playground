@@ -3,7 +3,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { Metadata } from 'next';
 import { 
   Copy, 
@@ -28,12 +27,6 @@ export const metadata: Metadata = {
 export default function DuplicateContentPage() {
   return (
     <div className="min-h-screen bg-slate-50">
-      <Breadcrumbs 
-        items={[
-          { label: 'Duplicate Content', href: '/duplicate-content' }
-        ]} 
-      />
-
       <div className="container mx-auto px-4 py-12 max-w-5xl">
         {/* Hero Section */}
         <div className="mb-8">

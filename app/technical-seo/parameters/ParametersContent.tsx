@@ -1,7 +1,6 @@
 'use client';
 
 import Link from 'next/link';
-import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { ParamPolicyEditor } from '@/components/playground/ParamPolicyEditor';
 import { useConfig } from '@/lib/config/provider';
 import { Alert, AlertDescription } from '@/components/ui/alert';
@@ -13,12 +12,6 @@ export default function ParametersContent() {
 
   return (
     <div className="min-h-screen bg-slate-50">
-      <Breadcrumbs 
-        items={[
-          { label: 'Parameters', href: '/parameters' }
-        ]} 
-      />
-
       <div className="container mx-auto px-4 py-8 max-w-7xl">
         <div className="mb-6">
           <h1 className="text-3xl font-bold mb-2">URL Parameters</h1>
