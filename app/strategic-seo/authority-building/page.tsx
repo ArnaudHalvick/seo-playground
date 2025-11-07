@@ -7,7 +7,7 @@ import { TrendingUp, Lightbulb, Link2, CheckCircle2 } from "lucide-react";
 
 export default function AuthorityBuildingPage() {
   return (
-    <div className="container mx-auto px-4 py-8 max-w-5xl">
+    <div className="container mx-auto px-4 py-8 max-w-6xl">
         <div className="mb-8">
           <div className="flex items-center gap-3 mb-4">
             <TrendingUp className="h-10 w-10 text-purple-600" />

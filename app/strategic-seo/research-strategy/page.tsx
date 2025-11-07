@@ -7,7 +7,7 @@ import { Target, Lightbulb, TrendingUp, CheckCircle2 } from "lucide-react";
 
 export default function ResearchStrategyPage() {
   return (
-    <div className="container mx-auto px-4 py-8 max-w-5xl">
+    <div className="container mx-auto px-4 py-8 max-w-6xl">
         <div className="mb-8">
           <div className="flex items-center gap-3 mb-4">
             <Target className="h-10 w-10 text-purple-600" />

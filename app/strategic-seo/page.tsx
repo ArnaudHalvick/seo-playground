@@ -16,7 +16,8 @@ import {
 
 export const metadata: Metadata = {
   title: "Strategic SEO - Planning & Execution",
-  description: "Master non-programming SEO: research, content strategy, governance, measurement, and authority building with actionable frameworks.",
+  description:
+    "Master non-programming SEO: research, content strategy, governance, measurement, and authority building with actionable frameworks.",
 };
 
 export default function StrategicSeoPage() {
@@ -25,11 +26,11 @@ export default function StrategicSeoPage() {
       <div className="container mx-auto px-4 py-12 max-w-6xl">
         {/* Hero Section */}
         <div className="text-center mb-12">
-          <h1 className="text-5xl font-bold mb-4 bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+          <h1 className="text-5xl font-bold pb-4 bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
             Strategic SEO
           </h1>
           <p className="text-xl text-slate-700 max-w-3xl mx-auto">
-            Master the non-programming side of SEO. From keyword research to content governance, 
+            Master the non-programming side of SEO. From keyword research to content governance,
             measurement to authority building — learn the strategic frameworks that drive results.
           </p>
         </div>
@@ -45,9 +46,9 @@ export default function StrategicSeoPage() {
             </CardHeader>
             <CardContent className="space-y-4">
               <p className="text-slate-700 leading-relaxed">
-                Strategic SEO is everything that doesn't require programming — yet is essential for SEO success. 
-                It's about understanding your audience, identifying opportunities, creating the right content, 
-                and measuring what works.
+                Strategic SEO is everything that doesn't require programming — yet is essential for
+                SEO success. It's about understanding your audience, identifying opportunities,
+                creating the right content, and measuring what works.
               </p>
               <div className="grid md:grid-cols-2 gap-4 mt-6">
                 <div className="flex items-start gap-3 bg-white/70 p-4 rounded-lg">
@@ -295,11 +296,15 @@ export default function StrategicSeoPage() {
             Strategic + Technical = Complete SEO Mastery
           </h2>
           <p className="text-slate-700 mb-6 max-w-2xl mx-auto">
-            Great SEO requires both strategic planning and technical execution. 
-            Explore the technical side to see how code brings these strategies to life.
+            Great SEO requires both strategic planning and technical execution. Explore the
+            technical side to see how code brings these strategies to life.
           </p>
           <Link href="/technical">
-            <Button size="lg" variant="outline" className="border-2 border-purple-600 text-purple-700 hover:bg-purple-50">
+            <Button
+              size="lg"
+              variant="outline"
+              className="border-2 border-purple-600 text-purple-700 hover:bg-purple-50"
+            >
               Explore Technical SEO
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
@@ -309,4 +314,3 @@ export default function StrategicSeoPage() {
     </div>
   );
 }
-
