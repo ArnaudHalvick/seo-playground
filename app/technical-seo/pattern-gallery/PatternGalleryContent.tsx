@@ -110,7 +110,7 @@ export default function PlaygroundPage() {
   ];
 
   return (
-    <div className="container mx-auto px-4 py-12 max-w-7xl">
+    <div className="container mx-auto px-4 py-12 max-w-6xl">
         {/* Hero Section */}
         <div className="mb-12 text-center">
           <div className="inline-flex items-center gap-2 mb-4">

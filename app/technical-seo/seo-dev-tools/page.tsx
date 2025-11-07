@@ -22,7 +22,7 @@ export const metadata: Metadata = {
 export default function SeoDevTools() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-slate-100 pb-24 lg:pb-8 lg:pr-96">
-      <div className="container mx-auto px-4 py-12 max-w-5xl">
+      <div className="container mx-auto px-4 py-12 max-w-6xl">
         {/* Hero Section */}
         <div className="mb-12">
           <div className="flex items-center gap-3 mb-4">
