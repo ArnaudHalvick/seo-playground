@@ -1,5 +1,6 @@
 'use client';
 
+import { Suspense } from 'react';
 import { usePathname } from 'next/navigation';
 import { SeoReceipt } from '@/components/SeoReceipt';
 import { Breadcrumbs, BreadcrumbItem } from '@/components/Breadcrumbs';
@@ -111,7 +112,11 @@ export function LayoutWrapper({ children }: { children: React.ReactNode }) {
           {children}
         </div>
       </div>
-      {showSeoReceipt && <SeoReceipt />}
+      {showSeoReceipt && (
+        <Suspense fallback={null}>
+          <SeoReceipt />
+        </Suspense>
+      )}
     </>
   );
 }
