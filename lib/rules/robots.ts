@@ -62,7 +62,7 @@ export function generateRobotsTxt(
   lines.push("Disallow: /calendar/*?date=*");
   lines.push("");
 
-  lines.push(`Sitemap: ${baseUrl}/api/sitemap`);
+  lines.push(`Sitemap: ${baseUrl}/sitemap.xml`);
 
   return lines.join("\n");
 }
