@@ -7,7 +7,7 @@ export function LayoutWrapper({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   
   // Show SEO Receipt only on technical pages (not on strategic or homepage)
-  const showSeoReceipt = !pathname.startsWith('/strategic') && pathname !== '/';
+  const showSeoReceipt = !pathname.startsWith('/strategic-seo') && pathname !== '/';
   
   return (
     <>

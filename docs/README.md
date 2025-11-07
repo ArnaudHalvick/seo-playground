@@ -32,7 +32,7 @@ Welcome to the SEO Best Practices Showcase documentation. This folder contains c
 4. **[SEO Logic](./seo-logic/)** - Decision algorithms
    - [Overview](./seo-logic/overview.md) - Decision flow introduction
    - [Decision Steps](./seo-logic/decision-steps.md) - Detailed explanation of all 10 steps
-   - [Parameters](./seo-logic/parameters.md) - Parameter policy deep dive and stacked parameters
+   - [Parameters](./seo-logic/technical-seo/parameters.md) - Parameter policy deep dive and stacked parameters
    - [Multi-Select](./seo-logic/multi-select.md) - Multi-select parameters deep dive
    - [Canonical Strategy](./seo-logic/canonical.md) - Canonical vs robots.txt, best practices, debugging
 
@@ -49,7 +49,7 @@ Welcome to the SEO Best Practices Showcase documentation. This folder contains c
 
 6. **[Extending](./extending/)** - Adding features
    - [Overview](./extending/overview.md) - Introduction and table of contents
-   - [Parameters](./extending/parameters.md) - Adding parameter rules and robots.txt patterns
+   - [Parameters](./extending/technical-seo/parameters.md) - Adding parameter rules and robots.txt patterns
    - [Filters](./extending/filters.md) - Adding filter types, size groups, and gender filters
    - [Routing](./extending/routing.md) - Creating clean path routes
    - [SEO Logic](./extending/seo-logic.md) - Modifying SEO logic and crawl trap detection

@@ -11,8 +11,8 @@ export default function ContentArchitecturePage() {
     <>
       <Breadcrumbs
         items={[
-          { label: "Strategic SEO", href: "/strategic" },
-          { label: "Content Architecture", href: "/strategic/content-architecture" },
+          { label: "Strategic SEO", href: "/strategic-seo" },
+          { label: "Content Architecture", href: "/strategic-seo/content-architecture" },
         ]}
       />
 

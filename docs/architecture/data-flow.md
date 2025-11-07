@@ -176,7 +176,7 @@ Render:
 
 ## API Routes
 
-### `/api/robots`
+### `/api/technical-seo/robots`
 
 **Type**: Dynamic Route (Server-side)
 
@@ -184,7 +184,7 @@ Render:
 
 **Flow**:
 ```
-GET /api/robots
+GET /api/technical-seo/robots
     ↓
 Load DEFAULT_PARAM_CONFIG
     ↓
@@ -193,7 +193,7 @@ generateRobotsTxt(config)
 Return text/plain response
 ```
 
-### `/api/sitemap`
+### `/api/technical-seo/sitemap`
 
 **Type**: Dynamic Route (Server-side)
 
@@ -201,7 +201,7 @@ Return text/plain response
 
 **Flow**:
 ```
-GET /api/sitemap
+GET /api/technical-seo/sitemap
     ↓
 Load DEFAULT_PARAM_CONFIG
     ↓

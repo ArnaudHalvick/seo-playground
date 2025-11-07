@@ -99,7 +99,7 @@ export function ParamPolicyEditor({ config }: ParamPolicyEditorProps) {
 **Features**:
 1. **Live Generation**
    - Calls `generateRobotsTxt(DEFAULT_PARAM_CONFIG)`
-   - Shows actual `/api/robots` output
+   - Shows actual `/api/technical-seo/robots` output
    - Always in sync with robots.ts logic
    - No hardcoded examples
 
@@ -115,7 +115,7 @@ export function ParamPolicyEditor({ config }: ParamPolicyEditorProps) {
 
 4. **Complete File View**
    - Shows full robots.txt in terminal-style code block
-   - Note indicating it matches `/api/robots`
+   - Note indicating it matches `/api/technical-seo/robots`
 
 5. **Anti-Patterns Section**
    - Educational warnings about common mistakes
@@ -337,7 +337,7 @@ The playground page uses multiple PatternCategory components organized in a spec
 
 ## SEO Dev Tools Page (NEW - November 2025)
 
-**Location**: `app/seo-dev-tools/page.tsx`
+**Location**: `app/technical-seo/seo-dev-tools/page.tsx`
 
 **Purpose**: Curated reference guide for technical SEO tools
 

@@ -51,7 +51,7 @@ export function generateStaticParams() {
 
 ### Adding to Sitemap
 
-Edit `lib/rules/sitemap.ts` → `generateSitemapEntries()`:
+Edit `lib/rules/technical-seo/sitemap.ts` → `generateSitemapEntries()`:
 
 ```typescript
 export function generateSitemapEntries(config: ParamConfig, baseUrl: string): SitemapEntry[] {

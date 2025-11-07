@@ -11,8 +11,8 @@ export default function ContentProductionPage() {
     <>
       <Breadcrumbs
         items={[
-          { label: "Strategic SEO", href: "/strategic" },
-          { label: "Content Production", href: "/strategic/content-production" },
+          { label: "Strategic SEO", href: "/strategic-seo" },
+          { label: "Content Production", href: "/strategic-seo/content-production" },
         ]}
       />
 

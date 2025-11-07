@@ -10,8 +10,8 @@ export default function ToolsPage() {
     <>
       <Breadcrumbs
         items={[
-          { label: "Strategic SEO", href: "/strategic" },
-          { label: "Tools & Resources", href: "/strategic/tools" },
+          { label: "Strategic SEO", href: "/strategic-seo" },
+          { label: "Tools & Resources", href: "/strategic-seo/tools" },
         ]}
       />
 
@@ -341,7 +341,7 @@ export default function ToolsPage() {
               <li className="flex items-start gap-2">
                 <CheckCircle2 className="h-4 w-4 mt-0.5 text-purple-500 flex-shrink-0" />
                 <div>
-                  <strong>Review quarterly:</strong> Drop tools with <20% utilization; consolidate where possible
+                  <strong>Review quarterly:</strong> Drop tools with &lt;20% utilization; consolidate where possible
                 </div>
               </li>
             </ul>

@@ -154,7 +154,7 @@ export default function CoreWebVitalsPage() {
                         <div className="flex items-center justify-between bg-white p-2 rounded border border-green-300">
                           <div className="flex items-center gap-2">
                             <Badge className="bg-green-600 text-[10px]">Good</Badge>
-                            <span className="text-xs">< 2.5 seconds</span>
+                            <span className="text-xs">&lt; 2.5 seconds</span>
                           </div>
                           <CheckCircle2 className="h-4 w-4 text-green-600" />
                         </div>
@@ -168,7 +168,7 @@ export default function CoreWebVitalsPage() {
                         <div className="flex items-center justify-between bg-white p-2 rounded border border-red-300">
                           <div className="flex items-center gap-2">
                             <Badge className="bg-red-600 text-[10px]">Poor</Badge>
-                            <span className="text-xs">> 4.0 seconds</span>
+                            <span className="text-xs">&gt; 4.0 seconds</span>
                           </div>
                           <XCircle className="h-4 w-4 text-red-600" />
                         </div>
@@ -219,7 +219,7 @@ export default function CoreWebVitalsPage() {
                         <div className="flex items-center justify-between bg-white p-2 rounded border border-green-300">
                           <div className="flex items-center gap-2">
                             <Badge className="bg-green-600 text-[10px]">Good</Badge>
-                            <span className="text-xs">< 0.1</span>
+                            <span className="text-xs">&lt; 0.1</span>
                           </div>
                           <CheckCircle2 className="h-4 w-4 text-green-600" />
                         </div>
@@ -233,7 +233,7 @@ export default function CoreWebVitalsPage() {
                         <div className="flex items-center justify-between bg-white p-2 rounded border border-red-300">
                           <div className="flex items-center gap-2">
                             <Badge className="bg-red-600 text-[10px]">Poor</Badge>
-                            <span className="text-xs">> 0.25</span>
+                            <span className="text-xs">&gt; 0.25</span>
                           </div>
                           <XCircle className="h-4 w-4 text-red-600" />
                         </div>
@@ -284,7 +284,7 @@ export default function CoreWebVitalsPage() {
                         <div className="flex items-center justify-between bg-white p-2 rounded border border-green-300">
                           <div className="flex items-center gap-2">
                             <Badge className="bg-green-600 text-[10px]">Good</Badge>
-                            <span className="text-xs">< 200 milliseconds</span>
+                            <span className="text-xs">&lt; 200 milliseconds</span>
                           </div>
                           <CheckCircle2 className="h-4 w-4 text-green-600" />
                         </div>
@@ -298,7 +298,7 @@ export default function CoreWebVitalsPage() {
                         <div className="flex items-center justify-between bg-white p-2 rounded border border-red-300">
                           <div className="flex items-center gap-2">
                             <Badge className="bg-red-600 text-[10px]">Poor</Badge>
-                            <span className="text-xs">> 500 milliseconds</span>
+                            <span className="text-xs">&gt; 500 milliseconds</span>
                           </div>
                           <XCircle className="h-4 w-4 text-red-600" />
                         </div>
@@ -308,7 +308,7 @@ export default function CoreWebVitalsPage() {
                         <div className="font-semibold mb-1">Common Causes:</div>
                         <ul className="space-y-1 text-slate-700">
                           <li>• Heavy JavaScript execution blocking main thread</li>
-                          <li>• Long tasks (>50ms) preventing responsiveness</li>
+                          <li>• Long tasks (&gt;50ms) preventing responsiveness</li>
                           <li>• Large DOM size (1000+ nodes)</li>
                           <li>• Third-party scripts running on interaction</li>
                         </ul>
@@ -342,25 +342,25 @@ export default function CoreWebVitalsPage() {
                     <div className="border border-slate-200 p-3 rounded">
                       <div className="font-semibold mb-1">TTFB - Time to First Byte</div>
                       <div className="text-slate-600">
-                        Server response speed. Affects LCP. Good < 800ms.
+                        Server response speed. Affects LCP. Good &lt; 800ms.
                       </div>
                     </div>
                     <div className="border border-slate-200 p-3 rounded">
                       <div className="font-semibold mb-1">FCP - First Contentful Paint</div>
                       <div className="text-slate-600">
-                        When first content appears. Good < 1.8s.
+                        When first content appears. Good &lt; 1.8s.
                       </div>
                     </div>
                     <div className="border border-slate-200 p-3 rounded">
                       <div className="font-semibold mb-1">Speed Index</div>
                       <div className="text-slate-600">
-                        How quickly content is visually displayed. Good < 3.4s.
+                        How quickly content is visually displayed. Good &lt; 3.4s.
                       </div>
                     </div>
                     <div className="border border-slate-200 p-3 rounded">
                       <div className="font-semibold mb-1">Total Blocking Time</div>
                       <div className="text-slate-600">
-                        How long page is unresponsive. Good < 200ms.
+                        How long page is unresponsive. Good &lt; 200ms.
                       </div>
                     </div>
                   </div>
@@ -1054,7 +1054,7 @@ export default function CoreWebVitalsPage() {
                     <div className="flex items-start gap-2">
                       <XCircle className="h-4 w-4 text-red-600 flex-shrink-0 mt-0.5" />
                       <div>
-                        <strong>Don&apos;t remove features to improve scores</strong> - User experience > perfect scores. Keep that chat widget if users need it.
+                        <strong>Don&apos;t remove features to improve scores</strong> - User experience &gt; perfect scores. Keep that chat widget if users need it.
                       </div>
                     </div>
                     <div className="flex items-start gap-2">

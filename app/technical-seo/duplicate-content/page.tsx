@@ -146,7 +146,7 @@ export default function DuplicateContentPage() {
                   
                   <div className="flex items-center justify-between pt-2">
                     <span className="text-sm text-slate-700 font-semibold">Solution:</span>
-                    <Link href="/parameters">
+                    <Link href="/technical-seo/parameters">
                       <Button variant="outline" size="sm" className="gap-2">
                         Parameters Guide <ArrowRight className="h-3 w-3" />
                       </Button>
@@ -331,7 +331,7 @@ export default function DuplicateContentPage() {
                   
                   <div className="flex items-center justify-between pt-2">
                     <span className="text-sm text-slate-700 font-semibold">Solution:</span>
-                    <Link href="/parameters">
+                    <Link href="/technical-seo/parameters">
                       <Button variant="outline" size="sm" className="gap-2">
                         Parameters Guide <ArrowRight className="h-3 w-3" />
                       </Button>

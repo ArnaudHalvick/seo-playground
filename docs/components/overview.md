@@ -32,15 +32,15 @@ Pages (app/**/page.tsx)
 │       ├── Breadcrumbs (4-level hierarchy)
 │       └── Product details with gender context
 └── Educational Pages (app/*/page.tsx)
-    ├── Pattern Gallery (app/pattern-gallery/page.tsx)
-    ├── SEO Dev Tools (app/seo-dev-tools/page.tsx) - NEW
-    ├── Robots (app/robots/page.tsx)
-    ├── Sitemap (app/sitemap/page.tsx)
-    ├── Parameters (app/parameters/page.tsx)
+    ├── Pattern Gallery (app/technical-seo/pattern-gallery/page.tsx)
+    ├── SEO Dev Tools (app/technical-seo/seo-dev-tools/page.tsx) - NEW
+    ├── Robots (app/technical-seo/robots/page.tsx)
+    ├── Sitemap (app/technical-seo/sitemap/page.tsx)
+    ├── Parameters (app/technical-seo/parameters/page.tsx)
     │   └── With "Try Demo" callout banner
-    ├── Duplicate Content (app/duplicate-content/page.tsx)
+    ├── Duplicate Content (app/technical-seo/duplicate-content/page.tsx)
     │   └── With "Try Demo" callout banner
-    ├── Pagination (app/pagination/page.tsx)
+    ├── Pagination (app/technical-seo/pagination/page.tsx)
     │   └── With "Try Demo" callout banner
     └── Other SEO learning pages
 ```

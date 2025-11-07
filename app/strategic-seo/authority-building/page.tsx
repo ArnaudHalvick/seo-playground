@@ -11,8 +11,8 @@ export default function AuthorityBuildingPage() {
     <>
       <Breadcrumbs
         items={[
-          { label: "Strategic SEO", href: "/strategic" },
-          { label: "Authority Building", href: "/strategic/authority-building" },
+          { label: "Strategic SEO", href: "/strategic-seo" },
+          { label: "Authority Building", href: "/strategic-seo/authority-building" },
         ]}
       />
 

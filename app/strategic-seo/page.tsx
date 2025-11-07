@@ -119,7 +119,7 @@ export default function StrategicSeoPage() {
                     <span>Competitor intelligence, prioritization frameworks</span>
                   </li>
                 </ul>
-                <Link href="/strategic/research-strategy">
+                <Link href="/strategic-seo/research-strategy">
                   <Button className="w-full" variant="default">
                     View Research & Strategy
                   </Button>
@@ -151,7 +151,7 @@ export default function StrategicSeoPage() {
                     <span>Internal linking, content refresh & pruning</span>
                   </li>
                 </ul>
-                <Link href="/strategic/content-architecture">
+                <Link href="/strategic-seo/content-architecture">
                   <Button className="w-full" variant="default">
                     View Content Architecture
                   </Button>
@@ -183,7 +183,7 @@ export default function StrategicSeoPage() {
                     <span>Compliance, accessibility, refresh policies</span>
                   </li>
                 </ul>
-                <Link href="/strategic/content-production">
+                <Link href="/strategic-seo/content-production">
                   <Button className="w-full" variant="default">
                     View Content Production
                   </Button>
@@ -215,7 +215,7 @@ export default function StrategicSeoPage() {
                     <span>Reporting, continuous improvement loops</span>
                   </li>
                 </ul>
-                <Link href="/strategic/measurement-optimization">
+                <Link href="/strategic-seo/measurement-optimization">
                   <Button className="w-full" variant="default">
                     View Measurement & Optimization
                   </Button>
@@ -247,7 +247,7 @@ export default function StrategicSeoPage() {
                     <span>Image & video SEO, E-E-A-T amplification</span>
                   </li>
                 </ul>
-                <Link href="/strategic/authority-building">
+                <Link href="/strategic-seo/authority-building">
                   <Button className="w-full" variant="default">
                     View Authority Building
                   </Button>
@@ -279,7 +279,7 @@ export default function StrategicSeoPage() {
                     <span>Analytics: GSC, GA4, Looker Studio</span>
                   </li>
                 </ul>
-                <Link href="/strategic/tools">
+                <Link href="/strategic-seo/tools">
                   <Button className="w-full" variant="default">
                     View Tools & Resources
                   </Button>

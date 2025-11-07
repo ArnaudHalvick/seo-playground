@@ -4,8 +4,8 @@ This guide explains how to add new features, modify existing behavior, and contr
 
 ## Table of Contents
 
-1. [Adding Parameter Rules](./parameters.md#adding-new-parameter-rules)
-2. [Adding Robots.txt Patterns](./parameters.md#adding-new-robotstxt-patterns)
+1. [Adding Parameter Rules](./technical-seo/parameters.md#adding-new-parameter-rules)
+2. [Adding Robots.txt Patterns](./technical-seo/parameters.md#adding-new-robotstxt-patterns)
 3. [Adding Filter Types](./filters.md#adding-new-filter-types)
 4. [Adding Size Groups](./filters.md#adding-size-groups-to-categories)
 5. [Adding Gender Filters](./filters.md#adding-gender-filter-options)

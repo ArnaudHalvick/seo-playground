@@ -11,8 +11,8 @@ export default function MeasurementOptimizationPage() {
     <>
       <Breadcrumbs
         items={[
-          { label: "Strategic SEO", href: "/strategic" },
-          { label: "Measurement & Optimization", href: "/strategic/measurement-optimization" },
+          { label: "Strategic SEO", href: "/strategic-seo" },
+          { label: "Measurement & Optimization", href: "/strategic-seo/measurement-optimization" },
         ]}
       />
 

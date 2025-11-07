@@ -152,8 +152,8 @@ VS Code IntelliSense shows available classes.
 - [ ] Test parameter combinations with chips
 - [ ] Check SEO Receipt updates
 - [ ] Test on mobile viewport
-- [ ] Verify robots.txt at /api/robots
-- [ ] Verify sitemap at /api/sitemap
+- [ ] Verify robots.txt at /api/technical-seo/robots
+- [ ] Verify sitemap at /api/technical-seo/sitemap
 - [ ] Test best practices sections
 - [ ] Run `npm run build` successfully
 

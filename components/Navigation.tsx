@@ -51,9 +51,9 @@ export function Navigation() {
   const isActive = (path: string) => pathname === path || pathname.startsWith(path + "/");
   
   // Determine current section
-  const isStrategicSection = pathname.startsWith("/strategic");
-  const isTechnicalSection = pathname.startsWith("/technical") || 
-    (!pathname.startsWith("/strategic") && pathname !== "/");
+  const isStrategicSection = pathname.startsWith("/strategic-seo");
+  const isTechnicalSection = pathname.startsWith("/technical-seo") || 
+    (!pathname.startsWith("/strategic-seo") && pathname !== "/");
   const isHomePage = pathname === "/";
 
   // Technical SEO categories
@@ -61,35 +61,35 @@ export function Navigation() {
     {
       name: "Core Fundamentals",
       items: [
-        { name: "Robots.txt", path: "/robots", icon: Bot },
-        { name: "Sitemap", path: "/sitemap", icon: Map },
-        { name: "Parameters", path: "/parameters", icon: Settings },
-        { name: "Duplicate Content", path: "/duplicate-content", icon: Copy },
+        { name: "Robots.txt", path: "/technical-seo/robots", icon: Bot },
+        { name: "Sitemap", path: "/technical-seo/sitemap", icon: Map },
+        { name: "Parameters", path: "/technical-seo/parameters", icon: Settings },
+        { name: "Duplicate Content", path: "/technical-seo/duplicate-content", icon: Copy },
       ],
     },
     {
       name: "Content Patterns",
       items: [
-        { name: "Pagination", path: "/pagination", icon: List },
-        { name: "Site Search", path: "/site-search", icon: Search },
-        { name: "Site Architecture", path: "/site-architecture", icon: Layers },
+        { name: "Pagination", path: "/technical-seo/pagination", icon: List },
+        { name: "Site Search", path: "/technical-seo/site-search", icon: Search },
+        { name: "Site Architecture", path: "/technical-seo/site-architecture", icon: Layers },
       ],
     },
     {
       name: "Advanced Topics",
       items: [
-        { name: "Core Web Vitals", path: "/core-web-vitals", icon: Zap },
-        { name: "Protected Routes", path: "/protected-routes", icon: Lock },
-        { name: "International SEO", path: "/international", icon: Globe },
-        { name: "Product URLs & Database", path: "/product-urls", icon: Package },
+        { name: "Core Web Vitals", path: "/technical-seo/core-web-vitals", icon: Zap },
+        { name: "Protected Routes", path: "/technical-seo/protected-routes", icon: Lock },
+        { name: "International SEO", path: "/technical-seo/international", icon: Globe },
+        { name: "Product URLs & Database", path: "/technical-seo/product-urls", icon: Package },
       ],
     },
     {
       name: "Tools & Resources",
       items: [
-        { name: "Pattern Gallery", path: "/pattern-gallery", icon: Beaker },
-        { name: "Structured Data", path: "/structured-data", icon: Code2 },
-        { name: "SEO Dev Tools", path: "/seo-dev-tools", icon: Wrench },
+        { name: "Pattern Gallery", path: "/technical-seo/pattern-gallery", icon: Beaker },
+        { name: "Structured Data", path: "/technical-seo/structured-data", icon: Code2 },
+        { name: "SEO Dev Tools", path: "/technical-seo/seo-dev-tools", icon: Wrench },
       ],
     },
   ];
@@ -99,17 +99,17 @@ export function Navigation() {
     {
       name: "Strategy & Planning",
       items: [
-        { name: "Research & Strategy", path: "/strategic/research-strategy", icon: Target },
-        { name: "Content Architecture", path: "/strategic/content-architecture", icon: FileText },
+        { name: "Research & Strategy", path: "/strategic-seo/research-strategy", icon: Target },
+        { name: "Content Architecture", path: "/strategic-seo/content-architecture", icon: FileText },
       ],
     },
     {
       name: "Production & Growth",
       items: [
-        { name: "Content Production", path: "/strategic/content-production", icon: Users },
-        { name: "Measurement & Optimization", path: "/strategic/measurement-optimization", icon: BarChart3 },
-        { name: "Authority Building", path: "/strategic/authority-building", icon: TrendingUp },
-        { name: "Tools & Resources", path: "/strategic/tools", icon: Wrench },
+        { name: "Content Production", path: "/strategic-seo/content-production", icon: Users },
+        { name: "Measurement & Optimization", path: "/strategic-seo/measurement-optimization", icon: BarChart3 },
+        { name: "Authority Building", path: "/strategic-seo/authority-building", icon: TrendingUp },
+        { name: "Tools & Resources", path: "/strategic-seo/tools", icon: Wrench },
       ],
     },
   ];
@@ -148,13 +148,13 @@ export function Navigation() {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="start" className="w-48">
                   <DropdownMenuItem asChild>
-                    <Link href="/technical" className="flex items-center gap-2 cursor-pointer">
+                    <Link href="/technical-seo" className="flex items-center gap-2 cursor-pointer">
                       <Code2 className="h-4 w-4" />
                       Technical SEO
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem asChild>
-                    <Link href="/strategic" className="flex items-center gap-2 cursor-pointer">
+                    <Link href="/strategic-seo" className="flex items-center gap-2 cursor-pointer">
                       <Target className="h-4 w-4" />
                       Strategic SEO
                     </Link>
@@ -224,7 +224,7 @@ export function Navigation() {
                       </h3>
                       <div className="flex flex-col gap-2">
                         <Link 
-                          href="/technical" 
+                          href="/technical-seo" 
                           onClick={() => setMobileMenuOpen(false)}
                           className={`flex items-center gap-2 px-4 py-2 rounded-md ${
                             isTechnicalSection ? 'bg-blue-100 font-semibold text-blue-900' : 'hover:bg-slate-100'
@@ -234,7 +234,7 @@ export function Navigation() {
                           <span>Technical SEO</span>
                         </Link>
                         <Link 
-                          href="/strategic" 
+                          href="/strategic-seo" 
                           onClick={() => setMobileMenuOpen(false)}
                           className={`flex items-center gap-2 px-4 py-2 rounded-md ${
                             isStrategicSection ? 'bg-purple-100 font-semibold text-purple-900' : 'hover:bg-slate-100'

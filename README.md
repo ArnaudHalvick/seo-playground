@@ -46,7 +46,7 @@ Comprehensive frameworks with actionable checklists, workflows, and operational 
 
 Technical SEO starts with these four building blocks:
 
-#### 1. **Robots.txt** (`/robots`)
+#### 1. **Robots.txt** (`/technical-seo/robots`)
 
 Learn pattern-based crawl control to protect your crawl budget:
 
@@ -58,7 +58,7 @@ Learn pattern-based crawl control to protect your crawl budget:
 
 **Key Concept**: Robots.txt is your first line of defense against crawl traps. Block wasteful URLs before crawlers ever discover them.
 
-#### 2. **Sitemap** (`/sitemap`)
+#### 2. **Sitemap** (`/technical-seo/sitemap`)
 
 Generate intelligent XML sitemaps based on indexability rules:
 
@@ -69,7 +69,7 @@ Generate intelligent XML sitemaps based on indexability rules:
 
 **Key Concept**: Your sitemap should be a curated list of indexable pages, not a dump of every URL on your site.
 
-#### 3. **URL Parameters** (`/parameters`)
+#### 3. **URL Parameters** (`/technical-seo/parameters`)
 
 Master the most complex aspect of e-commerce SEO:
 
@@ -81,7 +81,7 @@ Master the most complex aspect of e-commerce SEO:
 
 **Key Concept**: Not all parameters are equal. Classify them correctly and your indexation problems solve themselves.
 
-#### 4. **Duplicate Content** (`/duplicate-content`)
+#### 4. **Duplicate Content** (`/technical-seo/duplicate-content`)
 
 A diagnosis hub that teaches you to find the root cause:
 
@@ -98,7 +98,7 @@ A diagnosis hub that teaches you to find the root cause:
 
 Common patterns that require careful SEO handling:
 
-#### 5. **Pagination** (`/pagination`)
+#### 5. **Pagination** (`/technical-seo/pagination`)
 
 Implement proper pagination strategies:
 
@@ -110,7 +110,7 @@ Implement proper pagination strategies:
 
 **Key Concept**: Page 2+ should be noindex,follow so Google can discover products but won't index duplicate paginated listings.
 
-#### 6. **Site Search** (`/site-search`)
+#### 6. **Site Search** (`/technical-seo/site-search`)
 
 Prevent infinite crawl traps from internal search:
 
@@ -122,7 +122,7 @@ Prevent infinite crawl traps from internal search:
 
 **Key Concept**: Search result pages are one of the biggest crawl trap risks. Always use noindex,follow or robots.txt blocking.
 
-#### 7. **Site Architecture** (`/site-architecture`)
+#### 7. **Site Architecture** (`/technical-seo/site-architecture`)
 
 Build clean, crawlable URL structures:
 
@@ -138,7 +138,7 @@ Build clean, crawlable URL structures:
 
 Specialized scenarios requiring sophisticated solutions:
 
-#### 8. **Protected Routes** (`/protected-routes`)
+#### 8. **Protected Routes** (`/technical-seo/protected-routes`)
 
 SEO strategy for private content:
 
@@ -150,7 +150,7 @@ SEO strategy for private content:
 
 **Key Concept**: User-specific content should never appear in search results. Use defense-in-depth: authentication + noindex + robots.txt.
 
-#### 9. **International SEO** (`/international`)
+#### 9. **International SEO** (`/technical-seo/international`)
 
 Serve the right content to the right audience:
 
@@ -162,7 +162,7 @@ Serve the right content to the right audience:
 
 **Key Concept**: International SEO prevents duplicate content across languages while helping searchers find their localized version.
 
-#### 10. **Product URLs & Database Architecture** (`/product-urls`)
+#### 10. **Product URLs & Database Architecture** (`/technical-seo/product-urls`)
 
 Build SEO-friendly product catalogs that scale:
 
@@ -174,7 +174,7 @@ Build SEO-friendly product catalogs that scale:
 
 **Key Concept**: Product pages are the money pages of e-commerce. Proper URL structure, variant handling, and database design determine whether you can scale from hundreds to millions of products while maintaining SEO.
 
-#### 11. **Core Web Vitals & Performance** (`/core-web-vitals`)
+#### 11. **Core Web Vitals & Performance** (`/technical-seo/core-web-vitals`)
 
 Make your site fast enough to rank and convert:
 
@@ -203,7 +203,7 @@ Live demonstration environment showing real-time SEO decisions:
 
 **Key Concept**: The Interactive Demo demonstrates every technical SEO pattern in action. Apply filters and watch the SEO Receipt explain why each decision was made.
 
-#### 13. **Pattern Gallery** (`/pattern-gallery`)
+#### 13. **Pattern Gallery** (`/technical-seo/pattern-gallery`)
 
 Reference library of 17 production-ready SEO patterns:
 
@@ -214,7 +214,7 @@ Reference library of 17 production-ready SEO patterns:
 
 **Key Concept**: A quick reference guide for common parameter patterns you'll encounter in production.
 
-#### 14. **Structured Data** (`/structured-data`)
+#### 14. **Structured Data** (`/technical-seo/structured-data`)
 
 Educational overview of Schema.org markup:
 
@@ -226,7 +226,7 @@ Educational overview of Schema.org markup:
 
 **Note**: This is educational overview only. The app doesn't implement live validation tools.
 
-#### 15. **SEO Dev Tools** (`/seo-dev-tools`)
+#### 15. **SEO Dev Tools** (`/technical-seo/seo-dev-tools`)
 
 Curated toolkit reference for technical SEO developers:
 
@@ -244,7 +244,7 @@ Curated toolkit reference for technical SEO developers:
 
 Non-programming SEO frameworks and operational playbooks:
 
-#### 16. **Research & Strategy** (`/strategic/research-strategy`)
+#### 16. **Research & Strategy** (`/strategic-seo-seo/research-strategy`)
 
 Build evidence-based plans that align business goals with searcher demand:
 
@@ -257,7 +257,7 @@ Build evidence-based plans that align business goals with searcher demand:
 
 **Key Concept**: Convert raw market signals into intent-led clusters with measurable outcomes.
 
-#### 17. **Content Architecture** (`/strategic/content-architecture`)
+#### 17. **Content Architecture** (`/strategic-seo-seo/content-architecture`)
 
 Translate research into semantic, navigable content systems:
 
@@ -270,7 +270,7 @@ Translate research into semantic, navigable content systems:
 
 **Key Concept**: Build content that satisfies intent quickly while signaling topical authority.
 
-#### 18. **Content Production & Governance** (`/strategic/content-production`)
+#### 18. **Content Production & Governance** (`/strategic-seo-seo/content-production`)
 
 Build reliable editorial workflows from brief to publish:
 
@@ -283,7 +283,7 @@ Build reliable editorial workflows from brief to publish:
 
 **Key Concept**: Standardize how ideas become high-quality pages on time and on brief.
 
-#### 19. **Measurement & Optimization** (`/strategic/measurement-optimization`)
+#### 19. **Measurement & Optimization** (`/strategic-seo-seo/measurement-optimization`)
 
 Turn strategy into a closed-loop system:
 
@@ -296,7 +296,7 @@ Turn strategy into a closed-loop system:
 
 **Key Concept**: Measure the right signals at cluster level and iterate based on data.
 
-#### 20. **Authority Building** (`/strategic/authority-building`)
+#### 20. **Authority Building** (`/strategic-seo-seo/authority-building`)
 
 Strengthen reputation and trust beyond your own site:
 
@@ -308,7 +308,7 @@ Strengthen reputation and trust beyond your own site:
 
 **Key Concept**: Earn high-quality mentions and activate signals that reinforce E-E-A-T.
 
-#### 21. **Tools & Resources** (`/strategic/tools`)
+#### 21. **Tools & Resources** (`/strategic-seo-seo/tools`)
 
 Essential non-programming SEO tools:
 
@@ -444,11 +444,11 @@ If you need comprehensive SEO expertise—from strategic planning and content ar
 The app uses a **two-section architecture**:
 
 - **Landing Page** (`/`) - Choose between Technical SEO or Strategic SEO
-- **Technical SEO** (`/technical`) - Programming and implementation hub
+- **Technical SEO** (`/technical-seo`) - Programming and implementation hub
   - All technical pages accessible from top navigation dropdowns
   - Interactive Demo available in this section
   - SEO Receipt panel visible on all technical pages
-- **Strategic SEO** (`/strategic`) - Planning and execution hub
+- **Strategic SEO** (`/strategic-seo`) - Planning and execution hub
   - Strategic framework pages with comprehensive workflows
   - No SEO Receipt (not applicable to strategic content)
 - **Section Switcher** - Dropdown in navigation to switch between sections

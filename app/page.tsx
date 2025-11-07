@@ -86,7 +86,7 @@ export default function Home() {
                   </div>
                 </div>
               </div>
-              <Link href="/technical">
+              <Link href="/technical-seo">
                 <Button size="lg" className="w-full text-lg bg-blue-600 hover:bg-blue-700 group">
                   Explore Technical SEO
                   <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
@@ -142,7 +142,7 @@ export default function Home() {
                   </div>
                 </div>
               </div>
-              <Link href="/strategic">
+              <Link href="/strategic-seo">
                 <Button size="lg" className="w-full text-lg bg-purple-600 hover:bg-purple-700 group">
                   Explore Strategic SEO
                   <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />

@@ -122,7 +122,7 @@ The system will automatically:
 
 ### Option 2: Path-Based Blocking
 
-For path-specific patterns, add logic to `lib/rules/robots.ts` → `checkRobotsBlocking()`:
+For path-specific patterns, add logic to `lib/rules/technical-seo/robots.ts` → `checkRobotsBlocking()`:
 
 ```typescript
 export function checkRobotsBlocking(

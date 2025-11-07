@@ -131,7 +131,7 @@ export default function TechnicalSeoPage() {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <Link href="/robots">
+                <Link href="/technical-seo/robots">
                   <Button className="w-full">View Robots.txt</Button>
                 </Link>
               </CardContent>
@@ -146,7 +146,7 @@ export default function TechnicalSeoPage() {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <Link href="/sitemap">
+                <Link href="/technical-seo/sitemap">
                   <Button className="w-full">View Sitemap</Button>
                 </Link>
               </CardContent>
@@ -159,7 +159,7 @@ export default function TechnicalSeoPage() {
                 <CardDescription>URL parameter handling and canonical strategies</CardDescription>
               </CardHeader>
               <CardContent>
-                <Link href="/parameters">
+                <Link href="/technical-seo/parameters">
                   <Button className="w-full">View Parameters</Button>
                 </Link>
               </CardContent>
@@ -174,7 +174,7 @@ export default function TechnicalSeoPage() {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <Link href="/duplicate-content">
+                <Link href="/technical-seo/duplicate-content">
                   <Button className="w-full">View Duplicate Content</Button>
                 </Link>
               </CardContent>
@@ -200,7 +200,7 @@ export default function TechnicalSeoPage() {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <Link href="/pagination">
+                <Link href="/technical-seo/pagination">
                   <Button className="w-full">View Pagination</Button>
                 </Link>
               </CardContent>
@@ -215,7 +215,7 @@ export default function TechnicalSeoPage() {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <Link href="/site-search">
+                <Link href="/technical-seo/site-search">
                   <Button className="w-full">View Site Search</Button>
                 </Link>
               </CardContent>
@@ -230,7 +230,7 @@ export default function TechnicalSeoPage() {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <Link href="/site-architecture">
+                <Link href="/technical-seo/site-architecture">
                   <Button className="w-full">View Architecture</Button>
                 </Link>
               </CardContent>
@@ -254,7 +254,7 @@ export default function TechnicalSeoPage() {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <Link href="/core-web-vitals">
+                <Link href="/technical-seo/core-web-vitals">
                   <Button className="w-full">View Core Web Vitals</Button>
                 </Link>
               </CardContent>
@@ -269,7 +269,7 @@ export default function TechnicalSeoPage() {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <Link href="/protected-routes">
+                <Link href="/technical-seo/protected-routes">
                   <Button className="w-full">View Protected Routes</Button>
                 </Link>
               </CardContent>
@@ -284,7 +284,7 @@ export default function TechnicalSeoPage() {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <Link href="/international">
+                <Link href="/technical-seo/international">
                   <Button className="w-full">View International SEO</Button>
                 </Link>
               </CardContent>
@@ -299,7 +299,7 @@ export default function TechnicalSeoPage() {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <Link href="/product-urls">
+                <Link href="/technical-seo/product-urls">
                   <Button className="w-full">View Product URLs</Button>
                 </Link>
               </CardContent>
@@ -323,7 +323,7 @@ export default function TechnicalSeoPage() {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <Link href="/pattern-gallery">
+                <Link href="/technical-seo/pattern-gallery">
                   <Button variant="outline" className="w-full">
                     Browse Patterns
                   </Button>
@@ -340,7 +340,7 @@ export default function TechnicalSeoPage() {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <Link href="/structured-data">
+                <Link href="/technical-seo/structured-data">
                   <Button variant="outline" className="w-full">
                     Learn Schema
                   </Button>
@@ -357,7 +357,7 @@ export default function TechnicalSeoPage() {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <Link href="/seo-dev-tools">
+                <Link href="/technical-seo/seo-dev-tools">
                   <Button variant="outline" className="w-full">
                     Browse Tools
                   </Button>

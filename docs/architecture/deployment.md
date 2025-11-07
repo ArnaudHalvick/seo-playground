@@ -24,14 +24,14 @@ No database or external services required - fully self-contained.
 The app uses a static best-practice model. To add new robots.txt patterns:
 
 1. Add parameter to `data/rules.json` with `policy: "blocked"` for parameters that should be blocked
-2. Or add custom logic in `lib/rules/robots.ts` → `checkRobotsBlocking()` for path-based patterns
+2. Or add custom logic in `lib/rules/technical-seo/robots.ts` → `checkRobotsBlocking()` for path-based patterns
 3. Pattern will appear in robots.txt and SEO Receipt automatically
 
 ### Adding New Pages
 
 1. Create page in `app/[route]/page.tsx`
 2. SEO logic automatically applies
-3. Add to sitemap in `lib/rules/sitemap.ts` if needed
+3. Add to sitemap in `lib/rules/technical-seo/sitemap.ts` if needed
 
 ## Error Handling
 

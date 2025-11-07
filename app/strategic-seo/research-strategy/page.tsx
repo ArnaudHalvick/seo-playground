@@ -11,8 +11,8 @@ export default function ResearchStrategyPage() {
     <>
       <Breadcrumbs
         items={[
-          { label: "Strategic SEO", href: "/strategic" },
-          { label: "Research & Strategy", href: "/strategic/research-strategy" },
+          { label: "Strategic SEO", href: "/strategic-seo" },
+          { label: "Research & Strategy", href: "/strategic-seo/research-strategy" },
         ]}
       />
 
