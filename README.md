@@ -174,17 +174,18 @@ Make your site fast enough to rank and convert:
 
 Interactive demos and reference materials:
 
-#### 12. **Product Catalog** (`/shop`)
+#### 12. **Interactive Demo** (`/shop`)
 
-Live demo showing real-time SEO decisions:
+Live demonstration environment showing real-time SEO decisions:
 
 - Interactive filters (multi-select colors, sizes, price ranges, sorting)
 - **SEO Receipt panel**: See canonical URL, indexability (index,follow vs noindex,follow), robots.txt blocking, and sitemap inclusion for every filter combination
 - **Crawl trap warnings**: Real-time calculations showing URL explosion risk (2^N for multi-select, N×M for stacked filters)
 - **Clean path routes**: Compare `/shop/t-shirts/for/women/` (clean path) vs `/shop/t-shirts?gender=women` (parameter)
 - Gender-aware size filtering and category-specific size configurations
+- **"Test in Demo" button**: Available on all pages in the SEO Receipt panel to quickly navigate to the demo
 
-**Key Concept**: The shop demonstrates every SEO pattern in action. Apply filters and watch the SEO Receipt explain why each decision was made.
+**Key Concept**: The Interactive Demo demonstrates every SEO pattern in action. Apply filters and watch the SEO Receipt explain why each decision was made.
 
 #### 13. **Pattern Gallery** (`/pattern-gallery`)
 
@@ -209,6 +210,20 @@ Educational overview of Schema.org markup:
 
 **Note**: This is educational overview only. The app doesn't implement live validation tools.
 
+#### 15. **SEO Dev Tools** (`/seo-dev-tools`)
+
+Curated toolkit reference for technical SEO developers:
+
+- **Crawl & Analysis**: Screaming Frog, Sitebulb, JetOctopus
+- **Performance & Core Web Vitals**: Lighthouse, WebPageTest, PageSpeed Insights, Search Console CWV report
+- **Rendering & Testing**: Puppeteer/Playwright, Chrome DevTools, Rich Results Test
+- **Deploy & Monitor**: Vercel/Netlify, GitHub Actions, Cloudflare, Sentry/Datadog
+- **Security & Headers**: SecurityHeaders.com, curl/HTTPie
+- **Starter Stack**: Recommended tools for small teams with high impact
+- **Migration Checklist**: Essential steps for safely migrating sites
+
+**Key Concept**: A quick reference guide for the essential tools every technical SEO developer should know, with practical recommendations for getting started.
+
 ## What's NOT Covered
 
 This app deliberately excludes basic SEO elements to focus on complex technical implementations:
@@ -223,7 +238,7 @@ This project is about solving the technical SEO problems that require sophistica
 
 ## The SEO Receipt
 
-Every page in the shop includes a real-time "SEO Receipt" panel showing:
+Every page includes a real-time "SEO Receipt" panel showing:
 
 1. **Input URL vs Canonical URL** - See which parameters are kept vs dropped, with diff highlighting
 2. **Indexability Status** - index,follow / noindex,follow / noindex,nofollow with explanation
@@ -231,14 +246,24 @@ Every page in the shop includes a real-time "SEO Receipt" panel showing:
 4. **Sitemap Inclusion** - Should this URL appear in sitemap.xml?
 5. **Crawl Trap Risk** - Low/Medium/High with mathematical calculations (2^N or N×M)
 6. **Complete Decision Trace** - Step-by-step reasoning showing every rule that was evaluated
+7. **"Test in Demo" Button** - Quick link to navigate to the Interactive Demo from any page (hidden when already on the demo)
 
 This transparency makes it a teaching tool. You can see exactly how the SEO engine makes decisions.
+
+### Enhanced User Experience
+
+The app includes several features to improve discoverability and learning:
+
+- **Featured Demo Section**: Prominent call-to-action on the homepage highlighting the Interactive Demo
+- **Contextual Callouts**: Educational pages (Parameters, Duplicate Content, Pagination) include banners linking to the demo where you can test related concepts
+- **Navigation**: Renamed from "Shop" to "Interactive Demo" to clearly communicate its educational purpose
+- **Tools Reference**: New SEO Dev Tools page providing a curated list of essential tools for technical SEO
 
 ## Live Demo Highlights
 
 ### Try These Examples
 
-Visit the shop and try these filter combinations to see SEO decisions in action:
+Visit the **Interactive Demo** (top navigation) and try these filter combinations to see SEO decisions in action:
 
 - **Single stable filter** → Indexable, clean canonical
 
@@ -268,12 +293,15 @@ Visit the shop and try these filter combinations to see SEO decisions in action:
 
 Built with modern web technologies:
 
-- **Next.js 13** with App Router
-- **React 18** and TypeScript
-- **Tailwind CSS** and shadcn/ui components
+- **Next.js 13.5** with App Router
+- **React 18.2** and TypeScript 5.2
+- **Tailwind CSS 3.3** and shadcn/ui components
+- **Lucide React** for icons
 - Framework-agnostic SEO logic in `/lib/rules/`
 
 The SEO decision engine is intentionally decoupled from the framework, making it portable to any stack.
+
+**Note**: Consider upgrading to Next.js 14+ for improved performance and developer experience.
 
 ## Quick Start
 

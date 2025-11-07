@@ -333,3 +333,47 @@ The playground page uses multiple PatternCategory components organized in a spec
 5. Navigation Patterns
 6. Access Control
 
+---
+
+## SEO Dev Tools Page (NEW - November 2025)
+
+**Location**: `app/seo-dev-tools/page.tsx`
+
+**Purpose**: Curated reference guide for technical SEO tools
+
+**Type**: Server Component (static page)
+
+**Features**:
+1. **Tool Categories**
+   - Crawl & Analysis: Screaming Frog, Sitebulb, JetOctopus
+   - Performance & Core Web Vitals: Lighthouse, WebPageTest, PageSpeed Insights
+   - Rendering & Testing: Puppeteer, Playwright, Chrome DevTools
+   - Deploy & Monitor: Vercel, Netlify, GitHub Actions, Cloudflare
+   - Security & Headers: SecurityHeaders.com, curl/HTTPie
+
+2. **Starter Stack Section**
+   - Alert box with green gradient
+   - Recommended tools for small teams
+   - High-impact, budget-friendly options
+
+3. **Migration Checklist**
+   - Essential steps for site migrations
+   - Orange border to highlight importance
+   - Checklist format with checkmark icons
+
+4. **Best Practices**
+   - Tips for tool organization
+   - Process recommendations
+   - Badge-styled tips
+
+**Design**:
+- Simple list-based layout for easy scanning
+- Each tool has bold name + brief description
+- Sections use icon headers for visual organization
+- Responsive layout with right padding for SEO Receipt
+
+**Navigation**:
+- Added to top nav under "Tools & Resources"
+- Card on homepage in "Tools & Resources" section
+- Wrench icon for consistency
+

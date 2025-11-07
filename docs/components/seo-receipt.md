@@ -14,29 +14,37 @@
 **Hooks Used**:
 - `usePathname()` - Get current pathname
 - `useSearchParams()` - Get current URL parameters
+- `useRouter()` - Navigation for "Test in Demo" button
 - `useConfig()` - Get SEO configuration
 
 **Key Features**:
-1. **URL Comparison**
+1. **"Test in Demo" Button** (November 2025)
+   - Visible green button in the SEO Receipt header
+   - Only appears when NOT on `/shop` routes
+   - Navigates to `/shop` (Interactive Demo) for hands-on testing
+   - Desktop: Shows "Test in Demo" with icon
+   - Mobile: Shows "Test" with icon
+
+2. **URL Comparison**
    - Shows input URL vs canonical URL
    - Highlights differences (removed params in red, added in green)
    - Copy to clipboard buttons
 
-2. **Indexability Display**
+3. **Indexability Display**
    - Badge showing robots directive
    - Icon indicators (green check, yellow warning, red X)
    - Robots.txt blocking status
 
-3. **Sitemap Inclusion**
+4. **Sitemap Inclusion**
    - Shows if URL is included in sitemap
    - Explains why included/excluded
 
-4. **Rule Trace**
+5. **Rule Trace**
    - Tab showing complete decision log
    - Step-by-step reasoning
    - Copy entire trace button
 
-5. **Warnings**
+6. **Warnings**
    - Shows SEO warnings if any
    - Examples: risky robots.txt patterns
 
@@ -49,16 +57,32 @@
 export function SeoReceipt() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const router = useRouter();
   const { config } = useConfig();
 
   // Compute SEO decision
   const result = computeCanonical(pathname, params, config);
 
+  // Show "Test in Demo" button only when not on /shop
+  const showTestButton = !pathname.includes('/shop');
+
   // Render two layouts (desktop + mobile)
   return (
     <>
-      <div className="hidden lg:block ...">Desktop Layout</div>
-      <div className="lg:hidden ...">Mobile Layout</div>
+      <div className="hidden lg:block ...">
+        {/* Desktop: Button in header */}
+        {showTestButton && (
+          <Button onClick={() => router.push('/shop')}>
+            Test in Demo
+          </Button>
+        )}
+        <SeoReceiptContent {...props} />
+      </div>
+      <div className="lg:hidden ...">
+        {/* Mobile: Button next to title */}
+        {showTestButton && <Button>Test</Button>}
+        <SeoReceiptContent {...props} />
+      </div>
     </>
   );
 }

@@ -173,4 +173,14 @@ Please contribute updates or open an issue.
 
 ---
 
-**Last Updated**: 2025-01-27
+**Last Updated**: November 2025
+
+## Recent Changes
+
+### November 2025 Updates
+
+- **Interactive Demo**: Renamed from "Shop" to "Interactive Demo" throughout the app and documentation for clarity
+- **SEO Dev Tools Page**: New `/seo-dev-tools` page with curated toolkit for technical SEO developers
+- **Enhanced Navigation**: "Test in Demo" button added to SEO Receipt panel for quick access from any page
+- **Improved Homepage**: Featured demo section, simplified hero text, contextual callouts on educational pages
+- **Better UX**: Clearer educational focus and improved discoverability of key features

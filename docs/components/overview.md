@@ -13,27 +13,35 @@ App Layout (app/layout.tsx)
 
 Pages (app/**/page.tsx)
 ├── Homepage (app/page.tsx)
-├── Shop Landing (app/shop/page.tsx)
-├── Category Page (app/shop/[category]/page.tsx)
-│   ├── Breadcrumbs
-│   ├── GenderFilter (gender navigation buttons)
-│   ├── FilterSummaryBar (sticky filter display)
-│   ├── FilterSidebar (color, size, price, sort filters)
-│   └── Product Grid
-├── Gender Filter Page (app/shop/[category]/for/[gender]/page.tsx)
-│   ├── Breadcrumbs
-│   ├── GenderFilter (with SEO education banner)
-│   ├── FilterSummaryBar
-│   ├── FilterSidebar (gender-aware size groups)
-│   └── Product Grid
-├── Product Page (app/shop/[category]/for/[gender]/[product]/page.tsx)
-│   ├── Breadcrumbs (4-level hierarchy)
-│   └── Product details with gender context
+│   └── Featured Interactive Demo section
+├── Interactive Demo (app/shop/**) - Renamed from "Shop"
+│   ├── Shop Landing (app/shop/page.tsx)
+│   ├── Category Page (app/shop/[category]/page.tsx)
+│   │   ├── Breadcrumbs
+│   │   ├── GenderFilter (gender navigation buttons)
+│   │   ├── FilterSummaryBar (sticky filter display)
+│   │   ├── FilterSidebar (color, size, price, sort filters)
+│   │   └── Product Grid
+│   ├── Gender Filter Page (app/shop/[category]/for/[gender]/page.tsx)
+│   │   ├── Breadcrumbs
+│   │   ├── GenderFilter (with SEO education banner)
+│   │   ├── FilterSummaryBar
+│   │   ├── FilterSidebar (gender-aware size groups)
+│   │   └── Product Grid
+│   └── Product Page (app/shop/[category]/for/[gender]/[product]/page.tsx)
+│       ├── Breadcrumbs (4-level hierarchy)
+│       └── Product details with gender context
 └── Educational Pages (app/*/page.tsx)
     ├── Pattern Gallery (app/pattern-gallery/page.tsx)
+    ├── SEO Dev Tools (app/seo-dev-tools/page.tsx) - NEW
     ├── Robots (app/robots/page.tsx)
     ├── Sitemap (app/sitemap/page.tsx)
     ├── Parameters (app/parameters/page.tsx)
+    │   └── With "Try Demo" callout banner
+    ├── Duplicate Content (app/duplicate-content/page.tsx)
+    │   └── With "Try Demo" callout banner
+    ├── Pagination (app/pagination/page.tsx)
+    │   └── With "Try Demo" callout banner
     └── Other SEO learning pages
 ```
 
@@ -41,11 +49,20 @@ Pages (app/**/page.tsx)
 
 The application uses a component-based architecture with clear separation between:
 
-- **SEO Components**: Real-time SEO analysis and feedback
+- **SEO Components**: Real-time SEO analysis and feedback (includes "Test in Demo" button)
 - **Filter Components**: E-commerce filtering interface
 - **Catalog Components**: Product and category pages
 - **Playground Components**: Interactive SEO pattern exploration
 - **UI Components**: Reusable shadcn/ui component library
+- **Navigation**: Top navigation with "Interactive Demo" link (renamed from "Shop")
 
 Each component is documented in detail in its respective section.
+
+## Recent Updates (November 2025)
+
+- **Navigation**: "Shop" renamed to "Interactive Demo" throughout the app
+- **SeoReceipt**: Added "Test in Demo" button for quick navigation to `/shop`
+- **Educational Pages**: Added contextual callout banners linking to Interactive Demo
+- **Homepage**: Added prominent featured section highlighting the Interactive Demo
+- **New Page**: SEO Dev Tools page at `/seo-dev-tools`
 
