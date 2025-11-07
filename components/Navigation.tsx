@@ -51,6 +51,12 @@ export function Navigation() {
     (!pathname.startsWith("/strategic-seo") && pathname !== "/");
   const isHomePage = pathname === "/";
 
+  // Determine if on section homepage
+  const isTechnicalHomepage = pathname === "/technical-seo";
+  const isStrategicHomepage = pathname === "/strategic-seo";
+  const isOnSubPage =
+    (isTechnicalSection && !isTechnicalHomepage) || (isStrategicSection && !isStrategicHomepage);
+
   // Technical SEO categories
   const technicalCategories = [
     {
@@ -159,6 +165,32 @@ export function Navigation() {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-3">
+            {/* Homepage Navigation - show main section links */}
+            {isHomePage && (
+              <>
+                <Link href="/technical-seo">
+                  <Button size="sm" className="bg-blue-600 hover:bg-blue-700 text-white">
+                    Technical SEO
+                  </Button>
+                </Link>
+                <Link href="/strategic-seo">
+                  <Button size="sm" className="bg-purple-600 hover:bg-purple-700 text-white">
+                    Strategic SEO
+                  </Button>
+                </Link>
+              </>
+            )}
+
+            {/* Section Home Button - show when on sub-pages */}
+            {isOnSubPage && (
+              <Link href={isStrategicSection ? "/strategic-seo" : "/technical-seo"}>
+                <Button variant="outline" size="sm">
+                  <Home className="h-4 w-4 mr-2" />
+                  Section Home
+                </Button>
+              </Link>
+            )}
+
             {/* Interactive Demo Button - only show in technical section */}
             {isTechnicalSection && !isHomePage && (
               <Link href="/shop">
@@ -210,6 +242,39 @@ export function Navigation() {
                   <SheetTitle>Menu</SheetTitle>
                 </SheetHeader>
                 <div className="flex flex-col gap-4 mt-8">
+                  {/* Homepage Navigation - show main section links */}
+                  {isHomePage && (
+                    <div className="border-b pb-4">
+                      <h3 className="px-4 text-xs font-semibold text-slate-500 mb-2 uppercase">
+                        Choose Your Path
+                      </h3>
+                      <div className="px-4 space-y-2">
+                        <Link href="/technical-seo" onClick={() => setMobileMenuOpen(false)}>
+                          <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white">
+                            Technical SEO
+                          </Button>
+                        </Link>
+                        <Link href="/strategic-seo" onClick={() => setMobileMenuOpen(false)}>
+                          <Button className="w-full bg-purple-600 hover:bg-purple-700 text-white">
+                            Strategic SEO
+                          </Button>
+                        </Link>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Section Home Button - show when on sub-pages */}
+                  {isOnSubPage && (
+                    <Link
+                      href={isStrategicSection ? "/strategic-seo" : "/technical-seo"}
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="flex items-center gap-2 px-4 py-2 hover:bg-slate-100 rounded-md border-b pb-4"
+                    >
+                      <Home className="h-5 w-5" />
+                      <span className="font-semibold">Section Home</span>
+                    </Link>
+                  )}
+
                   {/* Section Switcher - only show when not on homepage */}
                   {!isHomePage && (
                     <div className="border-b pb-4">
