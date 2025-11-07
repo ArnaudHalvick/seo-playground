@@ -1,0 +1,26 @@
+Tooling Ecosystem (cross-category, non-programming)
+Core purpose
+Give your team a standard kit to research, brief, publish, and iterate—without touching code. Favor a small, interoperable stack over tool sprawl.
+Categories & go-to tools
+* Keyword & clustering: Ahrefs, Semrush, LowFruits, Google Keyword Planner, Glimpse, AnswerThePublic.
+* SERP & content analysis: Thruuu, SEO Minion, AlsoAsked, Google Search Console (GSC).
+* Content scoring (optional): Clearscope, Surfer, MarketMuse.
+* Analytics & reporting: Google Analytics 4 (GA4), GSC, Looker Studio, Google Sheets, regular-expression (Regex) filters.
+* Link & public relations (PR): Help A Reporter Out (HARO/Connectively), Muck Rack, Hunter, LinkedIn Sales Navigator.
+* Voice of Customer (VoC) & review mining: G2, Reddit, niche forums, App Store/Play reviews, Customer Relationship Management (CRM) exports.
+When to use what (quick cues)
+* Big opportunity sizing: Ahrefs/Semrush + Keyword Planner.
+* Build clusters/briefs: Thruuu for SERP patterns + AlsoAsked for PAA = People Also Ask angles + Sheets.
+* Prioritize content: Ahrefs “Traffic Potential” + business value column in Sheets.
+* Optimize copy: Clearscope/Surfer (only if your editors will use them).
+* Track outcomes: GA4/GSC dashboards in Looker Studio with Regex filters.
+* Earn authority: One linkable asset/quarter + targeted outreach via Muck Rack/Hunter.
+* Mine language: Reviews/Reddit ? paste top phrases into briefs.
+
+
+Starter stack (lean & effective)
+* Research: Ahrefs or Semrush
+* SERP modeling: Thruuu + AlsoAsked
+* Planning: Sheets (brief + roadmap templates)
+* Measurement: GSC + GA4 ? Looker Studio
+* Authority: Hunter + a simple outreach tracker

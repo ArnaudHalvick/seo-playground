@@ -1,20 +1,24 @@
-# Technical SEO Implementation Showcase
+# SEO Workshop - Complete SEO Mastery
 
-A Next.js application demonstrating production-ready solutions to complex technical SEO challenges. Built to master the programming side of SEO and showcase implementation capabilities to potential clients.
+A Next.js application demonstrating both **technical (programming)** and **strategic (non-programming)** SEO best practices. Built to master the complete SEO skill set and showcase comprehensive expertise to potential clients.
 
 ## Why I Built This
 
-Technical SEO requires sophisticated programming solutions that go far beyond basic meta tags. This project exists to:
+Great SEO requires both strategic thinking and technical implementation. This project exists to:
 
-- **Learn by building** - Master advanced SEO implementations through hands-on development
-- **Teach others** - Provide working examples of production-ready SEO patterns
-- **Demonstrate expertise** - Show potential clients what's possible with proper technical SEO implementation
+- **Learn by building** - Master advanced SEO through hands-on development and strategic frameworks
+- **Teach others** - Provide working examples of production-ready SEO patterns and actionable strategies
+- **Demonstrate expertise** - Show potential clients mastery across the entire SEO spectrum
 
-This isn't a real e-commerce store. It's an educational playground where every URL, every parameter, and every filter demonstrates how to solve real-world SEO challenges programmatically.
+This isn't a real e-commerce store. It's an educational workshop where every aspect demonstrates how to solve real-world SEO challenges—from strategic planning to technical implementation.
 
-## What This App Teaches
+## Two-Section Architecture
 
-This project focuses exclusively on the **programming and technical implementation side of SEO**. You won't find lessons on keyword research, content strategy, or marketing tactics here. Instead, you'll see:
+The workshop is divided into two complementary sections:
+
+### Technical SEO (Programming & Implementation)
+
+Master production-ready technical SEO through code:
 
 - How to prevent crawl budget waste from infinite URL combinations
 - When to use canonical tags vs robots.txt vs noindex directives
@@ -23,6 +27,18 @@ This project focuses exclusively on the **programming and technical implementati
 - Real-time SEO feedback showing exactly why each decision was made
 
 Every page includes working code, interactive demos, and transparent "SEO Receipts" that trace the decision-making process step-by-step.
+
+### Strategic SEO (Planning & Execution)
+
+Master the non-programming side of SEO:
+
+- Research & strategy: keyword clustering, SERP analysis, topical authority planning
+- Content architecture: hub & spoke design, E-E-A-T, internal linking frameworks
+- Content production: editorial workflows, governance, localization, quality assurance
+- Measurement & optimization: KPIs, diagnostics, experimentation, continuous improvement
+- Authority building: link acquisition, local SEO, reviews, media optimization
+
+Comprehensive frameworks with actionable checklists, workflows, and operational playbooks.
 
 ## SEO Concepts Covered
 
@@ -170,7 +186,7 @@ Make your site fast enough to rank and convert:
 
 **Key Concept**: Performance is a lightweight ranking factor - focus on content quality first, then optimize to avoid penalties. You don&apos;t need a perfect 100 score; getting from 50→75 matters more than 95→100.
 
-### Tools & Resources
+### Tools & Resources (Technical SEO)
 
 Interactive demos and reference materials:
 
@@ -183,9 +199,9 @@ Live demonstration environment showing real-time SEO decisions:
 - **Crawl trap warnings**: Real-time calculations showing URL explosion risk (2^N for multi-select, N×M for stacked filters)
 - **Clean path routes**: Compare `/shop/t-shirts/for/women/` (clean path) vs `/shop/t-shirts?gender=women` (parameter)
 - Gender-aware size filtering and category-specific size configurations
-- **"Test in Demo" button**: Available on all pages in the SEO Receipt panel to quickly navigate to the demo
+- **"Test in Demo" button**: Available on all technical pages in the SEO Receipt panel to quickly navigate to the demo
 
-**Key Concept**: The Interactive Demo demonstrates every SEO pattern in action. Apply filters and watch the SEO Receipt explain why each decision was made.
+**Key Concept**: The Interactive Demo demonstrates every technical SEO pattern in action. Apply filters and watch the SEO Receipt explain why each decision was made.
 
 #### 13. **Pattern Gallery** (`/pattern-gallery`)
 
@@ -224,7 +240,88 @@ Curated toolkit reference for technical SEO developers:
 
 **Key Concept**: A quick reference guide for the essential tools every technical SEO developer should know, with practical recommendations for getting started.
 
-## What's NOT Covered
+## Strategic SEO Topics
+
+Non-programming SEO frameworks and operational playbooks:
+
+#### 16. **Research & Strategy** (`/strategic/research-strategy`)
+
+Build evidence-based plans that align business goals with searcher demand:
+
+- Market & audience discovery: ICPs, JTBD, Voice of Customer mining
+- Keyword research & clustering: intent modeling, semantic grouping
+- SERP & intent analysis: feature inventory, content patterning
+- Topical authority planning: hub ↔ spoke architecture
+- Competitor intelligence: SERP-first competitive analysis
+- Prioritization & forecasting: ICE scoring, traffic sizing
+
+**Key Concept**: Convert raw market signals into intent-led clusters with measurable outcomes.
+
+#### 17. **Content Architecture** (`/strategic/content-architecture`)
+
+Translate research into semantic, navigable content systems:
+
+- Semantic cluster architecture: hub & spoke design, scope boundaries
+- Content briefs at scale: repeatable templates with proof & differentiation
+- On-page optimization: titles, metas, intros, scannability, CTAs
+- E-E-A-T signals: authors, sources, transparency, trust pages
+- Internal linking: editorial layer, anchor text strategies
+- Content refresh & pruning: decay detection, intent drift, consolidation
+
+**Key Concept**: Build content that satisfies intent quickly while signaling topical authority.
+
+#### 18. **Content Production & Governance** (`/strategic/content-production`)
+
+Build reliable editorial workflows from brief to publish:
+
+- Editorial planning: cluster calendars, SLA timing, capacity management
+- Governance & workflows: DRI, RACI, handoffs, approvals
+- Style & voice operations: TOV, formatting, sourcing standards
+- Localization: true localization vs translation, cultural fit
+- E-E-A-T operations: author sourcing, review loops
+- Quality frameworks: definition of done, peer review rubrics
+
+**Key Concept**: Standardize how ideas become high-quality pages on time and on brief.
+
+#### 19. **Measurement & Optimization** (`/strategic/measurement-optimization`)
+
+Turn strategy into a closed-loop system:
+
+- KPI design: by cluster, template, funnel stage
+- Data instrumentation: GSC, GA4, tagging hygiene, annotations
+- Diagnostics: cannibalization, decay, intent drift, link flow gaps
+- Experimentation: SEO-safe A/B testing, MDE, guardrails
+- Optimization levers: title/meta tests, intro improvements, internal linking
+- Reporting & storytelling: insight → decision cadence
+
+**Key Concept**: Measure the right signals at cluster level and iterate based on data.
+
+#### 20. **Authority Building** (`/strategic/authority-building`)
+
+Strengthen reputation and trust beyond your own site:
+
+- Link acquisition & digital PR: linkable assets, outreach, partnership playbooks
+- Local SEO operations: GBP optimization, NAP consistency, location pages
+- Reviews & UGC governance: collection systems, response policies, insight mining
+- Image & video SEO: titles, thumbnails, chapters, embed strategies
+- E-E-A-T amplification: visible expertise, third-party proof, consistency
+
+**Key Concept**: Earn high-quality mentions and activate signals that reinforce E-E-A-T.
+
+#### 21. **Tools & Resources** (`/strategic/tools`)
+
+Essential non-programming SEO tools:
+
+- Keyword & clustering: Ahrefs, Semrush, LowFruits, Keyword Planner
+- SERP analysis: Thruuu, SEO Minion, AlsoAsked
+- Analytics & reporting: GSC, GA4, Looker Studio
+- Link & PR: HARO/Connectively, Muck Rack, Hunter
+- Voice of Customer: G2, Reddit, review mining
+- Starter stack: Lean, effective toolkit for small teams
+
+**Key Concept**: Favor a small, interoperable stack over tool sprawl.
+
+## What's NOT Covered (Technical SEO)
 
 This app deliberately excludes basic SEO elements to focus on complex technical implementations:
 
@@ -333,13 +430,30 @@ See [docs/README.md](./docs/README.md) for the complete documentation index.
 
 This project demonstrates my ability to:
 
-- **Understand complex SEO requirements** and translate them into code
+- **Understand complex SEO requirements** (both strategic and technical) and translate them into action
 - **Design scalable SEO systems** that handle thousands of URL variations
 - **Implement production-ready solutions** with proper edge case handling
-- **Explain technical decisions clearly** through documentation and UI feedback
-- **Build maintainable architectures** that separate business logic from framework code
+- **Build strategic frameworks** with actionable workflows and operational playbooks
+- **Explain decisions clearly** through documentation, UI feedback, and transparent reasoning
+- **Bridge strategy and implementation** - connecting what should be done with how to do it
 
-If you need technical SEO implementation, parameter handling, crawl budget optimization, or complex indexation logic, this project shows what I can deliver.
+If you need comprehensive SEO expertise—from strategic planning and content architecture to technical implementation and crawl budget optimization—this project shows the complete skill set I can deliver.
+
+## Navigation
+
+The app uses a **two-section architecture**:
+
+- **Landing Page** (`/`) - Choose between Technical SEO or Strategic SEO
+- **Technical SEO** (`/technical`) - Programming and implementation hub
+  - All technical pages accessible from top navigation dropdowns
+  - Interactive Demo available in this section
+  - SEO Receipt panel visible on all technical pages
+- **Strategic SEO** (`/strategic`) - Planning and execution hub
+  - Strategic framework pages with comprehensive workflows
+  - No SEO Receipt (not applicable to strategic content)
+- **Section Switcher** - Dropdown in navigation to switch between sections
+
+The navigation automatically adjusts based on which section you're in, showing only relevant content and tools.
 
 ## License
 

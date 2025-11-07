@@ -2,14 +2,14 @@ import './globals.css';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { ConfigProvider } from '@/lib/config/provider';
-import { SeoReceipt } from '@/components/SeoReceipt';
 import { Navigation } from '@/components/Navigation';
+import { LayoutWrapper } from '@/components/LayoutWrapper';
 
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'SEO Workshop',
-  description: 'Learn technical SEO through interactive demonstrations of robots.txt, canonicals, pagination, international SEO, and more production-ready patterns',
+  title: 'SEO Workshop - Technical & Strategic SEO Mastery',
+  description: 'Master both programming and strategic sides of SEO. Interactive demos, production-ready code, and comprehensive strategic frameworks for client acquisition.',
 };
 
 export default function RootLayout({
@@ -22,10 +22,9 @@ export default function RootLayout({
       <body className={inter.className}>
         <ConfigProvider>
           <Navigation />
-          <div className="page-content pt-16 lg:pr-96">
+          <LayoutWrapper>
             {children}
-          </div>
-          <SeoReceipt />
+          </LayoutWrapper>
         </ConfigProvider>
       </body>
     </html>
