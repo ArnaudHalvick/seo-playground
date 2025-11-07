@@ -8,7 +8,7 @@ import { LayoutWrapper } from '@/components/LayoutWrapper';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'SEO Workshop - Technical & Strategic SEO Mastery',
+  title: 'Complete SEO Mastery - SEO Workshop',
   description: 'Master both programming and strategic sides of SEO. Interactive demos, production-ready code, and comprehensive strategic frameworks for client acquisition.',
 };
 

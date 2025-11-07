@@ -15,7 +15,7 @@ import {
 } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Strategic SEO - Planning & Execution",
+  title: "Strategic SEO - Planning & Execution - SEO Workshop",
   description:
     "Master non-programming SEO: research, content strategy, governance, measurement, and authority building with actionable frameworks.",
 };

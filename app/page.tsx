@@ -16,8 +16,9 @@ import {
 } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "SEO Workshop - Technical & Strategic SEO Mastery",
-  description: "Master both programming and strategic sides of SEO. Interactive demos, production-ready code, and comprehensive strategic frameworks for client acquisition.",
+  title: "Complete SEO Mastery - Technical & Strategic - SEO Workshop",
+  description:
+    "Master both programming and strategic sides of SEO. Interactive demos, production-ready code, and comprehensive strategic frameworks for client acquisition.",
 };
 
 export default function Home() {
@@ -52,8 +53,9 @@ export default function Home() {
                 </div>
               </div>
               <CardDescription className="text-base text-slate-700">
-                Master production-ready SEO through code. Learn robots.txt, canonicals, parameter handling, 
-                and complex indexation logic with interactive demos and real-time feedback.
+                Master production-ready SEO through code. Learn robots.txt, canonicals, parameter
+                handling, and complex indexation logic with interactive demos and real-time
+                feedback.
               </CardDescription>
             </CardHeader>
             <CardContent className="p-8">
@@ -108,7 +110,7 @@ export default function Home() {
                 </div>
               </div>
               <CardDescription className="text-base text-slate-700">
-                Master the non-programming side of SEO. Research, content strategy, governance, 
+                Master the non-programming side of SEO. Research, content strategy, governance,
                 measurement, and authority building with actionable frameworks.
               </CardDescription>
             </CardHeader>
@@ -143,7 +145,10 @@ export default function Home() {
                 </div>
               </div>
               <Link href="/strategic-seo">
-                <Button size="lg" className="w-full text-lg bg-purple-600 hover:bg-purple-700 group">
+                <Button
+                  size="lg"
+                  className="w-full text-lg bg-purple-600 hover:bg-purple-700 group"
+                >
                   Explore Strategic SEO
                   <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
                 </Button>
@@ -154,13 +159,11 @@ export default function Home() {
 
         {/* Value Proposition */}
         <div className="bg-gradient-to-r from-slate-100 to-slate-50 rounded-2xl p-12 text-center">
-          <h2 className="text-3xl font-bold mb-4 text-slate-900">
-            Why Both Matter
-          </h2>
+          <h2 className="text-3xl font-bold mb-4 text-slate-900">Why Both Matter</h2>
           <p className="text-lg text-slate-700 max-w-4xl mx-auto leading-relaxed">
-            Great SEO requires <strong>strategic thinking</strong> to identify opportunities and 
-            <strong> technical expertise</strong> to implement them correctly. This workshop teaches both, 
-            making you a complete SEO professional capable of driving real business results.
+            Great SEO requires <strong>strategic thinking</strong> to identify opportunities and
+            <strong> technical expertise</strong> to implement them correctly. This workshop teaches
+            both, making you a complete SEO professional capable of driving real business results.
           </p>
           <div className="grid md:grid-cols-3 gap-8 mt-12">
             <div>

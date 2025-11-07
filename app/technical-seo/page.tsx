@@ -25,7 +25,7 @@ import {
 } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Technical SEO - Programming & Implementation",
+  title: "Technical SEO - Programming & Implementation - SEO Workshop",
   description: "Master technical SEO through interactive demos. Learn robots.txt, canonicals, URL parameters, pagination, and production-ready SEO patterns.",
 };
 
