@@ -4,6 +4,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { getProduct, getCategory, getProducts } from '@/lib/catalog/data';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
+import { ProductEducationCards } from '@/components/ProductEducationCards';
 import { notFound } from 'next/navigation';
 
 interface PageProps {
@@ -50,6 +51,8 @@ export default async function ProductPage({ params }: PageProps) {
           { label: product.title, href: `/shop/${resolvedParams.category}/for/${resolvedParams.gender}/${resolvedParams.product}` }
         ]} 
       />
+
+      <ProductEducationCards productSlug={product.slug} />
 
       <div className="container mx-auto px-4 py-12 max-w-4xl">
         <div className="grid md:grid-cols-2 gap-8">

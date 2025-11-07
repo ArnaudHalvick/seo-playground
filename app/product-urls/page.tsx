@@ -64,7 +64,7 @@ export default function ProductUrlsPage() {
           </TabsList>
 
           {/* Tab 1: URL Structure & Slugs */}
-          <TabsContent value="url-structure" className="space-y-6">
+          <TabsContent value="url-structure" className="space-y-6" id="url-structure">
             <div className="space-y-6">
               {/* Slug Generation */}
               <Card>
@@ -904,7 +904,7 @@ export default function ProductUrlsPage() {
           </TabsContent>
 
           {/* Tab 4: Database Design */}
-          <TabsContent value="database" className="space-y-6">
+          <TabsContent value="database" className="space-y-6" id="database">
             <div className="space-y-6">
               {/* Core Tables */}
               <Card>
