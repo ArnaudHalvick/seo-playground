@@ -7,7 +7,8 @@ import { BarChart3, Lightbulb, TrendingUp, CheckCircle2 } from "lucide-react";
 
 export default function MeasurementOptimizationPage() {
   return (
-    <div className="container mx-auto px-4 py-8 max-w-6xl">
+    <div className="bg-gradient-to-b from-purple-50 to-slate-50 min-h-screen">
+      <div className="container mx-auto px-4 py-8 max-w-6xl">
         <div className="mb-8">
           <div className="flex items-center gap-3 mb-4">
             <BarChart3 className="h-10 w-10 text-purple-600" />
@@ -354,6 +355,7 @@ export default function MeasurementOptimizationPage() {
           </CardContent>
         </Card>
       </div>
+    </div>
   );
 }
 

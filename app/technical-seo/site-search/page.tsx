@@ -22,7 +22,8 @@ export const metadata: Metadata = {
 
 export default function SiteSearchPage() {
   return (
-    <div className="container mx-auto px-4 py-12 max-w-6xl">
+    <div className="bg-gradient-to-b from-blue-50 to-slate-50 min-h-screen py-12">
+      <div className="container mx-auto px-4 max-w-6xl">
         {/* Hero Section */}
         <div className="mb-8">
           <div className="flex items-center gap-3 mb-4">
@@ -809,6 +810,7 @@ export default function SiteSearchPage() {
           </CardContent>
         </Card>
       </div>
+    </div>
   );
 }
 
