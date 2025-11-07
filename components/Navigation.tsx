@@ -34,7 +34,9 @@ import {
   Beaker,
   Code2,
   Package,
-  Zap
+  Zap,
+  FlaskConical,
+  Wrench
 } from "lucide-react";
 
 export function Navigation() {
@@ -76,6 +78,7 @@ export function Navigation() {
       items: [
         { name: "Pattern Gallery", path: "/pattern-gallery", icon: Beaker },
         { name: "Structured Data", path: "/structured-data", icon: Code2 },
+        { name: "SEO Dev Tools", path: "/seo-dev-tools", icon: Wrench },
       ],
     },
   ];
@@ -107,11 +110,11 @@ export function Navigation() {
               </Button>
             </Link>
 
-            {/* Shop Button */}
+            {/* Interactive Demo Button */}
             <Link href="/shop">
               <Button variant={isActive("/shop") ? "default" : "ghost"} size="sm">
-                <ShoppingBag className="h-4 w-4 mr-2" />
-                Shop
+                <FlaskConical className="h-4 w-4 mr-2" />
+                Interactive Demo
               </Button>
             </Link>
 
@@ -168,14 +171,14 @@ export function Navigation() {
                     <span className="font-semibold">Home</span>
                   </Link>
 
-                  {/* Shop Link */}
+                  {/* Interactive Demo Link */}
                   <Link 
                     href="/shop" 
                     onClick={() => setMobileMenuOpen(false)}
                     className="flex items-center gap-2 px-4 py-2 hover:bg-slate-100 rounded-md"
                   >
-                    <ShoppingBag className="h-5 w-5" />
-                    <span className="font-semibold">Shop</span>
+                    <FlaskConical className="h-5 w-5" />
+                    <span className="font-semibold">Interactive Demo</span>
                   </Link>
 
                   {/* Categories */}

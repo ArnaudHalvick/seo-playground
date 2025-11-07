@@ -18,6 +18,9 @@ import {
   Info,
   Package,
   Zap,
+  FlaskConical,
+  CheckCircle2,
+  Wrench,
 } from "lucide-react";
 
 export default function Home() {
@@ -30,34 +33,78 @@ export default function Home() {
             SEO Workshop
           </h1>
           <p className="text-xl text-slate-600 max-w-3xl mx-auto">
-            A demonstration of production-ready SEO implementations. Explore parameter handling,
-            canonical strategies, robots.txt patterns, and more with real working examples.
+            Master production-ready SEO implementations. Start with the <strong>Interactive Demo</strong> to see real-time decisions, or explore specific topics below.
           </p>
         </div>
 
-        {/* Purpose Statement */}
-        <div className="mb-12">
-          <Alert className="max-w-4xl mx-auto border-2 border-blue-300 bg-gradient-to-r from-blue-50 to-slate-50">
-            <Info className="h-5 w-5" />
-            <AlertDescription className="text-base">
-              <p className="mb-3">
-                <strong>About This Project:</strong> This is an educational playground and portfolio
-                demonstration, not a real e-commerce store. It focuses exclusively on the{" "}
-                <strong>programming and technical implementation side of SEO</strong>.
-              </p>
-              <p className="text-sm text-slate-700 mb-3">
-                You won&apos;t find lessons on keyword research, content strategy, or basic meta
-                tags here.
-              </p>{" "}
-              <p className="text-sm text-slate-700">
-                Instead, every page demonstrates{" "}
-                <strong>production-ready solutions to complex technical SEO challenges</strong>:
-                preventing crawl budget waste, detecting 2^N parameter explosions, implementing
-                intelligent canonicalization, and making transparent SEO decisions you can trace
-                step-by-step.
-              </p>
-            </AlertDescription>
-          </Alert>
+        {/* Featured: Interactive Demo Section */}
+        <div className="mb-16">
+          <Card className="border-4 border-gradient-to-r from-green-400 via-blue-400 to-purple-400 overflow-hidden">
+            <div className="bg-gradient-to-r from-green-50 via-blue-50 to-purple-50 p-8">
+              <div className="flex items-start gap-4 mb-6">
+                <div className="p-3 bg-white rounded-lg shadow-md">
+                  <FlaskConical className="h-10 w-10 text-green-600" />
+                </div>
+                <div className="flex-1">
+                  <h2 className="text-3xl font-bold mb-2 text-slate-900">
+                    Interactive Demo: Test SEO Logic in Real-Time
+                  </h2>
+                  <p className="text-lg text-slate-700">
+                    Apply filters, change parameters, and watch the SEO Receipt explain every
+                    decision step-by-step. This is where theory meets practice.
+                  </p>
+                </div>
+              </div>
+
+              <div className="grid md:grid-cols-2 gap-4 mb-6">
+                <div className="flex items-start gap-3 bg-white/70 p-4 rounded-lg">
+                  <CheckCircle2 className="h-5 w-5 text-green-600 mt-0.5 flex-shrink-0" />
+                  <div>
+                    <strong className="text-slate-900">Multi-select filters:</strong>
+                    <p className="text-sm text-slate-700">
+                      See 2^N crawl trap warnings when combining multiple values
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3 bg-white/70 p-4 rounded-lg">
+                  <CheckCircle2 className="h-5 w-5 text-green-600 mt-0.5 flex-shrink-0" />
+                  <div>
+                    <strong className="text-slate-900">Real-time SEO Receipt:</strong>
+                    <p className="text-sm text-slate-700">
+                      Track indexability, canonical URLs, and robots.txt decisions
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3 bg-white/70 p-4 rounded-lg">
+                  <CheckCircle2 className="h-5 w-5 text-green-600 mt-0.5 flex-shrink-0" />
+                  <div>
+                    <strong className="text-slate-900">Parameter combinations:</strong>
+                    <p className="text-sm text-slate-700">
+                      Test stable filters + unstable sorts to see noindex,follow in action
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3 bg-white/70 p-4 rounded-lg">
+                  <CheckCircle2 className="h-5 w-5 text-green-600 mt-0.5 flex-shrink-0" />
+                  <div>
+                    <strong className="text-slate-900">Canonical URL logic:</strong>
+                    <p className="text-sm text-slate-700">
+                      See which parameters are kept vs dropped with diff highlighting
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex justify-center">
+                <Link href="/shop">
+                  <Button size="lg" className="text-lg px-8 py-6 bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700">
+                    <FlaskConical className="h-5 w-5 mr-2" />
+                    Launch Interactive Demo
+                  </Button>
+                </Link>
+              </div>
+            </div>
+          </Card>
         </div>
 
         {/* Section 1: Core Fundamentals */}
@@ -261,23 +308,6 @@ export default function Home() {
             <p className="text-slate-600">Interactive demos and reference materials</p>
           </div>
           <div className="grid md:grid-cols-3 gap-6">
-            <Card className="hover:shadow-lg transition-shadow border-2 bg-gradient-to-br from-green-50 to-white flex flex-col justify-between">
-              <CardHeader>
-                <ShoppingBag className="h-8 w-8 mb-2 text-green-600" />
-                <CardTitle>Product Catalog</CardTitle>
-                <CardDescription>
-                  Live demo shop with filters to see real-time SEO analysis
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <Link href="/shop">
-                  <Button variant="outline" className="w-full">
-                    Shop Now
-                  </Button>
-                </Link>
-              </CardContent>
-            </Card>
-
             <Card className="hover:shadow-lg transition-shadow border-2 bg-gradient-to-br from-purple-50 to-white flex flex-col justify-between">
               <CardHeader>
                 <FileText className="h-8 w-8 mb-2 text-purple-600" />
@@ -307,6 +337,23 @@ export default function Home() {
                 <Link href="/structured-data">
                   <Button variant="outline" className="w-full">
                     Learn Schema
+                  </Button>
+                </Link>
+              </CardContent>
+            </Card>
+
+            <Card className="hover:shadow-lg transition-shadow border-2 bg-gradient-to-br from-orange-50 to-white flex flex-col justify-between">
+              <CardHeader>
+                <Wrench className="h-8 w-8 mb-2 text-orange-600" />
+                <CardTitle>SEO Dev Tools</CardTitle>
+                <CardDescription>
+                  Curated toolkit for technical SEO: crawlers, performance monitors, and more
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Link href="/seo-dev-tools">
+                  <Button variant="outline" className="w-full">
+                    Browse Tools
                   </Button>
                 </Link>
               </CardContent>

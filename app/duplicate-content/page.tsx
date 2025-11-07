@@ -15,7 +15,8 @@ import {
   Settings,
   List,
   Globe,
-  Link as LinkIcon
+  Link as LinkIcon,
+  FlaskConical
 } from 'lucide-react';
 
 export default function DuplicateContentPage() {
@@ -45,6 +46,23 @@ export default function DuplicateContentPage() {
             </AlertDescription>
           </Alert>
         </div>
+
+        {/* Interactive Demo Callout */}
+        <Alert className="mb-8 border-2 border-green-300 bg-gradient-to-r from-green-50 to-blue-50">
+          <FlaskConical className="h-5 w-5 text-green-600" />
+          <AlertDescription className="flex items-center justify-between">
+            <span className="text-slate-900">
+              <strong>Test how filters create duplicate content:</strong> Use the Interactive Demo to see 
+              how different parameter combinations are handled to prevent duplication.
+            </span>
+            <Link href="/shop">
+              <Button size="sm" className="ml-4 bg-green-600 hover:bg-green-700">
+                Try Demo
+                <ArrowRight className="h-4 w-4 ml-1" />
+              </Button>
+            </Link>
+          </AlertDescription>
+        </Alert>
 
         {/* What Is Duplicate Content */}
         <div className="mb-12">
