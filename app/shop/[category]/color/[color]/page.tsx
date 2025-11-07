@@ -38,7 +38,7 @@ interface PageProps {
   };
 }
 
-export function generateStaticParams() {
+export async function generateStaticParams() {
   const categories = getCategories();
   const colors = ['black', 'blue', 'white', 'red', 'green', 'gray', 'brown', 'tan'];
   
@@ -50,8 +50,11 @@ export function generateStaticParams() {
   );
 }
 
-export default function ColorFilterPage({ params, searchParams }: PageProps) {
-  const category = getCategory(params.category);
+export default async function ColorFilterPage({ params, searchParams }: PageProps) {
+  const resolvedParams = await params;
+  const resolvedSearchParams = await searchParams;
+  
+  const category = getCategory(resolvedParams.category);
 
   if (!category) {
     notFound();
@@ -59,41 +62,41 @@ export default function ColorFilterPage({ params, searchParams }: PageProps) {
 
   // Parse filters from search params + path params
   const filters: FilterOptions = {
-    colors: [params.color], // Color comes from URL path
-    size: searchParams.size,
-    priceMin: searchParams.price_min ? parseFloat(searchParams.price_min) : undefined,
-    priceMax: searchParams.price_max ? parseFloat(searchParams.price_max) : undefined,
+    colors: [resolvedParams.color], // Color comes from URL path
+    size: resolvedSearchParams.size,
+    priceMin: resolvedSearchParams.price_min ? parseFloat(resolvedSearchParams.price_min) : undefined,
+    priceMax: resolvedSearchParams.price_max ? parseFloat(resolvedSearchParams.price_max) : undefined,
   };
 
   // Get available options and counts
-  const availableColors = getAvailableColors(params.category);
-  const availableSizes = getAvailableSizes(params.category);
-  const sizeGroups = getSizeGroupsForGender(params.category, searchParams.gender);
-  const filterCounts = getFilterCounts(params.category, filters);
+  const availableColors = getAvailableColors(resolvedParams.category);
+  const availableSizes = getAvailableSizes(resolvedParams.category);
+  const sizeGroups = getSizeGroupsForGender(resolvedParams.category, resolvedSearchParams.gender);
+  const filterCounts = getFilterCounts(resolvedParams.category, filters);
 
   // Validate that the color exists in this category
-  if (!availableColors.includes(params.color.toLowerCase())) {
+  if (!availableColors.includes(resolvedParams.color.toLowerCase())) {
     notFound();
   }
 
   // Filter and sort products
-  let products = getProductsByCategory(params.category);
+  let products = getProductsByCategory(resolvedParams.category);
   products = filterProducts(products, filters);
-  products = sortProducts(products, searchParams.sort || 'popularity');
+  products = sortProducts(products, resolvedSearchParams.sort || 'popularity');
 
-  const currentPage = parseInt(searchParams.page || '1');
+  const currentPage = parseInt(resolvedSearchParams.page || '1');
   const { products: paginatedProducts, totalPages } = paginateProducts(products, currentPage);
 
   // Query param equivalent URL for comparison
-  const queryParamUrl = `/shop/${params.category}?color=${params.color}`;
+  const queryParamUrl = `/shop/${resolvedParams.category}?color=${resolvedParams.color}`;
 
   return (
     <div className="min-h-screen bg-slate-50">
       <Breadcrumbs 
         items={[
           { label: 'Shop', href: '/shop' }, 
-          { label: category.name, href: `/shop/${params.category}` },
-          { label: `${params.color} ${category.name}`, href: `/shop/${params.category}/color/${params.color}` }
+          { label: category.name, href: `/shop/${resolvedParams.category}` },
+          { label: `${resolvedParams.color} ${category.name}`, href: `/shop/${resolvedParams.category}/color/${resolvedParams.color}` }
         ]} 
       />
 
@@ -124,10 +127,10 @@ export default function ColorFilterPage({ params, searchParams }: PageProps) {
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-4xl font-bold mb-3 capitalize">
-            {params.color} {category.name}
+            {resolvedParams.color} {category.name}
           </h1>
           <p className="text-lg text-slate-600">
-            {category.description} - Filtered by {params.color}
+            {category.description} - Filtered by {resolvedParams.color}
           </p>
           <p className="text-sm text-slate-500 mt-2">
             Showing {paginatedProducts.length} of {products.length} products
@@ -139,7 +142,7 @@ export default function ColorFilterPage({ params, searchParams }: PageProps) {
           {/* Filter Sidebar */}
           <div className="lg:col-span-1">
             <FilterSidebar
-              category={params.category}
+              category={resolvedParams.category}
               filterCounts={filterCounts}
               currentFilters={filters}
               availableColors={availableColors}
@@ -183,7 +186,7 @@ export default function ColorFilterPage({ params, searchParams }: PageProps) {
                         </div>
                       </CardContent>
                       <CardFooter>
-                        <Link href={`/shop/${params.category}/for/${product.gender}/${product.slug}`} className="w-full">
+                        <Link href={`/shop/${resolvedParams.category}/for/${product.gender}/${product.slug}`} className="w-full">
                           <Button variant="outline" className="w-full">View Details</Button>
                         </Link>
                       </CardFooter>
@@ -197,7 +200,7 @@ export default function ColorFilterPage({ params, searchParams }: PageProps) {
                     {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
                       <Link
                         key={page}
-                        href={`/shop/${params.category}/color/${params.color}?${new URLSearchParams({ ...searchParams, page: page.toString() }).toString()}`}
+                        href={`/shop/${resolvedParams.category}/color/${resolvedParams.color}?${new URLSearchParams({ ...resolvedSearchParams, page: page.toString() }).toString()}`}
                       >
                         <Button variant={page === currentPage ? 'default' : 'outline'} size="sm">
                           {page}
@@ -215,7 +218,7 @@ export default function ColorFilterPage({ params, searchParams }: PageProps) {
                 <p className="text-slate-600 mb-6">
                   Try adjusting your filters to see more results
                 </p>
-                <Link href={`/shop/${params.category}`}>
+                <Link href={`/shop/${resolvedParams.category}`}>
                   <Button variant="outline">View All {category.name}</Button>
                 </Link>
               </div>

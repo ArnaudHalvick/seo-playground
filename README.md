@@ -245,8 +245,7 @@ Every page includes a real-time "SEO Receipt" panel showing:
 3. **Robots.txt Blocking** - Whether this URL pattern is blocked from crawling
 4. **Sitemap Inclusion** - Should this URL appear in sitemap.xml?
 5. **Crawl Trap Risk** - Low/Medium/High with mathematical calculations (2^N or N×M)
-6. **Complete Decision Trace** - Step-by-step reasoning showing every rule that was evaluated
-7. **"Test in Demo" Button** - Quick link to navigate to the Interactive Demo from any page (hidden when already on the demo)
+6. **"Test in Demo" Button** - Quick link to navigate to the Interactive Demo from any page (hidden when already on the demo)
 
 This transparency makes it a teaching tool. You can see exactly how the SEO engine makes decisions.
 

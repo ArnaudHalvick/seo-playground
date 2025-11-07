@@ -39,12 +39,7 @@
    - Shows if URL is included in sitemap
    - Explains why included/excluded
 
-5. **Rule Trace**
-   - Tab showing complete decision log
-   - Step-by-step reasoning
-   - Copy entire trace button
-
-6. **Warnings**
+5. **Warnings**
    - Shows SEO warnings if any
    - Examples: risky robots.txt patterns
 

@@ -55,11 +55,6 @@ export function SeoReceipt() {
     }
   };
 
-  const copyTrace = async () => {
-    const traceText = result.trace.join("\n");
-    await copyToClipboard(traceText, "trace");
-  };
-
   const showTestButton = !pathname.includes('/shop');
 
   return (
@@ -96,7 +91,6 @@ export function SeoReceipt() {
             hasPriceParams={hasPriceParams}
             copiedField={copiedField}
             copyToClipboard={copyToClipboard}
-            copyTrace={copyTrace}
             shortExplanation={shortExplanation}
             cleanPathRec={cleanPathRec}
             crawlTrapRisk={crawlTrapRisk}

@@ -14,7 +14,7 @@ interface PageProps {
   };
 }
 
-export function generateStaticParams() {
+export async function generateStaticParams() {
   const products = getProducts();
   return products.map((product) => ({
     category: product.category,
@@ -23,30 +23,31 @@ export function generateStaticParams() {
   }));
 }
 
-export default function ProductPage({ params }: PageProps) {
-  const product = getProduct(params.product);
-  const category = getCategory(params.category);
+export default async function ProductPage({ params }: PageProps) {
+  const resolvedParams = await params;
+  const product = getProduct(resolvedParams.product);
+  const category = getCategory(resolvedParams.category);
 
   if (!product || !category) {
     notFound();
   }
 
   // Validate that the gender in the URL matches the product's gender
-  if (product.gender.toLowerCase() !== params.gender.toLowerCase()) {
+  if (product.gender.toLowerCase() !== resolvedParams.gender.toLowerCase()) {
     notFound();
   }
 
   // Gender label for display
-  const genderLabel = params.gender.charAt(0).toUpperCase() + params.gender.slice(1);
+  const genderLabel = resolvedParams.gender.charAt(0).toUpperCase() + resolvedParams.gender.slice(1);
 
   return (
     <div className="min-h-screen bg-slate-50">
       <Breadcrumbs 
         items={[
           { label: 'Shop', href: '/shop' }, 
-          { label: category.name, href: `/shop/${params.category}` },
-          { label: `${genderLabel}'s ${category.name}`, href: `/shop/${params.category}/for/${params.gender}` },
-          { label: product.title, href: `/shop/${params.category}/for/${params.gender}/${params.product}` }
+          { label: category.name, href: `/shop/${resolvedParams.category}` },
+          { label: `${genderLabel}'s ${category.name}`, href: `/shop/${resolvedParams.category}/for/${resolvedParams.gender}` },
+          { label: product.title, href: `/shop/${resolvedParams.category}/for/${resolvedParams.gender}/${resolvedParams.product}` }
         ]} 
       />
 
@@ -60,7 +61,7 @@ export default function ProductPage({ params }: PageProps) {
 
           <div>
             <div className="mb-4">
-              <Link href={`/shop/${params.category}/for/${params.gender}`}>
+              <Link href={`/shop/${resolvedParams.category}/for/${resolvedParams.gender}`}>
                 <Badge variant="outline" className="mb-2">{genderLabel}'s {category.name}</Badge>
               </Link>
             </div>

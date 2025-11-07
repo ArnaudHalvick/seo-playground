@@ -3,7 +3,6 @@
 import { Info, CheckCircle2, XCircle, AlertTriangle, Copy, Check } from "lucide-react";
 import { Button } from "../ui/button";
 import { Badge } from "../ui/badge";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import type { CanonicalResult } from "@/lib/rules/canonical";
 import type { UrlDiffSegment } from "@/lib/utils/url-diff";
 import type { CleanPathRecommendation, CrawlTrapRisk } from "@/lib/seo-receipt-helpers";
@@ -19,7 +18,6 @@ interface SeoReceiptContentProps {
   hasPriceParams: boolean;
   copiedField: string | null;
   copyToClipboard: (text: string, field: string) => Promise<void>;
-  copyTrace: () => Promise<void>;
   shortExplanation: string;
   cleanPathRec: CleanPathRecommendation | null;
   crawlTrapRisk: CrawlTrapRisk | null;
@@ -38,7 +36,6 @@ export function SeoReceiptContent({
   hasPriceParams,
   copiedField,
   copyToClipboard,
-  copyTrace,
   shortExplanation,
   cleanPathRec,
   crawlTrapRisk,
@@ -49,17 +46,7 @@ export function SeoReceiptContent({
   const textSize = compact ? "text-xs" : "text-xs";
 
   return (
-    <Tabs defaultValue="summary" className="w-full">
-      <TabsList className="w-full rounded-none border-b">
-        <TabsTrigger value="summary" className="flex-1">
-          Summary
-        </TabsTrigger>
-        <TabsTrigger value="trace" className="flex-1">
-          Rule Trace
-        </TabsTrigger>
-      </TabsList>
-
-      <TabsContent value="summary" className={`${spacing} m-0`}>
+    <div className={spacing}>
         <div>
           <div className="font-semibold mb-2 text-sm text-slate-700">URL Comparison</div>
           <div className="space-y-2">
@@ -366,34 +353,7 @@ export function SeoReceiptContent({
             </div>
           </div>
         )}
-      </TabsContent>
-
-      <TabsContent value="trace" className={compact ? "p-3 m-0" : "p-4 m-0"}>
-        <div className="space-y-2">
-          <div className="flex items-center justify-between mb-2">
-            <div className="font-semibold text-sm text-slate-700">Decision Log</div>
-            <Button variant="outline" size="sm" onClick={copyTrace} className="h-7 text-xs">
-              {copiedField === "trace" ? (
-                <>
-                  <Check className="h-3 w-3 mr-1 text-green-600" />
-                  Copied
-                </>
-              ) : (
-                <>
-                  <Copy className="h-3 w-3 mr-1" />
-                  Copy All
-                </>
-              )}
-            </Button>
-          </div>
-          <div className={`bg-slate-900 text-green-400 p-3 rounded text-xs font-mono space-y-1 ${compact ? "max-h-[50vh]" : "max-h-[calc(100vh-16rem)]"} overflow-y-auto`}>
-            {result.trace.map((line, idx) => (
-              <div key={idx}>{line}</div>
-            ))}
-          </div>
-        </div>
-      </TabsContent>
-    </Tabs>
+    </div>
   );
 }
 

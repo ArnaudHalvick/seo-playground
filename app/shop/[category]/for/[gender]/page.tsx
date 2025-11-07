@@ -39,7 +39,7 @@ interface PageProps {
   };
 }
 
-export function generateStaticParams() {
+export async function generateStaticParams() {
   const categories = getCategories();
   const genders = ['women', 'men', 'girls', 'boys'];
   
@@ -51,64 +51,67 @@ export function generateStaticParams() {
   );
 }
 
-export default function GenderFilterPage({ params, searchParams }: PageProps) {
-  const category = getCategory(params.category);
+export default async function GenderFilterPage({ params, searchParams }: PageProps) {
+  const resolvedParams = await params;
+  const resolvedSearchParams = await searchParams;
+  
+  const category = getCategory(resolvedParams.category);
 
   if (!category) {
     notFound();
   }
 
   // Validate that the gender exists in this category
-  const availableGenders = getAvailableGenders(params.category);
-  if (!availableGenders.includes(params.gender.toLowerCase())) {
+  const availableGenders = getAvailableGenders(resolvedParams.category);
+  if (!availableGenders.includes(resolvedParams.gender.toLowerCase())) {
     notFound();
   }
 
   // Parse filters from search params + path params
   const filters: FilterOptions = {
-    gender: params.gender, // Gender comes from URL path
-    colors: searchParams.color ? searchParams.color.split(',') : undefined,
-    size: searchParams.size,
-    priceMin: searchParams.price_min ? parseFloat(searchParams.price_min) : undefined,
-    priceMax: searchParams.price_max ? parseFloat(searchParams.price_max) : undefined,
+    gender: resolvedParams.gender, // Gender comes from URL path
+    colors: resolvedSearchParams.color ? resolvedSearchParams.color.split(',') : undefined,
+    size: resolvedSearchParams.size,
+    priceMin: resolvedSearchParams.price_min ? parseFloat(resolvedSearchParams.price_min) : undefined,
+    priceMax: resolvedSearchParams.price_max ? parseFloat(resolvedSearchParams.price_max) : undefined,
   };
 
   // Get available options and counts
-  const availableColors = getAvailableColors(params.category);
-  const availableSizes = getAvailableSizes(params.category);
-  const sizeGroups = getSizeGroupsForGender(params.category, params.gender);
-  const filterCounts = getFilterCounts(params.category, filters);
+  const availableColors = getAvailableColors(resolvedParams.category);
+  const availableSizes = getAvailableSizes(resolvedParams.category);
+  const sizeGroups = getSizeGroupsForGender(resolvedParams.category, resolvedParams.gender);
+  const filterCounts = getFilterCounts(resolvedParams.category, filters);
 
   // Filter and sort products
-  let products = getProductsByCategory(params.category);
+  let products = getProductsByCategory(resolvedParams.category);
   products = filterProducts(products, filters);
-  products = sortProducts(products, searchParams.sort || 'popularity');
+  products = sortProducts(products, resolvedSearchParams.sort || 'popularity');
 
-  const currentPage = parseInt(searchParams.page || '1');
+  const currentPage = parseInt(resolvedSearchParams.page || '1');
   const { products: paginatedProducts, totalPages } = paginateProducts(products, currentPage);
 
   // Get gender counts for filter buttons
-  const genderCounts = getGenderCounts(params.category);
-  const totalProducts = getProductsByCategory(params.category).length;
+  const genderCounts = getGenderCounts(resolvedParams.category);
+  const totalProducts = getProductsByCategory(resolvedParams.category).length;
 
   // Gender label for display
-  const genderLabel = params.gender.charAt(0).toUpperCase() + params.gender.slice(1);
+  const genderLabel = resolvedParams.gender.charAt(0).toUpperCase() + resolvedParams.gender.slice(1);
 
   return (
     <div className="min-h-screen bg-slate-50">
       <Breadcrumbs 
         items={[
           { label: 'Shop', href: '/shop' }, 
-          { label: category.name, href: `/shop/${params.category}` },
-          { label: `${genderLabel}'s ${category.name}`, href: `/shop/${params.category}/for/${params.gender}` }
+          { label: category.name, href: `/shop/${resolvedParams.category}` },
+          { label: `${genderLabel}'s ${category.name}`, href: `/shop/${resolvedParams.category}/for/${resolvedParams.gender}` }
         ]} 
       />
 
       <div className="container mx-auto px-4 py-12 max-w-7xl">
         {/* Gender Filter with SEO Banner */}
         <GenderFilter 
-          category={params.category}
-          currentGender={params.gender}
+          category={resolvedParams.category}
+          currentGender={resolvedParams.gender}
           genderCounts={genderCounts}
           totalCount={totalProducts}
         />
@@ -119,7 +122,7 @@ export default function GenderFilterPage({ params, searchParams }: PageProps) {
             {genderLabel}'s {category.name}
           </h1>
           <p className="text-lg text-slate-600">
-            {category.description} for {params.gender}
+            {category.description} for {resolvedParams.gender}
           </p>
           <p className="text-sm text-slate-500 mt-2">
             Showing {paginatedProducts.length} of {products.length} products
@@ -128,9 +131,9 @@ export default function GenderFilterPage({ params, searchParams }: PageProps) {
 
         {/* Sticky Filter Summary Bar */}
         <FilterSummaryBar
-          category={params.category}
+          category={resolvedParams.category}
           filters={filters}
-          sort={searchParams.sort}
+          sort={resolvedSearchParams.sort}
           page={currentPage}
           priceRange={filterCounts.priceRange}
         />
@@ -140,7 +143,7 @@ export default function GenderFilterPage({ params, searchParams }: PageProps) {
           {/* Filter Sidebar */}
           <div className="lg:col-span-1">
             <FilterSidebar
-              category={params.category}
+              category={resolvedParams.category}
               filterCounts={filterCounts}
               currentFilters={filters}
               availableColors={availableColors}
@@ -181,7 +184,7 @@ export default function GenderFilterPage({ params, searchParams }: PageProps) {
                         </div>
                       </CardContent>
                       <CardFooter>
-                        <Link href={`/shop/${params.category}/for/${params.gender}/${product.slug}`} className="w-full">
+                        <Link href={`/shop/${resolvedParams.category}/for/${resolvedParams.gender}/${product.slug}`} className="w-full">
                           <Button variant="outline" className="w-full">View Details</Button>
                         </Link>
                       </CardFooter>
@@ -195,7 +198,7 @@ export default function GenderFilterPage({ params, searchParams }: PageProps) {
                     {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
                       <Link
                         key={page}
-                        href={`/shop/${params.category}/for/${params.gender}?${new URLSearchParams({ ...searchParams, page: page.toString() }).toString()}`}
+                        href={`/shop/${resolvedParams.category}/for/${resolvedParams.gender}?${new URLSearchParams({ ...resolvedSearchParams, page: page.toString() }).toString()}`}
                       >
                         <Button variant={page === currentPage ? 'default' : 'outline'} size="sm">
                           {page}
@@ -213,7 +216,7 @@ export default function GenderFilterPage({ params, searchParams }: PageProps) {
                 <p className="text-slate-600 mb-6">
                   Try adjusting your filters to see more results
                 </p>
-                <Link href={`/shop/${params.category}/for/${params.gender}`}>
+                <Link href={`/shop/${resolvedParams.category}/for/${resolvedParams.gender}`}>
                   <Button variant="outline">Clear All Filters</Button>
                 </Link>
               </div>

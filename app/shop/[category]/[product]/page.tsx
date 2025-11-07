@@ -8,7 +8,7 @@ interface PageProps {
   };
 }
 
-export function generateStaticParams() {
+export async function generateStaticParams() {
   const products = getProducts();
   return products.map((product) => ({
     category: product.category,
@@ -16,13 +16,14 @@ export function generateStaticParams() {
   }));
 }
 
-export default function ProductPage({ params }: PageProps) {
-  const product = getProduct(params.product);
+export default async function ProductPage({ params }: PageProps) {
+  const resolvedParams = await params;
+  const product = getProduct(resolvedParams.product);
 
   if (!product) {
     notFound();
   }
 
   // Redirect to the new URL structure with gender segment
-  redirect(`/shop/${params.category}/for/${product.gender}/${params.product}`);
+  redirect(`/shop/${resolvedParams.category}/for/${product.gender}/${resolvedParams.product}`);
 }
