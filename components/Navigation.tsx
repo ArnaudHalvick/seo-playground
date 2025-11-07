@@ -10,17 +10,11 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
+import { Sheet, SheetContent, SheetTrigger, SheetHeader, SheetTitle } from "./ui/sheet";
 import {
-  Sheet,
-  SheetContent,
-  SheetTrigger,
-  SheetHeader,
-  SheetTitle,
-} from "./ui/sheet";
-import { 
-  ShoppingBag, 
-  Home, 
-  ChevronDown, 
+  ShoppingBag,
+  Home,
+  ChevronDown,
   Menu,
   Bot,
   Map,
@@ -49,10 +43,11 @@ export function Navigation() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const isActive = (path: string) => pathname === path || pathname.startsWith(path + "/");
-  
+
   // Determine current section
   const isStrategicSection = pathname.startsWith("/strategic-seo");
-  const isTechnicalSection = pathname.startsWith("/technical-seo") || 
+  const isTechnicalSection =
+    pathname.startsWith("/technical-seo") ||
     (!pathname.startsWith("/strategic-seo") && pathname !== "/");
   const isHomePage = pathname === "/";
 
@@ -100,14 +95,22 @@ export function Navigation() {
       name: "Strategy & Planning",
       items: [
         { name: "Research & Strategy", path: "/strategic-seo/research-strategy", icon: Target },
-        { name: "Content Architecture", path: "/strategic-seo/content-architecture", icon: FileText },
+        {
+          name: "Content Architecture",
+          path: "/strategic-seo/content-architecture",
+          icon: FileText,
+        },
       ],
     },
     {
       name: "Production & Growth",
       items: [
         { name: "Content Production", path: "/strategic-seo/content-production", icon: Users },
-        { name: "Measurement & Optimization", path: "/strategic-seo/measurement-optimization", icon: BarChart3 },
+        {
+          name: "Measurement & Optimization",
+          path: "/strategic-seo/measurement-optimization",
+          icon: BarChart3,
+        },
         { name: "Authority Building", path: "/strategic-seo/authority-building", icon: TrendingUp },
         { name: "Tools & Resources", path: "/strategic-seo/tools", icon: Wrench },
       ],
@@ -116,29 +119,27 @@ export function Navigation() {
 
   const categories = isStrategicSection ? strategicCategories : technicalCategories;
 
-  const isCategoryActive = (category: typeof categories[0]) => {
-    return category.items.some(item => isActive(item.path));
+  const isCategoryActive = (category: (typeof categories)[0]) => {
+    return category.items.some((item) => isActive(item.path));
   };
 
   return (
     <nav className="border-b bg-white fixed top-0 left-0 right-0 z-40 shadow-sm">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
-          {/* Logo */}
-          <Link
-            href="/"
-            className="flex items-center gap-2 font-bold text-lg hover:text-blue-600 transition-colors"
-          >
-            <Home className="h-5 w-5" />
-            <span className="hidden sm:inline">SEO Workshop</span>
-          </Link>
+          {/* Logo and Section Switcher */}
+          <div className="flex items-center gap-10">
+            <Link
+              href="/"
+              className="flex items-center gap-2 font-bold text-lg hover:text-blue-600 transition-colors"
+            >
+              <Home className="h-5 w-5" />
+              <span className="hidden sm:inline">SEO Workshop</span>
+            </Link>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-3 flex-1">
             {/* Section Switcher Button - only show when not on homepage */}
             {!isHomePage && (
               <>
-                <div className="flex-1"></div>
                 {isStrategicSection ? (
                   <Link href="/technical-seo">
                     <Button size="sm" className="bg-blue-600 hover:bg-blue-700 text-white">
@@ -154,7 +155,10 @@ export function Navigation() {
                 )}
               </>
             )}
+          </div>
 
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex items-center gap-3">
             {/* Interactive Demo Button - only show in technical section */}
             {isTechnicalSection && !isHomePage && (
               <Link href="/shop">
@@ -166,33 +170,31 @@ export function Navigation() {
             )}
 
             {/* Category Dropdowns */}
-            {!isHomePage && categories.map((category) => (
-              <DropdownMenu key={category.name} modal={false}>
-                <DropdownMenuTrigger asChild>
-                  <Button 
-                    variant={isCategoryActive(category) ? "default" : "ghost"} 
-                    size="sm"
-                    className="gap-1"
-                  >
-                    {category.name}
-                    <ChevronDown className="h-3 w-3" />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="start" className="w-56">
-                  {category.items.map((item) => (
-                    <DropdownMenuItem key={item.path} asChild>
-                      <Link 
-                        href={item.path}
-                        className="flex items-center gap-2 cursor-pointer"
-                      >
-                        <item.icon className="h-4 w-4" />
-                        {item.name}
-                      </Link>
-                    </DropdownMenuItem>
-                  ))}
-                </DropdownMenuContent>
-              </DropdownMenu>
-            ))}
+            {!isHomePage &&
+              categories.map((category) => (
+                <DropdownMenu key={category.name} modal={false}>
+                  <DropdownMenuTrigger asChild>
+                    <Button
+                      variant={isCategoryActive(category) ? "default" : "ghost"}
+                      size="sm"
+                      className="gap-1"
+                    >
+                      {category.name}
+                      <ChevronDown className="h-3 w-3" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="start" className="w-56">
+                    {category.items.map((item) => (
+                      <DropdownMenuItem key={item.path} asChild>
+                        <Link href={item.path} className="flex items-center gap-2 cursor-pointer">
+                          <item.icon className="h-4 w-4" />
+                          {item.name}
+                        </Link>
+                      </DropdownMenuItem>
+                    ))}
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              ))}
           </div>
 
           {/* Mobile Hamburger Menu */}
@@ -216,19 +218,13 @@ export function Navigation() {
                       </h3>
                       <div className="px-4">
                         {isStrategicSection ? (
-                          <Link 
-                            href="/technical-seo" 
-                            onClick={() => setMobileMenuOpen(false)}
-                          >
+                          <Link href="/technical-seo" onClick={() => setMobileMenuOpen(false)}>
                             <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white">
                               Switch to Technical SEO
                             </Button>
                           </Link>
                         ) : (
-                          <Link 
-                            href="/strategic-seo" 
-                            onClick={() => setMobileMenuOpen(false)}
-                          >
+                          <Link href="/strategic-seo" onClick={() => setMobileMenuOpen(false)}>
                             <Button className="w-full bg-purple-600 hover:bg-purple-700 text-white">
                               Switch to Strategic SEO
                             </Button>
@@ -240,8 +236,8 @@ export function Navigation() {
 
                   {/* Interactive Demo Link - only show in technical section */}
                   {isTechnicalSection && !isHomePage && (
-                    <Link 
-                      href="/shop" 
+                    <Link
+                      href="/shop"
                       onClick={() => setMobileMenuOpen(false)}
                       className="flex items-center gap-2 px-4 py-2 hover:bg-slate-100 rounded-md border-b pb-4"
                     >
@@ -251,28 +247,29 @@ export function Navigation() {
                   )}
 
                   {/* Categories */}
-                  {!isHomePage && categories.map((category) => (
-                    <div key={category.name} className="border-t pt-4">
-                      <h3 className="px-4 text-sm font-semibold text-slate-900 mb-2">
-                        {category.name}
-                      </h3>
-                      <div className="flex flex-col">
-                        {category.items.map((item) => (
-                          <Link
-                            key={item.path}
-                            href={item.path}
-                            onClick={() => setMobileMenuOpen(false)}
-                            className={`flex items-center gap-3 px-4 py-2 hover:bg-slate-100 rounded-md ${
-                              isActive(item.path) ? 'bg-slate-100 font-medium' : ''
-                            }`}
-                          >
-                            <item.icon className="h-4 w-4" />
-                            {item.name}
-                          </Link>
-                        ))}
+                  {!isHomePage &&
+                    categories.map((category) => (
+                      <div key={category.name} className="border-t pt-4">
+                        <h3 className="px-4 text-sm font-semibold text-slate-900 mb-2">
+                          {category.name}
+                        </h3>
+                        <div className="flex flex-col">
+                          {category.items.map((item) => (
+                            <Link
+                              key={item.path}
+                              href={item.path}
+                              onClick={() => setMobileMenuOpen(false)}
+                              className={`flex items-center gap-3 px-4 py-2 hover:bg-slate-100 rounded-md ${
+                                isActive(item.path) ? "bg-slate-100 font-medium" : ""
+                              }`}
+                            >
+                              <item.icon className="h-4 w-4" />
+                              {item.name}
+                            </Link>
+                          ))}
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    ))}
                 </div>
               </SheetContent>
             </Sheet>
