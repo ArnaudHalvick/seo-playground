@@ -8,8 +8,7 @@ import { FlaskConical, ArrowRight } from 'lucide-react';
 
 export default function PaginationContent() {
   return (
-    <div className="min-h-screen bg-slate-50">
-      <div className="container mx-auto px-4 py-12 max-w-7xl">
+    <div className="container mx-auto px-4 py-12 max-w-7xl">
         <div className="mb-6">
           <h1 className="text-3xl font-bold mb-2">Pagination</h1>
           <p className="text-slate-600">
@@ -36,6 +35,5 @@ export default function PaginationContent() {
 
         <PaginationSettings />
       </div>
-    </div>
   );
 }

@@ -11,8 +11,7 @@ export default function ParametersContent() {
   const { config } = useConfig();
 
   return (
-    <div className="min-h-screen bg-slate-50">
-      <div className="container mx-auto px-4 py-12 max-w-7xl">
+    <div className="container mx-auto px-4 py-12 max-w-7xl">
         <div className="mb-6">
           <h1 className="text-3xl font-bold mb-2">URL Parameters</h1>
           <p className="text-slate-600">
@@ -39,7 +38,6 @@ export default function ParametersContent() {
 
         <ParamPolicyEditor config={config} />
       </div>
-    </div>
   );
 }
 

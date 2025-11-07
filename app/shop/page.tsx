@@ -14,8 +14,7 @@ export default function CatalogPage() {
   const categories = getCategories();
   
   return (
-    <div className="min-h-screen bg-slate-50">
-      <div className="container mx-auto px-4 py-12 max-w-5xl">
+    <div className="container mx-auto px-4 py-12 max-w-5xl">
         <div className="mb-12 text-center">
           <h1 className="text-5xl font-bold mb-4">Shop Our Collection</h1>
           <p className="text-xl text-slate-600 max-w-2xl mx-auto">
@@ -49,6 +48,5 @@ export default function CatalogPage() {
           ))}
         </div>
       </div>
-    </div>
   );
 }

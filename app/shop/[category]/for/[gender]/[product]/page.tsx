@@ -57,7 +57,7 @@ export default async function ProductPage({ params }: PageProps) {
   const genderLabel = resolvedParams.gender.charAt(0).toUpperCase() + resolvedParams.gender.slice(1);
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <>
       <ProductEducationCards productSlug={product.slug} />
 
       <div className="container mx-auto px-4 py-12 max-w-4xl">
@@ -111,7 +111,7 @@ export default async function ProductPage({ params }: PageProps) {
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 

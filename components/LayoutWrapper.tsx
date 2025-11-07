@@ -107,7 +107,7 @@ export function LayoutWrapper({ children }: { children: React.ReactNode }) {
     <>
       <div className="pt-16">
         {breadcrumbs && <Breadcrumbs items={breadcrumbs} />}
-        <div className={`page-content ${showSeoReceipt ? 'lg:pr-96' : ''}`}>
+        <div className={`page-content min-h-screen bg-slate-50 ${showSeoReceipt ? 'lg:pr-96' : ''}`}>
           {children}
         </div>
       </div>

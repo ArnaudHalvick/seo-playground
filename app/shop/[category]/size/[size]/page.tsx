@@ -90,8 +90,7 @@ export default async function SizeFilterPage({ params, searchParams }: PageProps
   const queryParamUrl = `/shop/${resolvedParams.category}?size=${resolvedParams.size}`;
 
   return (
-    <div className="min-h-screen bg-slate-50">
-      <div className="container mx-auto px-4 py-12 max-w-7xl">
+    <div className="container mx-auto px-4 py-12 max-w-7xl">
         {/* Clean Path Info Banner */}
         <Alert className="mb-6 border-green-200 bg-green-50">
           <Info className="h-4 w-4 text-green-600" />
@@ -217,7 +216,6 @@ export default async function SizeFilterPage({ params, searchParams }: PageProps
           </div>
         </div>
       </div>
-    </div>
   );
 }
 

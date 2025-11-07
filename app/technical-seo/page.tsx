@@ -31,7 +31,7 @@ export const metadata: Metadata = {
 
 export default function TechnicalSeoPage() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-slate-50">
+    <div className="bg-gradient-to-b from-blue-50 to-slate-50 min-h-full">
       <div className="container mx-auto px-4 py-12 max-w-6xl">
         {/* Hero Section */}
         <div className="text-center mb-12">
