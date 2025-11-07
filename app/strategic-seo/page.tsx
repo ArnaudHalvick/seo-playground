@@ -97,7 +97,7 @@ export default function StrategicSeoPage() {
           <h2 className="text-3xl font-bold mb-6 text-slate-900">Core Topics</h2>
           <div className="grid md:grid-cols-2 gap-6">
             {/* Research & Strategy */}
-            <Card className="hover:shadow-lg transition-shadow border-2 border-purple-200">
+            <Card className="hover:shadow-lg transition-shadow border-2 border-purple-200 flex flex-col justify-between">
               <CardHeader>
                 <Target className="h-10 w-10 mb-3 text-purple-600" />
                 <CardTitle className="text-2xl">Research & Strategy</CardTitle>
@@ -129,7 +129,7 @@ export default function StrategicSeoPage() {
             </Card>
 
             {/* Content Architecture */}
-            <Card className="hover:shadow-lg transition-shadow border-2 border-purple-200">
+            <Card className="hover:shadow-lg transition-shadow border-2 border-purple-200 flex flex-col justify-between">
               <CardHeader>
                 <FileText className="h-10 w-10 mb-3 text-purple-600" />
                 <CardTitle className="text-2xl">Content Architecture</CardTitle>
@@ -161,7 +161,7 @@ export default function StrategicSeoPage() {
             </Card>
 
             {/* Content Production */}
-            <Card className="hover:shadow-lg transition-shadow border-2 border-purple-200">
+            <Card className="hover:shadow-lg transition-shadow border-2 border-purple-200 flex flex-col justify-between">
               <CardHeader>
                 <Users className="h-10 w-10 mb-3 text-purple-600" />
                 <CardTitle className="text-2xl">Content Production</CardTitle>
@@ -193,7 +193,7 @@ export default function StrategicSeoPage() {
             </Card>
 
             {/* Measurement & Optimization */}
-            <Card className="hover:shadow-lg transition-shadow border-2 border-purple-200">
+            <Card className="hover:shadow-lg transition-shadow border-2 border-purple-200 flex flex-col justify-between">
               <CardHeader>
                 <BarChart3 className="h-10 w-10 mb-3 text-purple-600" />
                 <CardTitle className="text-2xl">Measurement & Optimization</CardTitle>
@@ -225,7 +225,7 @@ export default function StrategicSeoPage() {
             </Card>
 
             {/* Authority Building */}
-            <Card className="hover:shadow-lg transition-shadow border-2 border-purple-200">
+            <Card className="hover:shadow-lg transition-shadow border-2 border-purple-200 flex flex-col justify-between">
               <CardHeader>
                 <TrendingUp className="h-10 w-10 mb-3 text-purple-600" />
                 <CardTitle className="text-2xl">Authority Building</CardTitle>
@@ -257,7 +257,7 @@ export default function StrategicSeoPage() {
             </Card>
 
             {/* Tools */}
-            <Card className="hover:shadow-lg transition-shadow border-2 border-purple-200">
+            <Card className="hover:shadow-lg transition-shadow border-2 border-purple-200 flex flex-col justify-between">
               <CardHeader>
                 <Wrench className="h-10 w-10 mb-3 text-purple-600" />
                 <CardTitle className="text-2xl">Tools & Resources</CardTitle>
