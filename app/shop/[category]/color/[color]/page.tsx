@@ -90,7 +90,8 @@ export default async function ColorFilterPage({ params, searchParams }: PageProp
   const queryParamUrl = `/shop/${resolvedParams.category}?color=${resolvedParams.color}`;
 
   return (
-    <div className="container mx-auto px-4 py-12 max-w-7xl">
+    <div className="bg-gradient-to-b from-blue-50 to-slate-50 min-h-screen py-12">
+      <div className="container mx-auto px-4 max-w-7xl">
         {/* Clean Path Info Banner */}
         <Alert className="mb-6 border-green-200 bg-green-50">
           <Info className="h-4 w-4 text-green-600" />
@@ -216,6 +217,7 @@ export default async function ColorFilterPage({ params, searchParams }: PageProp
           </div>
         </div>
       </div>
+    </div>
   );
 }
 

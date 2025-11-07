@@ -113,7 +113,8 @@ export default async function GenderFilterPage({ params, searchParams }: PagePro
   const genderLabel = resolvedParams.gender.charAt(0).toUpperCase() + resolvedParams.gender.slice(1);
 
   return (
-    <div className="container mx-auto px-4 py-12 max-w-7xl">
+    <div className="bg-gradient-to-b from-blue-50 to-slate-50 min-h-screen py-12">
+      <div className="container mx-auto px-4 max-w-7xl">
         {/* Gender Filter with SEO Banner */}
         <GenderFilter 
           category={resolvedParams.category}
@@ -230,6 +231,7 @@ export default async function GenderFilterPage({ params, searchParams }: PagePro
           </div>
         </div>
       </div>
+    </div>
   );
 }
 

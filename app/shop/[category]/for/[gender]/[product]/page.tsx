@@ -60,7 +60,8 @@ export default async function ProductPage({ params }: PageProps) {
     <>
       <ProductEducationCards productSlug={product.slug} />
 
-      <div className="container mx-auto px-4 py-12 max-w-4xl">
+      <div className="bg-gradient-to-b from-blue-50 to-slate-50 min-h-screen py-12">
+        <div className="container mx-auto px-4 max-w-4xl">
         <div className="grid md:grid-cols-2 gap-8">
           <div>
             <div className="aspect-square bg-slate-200 rounded-lg flex items-center justify-center">
@@ -111,6 +112,7 @@ export default async function ProductPage({ params }: PageProps) {
           </div>
         </div>
       </div>
+    </div>
     </>
   );
 }
