@@ -17,23 +17,27 @@ export function generateSitemapEntries(config: ParamConfig, baseUrl: string = 'h
     { path: '/', priority: 1.0 },
     { path: '/shop/', priority: 0.9 },
     
-    // Shop categories and clean path facets
+    // Shop categories (base level)
     { path: '/shop/t-shirts/', priority: 0.7 },
     { path: '/shop/shoes/', priority: 0.7 },
+    
+    // Gender facets (semantic, high-value clean paths)
     { path: '/shop/t-shirts/for/women/', priority: 0.6 },
     { path: '/shop/t-shirts/for/men/', priority: 0.6 },
     { path: '/shop/t-shirts/for/girls/', priority: 0.6 },
     { path: '/shop/t-shirts/for/boys/', priority: 0.6 },
     { path: '/shop/shoes/for/women/', priority: 0.6 },
     { path: '/shop/shoes/for/men/', priority: 0.6 },
-    { path: '/shop/t-shirts/color/black/', priority: 0.5 },
-    { path: '/shop/t-shirts/color/blue/', priority: 0.5 },
-    { path: '/shop/t-shirts/color/white/', priority: 0.5 },
-    { path: '/shop/t-shirts/color/red/', priority: 0.5 },
-    { path: '/shop/t-shirts/color/green/', priority: 0.5 },
-    { path: '/shop/t-shirts/size/S/', priority: 0.5 },
-    { path: '/shop/t-shirts/size/M/', priority: 0.5 },
-    { path: '/shop/t-shirts/size/L/', priority: 0.5 },
+    
+    // Educational: Single stable params at category level
+    // Shows this works, but SEO Receipt recommends clean paths instead
+    { path: '/shop/t-shirts?color=black', priority: 0.5 },
+    { path: '/shop/t-shirts?color=blue', priority: 0.5 },
+    { path: '/shop/t-shirts?color=white', priority: 0.5 },
+    { path: '/shop/t-shirts?color=red', priority: 0.5 },
+    { path: '/shop/t-shirts?color=green', priority: 0.5 },
+    // Note: Clean path URLs (/color/black/) exist only as recommendations in SEO Receipt
+    // Note: Gender+param combos excluded to avoid combinatorial explosion
     
     // Technical SEO Hub & Pages
     { path: '/technical-seo/', priority: 0.9 },
@@ -75,8 +79,12 @@ export function generateSitemapEntries(config: ParamConfig, baseUrl: string = 'h
     });
   }
 
-  // Note: Parameter-based shop URLs (e.g., ?color=black) are excluded per parameter policy
-  // Only clean paths and root pages are included to demonstrate best practices
+  // Sitemap Strategy:
+  // - Base categories and gender facets (clean paths) - always included
+  // - Single-param category URLs (e.g., ?color=black) - included for educational purposes
+  //   to show this approach works, with SEO Receipt recommending clean paths
+  // - Clean path URLs (/color/black/) - NOT included (recommendations only, no metadata)
+  // - Gender + param combos - NOT included (combinatorial explosion)
 
   return entries;
 }

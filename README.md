@@ -36,8 +36,8 @@ Production-ready solutions for complex technical challenges:
 
 **Key Pages:**
 
-- `/technical-seo/robots` - Pattern-based crawl control
-- `/technical-seo/sitemap` - Intelligent XML sitemap generation
+- `/technical-seo/robots` - Pattern-based crawl control with dynamic generation
+- `/technical-seo/sitemap` - Educational sitemap showing both param and clean path approaches
 - `/technical-seo/parameters` - Parameter classification and canonical strategies
 - `/technical-seo/duplicate-content` - Root cause diagnosis hub
 - `/technical-seo/pagination` - noindex,follow strategies for page 2+
@@ -93,7 +93,7 @@ Comprehensive frameworks for non-programming SEO operations:
 
 ## Featured: The SEO Receipt
 
-Every technical page includes a real-time panel showing URL transformation, indexability decisions, robots.txt status, sitemap inclusion, crawl trap risk analysis, and step-by-step decision traces. This transparency demonstrates exactly how production SEO systems make decisions.
+Every technical page includes a real-time panel showing URL transformation, indexability decisions, meta robots tags, robots.txt status, sitemap inclusion, crawl trap risk analysis, and clean path recommendations. The SEO Receipt demonstrates exactly how production SEO systems make decisions, comparing query parameter approaches with clean path best practices.
 
 ---
 
@@ -129,11 +129,16 @@ The SEO Receipt updates in real-time as you apply filters, showing you the exact
 
 ## Key Technical Patterns
 
-**Parameter Classification:** Stable parameters (color, size, gender) stay in canonical URLs. Unstable parameters (sort, view, page) get dropped and pages get noindex. Blocked parameters (utm\_\*, sessionid) are blocked in robots.txt.
+**Parameter Classification:** Stable parameters (color, size, gender) can be indexed with query params OR converted to clean paths. Unstable parameters (sort, view, page) get dropped and pages get noindex. Blocked parameters (utm\_\*, sessionid) are blocked in robots.txt.
 
 **Multi-Select Detection:** Comma-separated values (`?color=black,blue,red`) create 2^N URLs and are automatically blocked. Single values are safe to index.
 
-**Canonical Strategy:** Clean URLs → self-canonical. Single stable param → keep it. Multiple stable → keep all. Any unstable → drop and noindex. Multi-select → robots.txt block.
+**Canonical Strategy:** Clean URLs (e.g., `/for/women/`) → self-canonical + index,follow. Single stable param (e.g., `?color=blue`) → keep param + index,follow. Multiple stable params → noindex,follow. Any unstable → drop and noindex. Multi-select → robots.txt block.
+
+**Sitemap Strategy:** Educational approach showing BOTH methods:
+- Clean path gender facets (e.g., `/shop/t-shirts/for/women/`) - always included
+- Single-param category URLs (e.g., `/shop/t-shirts?color=black`) - included as working example, with SEO Receipt recommending clean path conversion
+- Multiple params excluded to avoid combinatorial explosion
 
 ---
 

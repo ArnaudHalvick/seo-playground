@@ -21,8 +21,12 @@
 URL: /catalog/t-shirts?color=black
 Robots: index,follow
 Canonical: /catalog/t-shirts/?color=black (self)
-Sitemap: INCLUDED
+Sitemap: INCLUDED (educational approach - best practice is clean paths)
 ```
+
+**Note**: This application demonstrates BOTH approaches:
+- Query param approach (works, included in sitemap)
+- Clean path recommendation (e.g., `/catalog/t-shirts/color/black/`) shown in SEO Receipt as best practice
 
 ## Unstable Parameters
 
@@ -104,18 +108,18 @@ Search results pages are already noindex, so keeping the query doesn't cause dup
 
 ## Stacked Parameters
 
-### Stable + Stable
+### Stable + Stable (Multiple Stable Parameters)
 
-**Result**: Indexable
+**Result**: Noindexable (to prevent N×M combinatorial growth)
 
 ```
 URL: /catalog/t-shirts?color=black&size=large
-Robots: index,follow
-Canonical: /catalog/t-shirts/?color=black&size=large
-Sitemap: INCLUDED
+Robots: noindex,follow
+Canonical: /catalog/t-shirts/?color=black&size=large (self)
+Sitemap: EXCLUDED
 ```
 
-Both parameters are meaningful, so the combination is indexable.
+While both parameters are meaningful individually, combining them creates too many variations (e.g., 5 colors × 4 sizes = 20 URLs). This is managed with noindex,follow to keep pages accessible while preventing index bloat.
 
 ### Unstable + Stable
 
@@ -200,7 +204,7 @@ While not exponential like multi-select, this still creates significant **index 
 ```
 URL: /catalog/t-shirts?color=black&size=m
 Robots: noindex,follow
-Canonical: /catalog/t-shirts/ (drops both params)
+Canonical: /catalog/t-shirts/?color=black&size=m (self-canonical)
 Sitemap: EXCLUDED
 ```
 

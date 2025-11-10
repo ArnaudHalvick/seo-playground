@@ -22,8 +22,8 @@ export function generatePageMetadata(ctx: MetadataContext): Metadata {
     title,
     description,
     robots: {
-      index: result.robots.includes('index'),
-      follow: result.robots.includes('follow'),
+      index: !result.robots.includes('noindex'),
+      follow: !result.robots.includes('nofollow'),
     },
     alternates: {
       canonical: result.canonical,

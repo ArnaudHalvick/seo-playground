@@ -24,6 +24,8 @@ import { FilterSidebar } from '@/components/catalog/FilterSidebar';
 import { FilterSummaryBar } from '@/components/catalog/FilterSummaryBar';
 import { GenderFilter } from '@/components/catalog/GenderFilter';
 import { notFound } from 'next/navigation';
+import { generatePageMetadata } from '@/lib/meta/metadata';
+import { DEFAULT_PARAM_CONFIG } from '@/lib/rules/params';
 
 interface PageProps {
   params: {
@@ -46,15 +48,32 @@ export async function generateStaticParams() {
   }));
 }
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+export async function generateMetadata({ params, searchParams }: PageProps): Promise<Metadata> {
   const resolvedParams = await params;
+  const resolvedSearchParams = await searchParams;
   const category = getCategory(resolvedParams.category);
   
   if (!category) {
     return { title: 'Category Not Found' };
   }
   
+  // Build URLSearchParams for canonical computation
+  const urlSearchParams = new URLSearchParams();
+  if (resolvedSearchParams.color) urlSearchParams.set('color', resolvedSearchParams.color);
+  if (resolvedSearchParams.size) urlSearchParams.set('size', resolvedSearchParams.size);
+  if (resolvedSearchParams.sort) urlSearchParams.set('sort', resolvedSearchParams.sort);
+  if (resolvedSearchParams.page) urlSearchParams.set('page', resolvedSearchParams.page);
+  if (resolvedSearchParams.price_min) urlSearchParams.set('price_min', resolvedSearchParams.price_min);
+  if (resolvedSearchParams.price_max) urlSearchParams.set('price_max', resolvedSearchParams.price_max);
+  
+  const baseMetadata = generatePageMetadata({
+    pathname: `/shop/${resolvedParams.category}/`,
+    searchParams: urlSearchParams,
+    config: DEFAULT_PARAM_CONFIG,
+  });
+  
   return {
+    ...baseMetadata,
     title: `${category.name} - Shop - SEO Workshop`,
     description: `Browse ${category.name.toLowerCase()} with live SEO feedback (demo catalog for learning). See how URL parameters affect canonicals and indexability.`,
   };

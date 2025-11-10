@@ -217,11 +217,11 @@ export function getCleanPathRecommendation(
         const colorSuggestions = otherColors.map(color => `${basePath}/color/${color}/`);
 
         return {
-          message: `✅ Single stable parameter detected — you could turn it into a clean path like ${examplePath} if it represents real user intent.`,
+          message: `✅ Single stable parameter — currently indexable with query param, but converting to clean path recommended for better keyword targeting and user experience.`,
           example: examplePath,
           relatedSuggestions: colorSuggestions,
           educationalNote:
-            "This site implements clean paths for color at /color/. Stable filters can safely move from query parameters to descriptive path segments to improve crawl clarity and keyword targeting.",
+            "This URL can be included in sitemap as-is (query param approach works), but clean paths like /color/black/ are the best practice. They provide clearer keyword signals, better user experience, and stronger topical relevance. This site shows both approaches educationally.",
           showExamples: true,
         };
       }

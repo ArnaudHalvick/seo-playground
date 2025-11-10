@@ -23,6 +23,8 @@ import { FilterSidebar } from '@/components/catalog/FilterSidebar';
 import { FilterSummaryBar } from '@/components/catalog/FilterSummaryBar';
 import { GenderFilter } from '@/components/catalog/GenderFilter';
 import { notFound } from 'next/navigation';
+import { generatePageMetadata } from '@/lib/meta/metadata';
+import { DEFAULT_PARAM_CONFIG } from '@/lib/rules/params';
 
 interface PageProps {
   params: {
@@ -51,8 +53,9 @@ export async function generateStaticParams() {
   );
 }
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+export async function generateMetadata({ params, searchParams }: PageProps): Promise<Metadata> {
   const resolvedParams = await params;
+  const resolvedSearchParams = await searchParams;
   const category = getCategory(resolvedParams.category);
   const genderLabel = resolvedParams.gender.charAt(0).toUpperCase() + resolvedParams.gender.slice(1);
   
@@ -60,7 +63,23 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     return { title: 'Category Not Found' };
   }
   
+  // Build URLSearchParams for canonical computation
+  const urlSearchParams = new URLSearchParams();
+  if (resolvedSearchParams.color) urlSearchParams.set('color', resolvedSearchParams.color);
+  if (resolvedSearchParams.size) urlSearchParams.set('size', resolvedSearchParams.size);
+  if (resolvedSearchParams.sort) urlSearchParams.set('sort', resolvedSearchParams.sort);
+  if (resolvedSearchParams.page) urlSearchParams.set('page', resolvedSearchParams.page);
+  if (resolvedSearchParams.price_min) urlSearchParams.set('price_min', resolvedSearchParams.price_min);
+  if (resolvedSearchParams.price_max) urlSearchParams.set('price_max', resolvedSearchParams.price_max);
+  
+  const baseMetadata = generatePageMetadata({
+    pathname: `/shop/${resolvedParams.category}/for/${resolvedParams.gender}/`,
+    searchParams: urlSearchParams,
+    config: DEFAULT_PARAM_CONFIG,
+  });
+  
   return {
+    ...baseMetadata,
     title: `${genderLabel}'s ${category.name} - Shop - SEO Workshop`,
     description: `${genderLabel.toLowerCase()}'s ${category.name.toLowerCase()} demo catalog with real-time SEO analysis and clean URL structure demonstration.`,
   };
