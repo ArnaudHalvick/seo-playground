@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Metadata } from "next";
+import { generateSimpleMetadata } from "@/lib/meta/metadata";
 import {
   Settings,
   ShoppingBag,
@@ -24,10 +25,13 @@ import {
   Wrench,
 } from "lucide-react";
 
-export const metadata: Metadata = {
-  title: "Technical SEO - Programming & Implementation - SEO Workshop",
-  description: "Master technical SEO through interactive demos. Learn robots.txt, canonicals, URL parameters, pagination, and production-ready SEO patterns.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return generateSimpleMetadata(
+    "Technical SEO - Programming & Implementation - SEO Workshop",
+    "Master technical SEO through interactive demos. Learn robots.txt, canonicals, URL parameters, pagination, and production-ready SEO patterns.",
+    "/technical-seo/"
+  );
+}
 
 export default function TechnicalSeoPage() {
   return (

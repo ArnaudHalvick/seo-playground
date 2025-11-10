@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Metadata } from "next";
+import { generateSimpleMetadata } from "@/lib/meta/metadata";
 import {
   Target,
   FileText,
@@ -14,11 +15,13 @@ import {
   Wrench,
 } from "lucide-react";
 
-export const metadata: Metadata = {
-  title: "Strategic SEO - Planning & Execution - SEO Workshop",
-  description:
+export async function generateMetadata(): Promise<Metadata> {
+  return generateSimpleMetadata(
+    "Strategic SEO - Planning & Execution - SEO Workshop",
     "Master non-programming SEO: research, content strategy, governance, measurement, and authority building with actionable frameworks.",
-};
+    "/strategic-seo/"
+  );
+}
 
 export default function StrategicSeoPage() {
   return (

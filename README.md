@@ -93,7 +93,7 @@ Comprehensive frameworks for non-programming SEO operations:
 
 ## Featured: The SEO Receipt
 
-Every technical page includes a real-time panel showing URL transformation, indexability decisions, meta robots tags, robots.txt status, sitemap inclusion, crawl trap risk analysis, and clean path recommendations. The SEO Receipt demonstrates exactly how production SEO systems make decisions, comparing query parameter approaches with clean path best practices.
+Every technical page includes a real-time panel showing URL transformation, indexability decisions, meta robots tags, robots.txt status, sitemap inclusion, crawl trap risk analysis, and clean path recommendations. The SEO Receipt demonstrates exactly how production SEO systems make decisions, showing working query parameter URLs while providing educational recommendations for clean path migrations as best practice.
 
 ---
 
@@ -137,9 +137,10 @@ The SEO Receipt updates in real-time as you apply filters, showing you the exact
 
 **Sitemap Strategy:** Dynamic generation with educational best practices:
 - Automatically generated from catalog data (all categories, colors, sizes, genders)
-- Clean path gender facets (e.g., `/shop/t-shirts/for/women/`) - always included
-- Single-param URLs for ALL colors and sizes (e.g., `/shop/t-shirts?color=black`, `/shop/shoes?size=9`) - included to show this approach works
-- SEO Receipt recommends converting single-param URLs to clean paths for best practices
+- Clean path gender facets (e.g., `/shop/t-shirts/for/women/`) - always included (fully implemented)
+- Single-param URLs for ALL colors and sizes (e.g., `/shop/t-shirts?color=black`, `/shop/shoes?size=9`) - included to demonstrate query param approach
+- SEO Receipt provides educational recommendations for converting param URLs to clean paths (e.g., `/shop/t-shirts/color/black/`)
+- Clean path recommendations show best practice without creating duplicate content (not implemented as routes)
 - Multiple params excluded to avoid combinatorial explosion (N×M combinations)
 
 ---

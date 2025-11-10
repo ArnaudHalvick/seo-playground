@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Metadata } from "next";
+import { generateSimpleMetadata } from "@/lib/meta/metadata";
 import {
   Code2,
   Lightbulb,
@@ -15,11 +16,13 @@ import {
   Globe,
 } from "lucide-react";
 
-export const metadata: Metadata = {
-  title: "Complete SEO Mastery - Technical & Strategic - SEO Workshop",
-  description:
+export async function generateMetadata(): Promise<Metadata> {
+  return generateSimpleMetadata(
+    "Complete SEO Mastery - Technical & Strategic - SEO Workshop",
     "Master both programming and strategic sides of SEO. Interactive demos, production-ready code, and comprehensive strategic frameworks for client acquisition.",
-};
+    "/"
+  );
+}
 
 export default function Home() {
   return (

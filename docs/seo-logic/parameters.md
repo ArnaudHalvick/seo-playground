@@ -18,16 +18,17 @@
 
 **SEO Treatment**:
 ```
-URL: /catalog/t-shirts?color=black
+URL: /shop/t-shirts?color=black
 Robots: index,follow
-Canonical: /catalog/t-shirts/?color=black (self)
-Sitemap: INCLUDED (educational approach - best practice is clean paths)
+Canonical: /shop/t-shirts/?color=black (self)
+Sitemap: INCLUDED
 ```
 
-**Note**: This application demonstrates BOTH approaches:
-- Query param approach (works, all colors/sizes dynamically included in sitemap)
-- Clean path recommendation (e.g., `/catalog/t-shirts/color/black/`) shown in SEO Receipt as best practice
-- Sitemap generated dynamically from catalog data for maintainability
+**Educational Approach**: This application demonstrates a working query parameter strategy with dynamic sitemap generation:
+- Query param URLs (e.g., `?color=black`) are fully functional and included in sitemap
+- SEO Receipt recommends converting to clean paths (e.g., `/shop/t-shirts/color/black/`) as best practice
+- Clean paths provide better keyword signals and user experience, but param approach works
+- Sitemap generated dynamically from catalog data (all colors, sizes, genders) for maintainability
 
 ## Unstable Parameters
 
@@ -228,20 +229,21 @@ Sitemap: EXCLUDED
 
 ### Clean Path Alternative
 
-For high-value combinations, consider clean paths:
+For high-value combinations, consider clean paths (shown as recommendations in SEO Receipt):
 
 ```
 Query params (noindex):
 ?color=black&size=m
 
-Clean path (index):
-/catalog/t-shirts/by-color/black/size-m/
+Clean path alternative (would be index):
+/shop/t-shirts/color/black/ (nested with /for/women/)
 
 Benefits:
 ✅ More semantic URL
 ✅ Can be selectively indexed
 ✅ Better keyword targeting
+✅ Better user experience
 ```
 
-**Trade-off**: Requires manual curation of valuable combinations.
+**Trade-off**: Requires manual curation of valuable combinations and actual route implementation.
 
