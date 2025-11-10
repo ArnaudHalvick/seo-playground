@@ -12,7 +12,8 @@ import {
   CheckCircle2,
   ArrowRight,
   BarChart3,
-  Wrench,
+  Search,
+  BookOpen,
 } from "lucide-react";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -49,9 +50,9 @@ export default function StrategicSeoPage() {
             </CardHeader>
             <CardContent className="space-y-4">
               <p className="text-slate-700 leading-relaxed">
-                Strategic SEO is everything that doesn't require programming — yet is essential for
-                SEO success. It's about understanding your audience, identifying opportunities,
-                creating the right content, and measuring what works.
+                Strategic SEO is everything that doesn&apos;t require programming — yet is essential
+                for SEO success. It&apos;s about understanding your audience, identifying
+                opportunities, creating the right content, and measuring what works.
               </p>
               <div className="grid md:grid-cols-2 gap-4 mt-6">
                 <div className="flex items-start gap-3 bg-white/70 p-4 rounded-lg">
@@ -95,9 +96,14 @@ export default function StrategicSeoPage() {
           </Card>
         </div>
 
-        {/* Core Topics Grid */}
+        {/* Strategy & Planning Section */}
         <div className="mb-12">
-          <h2 className="text-3xl font-bold mb-6 text-slate-900">Core Topics</h2>
+          <div className="mb-6">
+            <h2 className="text-2xl font-bold mb-2">Strategy & Planning</h2>
+            <p className="text-slate-600">
+              Build evidence-based plans that align business goals with searcher demand
+            </p>
+          </div>
           <div className="grid md:grid-cols-2 gap-6">
             {/* Research & Strategy */}
             <Card className="hover:shadow-lg transition-shadow border-2 border-purple-200 flex flex-col justify-between">
@@ -162,7 +168,18 @@ export default function StrategicSeoPage() {
                 </Link>
               </CardContent>
             </Card>
+          </div>
+        </div>
 
+        {/* Production & Growth Section */}
+        <div className="mb-12">
+          <div className="mb-6">
+            <h2 className="text-2xl font-bold mb-2">Production & Growth</h2>
+            <p className="text-slate-600">
+              Execute your strategy with content production, measurement, and authority building
+            </p>
+          </div>
+          <div className="grid md:grid-cols-3 gap-6">
             {/* Content Production */}
             <Card className="hover:shadow-lg transition-shadow border-2 border-purple-200 flex flex-col justify-between">
               <CardHeader>
@@ -258,34 +275,75 @@ export default function StrategicSeoPage() {
                 </Link>
               </CardContent>
             </Card>
+          </div>
+        </div>
 
-            {/* Tools */}
-            <Card className="hover:shadow-lg transition-shadow border-2 border-purple-200 flex flex-col justify-between">
+        {/* Tools & Resources Section */}
+        <div className="mb-12">
+          <div className="mb-6">
+            <h2 className="text-2xl font-bold mb-2">Tools & Resources</h2>
+            <p className="text-slate-600">Essential tools and frameworks for strategic SEO</p>
+          </div>
+          <div className="grid md:grid-cols-2 gap-6">
+            {/* Strategic Tools */}
+            <Card className="hover:shadow-lg transition-shadow border-2 bg-gradient-to-br from-purple-50 to-white flex flex-col justify-between">
               <CardHeader>
-                <Wrench className="h-10 w-10 mb-3 text-purple-600" />
-                <CardTitle className="text-2xl">Tools & Resources</CardTitle>
+                <Search className="h-10 w-10 mb-3 text-purple-600" />
+                <CardTitle className="text-2xl">Strategic Tools</CardTitle>
                 <CardDescription className="text-base">
-                  Essential non-programming SEO tools and when to use them
+                  Essential tools for keyword research, SERP analysis, and performance tracking
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 <ul className="space-y-2 mb-6 text-sm text-slate-700">
                   <li className="flex items-start gap-2">
                     <ArrowRight className="h-4 w-4 mt-0.5 text-purple-500 flex-shrink-0" />
-                    <span>Keyword research: Ahrefs, Semrush, Keyword Planner</span>
+                    <span>Keyword Research: Ahrefs, Semrush, Keyword Planner</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <ArrowRight className="h-4 w-4 mt-0.5 text-purple-500 flex-shrink-0" />
-                    <span>SERP analysis: Thruuu, AlsoAsked, SEO Minion</span>
+                    <span>SERP Analysis: Thruuu, AlsoAsked, SEO Minion</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <ArrowRight className="h-4 w-4 mt-0.5 text-purple-500 flex-shrink-0" />
                     <span>Analytics: GSC, GA4, Looker Studio</span>
                   </li>
                 </ul>
-                <Link href="/strategic-seo/tools">
-                  <Button className="w-full" variant="default">
-                    View Tools & Resources
+                <Link href="/strategic-seo/strategic-tools">
+                  <Button variant="outline" className="w-full">
+                    Browse Strategic Tools
+                  </Button>
+                </Link>
+              </CardContent>
+            </Card>
+
+            {/* Resources */}
+            <Card className="hover:shadow-lg transition-shadow border-2 bg-gradient-to-br from-indigo-50 to-white flex flex-col justify-between">
+              <CardHeader>
+                <BookOpen className="h-10 w-10 mb-3 text-indigo-600" />
+                <CardTitle className="text-2xl">Resources</CardTitle>
+                <CardDescription className="text-base">
+                  Templates and frameworks for content briefs, planning, and workflows
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <ul className="space-y-2 mb-6 text-sm text-slate-700">
+                  <li className="flex items-start gap-2">
+                    <ArrowRight className="h-4 w-4 mt-0.5 text-indigo-500 flex-shrink-0" />
+                    <span>Content Brief Templates</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <ArrowRight className="h-4 w-4 mt-0.5 text-indigo-500 flex-shrink-0" />
+                    <span>Editorial Calendar & Keyword Clustering</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <ArrowRight className="h-4 w-4 mt-0.5 text-indigo-500 flex-shrink-0" />
+                    <span>KPI Dashboards & E-E-A-T Checklist</span>
+                  </li>
+                </ul>
+                <Link href="/strategic-seo/resources">
+                  <Button variant="outline" className="w-full">
+                    Browse Resources
                   </Button>
                 </Link>
               </CardContent>

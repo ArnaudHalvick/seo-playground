@@ -118,7 +118,13 @@ export function Navigation() {
           icon: BarChart3,
         },
         { name: "Authority Building", path: "/strategic-seo/authority-building", icon: TrendingUp },
-        { name: "Tools & Resources", path: "/strategic-seo/tools", icon: Wrench },
+      ],
+    },
+    {
+      name: "Tools & Resources",
+      items: [
+        { name: "Strategic Tools", path: "/strategic-seo/strategic-tools", icon: Search },
+        { name: "Resources", path: "/strategic-seo/resources", icon: FileText },
       ],
     },
   ];
