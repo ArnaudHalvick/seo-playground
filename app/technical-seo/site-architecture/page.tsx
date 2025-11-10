@@ -4,6 +4,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Metadata } from "next";
+import { generateSimpleMetadata } from "@/lib/meta/metadata";
 import {
   Layers,
   CheckCircle2,
@@ -16,10 +17,13 @@ import {
   FileText,
 } from "lucide-react";
 
-export const metadata: Metadata = {
-  title: "Site Architecture & URLs - SEO Workshop",
-  description: "Build clean, crawlable URL structures with proper hierarchy depth and descriptive paths instead of IDs.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return generateSimpleMetadata(
+    "Site Architecture & URLs - SEO Workshop",
+    "Build clean, crawlable URL structures with proper hierarchy depth and descriptive paths instead of IDs.",
+    "/technical-seo/site-architecture/"
+  );
+}
 
 export default function SiteArchitecturePage() {
   return (

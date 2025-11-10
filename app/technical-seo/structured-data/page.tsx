@@ -4,6 +4,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Metadata } from "next";
+import { generateSimpleMetadata } from "@/lib/meta/metadata";
 import {
   Code2,
   CheckCircle2,
@@ -16,10 +17,13 @@ import {
   AlertTriangle,
 } from "lucide-react";
 
-export const metadata: Metadata = {
-  title: "Structured Data (Schema.org) - SEO Workshop",
-  description: "Educational overview of Schema.org markup. Learn Product, BreadcrumbList, and Organization schemas with JSON-LD.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return generateSimpleMetadata(
+    "Structured Data (Schema.org) - SEO Workshop",
+    "Educational overview of Schema.org markup. Learn Product, BreadcrumbList, and Organization schemas with JSON-LD.",
+    "/technical-seo/structured-data/"
+  );
+}
 
 export default function StructuredDataPage() {
   return (

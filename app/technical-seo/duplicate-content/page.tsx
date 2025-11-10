@@ -4,6 +4,7 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Metadata } from 'next';
+import { generateSimpleMetadata } from '@/lib/meta/metadata';
 import { 
   Copy, 
   CheckCircle2, 
@@ -19,10 +20,13 @@ import {
   FlaskConical
 } from 'lucide-react';
 
-export const metadata: Metadata = {
-  title: "Duplicate Content - SEO Workshop",
-  description: "Diagnose and fix duplicate content issues from faceted navigation, pagination, and parameter combinations.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return generateSimpleMetadata(
+    "Duplicate Content - SEO Workshop",
+    "Diagnose and fix duplicate content issues from faceted navigation, pagination, and parameter combinations.",
+    "/technical-seo/duplicate-content/"
+  );
+}
 
 export default function DuplicateContentPage() {
   return (

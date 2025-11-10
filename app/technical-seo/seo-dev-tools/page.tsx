@@ -3,6 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { Metadata } from "next";
+import { generateSimpleMetadata } from "@/lib/meta/metadata";
 import {
   Wrench,
   Search,
@@ -14,10 +15,13 @@ import {
   BarChart3,
 } from "lucide-react";
 
-export const metadata: Metadata = {
-  title: "SEO Developer Tools - SEO Workshop",
-  description: "Curated toolkit for technical SEO: crawlers, performance tools, rendering tests, and monitoring solutions.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return generateSimpleMetadata(
+    "SEO Developer Tools - SEO Workshop",
+    "Curated toolkit for technical SEO: crawlers, performance tools, rendering tests, and monitoring solutions.",
+    "/technical-seo/seo-dev-tools/"
+  );
+}
 
 export default function SeoDevTools() {
   return (

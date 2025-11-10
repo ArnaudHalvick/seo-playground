@@ -3,12 +3,16 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Button } from '@/components/ui/button';
 import { ArrowRight } from 'lucide-react';
 import { Metadata } from 'next';
+import { generateSimpleMetadata } from '@/lib/meta/metadata';
 import { getCategories } from '@/lib/catalog/data';
 
-export const metadata: Metadata = {
-  title: "Interactive Demo - SEO Workshop",
-  description: "Interactive SEO demonstration with live e-commerce examples. This is an educational tool showing real-time SEO analysis - not an actual online store.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return generateSimpleMetadata(
+    "Interactive Demo - SEO Workshop",
+    "Interactive SEO demonstration with live e-commerce examples. This is an educational tool showing real-time SEO analysis - not an actual online store.",
+    "/shop/"
+  );
+}
 
 export default function CatalogPage() {
   const categories = getCategories();
