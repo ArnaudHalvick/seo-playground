@@ -25,8 +25,9 @@ Sitemap: INCLUDED (educational approach - best practice is clean paths)
 ```
 
 **Note**: This application demonstrates BOTH approaches:
-- Query param approach (works, included in sitemap)
+- Query param approach (works, all colors/sizes dynamically included in sitemap)
 - Clean path recommendation (e.g., `/catalog/t-shirts/color/black/`) shown in SEO Receipt as best practice
+- Sitemap generated dynamically from catalog data for maintainability
 
 ## Unstable Parameters
 

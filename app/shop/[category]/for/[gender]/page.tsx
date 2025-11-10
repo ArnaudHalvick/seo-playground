@@ -4,6 +4,7 @@ import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Metadata } from 'next';
+import { headers } from 'next/headers';
 import { 
   getCategory, 
   getProductsByCategory, 
@@ -63,6 +64,12 @@ export async function generateMetadata({ params, searchParams }: PageProps): Pro
     return { title: 'Category Not Found' };
   }
   
+  // Get actual host from headers
+  const headersList = await headers();
+  const host = headersList.get('host') || 'localhost:3000';
+  const protocol = headersList.get('x-forwarded-proto') || 'http';
+  const baseUrl = `${protocol}://${host}`;
+  
   // Build URLSearchParams for canonical computation
   const urlSearchParams = new URLSearchParams();
   if (resolvedSearchParams.color) urlSearchParams.set('color', resolvedSearchParams.color);
@@ -76,6 +83,7 @@ export async function generateMetadata({ params, searchParams }: PageProps): Pro
     pathname: `/shop/${resolvedParams.category}/for/${resolvedParams.gender}/`,
     searchParams: urlSearchParams,
     config: DEFAULT_PARAM_CONFIG,
+    baseUrl,
   });
   
   return {

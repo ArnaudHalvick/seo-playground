@@ -37,7 +37,7 @@ Production-ready solutions for complex technical challenges:
 **Key Pages:**
 
 - `/technical-seo/robots` - Pattern-based crawl control with dynamic generation
-- `/technical-seo/sitemap` - Educational sitemap showing both param and clean path approaches
+- `/technical-seo/sitemap` - Dynamic sitemap generation from catalog (educational best practices)
 - `/technical-seo/parameters` - Parameter classification and canonical strategies
 - `/technical-seo/duplicate-content` - Root cause diagnosis hub
 - `/technical-seo/pagination` - noindex,follow strategies for page 2+
@@ -135,10 +135,12 @@ The SEO Receipt updates in real-time as you apply filters, showing you the exact
 
 **Canonical Strategy:** Clean URLs (e.g., `/for/women/`) → self-canonical + index,follow. Single stable param (e.g., `?color=blue`) → keep param + index,follow. Multiple stable params → noindex,follow. Any unstable → drop and noindex. Multi-select → robots.txt block.
 
-**Sitemap Strategy:** Educational approach showing BOTH methods:
+**Sitemap Strategy:** Dynamic generation with educational best practices:
+- Automatically generated from catalog data (all categories, colors, sizes, genders)
 - Clean path gender facets (e.g., `/shop/t-shirts/for/women/`) - always included
-- Single-param category URLs (e.g., `/shop/t-shirts?color=black`) - included as working example, with SEO Receipt recommending clean path conversion
-- Multiple params excluded to avoid combinatorial explosion
+- Single-param URLs for ALL colors and sizes (e.g., `/shop/t-shirts?color=black`, `/shop/shoes?size=9`) - included to show this approach works
+- SEO Receipt recommends converting single-param URLs to clean paths for best practices
+- Multiple params excluded to avoid combinatorial explosion (N×M combinations)
 
 ---
 

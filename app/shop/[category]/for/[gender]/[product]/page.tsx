@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Metadata } from 'next';
+import { headers } from 'next/headers';
 import { getProduct, getCategory, getProducts } from '@/lib/catalog/data';
 import { ProductEducationCards } from '@/components/ProductEducationCards';
 import { notFound } from 'next/navigation';
@@ -33,9 +34,23 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     return { title: 'Product Not Found' };
   }
   
+  // Get actual host from headers
+  const headersList = await headers();
+  const host = headersList.get('host') || 'localhost:3000';
+  const protocol = headersList.get('x-forwarded-proto') || 'http';
+  const baseUrl = `${protocol}://${host}`;
+  const canonical = `${baseUrl}/shop/${resolvedParams.category}/for/${resolvedParams.gender}/${resolvedParams.product}/`;
+  
   return {
     title: `${product.title} - ${category.name} - SEO Workshop`,
     description: `${product.description} Demo product showing clean URLs, proper slugs, and Schema.org markup for e-commerce SEO best practices.`,
+    alternates: {
+      canonical,
+    },
+    robots: {
+      index: true,
+      follow: true,
+    },
   };
 }
 

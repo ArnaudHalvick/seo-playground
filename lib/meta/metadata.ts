@@ -70,3 +70,26 @@ export function getDescriptionForPath(pathname: string): string {
 
   return 'Learn technical SEO through interactive demonstrations';
 }
+
+export async function generateSimpleMetadata(title: string, description: string, pathname: string): Promise<Metadata> {
+  // Dynamic import to avoid circular dependency in some contexts
+  const { headers } = await import('next/headers');
+  
+  const headersList = await headers();
+  const host = headersList.get('host') || 'localhost:3000';
+  const protocol = headersList.get('x-forwarded-proto') || 'http';
+  const baseUrl = `${protocol}://${host}`;
+  const canonical = `${baseUrl}${pathname}`;
+  
+  return {
+    title,
+    description,
+    alternates: {
+      canonical,
+    },
+    robots: {
+      index: true,
+      follow: true,
+    },
+  };
+}
