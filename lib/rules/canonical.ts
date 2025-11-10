@@ -21,6 +21,37 @@ function normalizePath(path: string): string {
   return normalized;
 }
 
+function shouldIndexPath(pathname: string): { 
+  shouldOverride: boolean;
+  robots: RobotsDirective; 
+  reason: string;
+} {
+  // Shop root is indexable (demo entry point)
+  if (pathname === '/shop/' || pathname === '/shop') {
+    return { 
+      shouldOverride: false, // Let normal logic handle it
+      robots: 'index,follow', 
+      reason: 'Shop demo entry point' 
+    };
+  }
+  
+  // All shop sub-pages are demo content - not for indexing
+  if (pathname.startsWith('/shop/')) {
+    return { 
+      shouldOverride: true,
+      robots: 'noindex,follow', 
+      reason: 'Shop demo content (not for production indexing)' 
+    };
+  }
+  
+  // No override needed - use parameter-based logic
+  return { 
+    shouldOverride: false, 
+    robots: 'index,follow', 
+    reason: '' 
+  };
+}
+
 export function computeCanonical(
   pathname: string,
   searchParams: URLSearchParams,
@@ -61,22 +92,18 @@ export function computeCanonical(
   }
   trace.push('');
 
-  trace.push(`Step 4: Check protected routes`);
-  if (pathname.startsWith('/account/')) {
-    robots = 'noindex,nofollow';
-    blockInRobots = true;
+  trace.push(`Step 3.5: Check path-based indexing rules`);
+  const pathRule = shouldIndexPath(pathname);
+  if (pathRule.shouldOverride) {
+    robots = pathRule.robots;
     sitemapIncluded = false;
-    trace.push(`  ✓ Protected route detected → noindex,nofollow + robots block`);
-  } else if (pathname.startsWith('/search')) {
-      robots = 'noindex,follow';
-      sitemapIncluded = false;
-    trace.push(`  ✓ Search page → noindex,follow (best practice)`);
+    trace.push(`  ✓ ${pathRule.reason} → ${robots}`);
   } else {
-    trace.push(`  Not a protected/special route`);
+    trace.push(`  No path-based override needed`);
   }
   trace.push('');
 
-  trace.push(`Step 5: Check robots.txt blocking & apply parameter policies`);
+  trace.push(`Step 4: Check robots.txt blocking & apply parameter policies`);
   
   // First, check if URL is blocked by robots.txt (static best practice rules)
   const robotsCheck = checkRobotsBlocking(pathname, searchParams, config);
@@ -140,7 +167,7 @@ export function computeCanonical(
   }
   trace.push('');
 
-  trace.push(`Step 7: Build canonical URL`);
+  trace.push(`Step 5: Build canonical URL`);
   let finalPath = normalizedPath;
   const canonicalParams = new URLSearchParams();
 
@@ -191,7 +218,7 @@ export function computeCanonical(
   trace.push(`  Final canonical: ${fullCanonical}`);
   trace.push('');
 
-  trace.push(`Step 8: Determine sitemap inclusion`);
+  trace.push(`Step 6: Determine sitemap inclusion`);
   if (sitemapIncluded) {
     trace.push(`  ✓ Included in sitemap (indexable + not blocked)`);
   } else {

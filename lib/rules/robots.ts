@@ -31,10 +31,9 @@ export function generateRobotsTxt(
 
   // Protected paths (always enabled - best practice)
   lines.push("# Protected & System Paths");
-  lines.push("# Block account pages and internal APIs");
+  lines.push("# Block internal APIs (except robots & sitemap)");
   lines.push("Allow: /api/robots");
   lines.push("Allow: /api/sitemap");
-  lines.push("Disallow: /account/");
   lines.push("Disallow: /api/");
   lines.push("");
 
@@ -84,10 +83,6 @@ export function checkRobotsBlocking(
   let isBlocked = false;
 
   // Check protected paths (static, always enabled - best practice)
-  if (pathname.startsWith("/account/")) {
-    matchedRules.push("Protected Paths: Disallow /account/");
-    isBlocked = true;
-  }
   if (pathname.startsWith("/api/") && pathname !== "/api/robots" && pathname !== "/api/sitemap") {
     matchedRules.push("Protected Paths: Disallow /api/");
     isBlocked = true;

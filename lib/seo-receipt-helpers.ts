@@ -78,6 +78,12 @@ export function getCleanPathRecommendation(
 
   // No parameters at all
   if (!hasStable && !hasUnstable && !hasBlocked && !hasSearch && !hasPagination) {
+    // If we're already on a clean path (gender/color/size), don't show message
+    const isCleanPath = pathname.match(/\/(for|color|size)\/[^/]+\/?$/);
+    if (isCleanPath) {
+      return null; // Don't show anything
+    }
+    
     return {
       message:
         "ℹ️ No clean path suggestion — this URL doesn't represent a filter or variant worth exposing.",
