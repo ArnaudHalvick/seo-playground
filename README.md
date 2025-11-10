@@ -136,6 +136,7 @@ The SEO Receipt updates in real-time as you apply filters, showing you the exact
 **Canonical Strategy:** Clean URLs (e.g., `/for/women/`) → self-canonical + index,follow. Single stable param (e.g., `?color=blue`) → keep param + index,follow. Multiple stable params → noindex,follow. Any unstable → drop and noindex. Multi-select → robots.txt block.
 
 **Sitemap Strategy:** Dynamic generation with educational best practices:
+
 - Automatically generated from catalog data (all categories, colors, sizes, genders)
 - Clean path gender facets (e.g., `/shop/t-shirts/for/women/`) - always included (fully implemented)
 - Single-param URLs for ALL colors and sizes (e.g., `/shop/t-shirts?color=black`, `/shop/shoes?size=9`) - included to demonstrate query param approach
@@ -174,57 +175,6 @@ Whether you need:
 - **Full-stack SEO expertise** - Both strategy and implementation working together
 
 This project shows the complete skill set I can deliver.
-
----
-
-## Project Structure
-
-```
-/
-├── /technical-seo        # Hub for all technical SEO pages
-│   ├── /robots           # Pattern-based crawl control
-│   ├── /sitemap          # Intelligent XML generation
-│   ├── /parameters       # Parameter classification & canonicals
-│   ├── /duplicate-content # Root cause diagnosis
-│   ├── /pagination       # noindex,follow strategies
-│   ├── /site-search      # Prevent crawl traps
-│   ├── /international    # hreflang implementation
-│   ├── /core-web-vitals  # Performance optimization
-│   ├── /product-urls     # Database design for SEO
-│   └── /pattern-gallery  # 17 production patterns
-│
-├── /strategic-seo        # Hub for all strategic SEO pages
-│   ├── /research-strategy        # Keyword clustering & SERP analysis
-│   ├── /content-architecture     # Hub & spoke, E-E-A-T
-│   ├── /content-production       # Editorial workflows
-│   ├── /measurement-optimization # KPIs & experimentation
-│   ├── /authority-building       # Link acquisition & local SEO
-│   └── /tools                    # Non-programming tools
-│
-├── /shop                 # Interactive Demo (kept at root)
-│   ├── /[category]       # Category pages with filters
-│   └── /for/[gender]     # Clean path gender pages
-│
-└── /docs                 # Technical documentation
-    ├── /architecture     # System design
-    ├── /seo-logic        # Decision algorithms
-    ├── /components       # UI implementation
-    └── /extending        # Feature guides
-```
-
----
-
-## Documentation
-
-**For developers and technical details:**
-
-- 📖 **[Full Documentation](./docs/README.md)** - Complete technical docs
-- 🏗️ **[Architecture](./docs/architecture/overview.md)** - System design
-- 🧠 **[SEO Logic](./docs/seo-logic/overview.md)** - Decision algorithms
-- 🎨 **[Components](./docs/components/overview.md)** - UI implementation
-- 🔧 **[Setup Guide](./docs/setup/installation.md)** - Installation & development
-
----
 
 ## License
 
