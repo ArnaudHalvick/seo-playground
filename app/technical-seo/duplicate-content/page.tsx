@@ -1,15 +1,15 @@
-import Link from 'next/link';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Metadata } from 'next';
-import { generateSimpleMetadata } from '@/lib/meta/metadata';
-import { 
-  Copy, 
-  CheckCircle2, 
-  XCircle, 
-  AlertTriangle, 
+import Link from "next/link";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Metadata } from "next";
+import { generateSimpleMetadata } from "@/lib/meta/metadata";
+import {
+  Copy,
+  CheckCircle2,
+  XCircle,
+  AlertTriangle,
   Info,
   ArrowRight,
   Search as SearchIcon,
@@ -17,8 +17,8 @@ import {
   List,
   Globe,
   Link as LinkIcon,
-  FlaskConical
-} from 'lucide-react';
+  FlaskConical,
+} from "lucide-react";
 
 export async function generateMetadata(): Promise<Metadata> {
   return generateSimpleMetadata(
@@ -39,13 +39,15 @@ export default function DuplicateContentPage() {
             <h1 className="text-4xl font-bold">Duplicate Content</h1>
           </div>
           <p className="text-lg text-slate-600 mb-4">
-            Understand the root causes of duplicate content and find the right solution for your specific situation
+            Understand the root causes of duplicate content and find the right solution for your
+            specific situation
           </p>
           <Alert className="border-purple-300 bg-purple-50">
             <Info className="h-4 w-4" />
             <AlertDescription>
-              <strong>Key Insight:</strong> Duplicate content is rarely a standalone problem—it's usually a <em>symptom</em> of 
-              underlying technical SEO issues like poor parameter handling, missing canonicals, or improper pagination.
+              <strong>Key Insight:</strong> Duplicate content is rarely a standalone problem—it's
+              usually a <em>symptom</em> of underlying technical SEO issues like poor parameter
+              handling, missing canonicals, or improper pagination.
             </AlertDescription>
           </Alert>
         </div>
@@ -55,8 +57,8 @@ export default function DuplicateContentPage() {
           <FlaskConical className="h-5 w-5 text-green-600" />
           <AlertDescription className="flex items-center justify-between">
             <span className="text-slate-900">
-              <strong>Test how filters create duplicate content:</strong> Use the Interactive Demo to see 
-              how different parameter combinations are handled to prevent duplication.
+              <strong>Test how filters create duplicate content:</strong> Use the Interactive Demo
+              to see how different parameter combinations are handled to prevent duplication.
             </span>
             <Link href="/shop">
               <Button size="sm" className="ml-4 bg-green-600 hover:bg-green-700">
@@ -73,8 +75,9 @@ export default function DuplicateContentPage() {
           <Card>
             <CardContent className="pt-6 space-y-4">
               <p className="text-slate-700">
-                Duplicate content occurs when <strong>identical or very similar content</strong> appears at multiple URLs on your site. 
-                This confuses search engines about which version to index and rank.
+                Duplicate content occurs when <strong>identical or very similar content</strong>{" "}
+                appears at multiple URLs on your site. This confuses search engines about which
+                version to index and rank.
               </p>
 
               <div className="grid md:grid-cols-2 gap-4">
@@ -112,7 +115,8 @@ export default function DuplicateContentPage() {
         <div className="mb-12">
           <h2 className="text-2xl font-bold mb-6">Common Causes & Solutions</h2>
           <p className="text-slate-600 mb-6">
-            Identify your duplicate content issue below and navigate to the appropriate best practices guide:
+            Identify your duplicate content issue below and navigate to the appropriate best
+            practices guide:
           </p>
 
           <div className="space-y-4">
@@ -126,7 +130,8 @@ export default function DuplicateContentPage() {
                       Faceted Navigation & Filters
                     </CardTitle>
                     <CardDescription className="mt-2">
-                      Multiple filter combinations create endless URL variations showing similar products
+                      Multiple filter combinations create endless URL variations showing similar
+                      products
                     </CardDescription>
                   </div>
                   <Badge className="bg-red-100 text-red-800 border-red-300">High Risk</Badge>
@@ -140,7 +145,7 @@ export default function DuplicateContentPage() {
                     <div>/shop/shoes?size=10</div>
                     <div className="text-slate-500">... exponential combinations</div>
                   </div>
-                  
+
                   <div className="flex items-center justify-between pt-2">
                     <span className="text-sm text-slate-700 font-semibold">Solution:</span>
                     <Link href="/technical-seo/parameters">
@@ -166,7 +171,9 @@ export default function DuplicateContentPage() {
                       Page 2, 3, 4... show overlapping or similar product lists
                     </CardDescription>
                   </div>
-                  <Badge className="bg-amber-100 text-amber-800 border-amber-300">Medium Risk</Badge>
+                  <Badge className="bg-amber-100 text-amber-800 border-amber-300">
+                    Medium Risk
+                  </Badge>
                 </div>
               </CardHeader>
               <CardContent>
@@ -177,7 +184,7 @@ export default function DuplicateContentPage() {
                     <div>/shop/shoes?page=3</div>
                     <div className="text-slate-500">... all showing "shoes" content</div>
                   </div>
-                  
+
                   <div className="flex items-center justify-between pt-2">
                     <span className="text-sm text-slate-700 font-semibold">Solution:</span>
                     <Link href="/pagination">
@@ -200,7 +207,8 @@ export default function DuplicateContentPage() {
                       Search Results Pages
                     </CardTitle>
                     <CardDescription className="mt-2">
-                      Internal search creates infinite query variations that duplicate category pages
+                      Internal search creates infinite query variations that duplicate category
+                      pages
                     </CardDescription>
                   </div>
                   <Badge className="bg-red-100 text-red-800 border-red-300">High Risk</Badge>
@@ -214,7 +222,7 @@ export default function DuplicateContentPage() {
                     <div>/search?q=running+shoes</div>
                     <div className="text-slate-500">... overlaps with /shop/shoes</div>
                   </div>
-                  
+
                   <div className="flex items-center justify-between pt-2">
                     <span className="text-sm text-slate-700 font-semibold">Solution:</span>
                     <Link href="/site-search">
@@ -240,7 +248,9 @@ export default function DuplicateContentPage() {
                       Same content in different languages without proper hreflang implementation
                     </CardDescription>
                   </div>
-                  <Badge className="bg-amber-100 text-amber-800 border-amber-300">Medium Risk</Badge>
+                  <Badge className="bg-amber-100 text-amber-800 border-amber-300">
+                    Medium Risk
+                  </Badge>
                 </div>
               </CardHeader>
               <CardContent>
@@ -251,7 +261,7 @@ export default function DuplicateContentPage() {
                     <div>/es/productos/zapatos</div>
                     <div className="text-slate-500">... similar content, different languages</div>
                   </div>
-                  
+
                   <div className="flex items-center justify-between pt-2">
                     <span className="text-sm text-slate-700 font-semibold">Solution:</span>
                     <Link href="/international">
@@ -277,7 +287,9 @@ export default function DuplicateContentPage() {
                       Same content accessible via HTTP/HTTPS, www/non-www, or mobile subdomains
                     </CardDescription>
                   </div>
-                  <Badge className="bg-amber-100 text-amber-800 border-amber-300">Medium Risk</Badge>
+                  <Badge className="bg-amber-100 text-amber-800 border-amber-300">
+                    Medium Risk
+                  </Badge>
                 </div>
               </CardHeader>
               <CardContent>
@@ -288,7 +300,7 @@ export default function DuplicateContentPage() {
                     <div>https://www.example.com/shoes</div>
                     <div>https://m.example.com/shoes</div>
                   </div>
-                  
+
                   <div className="flex items-center justify-between pt-2">
                     <span className="text-sm text-slate-700 font-semibold">Solution:</span>
                     <Link href="/parameters">
@@ -323,9 +335,11 @@ export default function DuplicateContentPage() {
                     <div>/shop/shoes?sort=price_asc</div>
                     <div>/shop/shoes?utm_source=email</div>
                     <div>/shop/shoes?sessionid=xyz</div>
-                    <div className="text-slate-500">... same products, different order/tracking</div>
+                    <div className="text-slate-500">
+                      ... same products, different order/tracking
+                    </div>
                   </div>
-                  
+
                   <div className="flex items-center justify-between pt-2">
                     <span className="text-sm text-slate-700 font-semibold">Solution:</span>
                     <Link href="/technical-seo/parameters">
@@ -403,7 +417,8 @@ export default function DuplicateContentPage() {
                 <div className="border-l-4 border-l-blue-500 bg-blue-50 p-4">
                   <h3 className="font-semibold text-sm mb-2">1. Google Search Console</h3>
                   <p className="text-xs text-slate-700 mb-2">
-                    <strong>Coverage Report:</strong> Look for "Duplicate, Google chose different canonical than user"
+                    <strong>Coverage Report:</strong> Look for "Duplicate, Google chose different
+                    canonical than user"
                   </p>
                   <p className="text-xs text-slate-700">
                     Path: Search Console → Pages → Why pages aren't indexed → Duplicate
@@ -413,7 +428,10 @@ export default function DuplicateContentPage() {
                 <div className="border-l-4 border-l-purple-500 bg-purple-50 p-4">
                   <h3 className="font-semibold text-sm mb-2">2. Site: Search Operator</h3>
                   <p className="text-xs text-slate-700 mb-2">
-                    Search Google for: <code className="bg-white px-2 py-1 rounded text-xs">site:yourdomain.com "exact page title"</code>
+                    Search Google for:{" "}
+                    <code className="bg-white px-2 py-1 rounded text-xs">
+                      site:yourdomain.com "exact page title"
+                    </code>
                   </p>
                   <p className="text-xs text-slate-700">
                     If multiple URLs appear with the same title, you likely have duplicates
@@ -439,7 +457,9 @@ export default function DuplicateContentPage() {
                     Compare indexed count in GSC vs your sitemap:
                   </p>
                   <ul className="text-xs text-slate-700 space-y-1 list-disc list-inside pl-2">
-                    <li>If indexed &gt; sitemap count → likely duplicate parameter URLs being indexed</li>
+                    <li>
+                      If indexed &gt; sitemap count → likely duplicate parameter URLs being indexed
+                    </li>
                     <li>Check which URLs Google is indexing vs which ones you want indexed</li>
                   </ul>
                 </div>
@@ -459,25 +479,29 @@ export default function DuplicateContentPage() {
               <div className="flex items-start gap-2">
                 <CheckCircle2 className="h-4 w-4 text-green-600 mt-0.5 flex-shrink-0" />
                 <span>
-                  <strong>Duplicate content is a symptom</strong>, not a root cause. Fix the underlying technical issues.
+                  <strong>Duplicate content is a symptom</strong>, not a root cause. Fix the
+                  underlying technical issues.
                 </span>
               </div>
               <div className="flex items-start gap-2">
                 <CheckCircle2 className="h-4 w-4 text-green-600 mt-0.5 flex-shrink-0" />
                 <span>
-                  <strong>Use canonical tags</strong> to tell Google which URL you prefer when duplicates exist.
+                  <strong>Use canonical tags</strong> to tell Google which URL you prefer when
+                  duplicates exist.
                 </span>
               </div>
               <div className="flex items-start gap-2">
                 <CheckCircle2 className="h-4 w-4 text-green-600 mt-0.5 flex-shrink-0" />
                 <span>
-                  <strong>Prevent at the source</strong>: Configure parameter handling, pagination, and search pages correctly from the start.
+                  <strong>Prevent at the source</strong>: Configure parameter handling, pagination,
+                  and search pages correctly from the start.
                 </span>
               </div>
               <div className="flex items-start gap-2">
                 <CheckCircle2 className="h-4 w-4 text-green-600 mt-0.5 flex-shrink-0" />
                 <span>
-                  <strong>Monitor regularly</strong> using Google Search Console to catch issues early.
+                  <strong>Monitor regularly</strong> using Google Search Console to catch issues
+                  early.
                 </span>
               </div>
             </div>
@@ -487,5 +511,3 @@ export default function DuplicateContentPage() {
     </div>
   );
 }
-
-
