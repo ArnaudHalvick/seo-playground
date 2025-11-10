@@ -35,6 +35,7 @@ The SEO decision engine is intentionally decoupled from the framework, making it
 ### 📚 Getting Started
 
 1. **[Main README](../../README.md)** - Start here
+
    - Project overview
    - Quick start guide
    - Tech stack summary
@@ -49,6 +50,7 @@ The SEO decision engine is intentionally decoupled from the framework, making it
 ### 🏗️ Architecture & Design
 
 3. **[Architecture](./architecture/)** - System design
+
    - [Overview](./architecture/overview.md) - System overview and architecture layers
    - [Data Flow](./architecture/data-flow.md) - Data flow and component interactions
    - [Design Patterns](./architecture/patterns.md) - Key design patterns and state management
@@ -67,6 +69,7 @@ The SEO decision engine is intentionally decoupled from the framework, making it
 ### 🎨 Implementation Details
 
 5. **[Components](./components/)** - UI components
+
    - [Overview](./components/overview.md) - Component hierarchy and introduction
    - [SEO Receipt](./components/seo-receipt.md) - Real-time SEO feedback component
    - [Filters](./components/filters.md) - Filter components (FilterSidebar, FilterSummaryBar, etc.)
@@ -75,7 +78,13 @@ The SEO decision engine is intentionally decoupled from the framework, making it
    - [UI Library](./components/ui-library.md) - shadcn/ui components and utilities
    - [Patterns](./components/patterns.md) - Component patterns, testing, and best practices
 
-6. **[Extending](./extending/)** - Adding features
+6. **[Strategic SEO](./strategic-seo/)** - Strategic SEO section
+
+   - [Overview](./strategic-seo/overview.md) - Section overview and structure
+   - [Navigation](./strategic-seo/navigation.md) - Navigation structure and dropdown menus
+   - [Pages](./strategic-seo/pages.md) - Brief descriptions of each page
+
+7. **[Extending](./extending/)** - Adding features
    - [Overview](./extending/overview.md) - Introduction and table of contents
    - [Parameters](./extending/parameters.md) - Adding parameter rules and robots.txt patterns
    - [Filters](./extending/filters.md) - Adding filter types, size groups, and gender filters
@@ -89,17 +98,20 @@ The SEO decision engine is intentionally decoupled from the framework, making it
 ### For Developers
 
 **First time here?**
+
 1. Read [Main README](../../README.md)
 2. Follow [Setup Guide](./setup/installation.md)
 3. Review [Architecture Overview](./architecture/overview.md)
 4. Start coding!
 
 **Adding a feature?**
+
 1. Check [Extending Overview](./extending/overview.md)
 2. Review [SEO Logic](./seo-logic/overview.md) if modifying rules
 3. Check [Components](./components/overview.md) for UI patterns
 
 **Debugging SEO decisions?**
+
 1. Read [SEO Logic Overview](./seo-logic/overview.md)
 2. Check [Decision Steps](./seo-logic/decision-steps.md) for detailed flow
 3. Use the SEO Receipt's "Rule Trace" tab
@@ -108,19 +120,24 @@ The SEO decision engine is intentionally decoupled from the framework, making it
 ### For AI/LLMs
 
 **Understanding the codebase:**
+
 - [Architecture Overview](./architecture/overview.md) - System structure and patterns
 - [SEO Logic Overview](./seo-logic/overview.md) - Core algorithm documentation
 - [Components Overview](./components/overview.md) - UI component details
 
 **Making changes:**
+
 - [Extending Overview](./extending/overview.md) - How to add features
 - [Setup](./setup/installation.md) - Environment and tooling
 
 **Key files to understand:**
+
 - `lib/rules/canonical.ts` - Core SEO decision engine
 - `lib/rules/params.ts` - Parameter classification
 - `components/SeoReceipt.tsx` - Real-time feedback UI
 - `data/rules.json` - Configuration
+- `app/strategic-seo/` - Strategic SEO pages
+- `components/Navigation.tsx` - Navigation with section detection
 
 ## Documentation Standards
 
@@ -135,12 +152,14 @@ All documentation follows these principles:
 ## Contributing to Documentation
 
 When adding features:
+
 1. Update relevant documentation files
 2. Add code examples
 3. Update the main README if needed
 4. Keep documentation in sync with code
 
 When writing documentation:
+
 - Use clear, simple language
 - Include practical examples
 - Add diagrams for complex flows
@@ -154,6 +173,7 @@ Documentation is organized into topic-based subfolders:
 - **architecture/** - System design and architecture details
 - **components/** - React component documentation
 - **seo-logic/** - SEO decision algorithms
+- **strategic-seo/** - Strategic SEO section documentation
 - **extending/** - Feature extension guides
 - **setup/** - Development setup and configuration
 
@@ -170,28 +190,34 @@ Each subfolder contains focused files (~150-250 lines each) for easier navigatio
 ## External Resources
 
 ### Next.js Documentation
+
 - [Next.js 13 Docs](https://nextjs.org/docs)
 - [App Router](https://nextjs.org/docs/app)
 - [API Routes](https://nextjs.org/docs/app/building-your-application/routing/route-handlers)
 
 ### React Documentation
+
 - [React Docs](https://react.dev/)
 - [Hooks Reference](https://react.dev/reference/react)
 
 ### TypeScript
+
 - [TypeScript Handbook](https://www.typescriptlang.org/docs/)
 
 ### Tailwind CSS
+
 - [Tailwind Docs](https://tailwindcss.com/docs)
 - [Utility Classes](https://tailwindcss.com/docs/utility-first)
 
 ### shadcn/ui
+
 - [Component Library](https://ui.shadcn.com/)
 - [Installation Guide](https://ui.shadcn.com/docs/installation)
 
 ## Feedback
 
 Documentation improvements are always welcome! If you find:
+
 - Unclear explanations
 - Missing information
 - Errors or typos
