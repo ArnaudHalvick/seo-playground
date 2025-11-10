@@ -84,6 +84,9 @@ function generateBreadcrumbs(pathname: string): BreadcrumbItem[] | null {
         // Skip query parameters
         if (segment.includes('?')) return;
         
+        // Skip Next.js routing segments (for, color, size)
+        if (['for', 'color', 'size'].includes(segment.toLowerCase())) return;
+        
         // Format segment (capitalize, handle dashes)
         const label = segment.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
         const href = `/shop/${pathSegments.slice(0, index + 1).join('/')}`;

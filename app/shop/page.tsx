@@ -7,7 +7,7 @@ import { getCategories } from '@/lib/catalog/data';
 
 export const metadata: Metadata = {
   title: "Interactive Demo - SEO Workshop",
-  description: "Live SEO demonstration with real-time feedback. Apply filters and see canonical URLs, indexability, and crawl trap warnings.",
+  description: "Interactive SEO demonstration with live e-commerce examples. This is an educational tool showing real-time SEO analysis - not an actual online store.",
 };
 
 export default function CatalogPage() {

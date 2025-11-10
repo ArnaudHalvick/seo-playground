@@ -35,7 +35,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   
   return {
     title: `${product.title} - ${category.name} - SEO Workshop`,
-    description: `${product.description} Learn how this product page uses clean URLs, proper slugs, and Schema.org markup for SEO.`,
+    description: `${product.description} Demo product showing clean URLs, proper slugs, and Schema.org markup for e-commerce SEO best practices.`,
   };
 }
 

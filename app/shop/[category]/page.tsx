@@ -56,7 +56,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   
   return {
     title: `${category.name} - Shop - SEO Workshop`,
-    description: `Browse ${category.name.toLowerCase()} with live SEO feedback. See how URL parameters affect canonicals and indexability.`,
+    description: `Browse ${category.name.toLowerCase()} with live SEO feedback (demo catalog for learning). See how URL parameters affect canonicals and indexability.`,
   };
 }
 

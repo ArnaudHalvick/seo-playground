@@ -55,7 +55,7 @@ export function getTitleForPath(pathname: string): string {
 
 export function getDescriptionForPath(pathname: string): string {
   if (pathname === '/') return 'Interactive playground for learning technical SEO, URL management, and crawl control';
-  if (pathname.startsWith('/shop')) return 'Demo product shop showing SEO best practices for e-commerce sites';
+  if (pathname.startsWith('/shop')) return 'Demo e-commerce catalog for learning SEO best practices. This is an educational demonstration, not a real online store.';
   if (pathname.startsWith('/robots')) return 'Learn robots.txt best practices and pattern-based crawl control';
   if (pathname.startsWith('/sitemap')) return 'Understand intelligent sitemap generation based on indexability rules';
   if (pathname.startsWith('/parameters')) return 'Explore URL parameter handling and canonical strategies';

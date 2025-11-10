@@ -62,7 +62,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   
   return {
     title: `${genderLabel}'s ${category.name} - Shop - SEO Workshop`,
-    description: `Shop ${genderLabel.toLowerCase()}'s ${category.name.toLowerCase()} with real-time SEO analysis and clean URL structure demonstration.`,
+    description: `${genderLabel.toLowerCase()}'s ${category.name.toLowerCase()} demo catalog with real-time SEO analysis and clean URL structure demonstration.`,
   };
 }
 

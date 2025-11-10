@@ -17,6 +17,24 @@ export function generateSitemapEntries(config: ParamConfig, baseUrl: string = 'h
     { path: '/', priority: 1.0 },
     { path: '/shop/', priority: 0.9 },
     
+    // Shop categories and clean path facets
+    { path: '/shop/t-shirts/', priority: 0.7 },
+    { path: '/shop/shoes/', priority: 0.7 },
+    { path: '/shop/t-shirts/for/women/', priority: 0.6 },
+    { path: '/shop/t-shirts/for/men/', priority: 0.6 },
+    { path: '/shop/t-shirts/for/girls/', priority: 0.6 },
+    { path: '/shop/t-shirts/for/boys/', priority: 0.6 },
+    { path: '/shop/shoes/for/women/', priority: 0.6 },
+    { path: '/shop/shoes/for/men/', priority: 0.6 },
+    { path: '/shop/t-shirts/color/black/', priority: 0.5 },
+    { path: '/shop/t-shirts/color/blue/', priority: 0.5 },
+    { path: '/shop/t-shirts/color/white/', priority: 0.5 },
+    { path: '/shop/t-shirts/color/red/', priority: 0.5 },
+    { path: '/shop/t-shirts/color/green/', priority: 0.5 },
+    { path: '/shop/t-shirts/size/S/', priority: 0.5 },
+    { path: '/shop/t-shirts/size/M/', priority: 0.5 },
+    { path: '/shop/t-shirts/size/L/', priority: 0.5 },
+    
     // Technical SEO Hub & Pages
     { path: '/technical-seo/', priority: 0.9 },
     { path: '/technical-seo/robots/', priority: 0.8 },
@@ -57,8 +75,8 @@ export function generateSitemapEntries(config: ParamConfig, baseUrl: string = 'h
     });
   }
 
-  // Note: Shop subcategories, filters, and demo pages are intentionally excluded
-  // The /shop/ root demonstrates the SEO concepts; subcategories are demo-only content
+  // Note: Parameter-based shop URLs (e.g., ?color=black) are excluded per parameter policy
+  // Only clean paths and root pages are included to demonstrate best practices
 
   return entries;
 }
