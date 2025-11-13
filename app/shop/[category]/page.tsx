@@ -212,6 +212,7 @@ export default async function CategoryPage({ params, searchParams }: PageProps) 
               <Link
                 key={page}
                 href={`/shop/${resolvedParams.category}?${new URLSearchParams({ ...resolvedSearchParams, page: page.toString() }).toString()}`}
+                scroll={false}
               >
                 <Button variant={page === currentPage ? 'default' : 'outline'} size="sm">
                   {page}
@@ -229,7 +230,7 @@ export default async function CategoryPage({ params, searchParams }: PageProps) 
                 <p className="text-slate-600 mb-6">
                   Try adjusting your filters to see more results
                 </p>
-                <Link href={`/shop/${resolvedParams.category}`}>
+                <Link href={`/shop/${resolvedParams.category}`} scroll={false}>
                   <Button variant="outline">Clear All Filters</Button>
                 </Link>
               </div>

@@ -56,7 +56,7 @@ export function ActiveFilters({ filters, priceRange }: ActiveFiltersProps) {
     params.delete("page");
 
     const queryString = params.toString();
-    router.push(`${pathname}${queryString ? `?${queryString}` : ""}`);
+    router.push(`${pathname}${queryString ? `?${queryString}` : ""}`, { scroll: false });
   };
 
   return (

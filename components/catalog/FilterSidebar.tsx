@@ -107,7 +107,7 @@ export function FilterSidebar({
       }
 
       const queryString = params.toString();
-      router.push(`${pathname}${queryString ? `?${queryString}` : ""}`);
+      router.push(`${pathname}${queryString ? `?${queryString}` : ""}`, { scroll: false });
     },
     [searchParams, pathname, router]
   );
@@ -169,7 +169,7 @@ export function FilterSidebar({
     setSelectedColors([]);
     setSelectedSize(undefined);
     setSortBy("popularity");
-    router.push(pathname);
+    router.push(pathname, { scroll: false });
   };
 
   // Sync local state with URL changes (when filters are cleared externally)

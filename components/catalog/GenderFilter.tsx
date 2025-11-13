@@ -49,7 +49,7 @@ export function GenderFilter({ category, currentGender, genderCounts, totalCount
           const isActive = (!currentGender && gender.key === 'all') || currentGender === gender.key;
           
           return (
-            <Link key={gender.key} href={gender.href}>
+            <Link key={gender.key} href={gender.href} scroll={false}>
               <Button
                 variant={isActive ? 'default' : 'outline'}
                 size="lg"

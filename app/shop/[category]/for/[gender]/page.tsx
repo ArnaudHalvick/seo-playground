@@ -233,6 +233,7 @@ export default async function GenderFilterPage({ params, searchParams }: PagePro
                       <Link
                         key={page}
                         href={`/shop/${resolvedParams.category}/for/${resolvedParams.gender}?${new URLSearchParams({ ...resolvedSearchParams, page: page.toString() }).toString()}`}
+                        scroll={false}
                       >
                         <Button variant={page === currentPage ? 'default' : 'outline'} size="sm">
                           {page}
@@ -250,7 +251,7 @@ export default async function GenderFilterPage({ params, searchParams }: PagePro
                 <p className="text-slate-600 mb-6">
                   Try adjusting your filters to see more results
                 </p>
-                <Link href={`/shop/${resolvedParams.category}/for/${resolvedParams.gender}`}>
+                <Link href={`/shop/${resolvedParams.category}/for/${resolvedParams.gender}`} scroll={false}>
                   <Button variant="outline">Clear All Filters</Button>
                 </Link>
               </div>

@@ -29,7 +29,7 @@ export function FilterSummaryBar({
   );
 
   const handleClearAll = () => {
-    router.push(pathname);
+    router.push(pathname, { scroll: false });
   };
 
   const removeFilter = (type: "color" | "size" | "price" | "sort", value?: string) => {
@@ -65,7 +65,7 @@ export function FilterSummaryBar({
     params.delete("page");
 
     const queryString = params.toString();
-    router.push(`${pathname}${queryString ? `?${queryString}` : ""}`);
+    router.push(`${pathname}${queryString ? `?${queryString}` : ""}`, { scroll: false });
   };
   // Check if any filters are active
   const hasColorFilters = filters.colors && filters.colors.length > 0;

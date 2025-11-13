@@ -4,7 +4,7 @@
 
 Built to demonstrate mastery of both technical implementation and strategic planning—the complete skill set modern businesses need to succeed in organic search.
 
-🔗 **[View Live Demo](#)** | 📖 **[Technical Documentation](./docs/README.md)**
+🔗 **[View Live Demo](https://seo-workshop-hd7ml7sbc-arnaud-halvicks-projects.vercel.app/)** | 📖 **[Technical Documentation](./docs/README.md)**
 
 ---
 
