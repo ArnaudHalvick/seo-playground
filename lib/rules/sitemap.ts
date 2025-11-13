@@ -89,7 +89,8 @@ export function generateSitemapEntries(config: ParamConfig, baseUrl: string = 'h
     { path: '/strategic-seo/content-production/', priority: 0.8 },
     { path: '/strategic-seo/measurement-optimization/', priority: 0.8 },
     { path: '/strategic-seo/authority-building/', priority: 0.8 },
-    { path: '/strategic-seo/tools/', priority: 0.8 },
+    { path: '/strategic-seo/strategic-tools/', priority: 0.8 },
+    { path: '/strategic-seo/resources/', priority: 0.8 },
   ];
 
   for (const page of staticPages) {

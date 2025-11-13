@@ -67,7 +67,8 @@ Comprehensive frameworks for non-programming SEO operations:
 - `/strategic-seo/content-production` - Standardize editorial workflows
 - `/strategic-seo/measurement-optimization` - Build closed-loop optimization systems
 - `/strategic-seo/authority-building` - Earn mentions that reinforce E-E-A-T
-- `/strategic-seo/tools` - Essential tools for non-programming SEO
+- `/strategic-seo/strategic-tools` - Essential tools for keyword research and analysis
+- `/strategic-seo/resources` - Templates and frameworks for strategic SEO workflows
 
 ---
 

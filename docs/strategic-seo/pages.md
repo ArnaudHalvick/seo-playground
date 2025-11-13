@@ -23,6 +23,7 @@ Each section contains cards that link to detailed pages. The page includes an ov
 **Focus**: Building evidence-based SEO plans that align business goals with searcher demand.
 
 **Key Topics**:
+
 - Market & audience discovery, keyword clustering
 - SERP & intent analysis, topical authority planning
 - Competitor intelligence, prioritization frameworks
@@ -36,6 +37,7 @@ Each section contains cards that link to detailed pages. The page includes an ov
 **Focus**: Translating research into semantic, navigable content systems.
 
 **Key Topics**:
+
 - Hub & spoke architecture, content briefs at scale
 - On-page optimization, E-E-A-T signals
 - Internal linking, content refresh & pruning
@@ -51,6 +53,7 @@ Each section contains cards that link to detailed pages. The page includes an ov
 **Focus**: Building reliable editorial workflows from brief to publish.
 
 **Key Topics**:
+
 - Editorial planning, governance & workflows
 - Style guides, localization, quality frameworks
 - Compliance, accessibility, refresh policies
@@ -64,6 +67,7 @@ Each section contains cards that link to detailed pages. The page includes an ov
 **Focus**: Turning strategy into a closed-loop system with data and experimentation.
 
 **Key Topics**:
+
 - KPI design, dashboards, diagnostics
 - SEO-safe experimentation, optimization levers
 - Reporting, continuous improvement loops
@@ -77,6 +81,7 @@ Each section contains cards that link to detailed pages. The page includes an ov
 **Focus**: Strengthening reputation and trust beyond your own site.
 
 **Key Topics**:
+
 - Link acquisition & digital PR, linkable assets
 - Local SEO, reviews & UGC governance
 - Image & video SEO, E-E-A-T amplification
@@ -92,6 +97,7 @@ Each section contains cards that link to detailed pages. The page includes an ov
 **Focus**: Essential tools for keyword research, SERP analysis, and performance tracking.
 
 **Key Tools**:
+
 - **Keyword Research**: Ahrefs, Semrush, Keyword Planner, LowFruits
 - **SERP Analysis**: Thruuu, AlsoAsked, SEO Minion, AnswerThePublic
 - **Analytics**: Google Search Console, GA4, Looker Studio
@@ -100,6 +106,7 @@ Each section contains cards that link to detailed pages. The page includes an ov
 **Use Case**: When selecting and learning to use SEO research and analysis tools.
 
 **Sections**:
+
 - Tool selection philosophy
 - Keyword research tools
 - SERP analysis tools
@@ -113,6 +120,7 @@ Each section contains cards that link to detailed pages. The page includes an ov
 **Focus**: Ready-to-use templates and frameworks for strategic SEO workflows.
 
 **Key Resources**:
+
 - **Content Brief Templates**: Standard brief structure with all components
 - **Editorial Calendar**: Workflow tracker from brief to publish
 - **Keyword Clustering Framework**: Hub & spoke mapping approach
@@ -124,6 +132,7 @@ Each section contains cards that link to detailed pages. The page includes an ov
 **Use Case**: When you need templates to standardize SEO workflows.
 
 **Sections**:
+
 - Content brief templates
 - Editorial calendar templates
 - Keyword clustering framework
@@ -131,18 +140,6 @@ Each section contains cards that link to detailed pages. The page includes an ov
 - KPI dashboard template
 - E-E-A-T checklist
 - Link prospecting workflow
-
-## Legacy Page
-
-### Tools (Deprecated)
-
-**Path**: `/strategic-seo/tools/`
-
-**Status**: This is the old combined tools page. It has been split into:
-- `/strategic-seo/strategic-tools/` - Research & analysis tools
-- `/strategic-seo/resources/` - Templates & frameworks
-
-This page may be deprecated in future updates.
 
 ## Page Structure
 
@@ -168,4 +165,3 @@ All Strategic SEO pages follow a consistent structure:
 - [Overview](./overview.md) - Section overview
 - [Navigation](./navigation.md) - Navigation structure
 - [Components Overview](../components/overview.md) - UI components
-
