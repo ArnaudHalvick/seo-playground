@@ -1,24 +1,63 @@
 "use client";
 
-import { RobotsPreview } from "@/components/playground/RobotsPreview";
-import { RobotsTester } from "@/components/playground/RobotsTester";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { FileCode, Info } from "lucide-react";
+import UnderstandingTab from "./UnderstandingTab";
+import SyntaxTab from "./SyntaxTab";
+import BestPracticesTab from "./BestPracticesTab";
+import LiveToolsTab from "./LiveToolsTab";
 
 export default function RobotsContent() {
   return (
     <div className="bg-gradient-to-b from-blue-50 to-slate-50 min-h-screen py-12">
       <div className="container mx-auto px-4 max-w-6xl">
-        <div className="mb-6">
-          <h1 className="text-3xl font-bold mb-2">robots.txt Best Practices</h1>
-          <p className="text-slate-600">
-            Live-generated robots.txt with pattern explanations and interactive URL testing
+        {/* Hero Section */}
+        <div className="mb-8">
+          <div className="flex items-center gap-3 mb-4">
+            <FileCode className="h-10 w-10 text-blue-600" />
+            <h1 className="text-4xl font-bold">robots.txt Best Practices</h1>
+          </div>
+          <p className="text-lg text-slate-600 mb-4">
+            Control crawler access to optimize crawl budget and prevent indexation of low-value
+            pages
           </p>
+          <Alert className="border-blue-300 bg-blue-50">
+            <Info className="h-4 w-4" />
+            <AlertDescription>
+              <strong>Core Principle:</strong> robots.txt tells search engines which pages NOT to
+              crawl. It&apos;s your first line of defense against crawl budget waste, but it does
+              NOT prevent indexing (use noindex meta tags for that). Strategic use can improve crawl
+              efficiency by 70-90% on large sites.
+            </AlertDescription>
+          </Alert>
         </div>
 
-        <div className="space-y-6">
-          <RobotsPreview />
+        {/* Tabbed Content */}
+        <Tabs defaultValue="understanding" className="space-y-6">
+          <TabsList className="grid w-full grid-cols-4">
+            <TabsTrigger value="understanding">Understanding</TabsTrigger>
+            <TabsTrigger value="syntax">Syntax & Directives</TabsTrigger>
+            <TabsTrigger value="best-practices">Best Practices</TabsTrigger>
+            <TabsTrigger value="live-tools">Live Tools</TabsTrigger>
+          </TabsList>
 
-          <RobotsTester />
-        </div>
+          <TabsContent value="understanding" className="space-y-6">
+            <UnderstandingTab />
+          </TabsContent>
+
+          <TabsContent value="syntax" className="space-y-6">
+            <SyntaxTab />
+          </TabsContent>
+
+          <TabsContent value="best-practices" className="space-y-6">
+            <BestPracticesTab />
+          </TabsContent>
+
+          <TabsContent value="live-tools" className="space-y-6">
+            <LiveToolsTab />
+          </TabsContent>
+        </Tabs>
       </div>
     </div>
   );

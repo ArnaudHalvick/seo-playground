@@ -1,22 +1,62 @@
 'use client';
 
-import { SitemapTable } from '@/components/playground/SitemapTable';
-import { useConfig } from '@/lib/config/provider';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Map, Info } from 'lucide-react';
+import UnderstandingTab from './UnderstandingTab';
+import InclusionTab from './InclusionTab';
+import ImplementationTab from './ImplementationTab';
+import LiveViewerTab from './LiveViewerTab';
 
 export default function SitemapContent() {
-  const { config } = useConfig();
-
   return (
     <div className="bg-gradient-to-b from-blue-50 to-slate-50 min-h-screen py-12">
       <div className="container mx-auto px-4 max-w-6xl">
-        <div className="mb-6">
-          <h1 className="text-3xl font-bold mb-2">Sitemap</h1>
-          <p className="text-slate-600">
-            Intelligent sitemap inclusion based on indexability rules and URL patterns
+        {/* Hero Section */}
+        <div className="mb-8">
+          <div className="flex items-center gap-3 mb-4">
+            <Map className="h-10 w-10 text-green-600" />
+            <h1 className="text-4xl font-bold">XML Sitemaps</h1>
+          </div>
+          <p className="text-lg text-slate-600 mb-4">
+            Guide search engines to your most valuable content through strategic URL curation and intelligent indexation signals
           </p>
+          <Alert className="border-green-300 bg-green-50">
+            <Info className="h-4 w-4" />
+            <AlertDescription>
+              <strong>Strategic Principle:</strong> A sitemap is NOT a dump of every URL on your site. It&apos;s a 
+              curated list of indexable, valuable pages that helps search engines discover and prioritize your best 
+              content. Quality over quantity—exclude pagination, filters, duplicates, and low-value pages to maximize 
+              crawl efficiency and indexation rates.
+            </AlertDescription>
+          </Alert>
         </div>
 
-        <SitemapTable config={config} />
+        {/* Tabbed Content */}
+        <Tabs defaultValue="understanding" className="space-y-6">
+          <TabsList className="grid w-full grid-cols-4">
+            <TabsTrigger value="understanding">Understanding</TabsTrigger>
+            <TabsTrigger value="inclusion">What to Include</TabsTrigger>
+            <TabsTrigger value="implementation">Implementation</TabsTrigger>
+            <TabsTrigger value="live-viewer">Live Viewer</TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="understanding" className="space-y-6">
+            <UnderstandingTab />
+          </TabsContent>
+
+          <TabsContent value="inclusion" className="space-y-6">
+            <InclusionTab />
+          </TabsContent>
+
+          <TabsContent value="implementation" className="space-y-6">
+            <ImplementationTab />
+          </TabsContent>
+
+          <TabsContent value="live-viewer" className="space-y-6">
+            <LiveViewerTab />
+          </TabsContent>
+        </Tabs>
       </div>
     </div>
   );
