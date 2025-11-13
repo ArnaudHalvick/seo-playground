@@ -243,39 +243,35 @@ export default function ImplementationTab() {
           <CardDescription>Making your sitemap discoverable</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div className="grid md:grid-cols-2 gap-4 text-xs">
-            <div className="space-y-3">
-              <div className="bg-indigo-50 border border-indigo-200 p-3 rounded">
-                <div className="font-semibold mb-1">1. robots.txt</div>
-                <div className="text-slate-700 mb-2">
-                  Add sitemap reference (most universal method)
-                </div>
-                <div className="bg-slate-900 text-slate-100 p-2 rounded font-mono text-[10px]">
-                  Sitemap: https://example.com/sitemap.xml
-                </div>
+          <div className="space-y-3 text-xs">
+            <div className="bg-indigo-50 border border-indigo-200 p-3 rounded">
+              <div className="font-semibold mb-1">1. robots.txt</div>
+              <div className="text-slate-700 mb-2">
+                Add sitemap reference (most universal method)
               </div>
-
-              <div className="bg-green-50 border border-green-200 p-3 rounded">
-                <div className="font-semibold mb-1">2. Google Search Console</div>
-                <div className="text-slate-700">
-                  Submit manually in Indexing → Sitemaps. Provides detailed indexation stats.
-                </div>
+              <div className="bg-slate-900 text-slate-100 p-2 rounded font-mono text-[10px]">
+                Sitemap: https://example.com/sitemap.xml
               </div>
             </div>
 
-            <div className="space-y-3">
-              <div className="bg-blue-50 border border-blue-200 p-3 rounded">
-                <div className="font-semibold mb-1">3. Bing Webmaster Tools</div>
-                <div className="text-slate-700">
-                  Submit separately (also covers Yahoo & DuckDuckGo)
-                </div>
+            <div className="bg-green-50 border border-green-200 p-3 rounded">
+              <div className="font-semibold mb-1">2. Google Search Console</div>
+              <div className="text-slate-700">
+                Submit manually in Indexing → Sitemaps. Provides detailed indexation stats.
               </div>
+            </div>
 
-              <div className="bg-purple-50 border border-purple-200 p-3 rounded">
-                <div className="font-semibold mb-1">4. Ping After Updates</div>
-                <div className="text-slate-700 font-mono text-[10px]">
-                  google.com/ping?sitemap=URL
-                </div>
+            <div className="bg-blue-50 border border-blue-200 p-3 rounded">
+              <div className="font-semibold mb-1">3. Bing Webmaster Tools</div>
+              <div className="text-slate-700">
+                Submit separately (also covers Yahoo & DuckDuckGo)
+              </div>
+            </div>
+
+            <div className="bg-purple-50 border border-purple-200 p-3 rounded">
+              <div className="font-semibold mb-1">4. Ping After Updates</div>
+              <div className="text-slate-700 font-mono text-[10px]">
+                google.com/ping?sitemap=URL
               </div>
             </div>
           </div>
