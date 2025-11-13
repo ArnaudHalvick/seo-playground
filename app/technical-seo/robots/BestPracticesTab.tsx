@@ -319,6 +319,19 @@ export default function BestPracticesTab() {
               e-commerce site, allowing Google to focus on products and categories.
             </AlertDescription>
           </Alert>
+
+          <Alert className="border-blue-300 bg-blue-50 mt-4">
+            <Sparkles className="h-4 w-4" />
+            <AlertDescription className="text-xs">
+              <strong>Advanced Strategy:</strong> Instead of blocking filter parameters like <code className="bg-slate-100 px-1 rounded">?color=red</code> or 
+              <code className="bg-slate-100 px-1 rounded">?size=large</code>, consider converting high-value filters into clean URL paths 
+              like <code className="bg-slate-100 px-1 rounded">/shoes/red</code> or <code className="bg-slate-100 px-1 rounded">/shoes/size-10</code>. 
+              This works when there&apos;s <strong>real search intent</strong> (people actually search for &quot;red shoes&quot; or &quot;size 10 shoes&quot;) 
+              and the filtered pages have enough unique products to warrant indexation. Not every filter deserves a clean URL—only those with 
+              demonstrated search volume and unique value. This approach gives you indexable filter pages while still blocking infinite 
+              parameter combinations.
+            </AlertDescription>
+          </Alert>
         </CardContent>
       </Card>
 
