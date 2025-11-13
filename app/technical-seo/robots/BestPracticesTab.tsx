@@ -1,8 +1,8 @@
-import Link from 'next/link';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
+import Link from "next/link";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   CheckCircle2,
   XCircle,
@@ -18,7 +18,7 @@ import {
   TestTube,
   ArrowRight,
   Sparkles,
-} from 'lucide-react';
+} from "lucide-react";
 
 export default function BestPracticesTab() {
   return (
@@ -30,9 +30,7 @@ export default function BestPracticesTab() {
             <XCircle className="h-5 w-5 text-red-600" />
             What to Block: Common Patterns
           </CardTitle>
-          <CardDescription>
-            Prevent crawlers from wasting budget on low-value pages
-          </CardDescription>
+          <CardDescription>Prevent crawlers from wasting budget on low-value pages</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="space-y-3">
@@ -49,8 +47,9 @@ export default function BestPracticesTab() {
                 <div className="text-yellow-300">Disallow: /dashboard/</div>
               </div>
               <p className="text-xs text-slate-700">
-                <strong>Why:</strong> Admin pages have no SEO value and waste crawl budget. Block them even if 
-                protected by authentication (don&apos;t rely on robots.txt for security though).
+                <strong>Why:</strong> Admin pages have no SEO value and waste crawl budget. Block
+                them even if protected by authentication (don&apos;t rely on robots.txt for security
+                though).
               </p>
             </div>
 
@@ -67,8 +66,8 @@ export default function BestPracticesTab() {
                 <div className="text-yellow-300">Disallow: /*?s=</div>
               </div>
               <p className="text-xs text-slate-700">
-                <strong>Why:</strong> Search results are dynamic, user-specific, and infinite. They create massive 
-                duplicate content issues and burn through crawl budget rapidly.
+                <strong>Why:</strong> Search results are dynamic, user-specific, and infinite. They
+                create massive duplicate content issues and burn through crawl budget rapidly.
               </p>
             </div>
 
@@ -85,8 +84,9 @@ export default function BestPracticesTab() {
                 <div className="text-yellow-300">Disallow: /*?price=</div>
               </div>
               <p className="text-xs text-slate-700">
-                <strong>Why:</strong> Filters create exponential URL combinations. A category with 100 products and 
-                5 filters can generate 100,000+ duplicate URLs. Block or use parameter handling.
+                <strong>Why:</strong> Filters create exponential URL combinations. A category with
+                100 products and 5 filters can generate 100,000+ duplicate URLs. Block or use
+                parameter handling.
               </p>
               <Link href="/technical-seo/parameters">
                 <Button size="sm" variant="outline" className="mt-2 text-xs">
@@ -111,8 +111,9 @@ export default function BestPracticesTab() {
                 <div className="text-yellow-300">Disallow: /*?page=</div>
               </div>
               <p className="text-xs text-slate-700">
-                <strong>Strategy:</strong> Block deep pagination (page 10+) but allow first few pages if they have 
-                unique content. Use rel=&quot;prev/next&quot; tags for better handling.
+                <strong>Strategy:</strong> Block deep pagination (page 10+) but allow first few
+                pages if they have unique content. Use rel=&quot;prev/next&quot; tags for better
+                handling.
               </p>
               <Link href="/technical-seo/pagination">
                 <Button size="sm" variant="outline" className="mt-2 text-xs">
@@ -136,8 +137,8 @@ export default function BestPracticesTab() {
                 <div className="text-yellow-300">Disallow: /order-confirmation</div>
               </div>
               <p className="text-xs text-slate-700">
-                <strong>Why:</strong> These pages are user-specific, have no SEO value, and should never appear in 
-                search results. Indexing them wastes budget and confuses users.
+                <strong>Why:</strong> These pages are user-specific, have no SEO value, and should
+                never appear in search results. Indexing them wastes budget and confuses users.
               </p>
             </div>
 
@@ -154,8 +155,9 @@ export default function BestPracticesTab() {
                 <div className="text-yellow-300">Disallow: /*?fbclid=</div>
               </div>
               <p className="text-xs text-slate-700">
-                <strong>Why:</strong> Session IDs and tracking parameters create infinite duplicate URLs. Better 
-                solution: use cookies for sessions and configure Google Analytics to ignore UTM parameters.
+                <strong>Why:</strong> Session IDs and tracking parameters create infinite duplicate
+                URLs. Better solution: use cookies for sessions and configure Google Analytics to
+                ignore UTM parameters.
               </p>
             </div>
           </div>
@@ -163,8 +165,9 @@ export default function BestPracticesTab() {
           <Alert className="border-red-300 bg-red-50">
             <AlertTriangle className="h-4 w-4" />
             <AlertDescription className="text-xs">
-              <strong>Pro Tip:</strong> Use Google Search Console&apos;s URL Inspection tool to see which of your URLs 
-              are being crawled most. Focus on blocking patterns that appear frequently but have low value.
+              <strong>Pro Tip:</strong> Use Google Search Console&apos;s URL Inspection tool to see
+              which of your URLs are being crawled most. Focus on blocking patterns that appear
+              frequently but have low value.
             </AlertDescription>
           </Alert>
         </CardContent>
@@ -177,9 +180,7 @@ export default function BestPracticesTab() {
             <CheckCircle2 className="h-5 w-5 text-green-600" />
             What NOT to Block
           </CardTitle>
-          <CardDescription>
-            Avoid these common mistakes that hurt SEO
-          </CardDescription>
+          <CardDescription>Avoid these common mistakes that hurt SEO</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="space-y-3">
@@ -190,13 +191,16 @@ export default function BestPracticesTab() {
                 <div className="flex-1">
                   <h4 className="font-semibold text-sm mb-1">✓ CSS & JavaScript Files</h4>
                   <p className="text-xs text-slate-700 mb-2">
-                    <strong>DO NOT block</strong> unless absolutely necessary. Google needs to render your page properly 
-                    to understand its content and mobile-friendliness.
+                    <strong>DO NOT block</strong> unless absolutely necessary. Google needs to
+                    render your page properly to understand its content and mobile-friendliness.
                   </p>
                   <div className="bg-white border border-green-200 p-2 rounded text-xs text-slate-700">
-                    <strong>Old (wrong) practice:</strong> <code className="bg-red-100 px-1 rounded">Disallow: /*.js$</code> and 
-                    <code className="bg-red-100 px-1 rounded ml-1">Disallow: /*.css$</code><br />
-                    <strong>Modern (correct):</strong> Allow Google to access all rendering resources
+                    <strong>Old (wrong) practice:</strong>{" "}
+                    <code className="bg-red-100 px-1 rounded">Disallow: /*.js$</code> and
+                    <code className="bg-red-100 px-1 rounded ml-1">Disallow: /*.css$</code>
+                    <br />
+                    <strong>Modern (correct):</strong> Allow Google to access all rendering
+                    resources
                   </div>
                 </div>
               </div>
@@ -209,12 +213,12 @@ export default function BestPracticesTab() {
                 <div className="flex-1">
                   <h4 className="font-semibold text-sm mb-1">✓ Images (Usually)</h4>
                   <p className="text-xs text-slate-700 mb-2">
-                    Don&apos;t block images unless you specifically don&apos;t want them in Google Image Search. 
-                    Images can drive significant organic traffic.
+                    Don&apos;t block images unless you specifically don&apos;t want them in Google
+                    Image Search. Images can drive significant organic traffic.
                   </p>
                   <div className="bg-white border border-green-200 p-2 rounded text-xs text-slate-700">
-                    <strong>Exception:</strong> Block user-uploaded content if it&apos;s low quality or could contain 
-                    inappropriate material affecting your site&apos;s reputation.
+                    <strong>Exception:</strong> Block user-uploaded content if it&apos;s low quality
+                    or could contain inappropriate material affecting your site&apos;s reputation.
                   </div>
                 </div>
               </div>
@@ -227,12 +231,14 @@ export default function BestPracticesTab() {
                 <div className="flex-1">
                   <h4 className="font-semibold text-sm mb-1">✓ Pages You Want Indexed</h4>
                   <p className="text-xs text-slate-700 mb-2">
-                    Never block pages with valuable content. Use <code className="bg-slate-100 px-1 rounded">noindex</code> meta 
-                    tags if you want to prevent indexing while allowing crawling.
+                    Never block pages with valuable content. Use{" "}
+                    <code className="bg-slate-100 px-1 rounded">noindex</code> meta tags if you want
+                    to prevent indexing while allowing crawling.
                   </p>
                   <div className="bg-white border border-amber-200 p-2 rounded text-xs text-amber-700">
                     <AlertTriangle className="h-3 w-3 inline mr-1" />
-                    <strong>Common mistake:</strong> Blocking /blog/ or /products/ by accident with overly broad rules
+                    <strong>Common mistake:</strong> Blocking /blog/ or /products/ by accident with
+                    overly broad rules
                   </div>
                 </div>
               </div>
@@ -243,14 +249,23 @@ export default function BestPracticesTab() {
               <div className="flex items-start gap-3">
                 <Info className="h-5 w-5 text-blue-600 flex-shrink-0 mt-0.5" />
                 <div className="flex-1">
-                  <h4 className="font-semibold text-sm mb-1">? API Endpoints (Context-Dependent)</h4>
+                  <h4 className="font-semibold text-sm mb-1">
+                    ? API Endpoints (Context-Dependent)
+                  </h4>
                   <p className="text-xs text-slate-700 mb-2">
-                    Block API endpoints if they return JSON/XML with no user-facing content. Allow if they serve 
-                    actual content pages (e.g., headless CMS APIs).
+                    Block API endpoints if they return JSON/XML with no user-facing content. Allow
+                    if they serve actual content pages (e.g., headless CMS APIs).
                   </p>
                   <div className="bg-white border border-blue-200 p-2 rounded text-xs">
-                    <div className="text-slate-700"><strong>Block:</strong> <code className="bg-slate-100 px-1 rounded">/api/v1/</code> (data endpoints)</div>
-                    <div className="text-slate-700"><strong>Allow:</strong> <code className="bg-slate-100 px-1 rounded">/api/pages/</code> (if serves content)</div>
+                    <div className="text-slate-700">
+                      <strong>Block:</strong>{" "}
+                      <code className="bg-slate-100 px-1 rounded">/api/v1/</code> (data endpoints)
+                    </div>
+                    <div className="text-slate-700">
+                      <strong>Allow:</strong>{" "}
+                      <code className="bg-slate-100 px-1 rounded">/api/pages/</code> (if serves
+                      content)
+                    </div>
                   </div>
                 </div>
               </div>
@@ -315,23 +330,40 @@ export default function BestPracticesTab() {
           <Alert className="border-indigo-300 bg-indigo-50">
             <Info className="h-4 w-4" />
             <AlertDescription className="text-xs">
-              <strong>Result:</strong> This configuration typically reduces crawl waste by 75-85% on a medium-sized 
-              e-commerce site, allowing Google to focus on products and categories.
+              <strong>Result:</strong> This configuration typically reduces crawl waste by 75-85% on
+              a medium-sized e-commerce site, allowing Google to focus on products and categories.
             </AlertDescription>
           </Alert>
 
           <Alert className="border-blue-300 bg-blue-50 mt-4">
             <Sparkles className="h-4 w-4" />
             <AlertDescription className="text-xs">
-              <strong>Advanced Strategy:</strong> Instead of blocking filter parameters like <code className="bg-slate-100 px-1 rounded">?color=red</code> or 
-              <code className="bg-slate-100 px-1 rounded">?size=large</code>, consider converting high-value filters into clean URL paths 
-              like <code className="bg-slate-100 px-1 rounded">/shoes/red</code> or <code className="bg-slate-100 px-1 rounded">/shoes/size-10</code>. 
-              This works when there&apos;s <strong>real search intent</strong> (people actually search for &quot;red shoes&quot; or &quot;size 10 shoes&quot;) 
-              and the filtered pages have enough unique products to warrant indexation. Not every filter deserves a clean URL—only those with 
-              demonstrated search volume and unique value. This approach gives you indexable filter pages while still blocking infinite 
-              parameter combinations.
+              <strong>Advanced Strategy:</strong> Instead of blocking filter parameters like{" "}
+              <code className="bg-slate-100 px-1 rounded">?color=red</code> or
+              <code className="bg-slate-100 px-1 rounded">?size=large</code>, consider converting
+              high-value filters into clean URL paths like{" "}
+              <code className="bg-slate-100 px-1 rounded">/shoes/red</code> or{" "}
+              <code className="bg-slate-100 px-1 rounded">/shoes/size-10</code>. This works when
+              there&apos;s <strong>real search intent</strong> (people actually search for &quot;red
+              shoes&quot; or &quot;size 10 shoes&quot;) and the filtered pages have enough unique
+              products to warrant indexation. Not every filter deserves a clean URL—only those with
+              demonstrated search volume and unique value. This approach gives you indexable filter
+              pages while still blocking infinite parameter combinations.
             </AlertDescription>
           </Alert>
+
+          <div className="mt-4 pt-4 border-t border-indigo-200">
+            <p className="text-xs text-slate-600 mb-2">
+              <strong>Explore More Patterns:</strong> See these blocking strategies in action with
+              live examples.
+            </p>
+            <Link href="/technical-seo/pattern-gallery">
+              <Button size="sm" variant="outline" className="text-xs">
+                View Pattern Gallery
+                <ArrowRight className="h-3 w-3 ml-1" />
+              </Button>
+            </Link>
+          </div>
         </CardContent>
       </Card>
 
@@ -342,9 +374,7 @@ export default function BestPracticesTab() {
             <TestTube className="h-5 w-5 text-amber-600" />
             Testing Before Deployment
           </CardTitle>
-          <CardDescription>
-            Never deploy robots.txt changes without testing
-          </CardDescription>
+          <CardDescription>Never deploy robots.txt changes without testing</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="space-y-3">
@@ -355,8 +385,8 @@ export default function BestPracticesTab() {
               <div className="flex-1">
                 <h4 className="font-semibold text-sm mb-1">Test with Google Search Console</h4>
                 <p className="text-xs text-slate-700">
-                  Use the robots.txt Tester tool (Settings → robots.txt) to test URLs against your new rules before 
-                  deploying. Identifies accidentally blocked important pages.
+                  Use the robots.txt Tester tool (Settings → robots.txt) to test URLs against your
+                  new rules before deploying. Identifies accidentally blocked important pages.
                 </p>
               </div>
             </div>
@@ -368,8 +398,8 @@ export default function BestPracticesTab() {
               <div className="flex-1">
                 <h4 className="font-semibold text-sm mb-1">Test Critical URLs</h4>
                 <p className="text-xs text-slate-700">
-                  Manually verify your homepage, top products/articles, and key category pages are NOT blocked. 
-                  Test both with and without common parameters.
+                  Manually verify your homepage, top products/articles, and key category pages are
+                  NOT blocked. Test both with and without common parameters.
                 </p>
               </div>
             </div>
@@ -381,8 +411,9 @@ export default function BestPracticesTab() {
               <div className="flex-1">
                 <h4 className="font-semibold text-sm mb-1">Monitor Crawl Stats</h4>
                 <p className="text-xs text-slate-700">
-                  After deploying, watch Google Search Console&apos;s crawl stats for 2-4 weeks. You should see 
-                  reduced crawl volume on blocked patterns and increased focus on important pages.
+                  After deploying, watch Google Search Console&apos;s crawl stats for 2-4 weeks. You
+                  should see reduced crawl volume on blocked patterns and increased focus on
+                  important pages.
                 </p>
               </div>
             </div>
@@ -394,8 +425,8 @@ export default function BestPracticesTab() {
               <div className="flex-1">
                 <h4 className="font-semibold text-sm mb-1">Check for Indexation Drops</h4>
                 <p className="text-xs text-slate-700">
-                  If you accidentally block important pages, you&apos;ll see indexation drop in GSC. Monitor 
-                  &quot;Coverage&quot; report for &quot;Blocked by robots.txt&quot; errors.
+                  If you accidentally block important pages, you&apos;ll see indexation drop in GSC.
+                  Monitor &quot;Coverage&quot; report for &quot;Blocked by robots.txt&quot; errors.
                 </p>
               </div>
             </div>
@@ -476,4 +507,3 @@ export default function BestPracticesTab() {
     </div>
   );
 }
-

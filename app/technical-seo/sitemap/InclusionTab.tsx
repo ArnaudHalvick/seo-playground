@@ -601,6 +601,22 @@ export default function InclusionTab() {
               </div>
             </div>
           </div>
+
+          <Alert className="border-indigo-300 bg-indigo-50 mt-4">
+            <Info className="h-4 w-4" />
+            <AlertDescription className="text-xs">
+              <strong>Want to see real examples?</strong> Check out the Pattern Gallery to explore
+              specific URL patterns with live demos showing indexation decisions, canonical
+              handling, and sitemap inclusion.
+            </AlertDescription>
+          </Alert>
+
+          <Link href="/technical-seo/pattern-gallery">
+            <Button size="sm" variant="outline" className="mt-2 text-xs">
+              Explore Pattern Gallery
+              <ArrowRight className="h-3 w-3 ml-1" />
+            </Button>
+          </Link>
         </CardContent>
       </Card>
     </div>
