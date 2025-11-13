@@ -6,7 +6,6 @@ import { FileCode, Info } from "lucide-react";
 import UnderstandingTab from "./UnderstandingTab";
 import SyntaxTab from "./SyntaxTab";
 import BestPracticesTab from "./BestPracticesTab";
-import LiveToolsTab from "./LiveToolsTab";
 
 export default function RobotsContent() {
   return (
@@ -19,8 +18,7 @@ export default function RobotsContent() {
             <h1 className="text-4xl font-bold">robots.txt Best Practices</h1>
           </div>
           <p className="text-lg text-slate-600 mb-4">
-            Control crawler access to optimize crawl budget and prevent indexation of low-value
-            pages
+            Master crawl control to optimize search engine access and protect your crawl budget
           </p>
           <Alert className="border-blue-300 bg-blue-50">
             <Info className="h-4 w-4" />
@@ -35,11 +33,10 @@ export default function RobotsContent() {
 
         {/* Tabbed Content */}
         <Tabs defaultValue="understanding" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-4">
+          <TabsList className="grid w-full grid-cols-3">
             <TabsTrigger value="understanding">Understanding</TabsTrigger>
             <TabsTrigger value="syntax">Syntax & Directives</TabsTrigger>
-            <TabsTrigger value="best-practices">Best Practices</TabsTrigger>
-            <TabsTrigger value="live-tools">Live Tools</TabsTrigger>
+            <TabsTrigger value="best-practices">Implementation</TabsTrigger>
           </TabsList>
 
           <TabsContent value="understanding" className="space-y-6">
@@ -52,10 +49,6 @@ export default function RobotsContent() {
 
           <TabsContent value="best-practices" className="space-y-6">
             <BestPracticesTab />
-          </TabsContent>
-
-          <TabsContent value="live-tools" className="space-y-6">
-            <LiveToolsTab />
           </TabsContent>
         </Tabs>
       </div>

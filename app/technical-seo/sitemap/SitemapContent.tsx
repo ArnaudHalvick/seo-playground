@@ -6,7 +6,6 @@ import { Map, Info } from 'lucide-react';
 import UnderstandingTab from './UnderstandingTab';
 import InclusionTab from './InclusionTab';
 import ImplementationTab from './ImplementationTab';
-import LiveViewerTab from './LiveViewerTab';
 
 export default function SitemapContent() {
   return (
@@ -19,7 +18,7 @@ export default function SitemapContent() {
             <h1 className="text-4xl font-bold">XML Sitemaps</h1>
           </div>
           <p className="text-lg text-slate-600 mb-4">
-            Guide search engines to your most valuable content through strategic URL curation and intelligent indexation signals
+            Master strategic sitemap creation to guide search engines to your most valuable content
           </p>
           <Alert className="border-green-300 bg-green-50">
             <Info className="h-4 w-4" />
@@ -34,11 +33,10 @@ export default function SitemapContent() {
 
         {/* Tabbed Content */}
         <Tabs defaultValue="understanding" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-4">
+          <TabsList className="grid w-full grid-cols-3">
             <TabsTrigger value="understanding">Understanding</TabsTrigger>
-            <TabsTrigger value="inclusion">What to Include</TabsTrigger>
+            <TabsTrigger value="inclusion">Strategic Curation</TabsTrigger>
             <TabsTrigger value="implementation">Implementation</TabsTrigger>
-            <TabsTrigger value="live-viewer">Live Viewer</TabsTrigger>
           </TabsList>
 
           <TabsContent value="understanding" className="space-y-6">
@@ -51,10 +49,6 @@ export default function SitemapContent() {
 
           <TabsContent value="implementation" className="space-y-6">
             <ImplementationTab />
-          </TabsContent>
-
-          <TabsContent value="live-viewer" className="space-y-6">
-            <LiveViewerTab />
           </TabsContent>
         </Tabs>
       </div>
