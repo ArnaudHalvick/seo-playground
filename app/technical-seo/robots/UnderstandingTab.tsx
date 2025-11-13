@@ -333,39 +333,6 @@ export default function UnderstandingTab() {
           </div>
         </CardContent>
       </Card>
-
-      {/* Real-World Impact */}
-      <Card className="bg-gradient-to-r from-green-50 to-blue-50 border-2 border-green-200">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <CheckCircle2 className="h-5 w-5 text-green-600" />
-            Real-World Impact
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid md:grid-cols-2 gap-4 text-xs">
-            <div className="bg-white border border-green-200 p-3 rounded">
-              <h4 className="font-semibold mb-2 text-green-700">
-                ✓ E-commerce Site (50k products)
-              </h4>
-              <p className="text-slate-700">
-                Blocked paginated category pages and filter URLs. Result:{" "}
-                <strong>73% reduction</strong> in wasted crawl, new products indexed{" "}
-                <strong>4x faster</strong>, organic traffic increased 31% over 6 months.
-              </p>
-            </div>
-
-            <div className="bg-white border border-green-200 p-3 rounded">
-              <h4 className="font-semibold mb-2 text-green-700">✓ News Site (1M+ articles)</h4>
-              <p className="text-slate-700">
-                Blocked search results and tag archive pages. Result: Crawl efficiency improved{" "}
-                <strong>86%</strong>, Google crawled breaking news within <strong>2 hours</strong>{" "}
-                instead of 12+ hours.
-              </p>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
     </div>
   );
 }
