@@ -1,14 +1,6 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import {
-  Brain,
-  Link2,
-  Award,
-  Info,
-  CheckCircle2,
-  Sparkles,
-  AlertTriangle,
-} from "lucide-react";
+import { Brain, Link2, Award, Info, CheckCircle2, Sparkles, AlertTriangle } from "lucide-react";
 
 export default function AnalysisTab() {
   return (
@@ -31,9 +23,9 @@ export default function AnalysisTab() {
               Why This Matters
             </h4>
             <p className="text-sm text-slate-700">
-              SERP (Search Engine Results Page) analysis shows what content format and
-              features Google considers best for a given intent. Writing a 2,000-word essay
-              when SERPs reward checklists is a recipe for failure.
+              SERP (Search Engine Results Page) analysis shows what content format and features
+              Google considers best for a given intent. Writing a 2,000-word essay when SERPs reward
+              checklists is a recipe for failure.
             </p>
           </div>
 
@@ -58,15 +50,11 @@ export default function AnalysisTab() {
                   <div className="bg-white border border-slate-200 rounded p-2">
                     • Tools & calculators
                   </div>
-                  <div className="bg-white border border-slate-200 rounded p-2">
-                    • Videos
-                  </div>
+                  <div className="bg-white border border-slate-200 rounded p-2">• Videos</div>
                 </div>
               </div>
               <div>
-                <h5 className="font-semibold text-sm mb-2 text-purple-900">
-                  SERP Features
-                </h5>
+                <h5 className="font-semibold text-sm mb-2 text-purple-900">SERP Features</h5>
                 <div className="space-y-1 text-xs">
                   <div className="bg-white border border-slate-200 rounded p-2">
                     • Featured snippet
@@ -74,9 +62,7 @@ export default function AnalysisTab() {
                   <div className="bg-white border border-slate-200 rounded p-2">
                     • PAA (People Also Ask) boxes
                   </div>
-                  <div className="bg-white border border-slate-200 rounded p-2">
-                    • Image pack
-                  </div>
+                  <div className="bg-white border border-slate-200 rounded p-2">• Image pack</div>
                   <div className="bg-white border border-slate-200 rounded p-2">
                     • Video carousel
                   </div>
@@ -97,14 +83,14 @@ export default function AnalysisTab() {
               <div className="border-l-4 border-l-purple-500 bg-purple-50 p-3">
                 <h5 className="font-semibold text-sm mb-1">1. Document Patterns</h5>
                 <p className="text-xs text-slate-700 mb-2">
-                  For top 10 results, note: length, structure (H2/H3 patterns),
-                  tables/images, examples used
+                  For top 10 results, note: length, structure (H2/H3 patterns), tables/images,
+                  examples used
                 </p>
                 <div className="bg-white p-2 rounded text-xs">
                   <p className="font-semibold mb-1">Example Pattern:</p>
                   <p>
-                    &quot;How to write a resume&quot; → All top results are 1,500-2,500 word
-                    guides with:
+                    &quot;How to write a resume&quot; → All top results are 1,500-2,500 word guides
+                    with:
                   </p>
                   <p>• Step-by-step format (H2 per step)</p>
                   <p>• Multiple visual examples</p>
@@ -114,19 +100,15 @@ export default function AnalysisTab() {
               </div>
 
               <div className="border-l-4 border-l-purple-500 bg-purple-50 p-3">
-                <h5 className="font-semibold text-sm mb-1">
-                  2. Identify Entity Expectations
-                </h5>
+                <h5 className="font-semibold text-sm mb-1">2. Identify Entity Expectations</h5>
                 <p className="text-xs text-slate-700">
-                  What products, brands, locations, or concepts are repeatedly mentioned
-                  across top results? These entities should appear in your content too.
+                  What products, brands, locations, or concepts are repeatedly mentioned across top
+                  results? These entities should appear in your content too.
                 </p>
               </div>
 
               <div className="border-l-4 border-l-purple-500 bg-purple-50 p-3">
-                <h5 className="font-semibold text-sm mb-1">
-                  3. Target Snippet Opportunities
-                </h5>
+                <h5 className="font-semibold text-sm mb-1">3. Target Snippet Opportunities</h5>
                 <p className="text-xs text-slate-700 mb-2">
                   If a featured snippet exists, format your content to capture it:
                 </p>
@@ -180,9 +162,9 @@ export default function AnalysisTab() {
           <Alert className="border-purple-300 bg-purple-50">
             <Sparkles className="h-4 w-4" />
             <AlertDescription className="text-sm">
-              <strong>Quick Check:</strong> Does your planned format match what Google
-              already rewards for the same intent? What unique value will you add (original
-              data, calculator, benchmark)?
+              <strong>Quick Check:</strong> Does your planned format match what Google already
+              rewards for the same intent? What unique value will you add (original data,
+              calculator, benchmark)?
             </AlertDescription>
           </Alert>
         </CardContent>
@@ -205,10 +187,17 @@ export default function AnalysisTab() {
               <Info className="h-4 w-4 text-amber-600" />
               Why This Matters
             </h4>
-            <p className="text-sm text-slate-700">
-              Google rewards comprehensive topic coverage. A single hub with no supporting
-              spokes signals shallow expertise. A full hub-spoke cluster shows you&apos;ve
-              covered the topic thoroughly.
+            <p className="text-sm text-slate-700 mb-2">
+              Google rewards sites that cover a topic in depth, not with one lonely page. A hub is
+              your main guide for the core keyword. Spokes are focused support pages (sub-tasks,
+              comparisons, tools, FAQs) that link back to the hub and to each other. Together they
+              show depth, avoid keyword cannibalization, and make it clear which page should rank
+              for the primary term.
+            </p>
+            <p className="text-xs text-slate-600">
+              <span className="font-semibold">Quick definition:</span> A spoke is a supporting page
+              for one sub-topic under a hub. Example: Hub = &quot;SEO Content Strategy&quot;; spoke
+              = &quot;How to do keyword research for SEO&quot;.
             </p>
           </div>
 
@@ -218,7 +207,7 @@ export default function AnalysisTab() {
               <div className="text-center mb-4">
                 <div className="inline-block bg-amber-100 border-2 border-amber-400 rounded-lg px-6 py-3">
                   <p className="font-bold text-amber-900">🎯 HUB</p>
-                  <p className="text-xs text-amber-700">Definitive Guide</p>
+                  <p className="text-xs text-amber-700">Definitive guide for the main keyword</p>
                 </div>
               </div>
               <div className="flex justify-center mb-2">
@@ -227,23 +216,25 @@ export default function AnalysisTab() {
               <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
                 <div className="bg-slate-50 border border-slate-300 rounded p-2 text-center">
                   <p className="text-xs font-semibold">Spoke 1</p>
-                  <p className="text-xs text-slate-600">Sub-task</p>
+                  <p className="text-xs text-slate-600">Sub-task guide</p>
                 </div>
                 <div className="bg-slate-50 border border-slate-300 rounded p-2 text-center">
                   <p className="text-xs font-semibold">Spoke 2</p>
-                  <p className="text-xs text-slate-600">Comparison</p>
+                  <p className="text-xs text-slate-600">Comparison (X vs Y)</p>
                 </div>
                 <div className="bg-slate-50 border border-slate-300 rounded p-2 text-center">
                   <p className="text-xs font-semibold">Spoke 3</p>
-                  <p className="text-xs text-slate-600">Tool/Template</p>
+                  <p className="text-xs text-slate-600">Tool / template</p>
                 </div>
                 <div className="bg-slate-50 border border-slate-300 rounded p-2 text-center">
                   <p className="text-xs font-semibold">Spoke 4</p>
-                  <p className="text-xs text-slate-600">FAQ</p>
+                  <p className="text-xs text-slate-600">FAQ / troubleshooting</p>
                 </div>
               </div>
               <div className="flex justify-center mt-2">
-                <div className="text-slate-400 text-sm">← Spokes link to each other →</div>
+                <div className="text-slate-400 text-sm">
+                  ← Spokes link to the hub and to each other →
+                </div>
               </div>
             </div>
           </div>
@@ -254,25 +245,26 @@ export default function AnalysisTab() {
               <div className="border-l-4 border-l-amber-500 bg-amber-50 p-3">
                 <h5 className="font-semibold text-sm mb-1">1. Define Hub Scope</h5>
                 <p className="text-xs text-slate-700 mb-2">
-                  Hub = definitive page solving the core job. Write scope notes to avoid
-                  overlap with neighboring hubs.
+                  Hub = the one page that should rank for the main keyword. Write 1–2 sentences that
+                  describe what the hub covers and what lives elsewhere, so you don&apos;t create
+                  overlapping hubs.
                 </p>
                 <div className="bg-white p-2 rounded text-xs">
                   <p className="font-semibold mb-1">Example Hub:</p>
-                  <p>&quot;SEO Content Strategy&quot; (hub) covers planning & execution</p>
                   <p>
-                    Does NOT cover: technical SEO (separate hub), link building (separate
-                    hub)
+                    &quot;SEO Content Strategy&quot; hub covers planning, content formats, and
+                    execution.
                   </p>
+                  <p>Does NOT cover: technical SEO (separate hub), link building (separate hub).</p>
                 </div>
               </div>
 
               <div className="border-l-4 border-l-amber-500 bg-amber-50 p-3">
-                <h5 className="font-semibold text-sm mb-1">
-                  2. Plan Spokes (4-10 per Hub)
-                </h5>
+                <h5 className="font-semibold text-sm mb-1">2. Plan Spokes (4–10 per Hub)</h5>
                 <p className="text-xs text-slate-700 mb-2">
-                  Spokes drill into sub-tasks, comparisons, tools, common questions
+                  Spokes each answer one tight slice of the topic: a sub-task, comparison, tool, or
+                  recurring question. They target long-tail variants while reinforcing the
+                  hub&apos;s main keyword.
                 </p>
                 <div className="bg-white p-2 rounded text-xs space-y-1">
                   <p>• Sub-task spoke: &quot;How to do keyword research&quot;</p>
@@ -285,12 +277,14 @@ export default function AnalysisTab() {
               <div className="border-l-4 border-l-amber-500 bg-amber-50 p-3">
                 <h5 className="font-semibold text-sm mb-1">3. Design Linking Plan</h5>
                 <p className="text-xs text-slate-700">
-                  • Every spoke links up to hub (intro or conclusion)
+                  • Every spoke links up to the hub (intro or conclusion).
                   <br />
-                  • Every spoke links to 2-4 sibling spokes (contextually)
+                  • Every spoke links to 2–4 sibling spokes where it&apos;s natural.
                   <br />
-                  • Hub links to key spokes in a &quot;Next Steps&quot; section
-                  <br />• Use descriptive anchors (what the user will learn)
+                  • Hub links to key spokes in a &quot;Next steps&quot; or &quot;Related
+                  guides&quot; section.
+                  <br />• Use descriptive anchors (what the user will learn), not generic
+                  &quot;click here&quot;.
                 </p>
               </div>
             </div>
@@ -299,9 +293,9 @@ export default function AnalysisTab() {
           <Alert className="border-red-300 bg-red-50">
             <AlertTriangle className="h-4 w-4" />
             <AlertDescription className="text-sm">
-              <strong>Pitfall to Avoid:</strong> Spawning multiple
-              &quot;near-duplicate&quot; spokes that split equity. If two spoke ideas target
-              the same intent, consolidate them into one stronger page.
+              <strong>Pitfall to Avoid:</strong> Spawning multiple &quot;near-duplicate&quot; spokes
+              that chase the same intent. If two ideas target almost the same query, merge them into
+              one stronger page and let that be the single spoke for that angle.
             </AlertDescription>
           </Alert>
         </CardContent>
@@ -325,9 +319,9 @@ export default function AnalysisTab() {
               Why This Matters
             </h4>
             <p className="text-sm text-slate-700">
-              Your SERP competitors (who ranks #1-#10) are often different from your
-              business competitors. Study what&apos;s winning in SERPs, not just who your
-              sales team competes with.
+              Your SERP competitors (who ranks #1-#10) are often different from your business
+              competitors. Study what&apos;s winning in SERPs, not just who your sales team competes
+              with.
             </p>
           </div>
 
@@ -337,9 +331,8 @@ export default function AnalysisTab() {
               <div className="border-l-4 border-l-indigo-500 bg-indigo-50 p-3">
                 <h5 className="font-semibold text-sm mb-1">1. Identify SERP Competitors</h5>
                 <p className="text-xs text-slate-700">
-                  For each cluster, note who ranks #1-#5 for the primary keyword. These are
-                  your real competitors for this topic (even if they&apos;re not business
-                  rivals).
+                  For each cluster, note who ranks #1-#5 for the primary keyword. These are your
+                  real competitors for this topic (even if they&apos;re not business rivals).
                 </p>
               </div>
 
@@ -361,9 +354,7 @@ export default function AnalysisTab() {
                     </div>
                     <div className="border border-slate-200 rounded p-2">
                       <p className="font-semibold mb-1">Proof/E-E-A-T</p>
-                      <p className="text-slate-600">
-                        Data, author bios, citations, case studies
-                      </p>
+                      <p className="text-slate-600">Data, author bios, citations, case studies</p>
                     </div>
                   </div>
                 </div>
@@ -380,9 +371,7 @@ export default function AnalysisTab() {
                   </div>
                   <div className="bg-blue-100 border border-blue-300 rounded p-2">
                     <p className="font-semibold text-blue-900">Angle-Shift (new POV)</p>
-                    <p className="text-blue-800">
-                      Same topic, different audience or approach
-                    </p>
+                    <p className="text-blue-800">Same topic, different audience or approach</p>
                   </div>
                   <div className="bg-red-100 border border-red-300 rounded p-2">
                     <p className="font-semibold text-red-900">Avoid</p>
@@ -398,8 +387,8 @@ export default function AnalysisTab() {
           <Alert className="border-indigo-300 bg-indigo-50">
             <Sparkles className="h-4 w-4" />
             <AlertDescription className="text-sm">
-              <strong>Quick Check:</strong> Can you articulate in one sentence why your page
-              will deserve the click over the current #1 result? If not, you need a clearer
+              <strong>Quick Check:</strong> Can you articulate in one sentence why your page will
+              deserve the click over the current #1 result? If not, you need a clearer
               differentiation strategy.
             </AlertDescription>
           </Alert>
@@ -408,4 +397,3 @@ export default function AnalysisTab() {
     </div>
   );
 }
-
