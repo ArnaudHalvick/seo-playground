@@ -17,6 +17,7 @@ export function generatePageMetadata(ctx: MetadataContext): Metadata {
 
   const title = ctx.title || 'SEO Playground';
   const description = ctx.description || 'Learn technical SEO through interactive demonstrations';
+  const ogImageUrl = `${baseUrl}/og-image.jpg`;
 
   const metadata: Metadata = {
     title,
@@ -27,6 +28,26 @@ export function generatePageMetadata(ctx: MetadataContext): Metadata {
     },
     alternates: {
       canonical: result.canonical,
+    },
+    openGraph: {
+      type: 'website',
+      url: result.canonical,
+      title,
+      description,
+      images: [
+        {
+          url: ogImageUrl,
+          width: 1200,
+          height: 630,
+          alt: title,
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: [ogImageUrl],
     },
   };
 
@@ -81,6 +102,8 @@ export async function generateSimpleMetadata(title: string, description: string,
   const baseUrl = `${protocol}://${host}`;
   const canonical = `${baseUrl}${pathname}`;
   
+  const ogImageUrl = `${baseUrl}/og-image.jpg`;
+  
   return {
     title,
     description,
@@ -90,6 +113,26 @@ export async function generateSimpleMetadata(title: string, description: string,
     robots: {
       index: true,
       follow: true,
+    },
+    openGraph: {
+      type: 'website',
+      url: canonical,
+      title,
+      description,
+      images: [
+        {
+          url: ogImageUrl,
+          width: 1200,
+          height: 630,
+          alt: title,
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: [ogImageUrl],
     },
   };
 }
