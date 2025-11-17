@@ -53,12 +53,6 @@ export function Navigation() {
     (!pathname.startsWith("/strategic-seo") && pathname !== "/");
   const isHomePage = pathname === "/";
 
-  // Determine if on section homepage
-  const isTechnicalHomepage = pathname === "/technical-seo";
-  const isStrategicHomepage = pathname === "/strategic-seo";
-  const isOnSubPage =
-    (isTechnicalSection && !isTechnicalHomepage) || (isStrategicSection && !isStrategicHomepage);
-
   // Technical SEO categories
   const technicalCategories = [
     {
@@ -189,16 +183,6 @@ export function Navigation() {
               </>
             )}
 
-            {/* Section Home Button - show when on sub-pages */}
-            {isOnSubPage && (
-              <Link href={isStrategicSection ? "/strategic-seo" : "/technical-seo"}>
-                <Button variant="outline" size="sm">
-                  <Home className="h-4 w-4 mr-2" />
-                  Section Home
-                </Button>
-              </Link>
-            )}
-
             {/* Interactive Demo Button - only show in technical section */}
             {isTechnicalSection && !isHomePage && (
               <Link href="/shop">
@@ -327,18 +311,6 @@ export function Navigation() {
                         </Link>
                       </div>
                     </div>
-                  )}
-
-                  {/* Section Home Button - show when on sub-pages */}
-                  {isOnSubPage && (
-                    <Link
-                      href={isStrategicSection ? "/strategic-seo" : "/technical-seo"}
-                      onClick={() => setMobileMenuOpen(false)}
-                      className="flex items-center gap-2 px-4 py-2 hover:bg-slate-100 rounded-md border-b pb-4"
-                    >
-                      <Home className="h-5 w-5" />
-                      <span className="font-semibold">Section Home</span>
-                    </Link>
                   )}
 
                   {/* Section Switcher - only show when not on homepage */}
