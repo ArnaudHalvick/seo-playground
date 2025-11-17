@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import type { ParamConfig } from "../rules/params";
 import { computeCanonical } from "../rules/canonical";
-import { headers } from "next/headers";
 
 export interface MetadataContext {
   pathname: string;
@@ -106,24 +105,18 @@ export function getDescriptionForPath(pathname: string): string {
   return "Learn technical SEO through interactive demonstrations";
 }
 
-export async function generateSimpleMetadata(
+export function generateSimpleMetadata(
   title: string,
   description: string,
   pathname: string
-): Promise<Metadata> {
-  const headersList = await headers();
-  const host = headersList.get("host") || "localhost:3000";
-  const protocol = headersList.get("x-forwarded-proto") || "http";
-  const baseUrl = `${protocol}://${host}`;
-  const canonical = `${baseUrl}${pathname}`;
-
-  const ogImageUrl = `${baseUrl}/og-image.jpg`;
-
+): Metadata {
+  // For SSG (Static Site Generation), we use relative URLs
+  // metadataBase in root layout will convert them to absolute URLs
   return {
     title,
     description,
     alternates: {
-      canonical,
+      canonical: pathname,
     },
     robots: {
       index: true,
@@ -131,12 +124,12 @@ export async function generateSimpleMetadata(
     },
     openGraph: {
       type: "website",
-      url: canonical,
+      url: pathname,
       title,
       description,
       images: [
         {
-          url: ogImageUrl,
+          url: "/og-image.jpg",
           width: 1200,
           height: 630,
           alt: title,
@@ -147,7 +140,7 @@ export async function generateSimpleMetadata(
       card: "summary_large_image",
       title,
       description,
-      images: [ogImageUrl],
+      images: ["/og-image.jpg"],
     },
   };
 }

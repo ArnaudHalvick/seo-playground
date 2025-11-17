@@ -16,7 +16,7 @@ import {
   Globe,
 } from "lucide-react";
 
-export async function generateMetadata(): Promise<Metadata> {
+export function generateMetadata(): Metadata {
   return generateSimpleMetadata(
     "Complete SEO Mastery - Technical & Strategic - SEO Workshop",
     "Master both programming and strategic sides of SEO. Interactive demos, production-ready code, and comprehensive strategic frameworks for client acquisition.",
