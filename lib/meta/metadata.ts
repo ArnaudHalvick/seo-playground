@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import type { ParamConfig } from '../rules/params';
 import { computeCanonical } from '../rules/canonical';
+import { headers } from 'next/headers';
 
 export interface MetadataContext {
   pathname: string;
@@ -93,9 +94,6 @@ export function getDescriptionForPath(pathname: string): string {
 }
 
 export async function generateSimpleMetadata(title: string, description: string, pathname: string): Promise<Metadata> {
-  // Dynamic import to avoid circular dependency in some contexts
-  const { headers } = await import('next/headers');
-  
   const headersList = await headers();
   const host = headersList.get('host') || 'localhost:3000';
   const protocol = headersList.get('x-forwarded-proto') || 'http';

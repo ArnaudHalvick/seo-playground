@@ -10,6 +10,26 @@ const inter = Inter({ subsets: ['latin'] });
 export const metadata: Metadata = {
   title: 'Complete SEO Mastery - SEO Workshop',
   description: 'Master both programming and strategic sides of SEO. Interactive demos, production-ready code, and comprehensive strategic frameworks for client acquisition.',
+  metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL || 'https://seo-workshop.vercel.app'),
+  openGraph: {
+    type: 'website',
+    title: 'Complete SEO Mastery - SEO Workshop',
+    description: 'Master both programming and strategic sides of SEO. Interactive demos, production-ready code, and comprehensive strategic frameworks for client acquisition.',
+    images: [
+      {
+        url: '/og-image.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Complete SEO Mastery - SEO Workshop',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Complete SEO Mastery - SEO Workshop',
+    description: 'Master both programming and strategic sides of SEO. Interactive demos, production-ready code, and comprehensive strategic frameworks for client acquisition.',
+    images: ['/og-image.jpg'],
+  },
 };
 
 export default function RootLayout({
