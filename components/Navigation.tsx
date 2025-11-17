@@ -36,6 +36,8 @@ import {
   Users,
   BarChart3,
   TrendingUp,
+  Briefcase,
+  ExternalLink,
 } from "lucide-react";
 
 export function Navigation() {
@@ -233,6 +235,64 @@ export function Navigation() {
                   </DropdownMenuContent>
                 </DropdownMenu>
               ))}
+
+            {/* Hire Me CTA */}
+            <DropdownMenu modal={false}>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  size="sm"
+                  className="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white gap-1"
+                >
+                  <Briefcase className="h-4 w-4" />
+                  Hire Me
+                  <ChevronDown className="h-3 w-3" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-64">
+                <div className="px-3 py-2 border-b">
+                  <p className="font-semibold text-sm text-slate-900">Arnaud Halvick</p>
+                  <p className="text-xs text-slate-600">Strategic + Technical SEO Expert</p>
+                </div>
+                <div className="px-3 py-2 border-b">
+                  <p className="text-xs text-slate-600">
+                    12,000+ hrs | 100% Job Success | Top Rated
+                  </p>
+                </div>
+                <DropdownMenuItem asChild>
+                  <a
+                    href="https://arnaudhalvick.github.io/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 cursor-pointer"
+                  >
+                    <ExternalLink className="h-4 w-4" />
+                    View Portfolio
+                  </a>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <a
+                    href="https://www.upwork.com/freelancers/~017740c356da4ab81f"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 cursor-pointer"
+                  >
+                    <ExternalLink className="h-4 w-4" />
+                    Hire on Upwork
+                  </a>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <a
+                    href="https://github.com/ArnaudHalvick"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 cursor-pointer"
+                  >
+                    <ExternalLink className="h-4 w-4" />
+                    View GitHub
+                  </a>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
 
           {/* Mobile Hamburger Menu */}
@@ -341,6 +401,50 @@ export function Navigation() {
                         </div>
                       </div>
                     ))}
+
+                  {/* Hire Me Section - Mobile */}
+                  <div className="border-t pt-4 mt-4">
+                    <h3 className="px-4 text-sm font-semibold text-slate-900 mb-2">Hire Me</h3>
+                    <div className="px-4 mb-3">
+                      <p className="text-sm font-medium text-slate-900">Arnaud Halvick</p>
+                      <p className="text-xs text-slate-600">Strategic + Technical SEO Expert</p>
+                      <p className="text-xs text-slate-500 mt-1">
+                        12,000+ hrs | 100% Job Success | Top Rated
+                      </p>
+                    </div>
+                    <div className="flex flex-col gap-2 px-4">
+                      <a
+                        href="https://arnaudhalvick.github.io/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={() => setMobileMenuOpen(false)}
+                        className="flex items-center gap-2 px-3 py-2 bg-slate-100 hover:bg-slate-200 rounded-md text-sm"
+                      >
+                        <ExternalLink className="h-4 w-4" />
+                        View Portfolio
+                      </a>
+                      <a
+                        href="https://www.upwork.com/freelancers/~017740c356da4ab81f"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={() => setMobileMenuOpen(false)}
+                        className="flex items-center gap-2 px-3 py-2 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white rounded-md text-sm font-medium"
+                      >
+                        <ExternalLink className="h-4 w-4" />
+                        Hire on Upwork
+                      </a>
+                      <a
+                        href="https://github.com/ArnaudHalvick"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={() => setMobileMenuOpen(false)}
+                        className="flex items-center gap-2 px-3 py-2 bg-slate-100 hover:bg-slate-200 rounded-md text-sm"
+                      >
+                        <ExternalLink className="h-4 w-4" />
+                        View GitHub
+                      </a>
+                    </div>
+                  </div>
                 </div>
               </SheetContent>
             </Sheet>
