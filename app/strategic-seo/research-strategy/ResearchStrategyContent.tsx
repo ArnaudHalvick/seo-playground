@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Target, Info } from "lucide-react";
@@ -11,17 +11,22 @@ import ExecutionTab from "./ExecutionTab";
 
 export default function ResearchStrategyContent() {
   const [activeTab, setActiveTab] = useState("understanding");
+  const tabsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const hash = window.location.hash.replace('#', '');
     if (hash && ['understanding', 'discovery', 'analysis', 'execution'].includes(hash)) {
       setActiveTab(hash);
+      setTimeout(() => {
+        tabsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 100);
     }
   }, []);
 
   const handleTabChange = (value: string) => {
     setActiveTab(value);
     window.history.replaceState(null, '', `#${value}`);
+    tabsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
   return (
     <div className="bg-gradient-to-b from-purple-50 to-slate-50 min-h-screen py-12">
@@ -48,7 +53,7 @@ export default function ResearchStrategyContent() {
         </div>
 
         {/* Tabbed Content */}
-        <Tabs value={activeTab} onValueChange={handleTabChange} className="space-y-6">
+        <Tabs value={activeTab} onValueChange={handleTabChange} className="space-y-6" ref={tabsRef}>
           <TabsList className="grid w-full grid-cols-4">
             <TabsTrigger value="understanding">Understanding</TabsTrigger>
             <TabsTrigger value="discovery">Discovery Phase</TabsTrigger>

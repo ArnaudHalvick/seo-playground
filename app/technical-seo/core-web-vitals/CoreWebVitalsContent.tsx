@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Zap, Info } from 'lucide-react';
@@ -11,17 +11,22 @@ import MeasuringTab from './MeasuringTab';
 
 export default function CoreWebVitalsContent() {
   const [activeTab, setActiveTab] = useState("understanding");
+  const tabsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const hash = window.location.hash.replace('#', '');
     if (hash && ['understanding', 'quick-wins', 'advanced', 'measuring'].includes(hash)) {
       setActiveTab(hash);
+      setTimeout(() => {
+        tabsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 100);
     }
   }, []);
 
   const handleTabChange = (value: string) => {
     setActiveTab(value);
     window.history.replaceState(null, '', `#${value}`);
+    tabsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
   return (
     <div className="bg-gradient-to-b from-blue-50 to-slate-50 min-h-screen py-12">
@@ -45,7 +50,7 @@ export default function CoreWebVitalsContent() {
         </div>
 
         {/* Tabbed Content */}
-        <Tabs value={activeTab} onValueChange={handleTabChange} className="space-y-6">
+        <Tabs value={activeTab} onValueChange={handleTabChange} className="space-y-6" ref={tabsRef}>
           <TabsList className="grid w-full grid-cols-4">
             <TabsTrigger value="understanding">Understanding</TabsTrigger>
             <TabsTrigger value="quick-wins">Quick Wins</TabsTrigger>

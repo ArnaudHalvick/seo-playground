@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Card, CardContent } from '@/components/ui/card';
@@ -12,17 +12,22 @@ import ExamplesTab from './ExamplesTab';
 
 export default function InternationalContent() {
   const [activeTab, setActiveTab] = useState("url-strategies");
+  const tabsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const hash = window.location.hash.replace('#', '');
     if (hash && ['url-strategies', 'hreflang', 'localization', 'examples'].includes(hash)) {
       setActiveTab(hash);
+      setTimeout(() => {
+        tabsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 100);
     }
   }, []);
 
   const handleTabChange = (value: string) => {
     setActiveTab(value);
     window.history.replaceState(null, '', `#${value}`);
+    tabsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
   return (
     <div className="bg-gradient-to-b from-blue-50 to-slate-50 min-h-screen py-12">
@@ -46,7 +51,7 @@ export default function InternationalContent() {
         </div>
 
         {/* Tabbed Content */}
-        <Tabs value={activeTab} onValueChange={handleTabChange} className="space-y-6">
+        <Tabs value={activeTab} onValueChange={handleTabChange} className="space-y-6" ref={tabsRef}>
           <TabsList className="grid w-full grid-cols-4">
             <TabsTrigger value="url-strategies">URL Strategies</TabsTrigger>
             <TabsTrigger value="hreflang">Hreflang & Canonicals</TabsTrigger>
