@@ -14,19 +14,19 @@ export default function ResearchStrategyContent() {
   const tabsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const hash = window.location.hash.replace('#', '');
-    if (hash && ['understanding', 'discovery', 'analysis', 'execution'].includes(hash)) {
+    const hash = window.location.hash.replace("#", "");
+    if (hash && ["understanding", "discovery", "analysis", "execution"].includes(hash)) {
       setActiveTab(hash);
       setTimeout(() => {
-        tabsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        tabsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
       }, 100);
     }
   }, []);
 
   const handleTabChange = (value: string) => {
     setActiveTab(value);
-    window.history.replaceState(null, '', `#${value}`);
-    tabsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    window.history.replaceState(null, "", `#${value}`);
+    tabsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
   return (
     <div className="bg-gradient-to-b from-purple-50 to-slate-50 min-h-screen py-12">
@@ -52,8 +52,11 @@ export default function ResearchStrategyContent() {
           </Alert>
         </div>
 
+        {/* Scroll anchor for tab navigation */}
+        <div ref={tabsRef} className="scroll-mt-20" />
+
         {/* Tabbed Content */}
-        <Tabs value={activeTab} onValueChange={handleTabChange} className="space-y-6" ref={tabsRef}>
+        <Tabs value={activeTab} onValueChange={handleTabChange} className="space-y-6">
           <TabsList className="grid w-full grid-cols-4">
             <TabsTrigger value="understanding">Understanding</TabsTrigger>
             <TabsTrigger value="discovery">Discovery Phase</TabsTrigger>

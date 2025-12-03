@@ -50,8 +50,11 @@ export default function SitemapContent() {
           </Alert>
         </div>
 
+        {/* Scroll anchor for tab navigation */}
+        <div ref={tabsRef} className="scroll-mt-20" />
+
         {/* Tabbed Content */}
-        <Tabs value={activeTab} onValueChange={handleTabChange} className="space-y-6" ref={tabsRef}>
+        <Tabs value={activeTab} onValueChange={handleTabChange} className="space-y-6">
           <TabsList className="grid w-full grid-cols-3">
             <TabsTrigger value="understanding">Understanding</TabsTrigger>
             <TabsTrigger value="inclusion">Strategic Curation</TabsTrigger>
