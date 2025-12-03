@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Users, Info } from "lucide-react";
@@ -9,6 +10,19 @@ import OperationsTab from "./OperationsTab";
 import QualityTab from "./QualityTab";
 
 export default function ContentProductionContent() {
+  const [activeTab, setActiveTab] = useState("understanding");
+
+  useEffect(() => {
+    const hash = window.location.hash.replace('#', '');
+    if (hash && ['understanding', 'planning', 'operations', 'quality'].includes(hash)) {
+      setActiveTab(hash);
+    }
+  }, []);
+
+  const handleTabChange = (value: string) => {
+    setActiveTab(value);
+    window.history.replaceState(null, '', `#${value}`);
+  };
   return (
     <div className="bg-gradient-to-b from-purple-50 to-slate-50 min-h-screen py-12">
       <div className="container mx-auto px-4 max-w-6xl">
@@ -33,7 +47,7 @@ export default function ContentProductionContent() {
         </div>
 
         {/* Tabbed Content */}
-        <Tabs defaultValue="understanding" className="space-y-6">
+        <Tabs value={activeTab} onValueChange={handleTabChange} className="space-y-6">
           <TabsList className="grid w-full grid-cols-4">
             <TabsTrigger value="understanding">Understanding</TabsTrigger>
             <TabsTrigger value="planning">Planning & Governance</TabsTrigger>

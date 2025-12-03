@@ -24,7 +24,7 @@ export function ProductEducationCards({ productSlug }: ProductEducationCardsProp
               Gender and category are in the path for better SEO. <strong>Simple now, but critical at scale.</strong>
             </p>
             <Link 
-              href="/product-urls#url-structure"
+              href="/technical-seo/product-urls#url-structure"
               className="inline-flex items-center gap-1.5 text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors group"
             >
               Learn more
@@ -47,7 +47,7 @@ export function ProductEducationCards({ productSlug }: ProductEducationCardsProp
               with unique constraint. Old slugs auto-redirect via slug_history table. <strong>Managing thousands of products over years requires this structure.</strong>
             </p>
             <Link 
-              href="/product-urls#database"
+              href="/technical-seo/product-urls#database"
               className="inline-flex items-center gap-1.5 text-sm font-medium text-purple-600 hover:text-purple-800 transition-colors group"
             >
               Learn more
@@ -70,7 +70,7 @@ export function ProductEducationCards({ productSlug }: ProductEducationCardsProp
               Enables rich snippets in Google search results. <strong>Essential for e-commerce visibility.</strong>
             </p>
             <Link 
-              href="/structured-data"
+              href="/technical-seo/structured-data"
               className="inline-flex items-center gap-1.5 text-sm font-medium text-indigo-600 hover:text-indigo-800 transition-colors group"
             >
               Learn more
