@@ -16,7 +16,7 @@
 
 **Use For**:
 - Unstable parameters (sort, view, etc.)
-- Pagination (page 2+)
+- Variant pages (filters/sorts/search)
 - Search results
 - Stacked parameter combinations
 
@@ -55,7 +55,8 @@ When multiple rules apply, precedence is:
    - Protected routes (e.g., `/account/`) → noindex,nofollow + robots block
 
 2. **Pagination**
-   - Page 2+ → noindex,follow
+   - Pure pagination → index,follow with self-canonical
+   - Pagination with variants → noindex,follow (variant wins)
 
 3. **Multi-Select Parameters**
    - Comma-separated values → robots.txt block (no meta tag)
@@ -117,10 +118,10 @@ Step 7: Only 1 stable param → no action
 Step 8: No unstable params
 
 Result:
-- Robots: index,follow
+- Robots: noindex,follow (variant)
 - Blocked: NO
-- Sitemap: INCLUDED
-- Canonical: /shop/t-shirts/?color=black (self)
+- Sitemap: EXCLUDED
+- Canonical: /shop/t-shirts/ (drops param)
 ```
 
 ## Best Practices Demonstrated
@@ -221,4 +222,3 @@ Sitemap inclusion: EXCLUDED
 ```
 
 This trace makes the decision process completely transparent and debuggable.
-

@@ -59,23 +59,25 @@ Classification:
 
 ## Step 3: Detect Pagination
 
-**Purpose**: Handle page 2+ with noindex,follow
+**Purpose**: Keep pure pagination indexable while letting variants take priority.
 
 **Logic**:
 ```typescript
-if (evaluated.pagination.isPaginated && evaluated.pagination.pageNumber >= 2) {
-  robots = config.pagination.pageTwoPlus; // "noindex,follow"
+if (!hasVariantParams && evaluated.pagination.isPaginated && evaluated.pagination.pageNumber >= 2) {
+  robots = config.pagination.pageTwoPlus; // "index,follow"
+} else if (evaluated.pagination.isPaginated) {
+  robots = 'noindex,follow'; // variant + pagination → variant wins
   sitemapIncluded = false;
 }
 ```
 
 **Rules**:
 - Page 1: Indexable (index,follow)
-- Page 2+: noindex,follow
-- Page 2+ excluded from sitemap
-- Self-canonical strategy (page 2 points to page 2)
+- Page 2+: Indexable when no variant params (self-canonical to ?page=2)
+- Filtered pagination: noindex,follow and canonical to base
+- Pagination is never blocked in robots.txt
 
-**Why**: Page 2+ creates duplicate content. noindex prevents indexing while follow allows link equity flow and content discovery.
+**Why**: Pagination pages expose unique inventory; variant filters should consolidate back to the clean base.
 
 ## Step 4: Check Protected Routes
 
@@ -285,4 +287,3 @@ sitemapIncluded =
 ```
 IF noindex (any variant) → EXCLUDED from sitemap
 ```
-

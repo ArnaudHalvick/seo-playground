@@ -1,5 +1,5 @@
 import type { ParamConfig, RobotsDirective } from "./params";
-import { evaluateParams, getParamRule } from "./params";
+import { evaluateParams } from "./params";
 import { checkRobotsBlocking } from "./robots";
 
 export interface CanonicalResult {
@@ -39,10 +39,6 @@ export function computeCanonical(
   let normalizedPath = normalizePath(pathname);
   trace.push(`Step 1: Normalize path → ${normalizedPath}`);
 
-  let robots: RobotsDirective = "index,follow";
-  let blockInRobots = false;
-  let sitemapIncluded = true;
-
   const evaluated = evaluateParams(normalizedPath, searchParams, config);
   trace.push(`Step 2: Classify parameters`);
   trace.push(`  Stable: ${Array.from(evaluated.stableParams.keys()).join(", ") || "none"}`);
@@ -56,12 +52,32 @@ export function computeCanonical(
   );
   trace.push("");
 
-  trace.push(`Step 3: Detect pagination`);
-  if (evaluated.pagination.isPaginated && evaluated.pagination.pageNumber >= 2) {
+  const hasStable = evaluated.stableParams.size > 0;
+  const hasUnstable = evaluated.unstableParams.size > 0;
+  const hasBlocked = evaluated.blockedParams.size > 0;
+  const hasSearch = evaluated.searchParams.size > 0;
+  const isPaginated = evaluated.pagination.isPaginated;
+  const pageNumber = evaluated.pagination.pageNumber;
+
+  const multiSelectDetected = Array.from(searchParams.entries()).some(
+    ([key, value]) => value.includes(",") && key !== config.pagination.param
+  );
+
+  const hasVariantParams =
+    hasStable || hasUnstable || hasBlocked || hasSearch || multiSelectDetected;
+
+  let robots: RobotsDirective = "index,follow";
+  let blockInRobots = false;
+  let sitemapIncluded = true;
+
+  trace.push(`Step 3: Apply pagination & variant priority`);
+  if (!hasVariantParams && isPaginated && pageNumber >= 2) {
     robots = config.pagination.pageTwoPlus;
+    trace.push(`  ✓ Pure pagination (page ${pageNumber}) → ${robots}`);
+  } else if (isPaginated && pageNumber >= 2) {
+    robots = "noindex,follow";
     sitemapIncluded = false;
-    trace.push(`  ✓ Page ${evaluated.pagination.pageNumber} detected → ${robots}`);
-    trace.push(`  ✓ Page 2+ excluded from sitemap`);
+    trace.push(`  ✓ Pagination with variants → treated as variant (noindex,follow)`);
   } else {
     trace.push(`  Page 1 or no pagination`);
   }
@@ -69,18 +85,17 @@ export function computeCanonical(
 
   trace.push(`Step 4: Check robots.txt blocking & apply parameter policies`);
 
-  // First, check if URL is blocked by robots.txt (static best practice rules)
   const robotsCheck = checkRobotsBlocking(pathname, searchParams, config);
   const isBlockedByRobots = robotsCheck.isBlocked;
 
   if (isBlockedByRobots) {
     blockInRobots = true;
     sitemapIncluded = false;
-    trace.push(`  ✓ Blocked by robots.txt → no meta robots tag needed`);
+    robots = "noindex,follow";
+    trace.push(`  ✓ Blocked by robots.txt`);
     for (const rule of robotsCheck.matchedRules) {
       trace.push(`    → ${rule}`);
     }
-    trace.push(`  ℹ️  Crawlers never access this page, meta tags are irrelevant`);
     trace.push(`  ✓ Excluded from sitemap`);
     if (robotsCheck.warnings.length > 0) {
       warnings.push(...robotsCheck.warnings);
@@ -88,47 +103,23 @@ export function computeCanonical(
   } else {
     trace.push(`  Not blocked by robots.txt → apply parameter policies`);
 
-    // Check for multi-select parameters (high crawl trap risk - exponential combinations)
-    const multiSelectDetected = Array.from(searchParams.entries()).some(
-      ([key, value]) => value.includes(",") && key !== config.pagination.param
-    );
-
     if (multiSelectDetected) {
-      // Multi-select creates 2^N combinations, must block via robots.txt
-      robots = undefined as any; // No meta robots tag needed
+      robots = "noindex,follow";
       blockInRobots = true;
       sitemapIncluded = false;
       const multiSelectParam = Array.from(searchParams.entries()).find(([k, v]) =>
         v.includes(",")
       )?.[0];
-      trace.push(`  ✓ Multi-select detected (exponential combinations) → blocked by robots.txt`);
+      trace.push(`  ✓ Multi-select detected → blocked in robots.txt`);
       trace.push(`    ℹ️  Pattern: Disallow: /*?*${multiSelectParam}=*,*`);
-      trace.push(`    ℹ️  Prevents 2^N URL combinations from wasting crawl budget`);
       trace.push(`  ✓ Excluded from sitemap`);
+    } else if (hasVariantParams) {
+      robots = "noindex,follow";
+      sitemapIncluded = false;
+      trace.push(`  ✓ Variant parameters detected → noindex,follow`);
+      trace.push(`    ℹ️  Canonical will point to clean base path`);
     } else {
-      // Check for multiple stable parameters (combinatorial explosion)
-      const stableParamCount = Array.from(evaluated.stableParams).length;
-
-      if (stableParamCount >= 2) {
-        robots = "noindex,follow";
-        sitemapIncluded = false;
-        trace.push(`  ✓ Multiple stable filters (${stableParamCount}) → noindex,follow`);
-        trace.push(`    ℹ️  Creates N×M combinations, risk of index bloat`);
-        trace.push(`    Example: 5 colors × 4 sizes = 20 URL variations`);
-        trace.push(`  ✓ Excluded from sitemap`);
-      } else if (evaluated.unstableParams.size > 0) {
-        robots = "noindex,follow";
-        sitemapIncluded = false;
-        trace.push(`  ✓ Unstable params present → noindex,follow`);
-        trace.push(`  ✓ Excluded from sitemap`);
-      } else if (evaluated.searchParams.size > 0) {
-        robots = "noindex,follow";
-        sitemapIncluded = false;
-        trace.push(`  ✓ Search params present → noindex,follow`);
-        trace.push(`  ✓ Excluded from sitemap`);
-      } else {
-        trace.push(`  No unstable/search params, single stable filter or no params`);
-      }
+      trace.push(`  No variant parameters detected`);
     }
   }
   trace.push("");
@@ -137,49 +128,18 @@ export function computeCanonical(
   let finalPath = normalizedPath;
   const canonicalParams = new URLSearchParams();
 
-  for (const [key, value] of evaluated.stableParams.entries()) {
-    const rule = getParamRule(key, config);
-    if (rule?.mapToPath) {
-      const mapped = rule.mapToPath({ pathname: normalizedPath, params: searchParams });
-      if (mapped && !mapped.includes(finalPath)) {
-        finalPath = mapped;
-        trace.push(`  Mapped "${key}=${value}" → ${finalPath}`);
+  if (hasVariantParams) {
+    trace.push(`  Canonicalizing variants to clean base path (drop filters, sorts, pagination)`);
+  } else {
+    if (evaluated.pagination.isPaginated) {
+      if (config.pagination.canonicalStrategy === "self") {
+        canonicalParams.set(config.pagination.param, pageNumber.toString());
+        trace.push(
+          `  Kept pagination (self-canonical, matches URL format): ${config.pagination.param}=${pageNumber}`
+        );
       } else {
-        canonicalParams.set(key, value);
-        trace.push(`  Kept stable param: ${key}=${value}`);
+        trace.push(`  Dropped pagination (base-canonical strategy)`);
       }
-    } else {
-      canonicalParams.set(key, value);
-      trace.push(`  Kept stable param: ${key}=${value}`);
-    }
-  }
-
-  if (evaluated.unstableParams.size > 0) {
-    trace.push(
-      `  Dropped unstable params: ${Array.from(evaluated.unstableParams.keys()).join(", ")}`
-    );
-  }
-
-  if (evaluated.blockedParams.size > 0) {
-    trace.push(
-      `  Dropped blocked params: ${Array.from(evaluated.blockedParams.keys()).join(", ")}`
-    );
-  }
-
-  if (evaluated.searchParams.size > 0) {
-    for (const [key, value] of evaluated.searchParams.entries()) {
-      canonicalParams.set(key, value);
-      trace.push(`  Kept search param: ${key}=${value}`);
-    }
-  }
-
-  if (evaluated.pagination.isPaginated) {
-    if (config.pagination.canonicalStrategy === "self") {
-      const pageNumber = evaluated.pagination.pageNumber;
-      canonicalParams.set(config.pagination.param, pageNumber.toString());
-      trace.push(`  Kept pagination (self-canonical): ${config.pagination.param}=${pageNumber}`);
-    } else {
-      trace.push(`  Dropped pagination (base-canonical strategy)`);
     }
   }
 
@@ -193,7 +153,7 @@ export function computeCanonical(
     trace.push(`  ✓ Included in sitemap (indexable + not blocked)`);
   } else {
     const reasons = [];
-    if (robots.includes("noindex")) reasons.push("noindex");
+    if (robots && robots.includes("noindex")) reasons.push("noindex");
     if (blockInRobots) reasons.push("robots blocked");
     trace.push(`  ✗ Excluded from sitemap (${reasons.join(", ")})`);
   }
@@ -205,7 +165,7 @@ export function computeCanonical(
   trace.push(`Blocked by robots.txt: ${blockInRobots ? "YES" : "NO"}`);
   trace.push(`Sitemap inclusion: ${sitemapIncluded ? "INCLUDED" : "EXCLUDED"}`);
 
-  if (robots.includes("noindex")) {
+  if (robots && robots.includes("noindex")) {
     trace.push("");
     trace.push(`ℹ️  This page uses noindex to consolidate signals to the canonical`);
     trace.push(`   while allowing crawlers to discover and follow links.`);
@@ -219,7 +179,7 @@ export function computeCanonical(
     warnings,
     trace,
     sitemapIncluded,
-    hasBlockedParams: blockInRobots,
+    hasBlockedParams: hasBlocked || blockInRobots || multiSelectDetected,
   };
 }
 

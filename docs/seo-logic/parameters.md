@@ -7,8 +7,8 @@
 **Characteristics**:
 - Represent real user intent
 - Create distinct content
-- Should be indexed
-- Kept in canonical URL
+- Treated as variants when passed via query params (noindex,follow)
+- Canonicalized to the clean base path
 
 **Examples**:
 - `color=black` - Different products
@@ -19,16 +19,12 @@
 **SEO Treatment**:
 ```
 URL: /shop/t-shirts?color=black
-Robots: index,follow
-Canonical: /shop/t-shirts/?color=black (self)
-Sitemap: INCLUDED
+Robots: noindex,follow
+Canonical: /shop/t-shirts/ (clean base)
+Sitemap: EXCLUDED
 ```
 
-**Educational Approach**: This application demonstrates a working query parameter strategy with dynamic sitemap generation:
-- Query param URLs (e.g., `?color=black`) are fully functional and included in sitemap
-- SEO Receipt recommends converting to clean paths (e.g., `/shop/t-shirts/color/black/`) as best practice
-- Clean paths provide better keyword signals and user experience, but param approach works
-- Sitemap generated dynamically from catalog data (all colors, sizes, genders) for maintainability
+**Educational Approach**: Query-string variants stay noindex to avoid crawl bloat. If you want them indexed, promote them to dedicated clean paths (e.g., `/shop/t-shirts/color/black/`) and let canonicals point there. Sitemap generation only includes indexable, canonical URLs.
 
 ## Unstable Parameters
 
@@ -138,29 +134,29 @@ The unstable parameter taints the whole URL. Canonical drops the unstable param 
 
 ### Unstable + Pagination
 
-**Result**: Noindex, canonical drops unstable, keeps page
+**Result**: Noindex (variant), canonical drops unstable and pagination
 
 ```
 URL: /catalog/t-shirts?sort=price_desc&page=2
 Robots: noindex,follow
-Canonical: /catalog/t-shirts/?page=2
+Canonical: /catalog/t-shirts/
 Sitemap: EXCLUDED
 ```
 
-Both are noindex triggers. Canonical keeps pagination (self-canonical strategy) but drops unstable param.
+Variant wins. Canonical strips pagination and unstable params to point to the clean base.
 
 ### Stable + Pagination
 
-**Result**: Noindex (due to pagination), keeps both
+**Result**: Noindex (variant wins), canonical drops filters and pagination
 
 ```
 URL: /catalog/t-shirts?color=black&page=2
 Robots: noindex,follow
-Canonical: /catalog/t-shirts/?color=black&page=2
+Canonical: /catalog/t-shirts/
 Sitemap: EXCLUDED
 ```
 
-Pagination causes noindex. Both parameters are kept in canonical.
+Pagination alone is indexable, but any filter + pagination combo is treated as a variant and canonicalized to the clean base.
 
 ### Unstable + Tracking
 
@@ -246,4 +242,3 @@ Benefits:
 ```
 
 **Trade-off**: Requires manual curation of valuable combinations and actual route implementation.
-

@@ -48,27 +48,26 @@ export function PaginationSettings() {
 
             <div className="border rounded-lg p-5 bg-white">
               <div className="flex items-center gap-2 mb-3">
-                <CheckCircle2 className="h-5 w-5 text-amber-600" />
-                <h3 className="font-semibold text-lg">Page 2+: Noindex with Follow</h3>
+                <CheckCircle2 className="h-5 w-5 text-green-600" />
+                <h3 className="font-semibold text-lg">Page 2+: Index & Follow</h3>
               </div>
               <div className="space-y-3 pl-7">
                 <div className="flex items-center gap-2">
-                  <Badge className="bg-amber-100 text-amber-800 border-amber-300">
-                    noindex,follow
+                  <Badge className="bg-green-100 text-green-800 border-green-300">
+                    index,follow
                   </Badge>
                   <span className="text-sm text-muted-foreground">Recommended for page 2+</span>
                 </div>
                 <p className="text-sm text-slate-700">
-                  Pagination pages beyond the first should use <code className="bg-muted px-1 py-0.5 rounded text-xs">noindex,follow</code>. This allows crawlers to discover deeper content and follow links to individual items, while preventing duplicate content issues.
+                  Pagination pages beyond the first should stay fully indexable when they present unique items. Keep them discoverable and let canonicals match the real URL format.
                 </p>
                 <div className="bg-slate-50 p-3 rounded text-xs font-mono">
-                  {'<meta name="robots" content="noindex,follow" />'}
+                  {'<meta name="robots" content="index,follow" />'}
                 </div>
                 <ul className="text-sm text-slate-700 space-y-1 list-disc list-inside">
-                  <li>Prevents duplicate content and thin pages in the index</li>
-                  <li>Preserves crawl budget by avoiding indexing similar pages</li>
-                  <li>Allows discovery of products/items linked from pagination</li>
-                  <li>Maintains link equity flow through the site</li>
+                  <li>Matches Google guidance for paginated collections</li>
+                  <li>Maintains signals for items that only appear deeper in the set</li>
+                  <li>Self-canonical prevents dilution across pagination formats</li>
                 </ul>
               </div>
             </div>
@@ -110,7 +109,7 @@ export function PaginationSettings() {
                   Not Recommended
                 </Badge>
                 <p className="text-sm text-slate-700">
-                  <strong>Never block pagination in robots.txt.</strong> This prevents crawlers from discovering content on subsequent pages. Instead, use noindex,follow meta tags to control indexing while allowing discovery.
+                  <strong>Never block pagination in robots.txt.</strong> This prevents crawlers from discovering content on subsequent pages. Keep pagination indexable with self-canonicals so products remain visible.
                 </p>
                 <div className="bg-white p-3 rounded text-xs font-mono border border-red-200">
                   <div className="text-red-600">{'# BAD: Do not do this'}</div>

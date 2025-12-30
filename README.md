@@ -100,13 +100,13 @@ Visit the `/shop` section to test real-world SEO scenarios:
 
 **Scenario 1: Safe to Index**
 
-- Single stable filter: `/shop/t-shirts?color=black` → `index,follow`, canonical keeps parameter
+- Pagination: `/shop/t-shirts?page=2` → `index,follow`, self-canonical (not to page 1)
 - Clean path route: `/shop/t-shirts/for/women/` → `index,follow`, semantic URL structure
 
 **Scenario 2: Smart Noindex Decisions**
 
-- Unstable parameters: `/shop/t-shirts?color=black&sort=price_desc` → `noindex,follow`, canonical drops sort
-- Pagination: `/shop/t-shirts?page=2` → `noindex,follow`, self-canonical (not to page 1)
+- Filter variants: `/shop/t-shirts?color=black` → `noindex,follow`, canonical to clean base path
+- Unstable parameters: `/shop/t-shirts?color=black&sort=price_desc` → `noindex,follow`, canonical drops params to base
 
 **Scenario 3: Crawl Trap Prevention**
 

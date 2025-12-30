@@ -95,7 +95,7 @@ export function getCleanPathRecommendation(
   if (hasPagination && !hasStable && !hasUnstable && !hasBlocked && !hasSearch) {
     return {
       message:
-        "📄 Pagination parameter — should stay as ?page= with noindex, follow and self-canonical. Not suitable for a clean path.",
+        "📄 Pagination parameter — should stay as ?page= with index, follow and self-canonical (matching the live URL format). Not suitable for a clean path.",
       showExamples: false,
     };
   }
@@ -217,11 +217,11 @@ export function getCleanPathRecommendation(
         const colorSuggestions = otherColors.map(color => `${basePath}/color/${color}/`);
 
         return {
-          message: `✅ Single stable parameter — currently indexable with query param, but converting to clean path recommended for better keyword targeting and user experience.`,
+          message: `✅ Single stable parameter — currently treated as a variant (noindex) and canonicalized to the base. Create clean path routes like ${examplePath} if you want an indexable version.`,
           example: examplePath,
           relatedSuggestions: colorSuggestions,
           educationalNote:
-            "This URL can be included in sitemap as-is (query param approach works), but clean paths like /color/black/ are the best practice. They provide clearer keyword signals, better user experience, and stronger topical relevance. This site shows both approaches educationally.",
+            "Query-string variants stay noindex to avoid crawl bloat. If you need them indexed, promote them to dedicated clean paths that mirror real demand and have enough inventory/content.",
           showExamples: true,
         };
       }
@@ -539,4 +539,3 @@ export function getBestPracticeConfirmation(
 
   return null;
 }
-

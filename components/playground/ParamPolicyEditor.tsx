@@ -28,7 +28,7 @@ export function ParamPolicyEditor({ config }: ParamPolicyEditorProps) {
   const getPolicyExplanation = (policy: ParamPolicy) => {
     switch (policy) {
       case 'stable':
-        return 'These parameters create meaningful variations that should be indexed. They can appear in canonical URLs.';
+        return 'These parameters create meaningful variations. In this playground they stay noindex variants with canonicals to the base; promote to clean paths if you want them indexed.';
       case 'unstable':
         return 'These parameters create duplicate or low-value pages. Use noindex,follow to allow crawling but prevent indexing. Strip from canonical URLs.';
       case 'blocked':

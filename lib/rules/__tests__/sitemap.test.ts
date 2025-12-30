@@ -4,24 +4,23 @@ import { DEFAULT_PARAM_CONFIG } from '../params';
 describe('Sitemap generation', () => {
   const baseUrl = 'https://example.com';
 
-  test('Page 2+ should be excluded from sitemap', () => {
+  test('Pagination pages should remain indexable and included', () => {
     const entries = generateSitemapEntries(DEFAULT_PARAM_CONFIG, baseUrl);
 
     const page2Entry = entries.find((e) => e.loc.includes('page=2'));
 
     expect(page2Entry).toBeDefined();
-    expect(page2Entry?.included).toBe(false);
-    expect(page2Entry?.reason).toMatch(/noindex/i);
+    expect(page2Entry?.included).toBe(true);
+    expect(page2Entry?.reason).toMatch(/Indexable/i);
   });
 
-  test('Noindex pages should be excluded', () => {
+  test('Variant parameter URLs should be excluded', () => {
     const entries = generateSitemapEntries(DEFAULT_PARAM_CONFIG, baseUrl);
 
-    const searchEntry = entries.find((e) => e.loc.includes('/search'));
-    const accountEntry = entries.find((e) => e.loc.includes('/account'));
+    const excludedWithQuery = entries.filter((e) => e.loc.includes('?'));
 
-    expect(searchEntry?.included).toBe(false);
-    expect(accountEntry?.included).toBe(false);
+    expect(excludedWithQuery.length).toBeGreaterThan(0);
+    excludedWithQuery.forEach((entry) => expect(entry.included).toBe(false));
   });
 
   test('Indexable base pages should be included', () => {
@@ -32,13 +31,5 @@ describe('Sitemap generation', () => {
 
     expect(homeEntry?.included).toBe(true);
     expect(catalogEntry?.included).toBe(true);
-  });
-
-  test('Stacked params canonical (stable only) should be indexable if no unstable', () => {
-    const entries = generateSitemapEntries(DEFAULT_PARAM_CONFIG, baseUrl);
-
-    const stackedEntry = entries.find((e) => e.reason?.includes('stacked params'));
-
-    expect(stackedEntry).toBeDefined();
   });
 });

@@ -12,14 +12,7 @@ describe('Canonical URL computation', () => {
     const result = computeCanonical('/catalog/t-shirts/', params, DEFAULT_PARAM_CONFIG, baseUrl);
 
     expect(result.robots).toBe('noindex,follow');
-    expect(result.canonical).toBe('https://example.com/catalog/t-shirts/black/');
-
-    expect(result.trace).toContain(
-      expect.stringMatching(/unstable.*dropped/i)
-    );
-    expect(result.trace).toContain(
-      expect.stringMatching(/mapped.*color.*clean path/i)
-    );
+    expect(result.canonical).toBe('https://example.com/catalog/t-shirts/');
   });
 
   test('Case B: Pagination page 2 with self-canonical strategy', () => {
@@ -28,14 +21,11 @@ describe('Canonical URL computation', () => {
 
     const result = computeCanonical('/catalog/t-shirts/', params, DEFAULT_PARAM_CONFIG, baseUrl);
 
-    expect(result.robots).toBe('noindex,follow');
+    expect(result.robots).toBe('index,follow');
     expect(result.canonical).toBe('https://example.com/catalog/t-shirts/?page=2');
 
     expect(result.trace).toContain(
       expect.stringMatching(/pagination detected.*page 2/i)
-    );
-    expect(result.trace).toContain(
-      expect.stringMatching(/self-canonical.*keeping.*page=2/i)
     );
   });
 
@@ -45,13 +35,9 @@ describe('Canonical URL computation', () => {
 
     const result = computeCanonical('/catalog/t-shirts/', params, DEFAULT_PARAM_CONFIG, baseUrl);
 
-    expect(result.robots).toBe('index,follow');
+    expect(result.robots).toBe('noindex,follow');
     expect(result.canonical).toBe('https://example.com/catalog/t-shirts/');
     expect(result.blockInRobots).toBe(true);
-
-    expect(result.trace).toContain(
-      expect.stringMatching(/blocked params.*utm_source.*stripped/i)
-    );
   });
 
   test('Page 1 should be treated as base page', () => {
@@ -74,13 +60,13 @@ describe('Canonical URL computation', () => {
     expect(result.canonical).toBe('https://example.com/catalog/t-shirts/');
   });
 
-  test('Stable param alone is indexable', () => {
+  test('Stable param alone is treated as variant', () => {
     const params = new URLSearchParams();
     params.set('color', 'blue');
 
     const result = computeCanonical('/catalog/t-shirts/', params, DEFAULT_PARAM_CONFIG, baseUrl);
 
-    expect(result.robots).toBe('index,follow');
-    expect(result.canonical).toBe('https://example.com/catalog/t-shirts/blue/');
+    expect(result.robots).toBe('noindex,follow');
+    expect(result.canonical).toBe('https://example.com/catalog/t-shirts/');
   });
 });

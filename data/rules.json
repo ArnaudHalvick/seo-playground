@@ -8,17 +8,17 @@
     {
       "name": "color",
       "policy": "stable",
-      "description": "Color is a meaningful facet that can be indexed or mapped to clean paths."
+      "description": "Color is a meaningful facet. Best practice in this playground: treat as variant (noindex) and canonical to base."
     },
     {
       "name": "size",
       "policy": "stable",
-      "description": "Size is a meaningful attribute that can be indexed."
+      "description": "Size is meaningful but handled as a variant (noindex) and canonical to base."
     },
     {
       "name": "page",
       "policy": "pagination",
-      "description": "Pagination parameter. Page 1 is indexable; page 2+ are noindex with self-canonical."
+      "description": "Pagination parameter. All pages are index,follow with self-canonical to the matching ?page= URL."
     },
     {
       "name": "view",
@@ -79,7 +79,7 @@
   "pagination": {
     "param": "page",
     "pageOneIndexable": true,
-    "pageTwoPlus": "noindex,follow",
+    "pageTwoPlus": "index,follow",
     "canonicalStrategy": "self"
   }
 }

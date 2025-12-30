@@ -37,21 +37,12 @@ export const DEFAULT_PARAM_CONFIG: ParamConfig = {
     {
       name: 'color',
       policy: 'stable',
-      description: 'Color is a meaningful facet worth indexing.',
-      mapToPath: (ctx) => {
-        if (ctx.pathname.match(/^\/catalog\/[^/]+\/?$/)) {
-          const color = ctx.params.get('color');
-          if (color) {
-            return `${ctx.pathname.replace(/\/$/, '')}/${color}/`;
-          }
-        }
-        return null;
-      },
+      description: 'Color is a meaningful facet. Best practice: keep as variant (noindex) and canonical to base.',
     },
     {
       name: 'size',
       policy: 'stable',
-      description: 'Size is a meaningful attribute worth indexing.',
+      description: 'Size is a meaningful attribute. Best practice: keep as variant (noindex) and canonical to base.',
     },
     {
       name: 'utm_source',
@@ -112,7 +103,7 @@ export const DEFAULT_PARAM_CONFIG: ParamConfig = {
   pagination: {
     param: 'page',
     pageOneIndexable: true,
-    pageTwoPlus: 'noindex,follow',
+    pageTwoPlus: 'index,follow',
     canonicalStrategy: 'self',
   },
 };
