@@ -1,6 +1,6 @@
 import type { ParamConfig } from './params';
 import { computeCanonical } from './canonical';
-import { getCategories, getAvailableColors, getAvailableSizes } from '@/lib/catalog/data';
+import { getCategories } from '@/lib/catalog/data';
 
 export interface SitemapEntry {
   loc: string;
@@ -10,8 +10,21 @@ export interface SitemapEntry {
   reason?: string;
 }
 
-function generateShopUrls(): Array<{ path: string; priority: number }> {
-  const urls: Array<{ path: string; priority: number }> = [];
+type SitemapCandidate = {
+  path: string;
+  priority: number;
+};
+
+function parsePathAndParams(path: string, baseUrl: string): { pathname: string; searchParams: URLSearchParams } {
+  const url = new URL(path, baseUrl);
+  return {
+    pathname: url.pathname,
+    searchParams: url.searchParams,
+  };
+}
+
+function generateShopUrls(): Array<SitemapCandidate> {
+  const urls: Array<SitemapCandidate> = [];
   const categories = getCategories();
   const genders = ['women', 'men', 'girls', 'boys'];
   
@@ -32,24 +45,6 @@ function generateShopUrls(): Array<{ path: string; priority: number }> {
         priority: 0.6 
       });
     });
-    
-    // Educational: Single-param URLs (colors)
-    const colors = getAvailableColors(categorySlug);
-    colors.forEach(color => {
-      urls.push({ 
-        path: `/shop/${categorySlug}?color=${color}`, 
-        priority: 0.5 
-      });
-    });
-    
-    // Educational: Single-param URLs (sizes)
-    const sizes = getAvailableSizes(categorySlug);
-    sizes.forEach(size => {
-      urls.push({ 
-        path: `/shop/${categorySlug}?size=${size}`, 
-        priority: 0.5 
-      });
-    });
   });
   
   return urls;
@@ -59,7 +54,7 @@ export function generateSitemapEntries(config: ParamConfig, baseUrl: string = 'h
   const entries: SitemapEntry[] = [];
 
   // Main static pages (real content for SEO Workshop)
-  const staticPages = [
+  const staticPages: SitemapCandidate[] = [
     { path: '/', priority: 1.0 },
     
     // Shop URLs generated dynamically
@@ -93,8 +88,10 @@ export function generateSitemapEntries(config: ParamConfig, baseUrl: string = 'h
     { path: '/strategic-seo/resources/', priority: 0.8 },
   ];
 
+  // Inclusion rule: only emit URLs that the rules engine marks indexable and not robots-blocked.
   for (const page of staticPages) {
-    const result = computeCanonical(page.path, new URLSearchParams(), config, baseUrl);
+    const { pathname, searchParams } = parsePathAndParams(page.path, baseUrl);
+    const result = computeCanonical(pathname, searchParams, config, baseUrl);
     const isIndexable = result.robots === 'index,follow' && !result.blockInRobots;
 
     entries.push({
@@ -107,12 +104,12 @@ export function generateSitemapEntries(config: ParamConfig, baseUrl: string = 'h
   }
 
   // Sitemap Strategy (DYNAMIC GENERATION):
-  // - Shop URLs generated dynamically from catalog data (getCategories, getAvailableColors, getAvailableSizes)
-  // - Base categories and all gender facets (4 per category) - always included
-  // - Single-param URLs for ALL colors and sizes per category - included for educational purposes
-  //   (shows that param approach works, with SEO Receipt recommending clean paths)
-  // - Clean path URLs (/color/black/) - NOT included (exist as recommendations only, no generateMetadata)
-  // - Gender + param combos - NOT included (would create combinatorial explosion)
+  // - Shop URLs generated dynamically from catalog data (getCategories)
+  // - Base categories and gender facets only (clean, indexable URLs)
+  // - All parameterized variants (filters, search, tracking, multi-select) are excluded up front
+  //   and will also be rejected by computeCanonical due to noindex/robots rules
+  // - Pagination can be added deliberately as candidates; computeCanonical decides indexability
+  // - No combinatorial or educational param URLs are emitted
 
   return entries;
 }
