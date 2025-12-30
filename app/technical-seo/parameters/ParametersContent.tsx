@@ -66,85 +66,94 @@ export default function ParametersContent() {
 
         {/* Strategic Decision Framework */}
         <Card className="mb-6 border-2 border-blue-300">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Sparkles className="h-5 w-5 text-blue-600" />
-              Strategic Decision Framework
-            </CardTitle>
-            <CardDescription>
-              Three approaches based on search intent and implementation
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="grid md:grid-cols-3 gap-4">
-              {/* Clean Paths */}
-              <div className="border-2 border-green-300 bg-green-50 p-4 rounded-lg">
-                <div className="flex items-center gap-2 mb-3">
-                  <CheckCircle2 className="h-5 w-5 text-green-600" />
-                  <h3 className="font-semibold text-sm">Clean Paths</h3>
-                  <Badge className="bg-green-600 text-[10px]">Best</Badge>
-                </div>
-                <div className="space-y-2 text-xs">
-                  <code className="bg-white px-2 py-1 rounded block">/shoes/red/</code>
-                  <p className="text-slate-700">
-                    <strong>When:</strong> High search intent filters (people search &quot;red
-                    shoes&quot;)
-                  </p>
-                  <p className="text-slate-700">
-                    <strong>SEO:</strong> Indexable, rankable, no duplicate risk
-                  </p>
-                </div>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Sparkles className="h-5 w-5 text-blue-600" />
+            Strategic Decision Framework
+          </CardTitle>
+          <CardDescription>
+            Three approaches based on search intent and implementation
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="grid md:grid-cols-3 gap-4">
+            {/* Clean Paths */}
+            <div className="border-2 border-green-300 bg-green-50 p-4 rounded-lg">
+              <div className="flex items-center gap-2 mb-3">
+                <CheckCircle2 className="h-5 w-5 text-green-600" />
+                <h3 className="font-semibold text-sm">Clean Paths</h3>
+                <Badge className="bg-green-600 text-[10px]">Best</Badge>
               </div>
-
-              {/* Single Stable Params */}
-              <div className="border-2 border-orange-300 bg-orange-50 p-4 rounded-lg">
-                <div className="flex items-center gap-2 mb-3">
-                  <AlertTriangle className="h-5 w-5 text-orange-600" />
-                  <h3 className="font-semibold text-sm">Single Params</h3>
-                  <Badge className="bg-orange-600 text-[10px]">Interim</Badge>
-                </div>
-                <div className="space-y-2 text-xs">
-                  <code className="bg-white px-2 py-1 rounded block">?color=red</code>
-                  <p className="text-slate-700">
-                    <strong>When:</strong> Can&apos;t implement clean paths yet, limited stable
-                    values
-                  </p>
-                  <p className="text-slate-700">
-                    <strong>SEO:</strong> Can include in sitemap if real search intent exists
-                  </p>
-                </div>
-              </div>
-
-              {/* Multi-Params Blocked */}
-              <div className="border-2 border-red-300 bg-red-50 p-4 rounded-lg">
-                <div className="flex items-center gap-2 mb-3">
-                  <XCircle className="h-5 w-5 text-red-600" />
-                  <h3 className="font-semibold text-sm">Multi-Params</h3>
-                  <Badge className="bg-red-600 text-[10px]">Block</Badge>
-                </div>
-                <div className="space-y-2 text-xs">
-                  <code className="bg-white px-2 py-1 rounded block">?color=red&size=10</code>
-                  <p className="text-slate-700">
-                    <strong>When:</strong> Always exclude multiple parameters
-                  </p>
-                  <p className="text-slate-700">
-                    <strong>SEO:</strong> Block in robots.txt, strip from canonical, exclude from
-                    sitemap
-                  </p>
-                </div>
+              <div className="space-y-2 text-xs">
+                <code className="bg-white px-2 py-1 rounded block">/shoes/running</code>
+                <p className="text-slate-700">
+                  <strong>Use when:</strong> The page represents a real search intent users actually
+                  type (e.g. “running shoes”).
+                </p>
+                <p className="text-slate-700">
+                  <strong>SEO:</strong> Indexable, self-canonical, included in sitemap.
+                </p>
+                <p className="text-slate-700">
+                  <strong>Rule:</strong> If an intent matters, give it a clean, permanent URL.
+                </p>
               </div>
             </div>
 
-            <Alert className="border-blue-300 bg-blue-50 mt-4">
-              <Sparkles className="h-4 w-4" />
-              <AlertDescription className="text-xs">
-                <strong>Key Principle:</strong> Your parameter strategy should match user search
-                behavior. If people search for &quot;red running shoes,&quot; create indexable
-                paths. If they don&apos;t search for &quot;shoes sorted by price,&quot; block
-                sorting parameters.
-              </AlertDescription>
-            </Alert>
-          </CardContent>
+            {/* Single Params */}
+            <div className="border-2 border-orange-300 bg-orange-50 p-4 rounded-lg">
+              <div className="flex items-center gap-2 mb-3">
+                <AlertTriangle className="h-5 w-5 text-orange-600" />
+                <h3 className="font-semibold text-sm">Single Parameter</h3>
+                <Badge className="bg-orange-600 text-[10px]">Avoid</Badge>
+              </div>
+              <div className="space-y-2 text-xs">
+                <code className="bg-white px-2 py-1 rounded block">/shoes?color=red</code>
+                <p className="text-slate-700">
+                  <strong>Use when:</strong> As a temporary fallback when clean paths cannot be
+                  implemented.
+                </p>
+                <p className="text-slate-700">
+                  <strong>SEO:</strong> Not indexed by default; canonicalized to the clean path.
+                </p>
+                <p className="text-slate-700">
+                  <strong>Rule:</strong> If a filter deserves to rank, it deserves a clean URL.
+                </p>
+              </div>
+            </div>
+
+            {/* Multi-Params */}
+            <div className="border-2 border-red-300 bg-red-50 p-4 rounded-lg">
+              <div className="flex items-center gap-2 mb-3">
+                <XCircle className="h-5 w-5 text-red-600" />
+                <h3 className="font-semibold text-sm">Multiple Parameters</h3>
+                <Badge className="bg-red-600 text-[10px]">Block</Badge>
+              </div>
+              <div className="space-y-2 text-xs">
+                <code className="bg-white px-2 py-1 rounded block">
+                  /shoes?color=red&amp;size=10&amp;sort=price
+                </code>
+                <p className="text-slate-700">
+                  <strong>Use when:</strong> Never for SEO—only for on-site filtering UX.
+                </p>
+                <p className="text-slate-700">
+                  <strong>SEO:</strong> Not indexed, excluded from sitemap, canonicalized to clean
+                  URL.
+                </p>
+                <p className="text-slate-700">
+                  <strong>Rule:</strong> Multi-parameter URLs are crawl traps, not landing pages.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <Alert className="border-blue-300 bg-blue-50 mt-4">
+            <Sparkles className="h-4 w-4" />
+            <AlertDescription className="text-xs">
+              <strong>Core Principle:</strong> URLs should reflect how users search, not how filters
+              work. If no one searches for it, don’t let Google index it.
+            </AlertDescription>
+          </Alert>
+        </CardContent>
         </Card>
 
         {/* Interactive Demo Callout */}
