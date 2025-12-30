@@ -1,13 +1,15 @@
 import { Metadata } from "next";
-import { generateSimpleMetadata } from "@/lib/meta/metadata";
+import { generateSimpleMetadata, attachCanonical } from "@/lib/meta/metadata";
 import DuplicateContentContent from "./DuplicateContentContent";
 
 export async function generateMetadata(): Promise<Metadata> {
-  return generateSimpleMetadata(
-    "Duplicate Content - SEO Workshop",
-    "Diagnose and fix duplicate content issues from faceted navigation, pagination, and parameter combinations.",
-    "/technical-seo/duplicate-content/"
-  );
+  const canonicalPath = "/technical-seo/duplicate-content/";
+  const baseMetadata = generateSimpleMetadata({
+    title: "Duplicate Content - SEO Workshop",
+    description: "Diagnose and fix duplicate content issues from faceted navigation, pagination, and parameter combinations.",
+  });
+  
+  return attachCanonical(baseMetadata, canonicalPath);
 }
 
 export default function DuplicateContentPage() {

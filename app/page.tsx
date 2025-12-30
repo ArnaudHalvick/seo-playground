@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Metadata } from "next";
-import { generateSimpleMetadata } from "@/lib/meta/metadata";
+import { generateSimpleMetadata, attachCanonical } from "@/lib/meta/metadata";
 import {
   Code2,
   Lightbulb,
@@ -17,11 +17,13 @@ import {
 } from "lucide-react";
 
 export function generateMetadata(): Metadata {
-  return generateSimpleMetadata(
-    "Complete SEO Mastery - Technical & Strategic - SEO Workshop",
-    "Master both programming and strategic sides of SEO. Interactive demos, production-ready code, and comprehensive strategic frameworks for client acquisition.",
-    "/"
-  );
+  const canonicalPath = "/";
+  const baseMetadata = generateSimpleMetadata({
+    title: "Complete SEO Mastery - Technical & Strategic - SEO Workshop",
+    description: "Master both programming and strategic sides of SEO. Interactive demos, production-ready code, and comprehensive strategic frameworks for client acquisition.",
+  });
+  
+  return attachCanonical(baseMetadata, canonicalPath);
 }
 
 export default function Home() {

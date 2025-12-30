@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Metadata } from "next";
-import { generateSimpleMetadata } from "@/lib/meta/metadata";
+import { generateSimpleMetadata, attachCanonical } from "@/lib/meta/metadata";
 import {
   Target,
   FileText,
@@ -17,11 +17,13 @@ import {
 } from "lucide-react";
 
 export async function generateMetadata(): Promise<Metadata> {
-  return generateSimpleMetadata(
-    "Strategic SEO - Planning & Execution - SEO Workshop",
-    "Master non-programming SEO: research, content strategy, governance, measurement, and authority building with actionable frameworks.",
-    "/strategic-seo/"
-  );
+  const canonicalPath = "/strategic-seo/";
+  const baseMetadata = generateSimpleMetadata({
+    title: "Strategic SEO - Planning & Execution - SEO Workshop",
+    description: "Master non-programming SEO: research, content strategy, governance, measurement, and authority building with actionable frameworks.",
+  });
+  
+  return attachCanonical(baseMetadata, canonicalPath);
 }
 
 export default function StrategicSeoPage() {

@@ -1,13 +1,15 @@
 import { Metadata } from "next";
-import { generateSimpleMetadata } from "@/lib/meta/metadata";
+import { generateSimpleMetadata, attachCanonical } from "@/lib/meta/metadata";
 import StructuredDataContent from "./StructuredDataContent";
 
 export async function generateMetadata(): Promise<Metadata> {
-  return generateSimpleMetadata(
-    "Structured Data (Schema.org) - SEO Workshop",
-    "Educational overview of Schema.org markup. Learn Product, BreadcrumbList, and Organization schemas with JSON-LD.",
-    "/technical-seo/structured-data/"
-  );
+  const canonicalPath = "/technical-seo/structured-data/";
+  const baseMetadata = generateSimpleMetadata({
+    title: "Structured Data (Schema.org) - SEO Workshop",
+    description: "Educational overview of Schema.org markup. Learn Product, BreadcrumbList, and Organization schemas with JSON-LD.",
+  });
+  
+  return attachCanonical(baseMetadata, canonicalPath);
 }
 
 export default function StructuredDataPage() {

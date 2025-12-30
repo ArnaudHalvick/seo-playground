@@ -1,13 +1,15 @@
 import { Metadata } from "next";
-import { generateSimpleMetadata } from "@/lib/meta/metadata";
+import { generateSimpleMetadata, attachCanonical } from "@/lib/meta/metadata";
 import ProtectedRoutesContent from "./ProtectedRoutesContent";
 
 export async function generateMetadata(): Promise<Metadata> {
-  return generateSimpleMetadata(
-    "Protected Routes SEO - SEO Workshop",
-    "SEO strategy for private content using defense-in-depth: authentication, noindex, and robots.txt blocking.",
-    "/technical-seo/protected-routes/"
-  );
+  const canonicalPath = "/technical-seo/protected-routes/";
+  const baseMetadata = generateSimpleMetadata({
+    title: "Protected Routes SEO - SEO Workshop",
+    description: "SEO strategy for private content using defense-in-depth: authentication, noindex, and robots.txt blocking.",
+  });
+  
+  return attachCanonical(baseMetadata, canonicalPath);
 }
 
 export default function ProtectedRoutesPage() {

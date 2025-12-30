@@ -105,26 +105,25 @@ export function getDescriptionForPath(pathname: string): string {
   return "Learn technical SEO through interactive demonstrations";
 }
 
-export function generateSimpleMetadata(
-  title: string,
-  description: string,
-  pathname: string
-): Metadata {
-  // For SSG (Static Site Generation), we use relative URLs
-  // metadataBase in root layout will convert them to absolute URLs
+export interface SimpleMetadataInput {
+  title: string;
+  description: string;
+}
+
+export interface DynamicMetadataOptions<P> {
+  title: string;
+  description: string;
+  buildPath: (params: P) => string;
+  params: P;
+}
+
+export function generateSimpleMetadata({ title, description }: SimpleMetadataInput): Metadata {
   return {
     title,
     description,
-    alternates: {
-      canonical: pathname,
-    },
-    robots: {
-      index: true,
-      follow: true,
-    },
+    robots: { index: true, follow: true },
     openGraph: {
       type: "website",
-      url: pathname,
       title,
       description,
       images: [
@@ -143,4 +142,29 @@ export function generateSimpleMetadata(
       images: ["/og-image.jpg"],
     },
   };
+}
+
+export function attachCanonical(metadata: Metadata, canonical: string): Metadata {
+  return {
+    ...metadata,
+    alternates: {
+      ...metadata.alternates,
+      canonical,
+    },
+    openGraph: {
+      ...metadata.openGraph,
+      url: canonical,
+    },
+  };
+}
+
+export function generateDynamicMetadata<P>({
+  title,
+  description,
+  buildPath,
+  params,
+}: DynamicMetadataOptions<P>): Metadata {
+  const canonical = buildPath(params);
+  const baseMetadata = generateSimpleMetadata({ title, description });
+  return attachCanonical(baseMetadata, canonical);
 }
